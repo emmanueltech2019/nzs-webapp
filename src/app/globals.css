@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-color: #F0FFF5;
+  --background-Image: url(../assets/images/background1.png);
+  --background-iPhone-15: url(../assets/images/iPhone15.svg);
+  --background-world-map: url(../assets/images/world-map.svg);
+  
+
+  /* text colors */
+  --text-color-light: #F0FFF5;
+  --text-color-gray: #5D5D5D;
+  --text-color-light-gray:  #D5D7DD;
+  --text-color-orange: #FFA800;
+
+  /* foreground green shades */
+  --foreground-green: #006838;
+  --foreground-light-green: #D8F0E2;
+  --icon-green: #0F6939;        /* for text too */
+  --icon-green-2: #058E6E;
+  --icon-light-green: #3CD856;
+  --icon-light-green2: #00BA00;
+  --icon-light-green3: #68D585;
+
+  /* foreground orange shades */
+  --foreground-orange: #FFA800;
+  --foreground-light-orange: #F8EFBD;
+  --foreground-light-orange2: #FDE598;
+
+  /* form green shades */
+  --form-green: #D8F0E2;
+
+  /* padding */
+  --padding-x: 16px;
+}
+@media screen and (min-width: 1440px) {
+  :root{
+    /* padding */
+    --padding-x: 72.5px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  background: var(--background-color);
+}
+
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+@media screen and (min-width: 600px) {
+  .embla__slide.fCard {
+    flex: 0 0 50%;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .embla__slide.fCard {
+    flex: auto;
+  }
+}
+
+.embla__slide.content-slide{
+  flex: 0 0 90%;
+}
+.embla__slide.tCard{
+  flex: 0 0 75%;
+}
+@media screen and (min-width: 600px) {
+  .embla__slide.tCard {
+    flex: 0 0 40%;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .embla__slide.tCard {
+    flex: 1;
+  }
+}
+
+.Testimonials-section{
+  background-position: -40% 50%;
+  background-size: 150%;
+  background-repeat: no-repeat
+}@media screen and (min-width: 600px) {
+  .Testimonials-section{
+    background-position: 100% 100%;
+    background-size: 70%
+  }
+}@media screen and (min-width: 1200px) {
+  .Testimonials-section{
+    background-position: 80% 20%;
+    background-size: 50%
+  }
+}
+
+.simplify-section{
+  background-size: 150%;
+  background-position: 60% bottom;
+}@media screen and (min-width: 1024px){
+  .simplify-section{
+    background-size: 50%;
+    background-position: left bottom;
+  }
+}
