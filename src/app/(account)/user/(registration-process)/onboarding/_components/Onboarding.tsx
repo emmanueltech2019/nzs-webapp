@@ -7,8 +7,8 @@ const verified_user = 'material-symbols:verified-user'
 const Onboading = () => {
   return (
     <section className="flex flex-col-reverse lg:flex-row">
-        <div className="col flex-1">col-1 text</div>
-        <div className="col flex-1">col-2 image</div>
+        <div className="col flex-1">col-1</div>
+        <div className="col flex-1">col-2</div>
     </section>
   )
 }

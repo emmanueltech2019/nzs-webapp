@@ -1,12 +1,12 @@
 import React from "react";
 import RouterBtn from "@/components/buttons/RouteBtn";
+import Onboading from "./_components/Onboarding";
 
 function page() {
   return (
-    <div>
-      <div className="m-[20px]">
-        <RouterBtn url="./" text="Next"/>
-      </div>
+    <div className="">
+      <Onboading />
+      <RouterBtn url="./" text="Next"/>
     </div>
   );
 }
