@@ -62,11 +62,11 @@ const SignupContent = () => {
           <label htmlFor="pswd" className='text-sm mb-1 w-full flex justify-between items-center'>
             <span>Password</span>
             <span className="flex items-center gap-2 cursor-pointer" onClick={tpswdFunc}>
-              <span><Icon icon={tpswd?eye:eyeslash} className="inline" /></span>
-              <span className="leading-none">{tpswd?'Show':'Hide'}</span>
+              <span><Icon icon={tpswd ? eye : eyeslash} className="inline" /></span>
+              <span className="leading-none">{tpswd ? 'Show' : 'Hide'}</span>
             </span>
           </label>
-          <input type={tpswd?'text':'password'}  id='pswd' onChange={e => setpwd(e)} value={pwdState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='*****' />
+          <input type={tpswd ? 'text' : 'password'} id='pswd' onChange={e => setpwd(e)} value={pwdState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='*****' />
         </div>
         <p className="text-sm lg:text-base">Use 8 or more characters with a mix of letters, numbers & symbols</p>
 
@@ -88,7 +88,7 @@ const SignupContent = () => {
         </div>
 
         <div className="buttons">
-          <input type="submit" value="Sign In" className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer" onClick={e => {e.preventDefault()}} />
+          <input type="submit" value="Sign In" className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer" onClick={e => { e.preventDefault() }} />
           <span className="ml-3 text-sm lg:text-base">Already have an Account <Link href='./login' className="underline">Login</Link></span>
         </div>
 
