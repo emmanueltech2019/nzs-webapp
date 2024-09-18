@@ -72,25 +72,17 @@ const Onboarding = () => {
   useEffect(() => {
     if (emblaApi) console.log(emblaApi.slideNodes()); // Access API
     if (imageApi) console.log(imageApi.slideNodes()); // Access API
-  }, [emblaApi, imageApi]);
+    
+    if (emblaApi) setFS(emblaApi.slidesInView());
+    console.log(FS)
+  }, [emblaApi, imageApi, FS]);
 
   const scrollNext = useCallback(() => {
-    // incrementFS();
-    if (emblaApi) {
-      setFS(emblaApi.slidesInView()[0] += 1);
-      console.log(emblaApi.slidesInView()[0] + 1, FS);
-    }
-
     if (emblaApi) emblaApi.scrollNext();
     if (imageApi) imageApi.scrollNext();
   }, [emblaApi, imageApi]);
 
   const scrollPrev = useCallback(() => {
-    // decrementFS();
-    if (emblaApi) {
-      setFS(emblaApi.slidesInView()[0] += 1);
-      console.log(emblaApi.slidesInView()[0] + 1, FS);
-    }
     if (emblaApi) emblaApi.scrollPrev();
     if (imageApi) imageApi.scrollPrev();
   }, [emblaApi, imageApi]);
@@ -154,13 +146,16 @@ const Onboarding = () => {
               <div className="w-full px-[10px] lg:w-[130px]">
                 <button
                   className="rounded-[12px] py-4 px-4 text-[--foreground-green] text-base font-semibold leading-[14.52px] text-center block w-[100%] bg-white border-[1.5px] border-[--foreground-green]"
-                  onClick={scrollPrev}
+                  onClick={() => {scrollPrev()}}
                 >
                   Back
                 </button>
               </div>
               <div className="w-full px-[10px] lg:w-[130px]">
-                <FuncRouteBtn text="Next" classValue="my-6" func={scrollNext} />
+                <FuncRouteBtn text="Next" classValue="my-6" func={() => {
+                  
+                  scrollNext()
+                  }} />
               </div>
             </div>
           </div>
