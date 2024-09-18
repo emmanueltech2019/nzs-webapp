@@ -21,7 +21,7 @@ const cardIcon = "border-[1px] border-[#eaf2ff] bg-[#ffffff]";
 const OnboardingCard = ({ icon, headText, paragraph }: CardItemtype) => {
   return (
     <div>
-      <div className="p-[8.6px] rounded-[21.5px]">
+      <div className="rounded-[21.5px]">
         <div className={`${cardBody} ${activebg}`}>
           <div className={`${activeIcon} flex items-center justify-center`}>
             <Icon icon={icon} className="text-[24px]" />
