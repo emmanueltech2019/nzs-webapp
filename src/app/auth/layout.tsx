@@ -18,12 +18,12 @@ const layout = ({
                     <GetStarted url="/" classValue={'bg-[#D8F0E2] text-black pointer-events-none'} />
                 </Navbar>
 
-                <div className="Contact-section pt-[83.57px] xl:pt-[96.43px] lg:pb-11 flex flex-col lg:flex-row gap-[34px] lg:items-center">
+                <div className="Contact-section relative pt-[83.57px] xl:pt-[96.43px] lg:pb-11 flex flex-col lg:flex-row gap-[34px] lg:items-center">
                     <div className="title pl-[--padding-x] pr-[--padding-x] flex-1">
                         {children}
                     </div>
                     <div className="hero-image flex-1">
-                        <div className="pricing-img w-full">
+                        <div className="pricing-img">
                             <Image src={loginBanner} alt="pricing-img" className={`w-full object-cover`} />
                         </div>
                     </div>

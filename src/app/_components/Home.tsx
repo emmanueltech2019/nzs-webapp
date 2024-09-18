@@ -52,7 +52,7 @@ const Home = () => {
 
                         <p className="text-base lg:text-lg mb-8 max-w-[475.62px]">Are you a merchant struggling to manage product sales and delivery in Nigeria? A consumer frustrated by the lack of reliable information on essential services in your area? We tackle these challenges head-on, providing a seamless experience for both vendors and consumers.</p>
 
-                        <GetStarted url="/" />
+                        <GetStarted url="/auth/login" />
                     </div>
                 </motion.div>
 
@@ -64,8 +64,8 @@ const Home = () => {
                     <div className="nigeria-img">
                         <Image src={nigeria} alt="nigeria" className={`w-full object-cover`} />
                     </div>
-                    <div className="iPhone16-img -mt-[80%] lg:-mt-[50%] xl:-mt-[75%]">
-                        <Image src={iPhone16} className={`w-full object-cover h-full`} alt="iPhone16" />
+                    <div className="iPhone16-img -mt-[80%] lg:-mt-[50%] xl:-mt-[75%] overflow-hidden">
+                        <Image src={iPhone16} className={`w-full object-cover h-full -mb-3`} alt="iPhone16" />
                     </div>
                 </motion.div>
             </section>

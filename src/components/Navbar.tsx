@@ -44,14 +44,16 @@ const Navbar = ({ children }: NavbarType) => {
     const [Ts, Tfunc] = useToggle(false);
     return (
         <header className='pt-[35.17px] px-[--padding-x] flex justify-between relative'>
-            <div className={`logo-header flex gap-[19px] items-center`}>
-                <div className={`logo w-[30.05px] xl:w-[35.53px]`}>
-                    <Image src={logo} alt='logo-image' />
+            <Link href='/'>
+                <div className={`logo-header flex gap-[19px] items-center`}>
+                    <div className={`logo w-[30.05px] xl:w-[35.53px]`}>
+                        <Image src={logo} alt='logo-image' />
+                    </div>
+                    <div className={`logo-title w-[122.94px] xl:w-[145.37px]`}>
+                        <Image src={logoTitle} alt='logoTItle' />
+                    </div>
                 </div>
-                <div className={`logo-title w-[122.94px] xl:w-[145.37px]`}>
-                    <Image src={logoTitle} alt='logoTItle' />
-                </div>
-            </div>
+            </Link>
 
             <div className="toggle-button flex lg:hidden items-center py-3">
                 <button onClick={Tfunc}>
@@ -76,7 +78,7 @@ const Navbar = ({ children }: NavbarType) => {
                 {children}
             </div>
 
-            <div className={`nav-bar-container top-full left-0 z-50 absolute w-full bg-white overflow-hidden transition-all duration-300 translate-y-1 ${Ts?'max-h-[1000px]':'max-h-0'}`}>
+            <div className={`nav-bar-container top-full left-0 z-50 absolute w-full bg-white overflow-hidden transition-all duration-300 translate-y-1 ${Ts ? 'max-h-[1000px]' : 'max-h-0'}`}>
                 <div className="content flex flex-col items-end  py-11 px-9">
                     <button className='text-[11.6px] leading-[17.4px] flex gap-1 items-center cursor-pointer mb-7'>
                         <Icon icon={`fontisto:world-o`} className='font-semibold' />
