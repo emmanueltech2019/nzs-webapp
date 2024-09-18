@@ -55,6 +55,12 @@
   }
 } */
 
+@media screen and (min-width: 1024px){
+  .embla__slide.onboarding__slide{
+    flex: 0 0 30%;
+  }
+}
+
 .embla__slide {
   flex: 0 0 100%;
   min-width: 0;

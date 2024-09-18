@@ -6,11 +6,12 @@ const cardBody = "rounded-[12.9px] py-[34.4px] px-[12.2px]";
 const activebg = "bg-[#006838]";
 const cardbg = "bg-[#ffffff]";
 
-const cardheadText = "font-[700] text-[22px] w-[90%]";
+const cardheadText = "font-[700] text-[22px] md:text-[12.9px] md:leading-[15.61px] w-[90%] md:w-[87%]";
 const headText = "text-[#000000]";
 const activeheadText = "text-[#ffffff]";
 
-const cardparText = "font-[400] text-[14px] leading-[19.49px]";
+const cardparText =
+  "font-[400] text-[14px] md:text-[10.32px] leading-[19.49px] md:leading-[12.49px]";
 const parText = "text-[#71727a]";
 const activeparText = "text-[#ffbb5b]";
 
@@ -27,8 +28,12 @@ const OnboardingCard = ({ icon, headText, paragraph }: CardItemtype) => {
         >
           <Icon icon={icon} className="text-[24px]" />
         </div>
-        <h2 className={`${cardheadText} ${activeheadText} mb-[14px]`}>{headText}</h2>
-        <p className={`${cardparText} ${activeparText} pb-[6.88px]`}>{paragraph}</p>
+        <h2 className={`${cardheadText} ${activeheadText} mb-[14px]`}>
+          {headText}
+        </h2>
+        <p className={`${cardparText} ${activeparText} pb-[6.88px]`}>
+          {paragraph}
+        </p>
       </div>
     </div>
   );

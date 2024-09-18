@@ -6,6 +6,7 @@ import onboarding_image2 from "@/assets/images/onboarding-image2.svg";
 import onboarding_image3 from "@/assets/images/onboarding-image3.svg";
 import { CardItemtype } from "./onboarding.types";
 import OnboardingCard from "./OnboardingCard";
+import FuncRouteBtn from "@/components/buttons/FuncRouteBtn";
 
 const chart = "mage:chart-fill";
 const delivery = "solar:delivery-bold";
@@ -41,23 +42,19 @@ const Onboarding = () => {
     }
   }, [emblaApi]);
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
   return (
     <section className="flex flex-col-reverse lg:flex-row min-h-screen">
-      <div className="col flex-[1.5] px-[--padding-x]">
+      <div className="col flex-1 px-[--padding-x]">
         <div className="embla overflow-hidden lg:bg-[#EAF2FF]">
           <div className="embla__viewport" ref={emblaRef}>
             <div className="embla__container flex gap-2">
               {cardContent.map(
                 ({ icon, headText, paragraph }: CardItemtype) => (
-                  <div className="embla__slide w-full md:w-2/5 lg:w-1/3">
+                  <div className="embla__slide onboarding__slide">
                     <OnboardingCard
                       icon={icon}
                       headText={headText}
@@ -67,6 +64,7 @@ const Onboarding = () => {
                 )
               )}
             </div>
+            <FuncRouteBtn text="Next" func={scrollNext} />
           </div>
         </div>
       </div>
