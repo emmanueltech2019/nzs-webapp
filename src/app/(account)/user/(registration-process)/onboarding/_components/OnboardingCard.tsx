@@ -24,14 +24,14 @@ const OnboardingCard = ({ icon, headText, paragraph }: CardItemtype) => {
     <div className="rounded-[21.5px]">
       <div className={`${cardBody} ${activebg}`}>
         <div
-          className={`${activeIcon} flex items-center justify-center mb-[19.35px]`}
+          className={`${activeIcon} flex items-center justify-center mb-[19.35px] md:mb-[26.23px]`}
         >
           <Icon icon={icon} className="text-[24px]" />
         </div>
-        <h2 className={`${cardheadText} ${activeheadText} mb-[14px]`}>
+        <h2 className={`${cardheadText} ${activeheadText} mb-[14px] md:mb-[34px]`}>
           {headText}
         </h2>
-        <p className={`${cardparText} ${activeparText} pb-[6.88px]`}>
+        <p className={`${cardparText} ${activeparText} pb-[6.88px] md:mb-[43.1px]`}>
           {paragraph}
         </p>
       </div>

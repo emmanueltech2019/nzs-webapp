@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import React, { useEffect, useCallback } from "react";
 import onboarding_image1 from "@/assets/images/onboarding-image1.svg";
@@ -51,7 +52,7 @@ const Onboarding = () => {
       <div className="col flex-1 px-[--padding-x]">
         <div className="embla overflow-hidden lg:bg-[#EAF2FF]">
           <div className="embla__viewport" ref={emblaRef}>
-            <div className="embla__container flex gap-2">
+            <div className="embla__container flex gap-2 justify-between">
               {cardContent.map(
                 ({ icon, headText, paragraph }: CardItemtype) => (
                   <div className="embla__slide onboarding__slide">
@@ -68,7 +69,11 @@ const Onboarding = () => {
           </div>
         </div>
       </div>
-      <div className="col flex-1 image">col-2</div>
+      <div className="col flex-1 image">
+        <div>
+          
+        </div>
+      </div>
     </section>
   );
 };
