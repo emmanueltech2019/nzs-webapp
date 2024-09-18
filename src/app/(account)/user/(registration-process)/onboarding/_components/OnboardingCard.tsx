@@ -7,7 +7,7 @@ const activebg = "bg-[#006838]";
 const cardbg = "bg-[#ffffff]";
 
 const cardheadText =
-  "font-[700] text-[22px] md:text-[12.9px] md:leading-[15.61px] w-[90%] md:w-[87%]";
+  "font-[700] text-[22px] md:text-[12.9px] md:leading-[15.61px]";
 const headText = "text-[#000000]";
 const activeheadText = "text-[#ffffff]";
 
