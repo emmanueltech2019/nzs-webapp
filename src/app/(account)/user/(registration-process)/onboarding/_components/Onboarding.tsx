@@ -51,13 +51,13 @@ const Onboarding = () => {
 
   return (
     <section className="flex flex-col-reverse lg:flex-row min-h-screen">
-      <div className="col flex-[1.5]">
-        <div className="embla overflow-hidden flex lg:bg-[#EAF2FF]">
+      <div className="col flex-[1.5] px-[--padding-x]">
+        <div className="embla overflow-hidden lg:bg-[#EAF2FF]">
           <div className="embla__viewport" ref={emblaRef}>
             <div className="embla__container flex gap-2">
               {cardContent.map(
                 ({ icon, headText, paragraph }: CardItemtype) => (
-                  <div className="embla__slide">
+                  <div className="embla__slide w-full md:w-2/5 lg:w-1/3">
                     <OnboardingCard
                       icon={icon}
                       headText={headText}
@@ -70,7 +70,7 @@ const Onboarding = () => {
           </div>
         </div>
       </div>
-      <div className="col flex-1 ">col-2</div>
+      <div className="col flex-1 image">col-2</div>
     </section>
   );
 };

@@ -6,15 +6,15 @@ import Box from "@/components/Box";
 
 function page() {
   const checkVerification = () => {
-    return console.log("Verified")
-  }
+    return console.log("Verified");
+  };
 
   return (
     <div>
       <Onboarding />
-      <RouterBtn url="./" text="Next"/>
+      {/* <RouterBtn url="./" text="Next"/>
       <FuncRouteBtn text="Continue" func={checkVerification}/>
-      <Box />
+      <Box /> */}
     </div>
   );
 }
