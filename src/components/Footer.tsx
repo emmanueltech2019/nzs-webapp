@@ -58,7 +58,7 @@ const aboutLinks = [{
 
 const Footer = () => {
     const linkTitle = 'text-base font-semibold'
-    const listItem = 'leading-[21.8px] text-sm mt-[21.5px]'
+    const listItem = 'leading-[21.8px] text-sm mt-[21.5px] hover:underline transition-all duration'
 
     return (
         <section className="bg-[--foreground-green] text-white">
@@ -70,10 +70,10 @@ const Footer = () => {
                         </p>
                         <Link href={`/`} className="border-white border-[0.73px] hover:bg-white hover:text-[--foreground-green] text-center rounded-[20px] text-[15px] lg:text-[13px] py-[15px] lg:py-[13px] px-[26px]  lg:px-[22px] mb-[63px] transition-all duration-200">Contact Us Now</Link>
                         <div className="social-links flex gap-[18px] text-lg mt-7 lg:mt-14">
-                            <Link href='/'><span><Icon icon="fe:facebook" className="" /></span></Link>
-                            <Link href='/'><span><Icon icon="hugeicons:new-twitter" className="" /></span></Link>
-                            <Link href='/'><span><Icon icon="icon-park-outline:instagram" className="" /></span></Link>
-                            <Link href='/'><span><Icon icon="uit:linkedin-alt" className="" /></span></Link>
+                            <Link href='/'><span><Icon icon="fe:facebook" className="hover:opacity-50 transition-all duration-200" /></span></Link>
+                            <Link href='/'><span><Icon icon="hugeicons:new-twitter" className="hover:opacity-50 transition-all duration-200" /></span></Link>
+                            <Link href='/'><span><Icon icon="icon-park-outline:instagram" className="hover:opacity-50 transition-all duration-200" /></span></Link>
+                            <Link href='/'><span><Icon icon="uit:linkedin-alt" className="hover:opacity-50 transition-all duration-200" /></span></Link>
                         </div>
                     </div>
                     <div className="col flex-1 grid grid-cols-2 md:grid-cols-3">
