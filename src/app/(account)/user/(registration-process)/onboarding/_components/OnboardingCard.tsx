@@ -6,7 +6,8 @@ const cardBody = "rounded-[12.9px] py-[34.4px] px-[12.2px]";
 const activebg = "bg-[#006838]";
 const cardbg = "bg-[#ffffff]";
 
-const cardheadText = "font-[700] text-[22px] md:text-[12.9px] md:leading-[15.61px] w-[90%] md:w-[87%]";
+const cardheadText =
+  "font-[700] text-[22px] md:text-[12.9px] md:leading-[15.61px] w-[90%] md:w-[87%]";
 const headText = "text-[#000000]";
 const activeheadText = "text-[#ffffff]";
 
@@ -21,20 +22,22 @@ const cardIcon = "border-[1px] border-[#eaf2ff] bg-[#ffffff]";
 
 const OnboardingCard = ({ icon, headText, paragraph }: CardItemtype) => {
   return (
-    <div className="rounded-[21.5px]">
-      <div className={`${cardBody} ${activebg}`}>
-        <div
-          className={`${activeIcon} flex items-center justify-center mb-[19.35px] md:mb-[26.23px]`}
-        >
-          <Icon icon={icon} className="text-[24px]" />
-        </div>
-        <h2 className={`${cardheadText} ${activeheadText} mb-[14px] md:mb-[34px]`}>
-          {headText}
-        </h2>
-        <p className={`${cardparText} ${activeparText} pb-[6.88px] md:mb-[43.1px]`}>
-          {paragraph}
-        </p>
+    <div className={`${cardBody}`}>
+      <div
+        className={`${activeIcon} flex items-center justify-center mb-[19.35px] md:mb-[26.23px]`}
+      >
+        <Icon icon={icon} className="text-[24px]" />
       </div>
+      <h2
+        className={`${cardheadText} ${activeheadText} mb-[14px] md:mb-[34px]`}
+      >
+        {headText}
+      </h2>
+      <p
+        className={`${cardparText} ${activeparText} pb-[6.88px] md:mb-[43.1px]`}
+      >
+        {paragraph}
+      </p>
     </div>
   );
 };
