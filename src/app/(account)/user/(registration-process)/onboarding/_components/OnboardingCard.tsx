@@ -2,25 +2,31 @@ import React from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { CardItemtype } from "./onboarding.types";
 
-const cardBody = "rounded-[12.9px] py-[34.4px] px-[12.2px]";
-const activebg = "bg-[#006838]";
-const cardbg = "bg-[#ffffff]";
+const OnboardingCard = ({
+  icon,
+  headText,
+  paragraph,
+  active,
+}: CardItemtype) => {
+  const cardBody = "rounded-[12.9px] py-[34.4px] px-[12.2px]";
+  const activebg = "bg-[#006838]";
+  const cardbg = "bg-[#ffffff]";
 
-const cardheadText =
-  "font-[700] text-[22px] md:text-[12.9px] md:leading-[15.61px]";
-const headText = "text-[#000000]";
-const activeheadText = "text-[#ffffff]";
+  const cardheadText =
+    "font-[700] text-[22px] md:text-[12.9px] md:leading-[15.61px]";
+  const headerText = "text-[#000000]";
+  const activeheadText = `${active ? "text-white" : "text-black"}`;
 
-const cardparText =
-  "font-[400] text-[14px] md:text-[10.32px] leading-[19.49px] md:leading-[12.49px]";
-const parText = "text-[#71727a]";
-const activeparText = "text-[#ffbb5b]";
+  const cardparText =
+    "font-[400] text-[14px] md:text-[10.32px] leading-[19.49px] md:leading-[12.49px]";
+  const parText = "text-[#71727a]";
+  const activeparText = `${active ? "text-[#ffbb5b]" : "text-[#71727a]"}`;
 
-const activeIcon =
-  "rounded-[5px] bg-[#ffbb5b] w-[39.26px] h-[39.26px] text-[#006838]";
-const cardIcon = "border-[1px] border-[#eaf2ff] bg-[#ffffff]";
+  const cardIcon = "border-[1px] border-[#eaf2ff]";
+  const activeIcon = `rounded-[5px] w-[39.26px] h-[39.26px] ${
+    active ? "bg-[#ffbb5b] text-[#006838]" : `text-[#ffbb5b] ${cardIcon}`
+  }`;
 
-const OnboardingCard = ({ icon, headText, paragraph }: CardItemtype) => {
   return (
     <div className={`${cardBody}`}>
       <div
@@ -29,7 +35,7 @@ const OnboardingCard = ({ icon, headText, paragraph }: CardItemtype) => {
         <Icon icon={icon} className="text-[24px]" />
       </div>
       <h2
-        className={`${cardheadText} ${activeheadText} mb-[14px] md:mb-[34px]`}
+        className={`${cardheadText} ${activeheadText} mb-[14px] md:mb-[34px] lg:whitespace-nowrap`}
       >
         {headText}
       </h2>

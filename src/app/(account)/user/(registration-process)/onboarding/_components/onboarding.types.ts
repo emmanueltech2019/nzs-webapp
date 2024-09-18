@@ -7,4 +7,5 @@ export type CardItemtype = {
   //   | ReactNode;
   headText: any
   paragraph: string
+  active? : boolean
 };

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import onboarding_image1 from "@/assets/images/onboarding-image1.svg";
 import onboarding_image2 from "@/assets/images/onboarding-image2.svg";
 import onboarding_image3 from "@/assets/images/onboarding-image3.svg";
@@ -54,6 +54,13 @@ export const cardContent: CardItemtype[] = [
 ];
 
 const Onboarding = () => {
+  const [FS, setFS] = useState(0);
+  const incrementFS = () => {
+    setFS((prev) => (prev <= 2 ? prev + 1 : 2));
+  };
+  const decrementFS = () => {
+    setFS((prev) => (prev >= 0 ? prev - 1 : 0));
+  };
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     watchDrag: false,
@@ -68,13 +75,29 @@ const Onboarding = () => {
   }, [emblaApi, imageApi]);
 
   const scrollNext = useCallback(() => {
+    // incrementFS();
+    if (emblaApi) {
+      setFS(emblaApi.slidesInView()[0] += 1);
+      console.log(emblaApi.slidesInView()[0] + 1, FS);
+    }
+
     if (emblaApi) emblaApi.scrollNext();
     if (imageApi) imageApi.scrollNext();
   }, [emblaApi, imageApi]);
 
+  const scrollPrev = useCallback(() => {
+    // decrementFS();
+    if (emblaApi) {
+      setFS(emblaApi.slidesInView()[0] += 1);
+      console.log(emblaApi.slidesInView()[0] + 1, FS);
+    }
+    if (emblaApi) emblaApi.scrollPrev();
+    if (imageApi) imageApi.scrollPrev();
+  }, [emblaApi, imageApi]);
+
   return (
     <section className="flex flex-col-reverse lg:flex-row min-h-screen">
-      <div className="col flex-[1.5] flex flex-col justify-evenly px-3 md:ps-[150px]">
+      <div className="col flex-[1.2] flex flex-col justify-evenly px-3 md:ps-[150px]">
         {/* box */}
         <div className="hidden lg:block">
           <Box />
@@ -82,9 +105,21 @@ const Onboarding = () => {
 
         {/* pagination */}
         <div className="pagination flex items-center gap-[7px] mt-[20px] md:mt-[70px]">
-          <div className="w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full bg-[#006838]"></div>
-          <div className="w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full bg-[#EAF2FF]"></div>
-          <div className="w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full bg-[#EAF2FF]"></div>
+          <div
+            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${
+              FS === 0 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
+            }`}
+          ></div>
+          <div
+            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${
+              FS === 1 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
+            }`}
+          ></div>
+          <div
+            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${
+              FS === 2 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
+            }`}
+          ></div>
         </div>
 
         {/* Welcome text */}
@@ -99,7 +134,9 @@ const Onboarding = () => {
               {cardContent.map(
                 ({ icon, headText, paragraph }: CardItemtype, i) => (
                   <div
-                    className="embla__slide onboarding__slide rounded-[21px] bg-[--foreground-green]"
+                    className={`embla__slide onboarding__slide rounded-[21px] ${
+                      FS === i ? "bg-[--foreground-green]" : "bg-white"
+                    } `}
                     key={i}
                     aria-index={`onboarding__slide_${i}`}
                   >
@@ -107,14 +144,18 @@ const Onboarding = () => {
                       icon={icon}
                       headText={headText}
                       paragraph={paragraph}
+                      active={FS === i}
                     />
                   </div>
                 )
               )}
             </div>
-            <div className="flex gap-2 items-center">
-              <div className="w-full lg:w-[130px] hidden lg:block">
-                <button className="rounded-[12px] py-4 px-4 text-[--foreground-green] text-base font-semibold leading-[14.52px] text-center block w-[100%] bg-white border-[1.5px] border-[--foreground-green] m-auto my-1">
+            <div className="flex flex-col-reverse lg:flex-row items-center mt-[24px] md:mt-[50px]">
+              <div className="w-full px-[10px] lg:w-[130px]">
+                <button
+                  className="rounded-[12px] py-4 px-4 text-[--foreground-green] text-base font-semibold leading-[14.52px] text-center block w-[100%] bg-white border-[1.5px] border-[--foreground-green]"
+                  onClick={scrollPrev}
+                >
                   Back
                 </button>
               </div>
