@@ -1,9 +1,8 @@
-import React from "react";
 
 type funcbtntype = {
   classValue?: string;
   text: string;
-  func: () => any;
+  func: () => void;
 };
 function FuncRouteBtn({ text, func, classValue }: funcbtntype) {
   return (
