@@ -12,9 +12,6 @@ function page() {
   return (
     <div>
       <Onboarding />
-      {/* <RouterBtn url="./" text="Next"/>
-      <FuncRouteBtn text="Continue" func={checkVerification}/>
-      <Box /> */}
     </div>
   );
 }

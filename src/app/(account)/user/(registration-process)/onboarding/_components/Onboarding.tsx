@@ -56,6 +56,7 @@ export const cardContent: CardItemtype[] = [
 
 const Onboarding = () => {
   const router = useRouter();
+  const navigate = () =>  {if(FS == 2) router.push('./verify-code')}
   const [FS, setFS] = useState(0);
   const incrementFS = () => {
     setFS((prev) => (prev < 2 ? prev + 1 : prev));
@@ -79,7 +80,7 @@ const Onboarding = () => {
   }, [emblaApi, imageApi]);
 
   const scrollNext = useCallback(() => {
-    if(FS == 2) router.push('/verify-code')
+    // if(FS == 2) router.push('/login')
     incrementFS();
     if (emblaApi) emblaApi.scrollNext();
     if (imageApi) imageApi.scrollNext();
@@ -137,7 +138,7 @@ const Onboarding = () => {
                 </button>
               </div>
               <div className="w-full px-[10px] lg:w-[150px] scale-100 hover:scale-90 transition-all duration-500">
-                <FuncRouteBtn text="Next" func={scrollNext} />
+                <FuncRouteBtn text="Next" func={()=>{navigate();scrollNext()}} />
               </div>
             </div>
           </div>
