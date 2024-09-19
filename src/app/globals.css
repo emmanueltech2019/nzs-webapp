@@ -55,6 +55,7 @@
   }
 } */
 
+
 .embla__slide {
   flex: 0 0 100%;
   min-width: 0;
@@ -84,6 +85,12 @@
 @media screen and (min-width: 1024px) {
   .embla__slide.tCard {
     flex: 1;
+  }
+}
+
+@media screen and (min-width: 1024px){
+  .embla__slide.onboarding__slide{
+    flex: auto;
   }
 }
 
