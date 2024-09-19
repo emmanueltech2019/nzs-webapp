@@ -56,11 +56,12 @@ export const cardContent: CardItemtype[] = [
 const Onboarding = () => {
   const [FS, setFS] = useState(0);
   const incrementFS = () => {
-    setFS((prev) => (prev <= 2 ? prev + 1 : 2));
+    setFS((prev) => (prev < 2 ? prev + 1 : prev));
   };
   const decrementFS = () => {
-    setFS((prev) => (prev >= 0 ? prev - 1 : 0));
+    setFS((prev) => (prev > 0 ? prev - 1 : prev));
   };
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
     watchDrag: false,
@@ -69,23 +70,27 @@ const Onboarding = () => {
     loop: false,
     watchDrag: false,
   });
+
   useEffect(() => {
     if (emblaApi) console.log(emblaApi.slideNodes()); // Access API
     if (imageApi) console.log(imageApi.slideNodes()); // Access API
-  }, [emblaApi, imageApi, FS]);
+  }, [emblaApi, imageApi]);
 
   const scrollNext = useCallback(() => {
+    incrementFS();
     if (emblaApi) emblaApi.scrollNext();
     if (imageApi) imageApi.scrollNext();
   }, [emblaApi, imageApi]);
 
   const scrollPrev = useCallback(() => {
+    decrementFS();
     if (emblaApi) emblaApi.scrollPrev();
     if (imageApi) imageApi.scrollPrev();
   }, [emblaApi, imageApi]);
 
   return (
     <section className="flex flex-col-reverse lg:flex-row min-h-screen">
+      {FS}
       <div className="col flex-[1.2] flex flex-col justify-evenly px-3 md:ps-[150px]">
         {/* box */}
         <div className="hidden lg:block">
@@ -95,19 +100,16 @@ const Onboarding = () => {
         {/* pagination */}
         <div className="pagination flex items-center gap-[7px] mt-[20px] md:mt-[70px]">
           <div
-            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${
-              FS === 0 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
-            }`}
+            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${FS === 0 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
+              }`}
           ></div>
           <div
-            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${
-              FS === 1 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
-            }`}
+            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${FS === 1 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
+              }`}
           ></div>
           <div
-            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${
-              FS === 2 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
-            }`}
+            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${FS === 2 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
+              }`}
           ></div>
         </div>
 
@@ -123,9 +125,8 @@ const Onboarding = () => {
               {cardContent.map(
                 ({ icon, headText, paragraph }: CardItemtype, i) => (
                   <div
-                    className={`embla__slide onboarding__slide rounded-[21px] ${
-                      FS === i ? "bg-[--foreground-green]" : "bg-white"
-                    } `}
+                    className={`embla__slide onboarding__slide rounded-[21px] ${FS === i ? "bg-[--foreground-green]" : "bg-white"
+                      } `}
                     key={i}
                   >
                     <OnboardingCard
@@ -142,16 +143,17 @@ const Onboarding = () => {
               <div className="w-full px-[10px] lg:w-[130px]">
                 <button
                   className="rounded-[12px] py-4 px-4 text-[--foreground-green] text-base font-semibold leading-[14.52px] text-center block w-[100%] bg-white border-[1.5px] border-[--foreground-green]"
-                  onClick={() => {scrollPrev()}}
+                  onClick={scrollPrev}
                 >
                   Back
                 </button>
               </div>
               <div className="w-full px-[10px] lg:w-[130px]">
-                <FuncRouteBtn text="Next" classValue="my-6" func={() => {
-                  
-                  scrollNext()
-                  }} />
+                <FuncRouteBtn
+                  text="Next"
+                  classValue="my-6"
+                  func={scrollNext}
+                />
               </div>
             </div>
           </div>
@@ -164,7 +166,7 @@ const Onboarding = () => {
           <div className="embla__viewport h-full" ref={imageRef}>
             <div className="embla__container flex h-full gap-[1px]">
               {images.map((img, i) => (
-                <div className="embla__slide w-full" key={'image-'+i}>
+                <div className="embla__slide w-full" key={"image-" + i}>
                   <Image
                     src={img}
                     alt="onBoarding image-1"
