@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import useEmblaCarousel from "embla-carousel-react";
 import React, { useEffect, useCallback, useState } from "react";
 import onboarding_image1 from "@/assets/images/onboarding-image1.svg";
@@ -54,6 +55,7 @@ export const cardContent: CardItemtype[] = [
 ];
 
 const Onboarding = () => {
+  const router = useRouter();
   const [FS, setFS] = useState(0);
   const incrementFS = () => {
     setFS((prev) => (prev < 2 ? prev + 1 : prev));
@@ -77,6 +79,7 @@ const Onboarding = () => {
   }, [emblaApi, imageApi]);
 
   const scrollNext = useCallback(() => {
+    // if(FS == 2) router.push('/login')
     incrementFS();
     if (emblaApi) emblaApi.scrollNext();
     if (imageApi) imageApi.scrollNext();
@@ -90,6 +93,7 @@ const Onboarding = () => {
 
   return (
     <section className="flex flex-col-reverse lg:flex-row min-h-screen">
+      {FS}
       <div className="col flex-[1.2] flex flex-col justify-evenly px-3 md:ps-[150px]">
         {/* box */}
         <div className="hidden lg:block">
@@ -98,18 +102,9 @@ const Onboarding = () => {
 
         {/* pagination */}
         <div className="pagination flex items-center gap-[7px] mt-[20px] md:mt-[70px]">
-          <div
-            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${FS === 0 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
-              }`}
-          ></div>
-          <div
-            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${FS === 1 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
-              }`}
-          ></div>
-          <div
-            className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full ${FS === 2 ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"
-              }`}
-          ></div>
+          {
+            [0,1,2].map(a => <div key={'pagination'+a} className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full transition-all duration-500 ${FS === a ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"}`}></div>)
+          }
         </div>
 
         {/* Welcome text */}
@@ -119,15 +114,11 @@ const Onboarding = () => {
 
         {/* embla carousel for cards */}
         <div className="embla overflow-hidden">
-          <div className="embla__viewport lg:w-10/12" ref={emblaRef}>
+          <div className="embla__viewport xl:w-10/12" ref={emblaRef}>
             <div className="embla__container flex gap-[10.47px] justify-between lg:bg-[#EAF2FF] lg:rounded-[21px] lg:p-[8.6px]">
               {cardContent.map(
                 ({ icon, headText, paragraph }: CardItemtype, i) => (
-                  <div
-                    className={`embla__slide onboarding__slide rounded-[21px] ${FS === i ? "bg-[--foreground-green]" : "bg-white"
-                      } `}
-                    key={i}
-                  >
+                  <div className={`embla__slide onboarding__slide rounded-[21px] transition-all duration-500 ${FS === i ? "bg-[--foreground-green]" : "bg-white"} `} key={i}>
                     <OnboardingCard
                       icon={icon}
                       headText={headText}
@@ -138,21 +129,16 @@ const Onboarding = () => {
                 )
               )}
             </div>
-            <div className="flex flex-col-reverse lg:flex-row items-center mt-[24px] md:mt-[50px]">
-              <div className="w-full px-[10px] lg:w-[130px]">
-                <button
-                  className="rounded-[12px] py-4 px-4 text-[--foreground-green] text-base font-semibold leading-[14.52px] text-center block w-[100%] bg-white border-[1.5px] border-[--foreground-green]"
-                  onClick={scrollPrev}
-                >
+
+            {/* carousel buttons */}
+            <div className="flex flex-col-reverse md:flex-row items-center mt-[24px] md:mt-[50px] gap-4 md:gap-5 lg:gap-2 mb-6">
+              <div className="w-full px-[10px] lg:w-[150px]">
+                <button className="rounded-[12px] py-4 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-white border-[1.5px] border-[--foreground-green] text-[--foreground-green] scale-100 hover:scale-90 transition-all duration-500" onClick={scrollPrev}>
                   Back
                 </button>
               </div>
-              <div className="w-full px-[10px] lg:w-[130px]">
-                <FuncRouteBtn
-                  text="Next"
-                  classValue="my-6"
-                  func={scrollNext}
-                />
+              <div className="w-full px-[10px] lg:w-[150px] scale-100 hover:scale-90 transition-all duration-500">
+                <FuncRouteBtn text="Next" func={scrollNext} />
               </div>
             </div>
           </div>
