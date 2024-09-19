@@ -90,7 +90,6 @@ const Onboarding = () => {
 
   return (
     <section className="flex flex-col-reverse lg:flex-row min-h-screen">
-      {FS}
       <div className="col flex-[1.2] flex flex-col justify-evenly px-3 md:ps-[150px]">
         {/* box */}
         <div className="hidden lg:block">
