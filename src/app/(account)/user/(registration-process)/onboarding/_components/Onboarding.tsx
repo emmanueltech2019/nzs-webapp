@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import useEmblaCarousel from "embla-carousel-react";
 import React, { useEffect, useCallback, useState } from "react";
 import onboarding_image1 from "@/assets/images/onboarding-image1.svg";
@@ -54,6 +55,7 @@ export const cardContent: CardItemtype[] = [
 ];
 
 const Onboarding = () => {
+  const router = useRouter();
   const [FS, setFS] = useState(0);
   const incrementFS = () => {
     setFS((prev) => (prev < 2 ? prev + 1 : prev));
@@ -77,6 +79,7 @@ const Onboarding = () => {
   }, [emblaApi, imageApi]);
 
   const scrollNext = useCallback(() => {
+    // if(FS == 2) router.push('/login')
     incrementFS();
     if (emblaApi) emblaApi.scrollNext();
     if (imageApi) imageApi.scrollNext();
@@ -127,13 +130,13 @@ const Onboarding = () => {
             </div>
 
             {/* carousel buttons */}
-            <div className="flex flex-col-reverse lg:flex-row items-center mt-[24px] md:mt-[50px] gap-4 md:gap-5 lg:gap-2 mb-6">
+            <div className="flex flex-col-reverse md:flex-row items-center mt-[24px] md:mt-[50px] gap-4 md:gap-5 lg:gap-2 mb-6">
               <div className="w-full px-[10px] lg:w-[150px]">
-                <button className="rounded-[12px] py-4 px-4 text-[--foreground-green] text-base font-semibold leading-[14.52px] text-center block w-full bg-white border-[1.5px] border-[--foreground-green]" onClick={scrollPrev}>
+                <button className="rounded-[12px] py-4 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-white border-[1.5px] border-[--foreground-green] text-[--foreground-green] scale-100 hover:scale-90 transition-all duration-500" onClick={scrollPrev}>
                   Back
                 </button>
               </div>
-              <div className="w-full px-[10px] lg:w-[150px]">
+              <div className="w-full px-[10px] lg:w-[150px] scale-100 hover:scale-90 transition-all duration-500">
                 <FuncRouteBtn text="Next" func={scrollNext} />
               </div>
             </div>
