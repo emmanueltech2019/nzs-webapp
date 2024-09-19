@@ -80,7 +80,6 @@ const Onboarding = () => {
   }, [emblaApi, imageApi]);
 
   const scrollNext = useCallback(() => {
-    // if(FS == 2) router.push('/login')
     incrementFS();
     if (emblaApi) emblaApi.scrollNext();
     if (imageApi) imageApi.scrollNext();
