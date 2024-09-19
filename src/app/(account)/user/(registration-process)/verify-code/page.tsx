@@ -1,8 +1,11 @@
 import React from 'react'
+import Verification from './_components/Verification'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <Verification />
+    </div>
   )
 }
 
