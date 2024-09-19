@@ -1,13 +1,7 @@
 import React from "react";
 import Onboarding from "./_components/Onboarding";
-import FuncRouteBtn from "@/components/buttons/FuncRouteBtn";
-import Box from "@/components/Box";
 
 function page() {
-  const checkVerification = () => {
-    return console.log("Verified");
-  };
-
   return (
     <div>
       <Onboarding />
