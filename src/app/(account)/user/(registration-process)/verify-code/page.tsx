@@ -6,6 +6,7 @@ const page = () => {
     <div>
       <Verification />
       <div>hello world</div>
+      <div>I See you</div>
     </div>
   )
 }
