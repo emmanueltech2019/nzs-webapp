@@ -5,6 +5,7 @@ const page = () => {
   return (
     <div>
       <Verification />
+      <div>hello world</div>
     </div>
   )
 }
