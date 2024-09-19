@@ -1,8 +1,11 @@
+import RouterBtn from '@/components/buttons/RouteBtn'
 import React from 'react'
 
 function page() {
   return (
-    <div>page</div>
+    <div>
+      <RouterBtn url='./' text="Next"/>
+    </div>
   )
 }
 
