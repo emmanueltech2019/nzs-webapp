@@ -1,0 +1,26 @@
+for sign-up page
+// TODO: validate email format
+// TODO: validate phone number format
+// TODO: switch phone number format(country)
+// TODO: validate password strength
+// TODO: validate password confirmation
+// TODO: validate PRIVACY POLICY
+// TODO: validate Agreement Policy
+// TODO: handle form submission
+
+for sign-in page
+// TODO: form validatation
+
+for validatation page
+// TODO: validate code and navigate to next page
+// TODO: resend code message
+
+for footer component
+// TODO: add social media links to the icons
+
+for Navbar component and footer component
+// TODO: Switch language functionality
+
+for OTP UI (Verification component)
+// TODO: disable inputs when checking
+// TODO: add styles for success and failure states

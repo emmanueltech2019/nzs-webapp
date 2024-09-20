@@ -2,6 +2,7 @@ import Image from "next/image";
 import Box from "@/components/Box";
 import FuncRouteBtn from "@/components/buttons/FuncRouteBtn";
 
+
 type screentype = {
   image: any;
   children: React.ReactNode;

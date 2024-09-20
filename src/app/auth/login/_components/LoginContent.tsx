@@ -25,11 +25,12 @@ const LoginContent = () => {
 
   const handleSubmit = (e:eventType) => {
     e.preventDefault()
-    // Validation
     if (!emailState || !pwdState) {
       alert('Please fill out all fields')
       return
     }
+    // Validation
+    
     // API call to login user with email and password
     //...
     // Redirect to user onboarding page

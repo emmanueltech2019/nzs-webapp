@@ -14,6 +14,8 @@ const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center ite
 const eyeslash = 'heroicons:eye-slash-20-solid'
 const eye = 'mdi:eye'
 
+type eventType = React.MouseEvent<HTMLInputElement, MouseEvent>
+
 const SignupContent = () => {
   const [tpswd, tpswdFunc] = useToggle(false)
   const router = useRouter()
@@ -24,7 +26,7 @@ const SignupContent = () => {
   const [phoneState, setphone] = useForm('')
   const [pwdState, setpwd] = useForm('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: eventType) => {
     e.preventDefault()
     // validate form inputs
     if(!fnameState || !lnameState || !emailState || !pwdState || !phoneState) {

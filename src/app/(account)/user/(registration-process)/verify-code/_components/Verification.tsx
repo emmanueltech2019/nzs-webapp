@@ -8,28 +8,31 @@ import { useRouter } from "next/navigation";
 type eventType = React.MouseEvent<HTMLButtonElement, MouseEvent>
 
 const Verification = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [VCode, setVCode] = useState<number[]>(new Array(4).fill(""));
 
   const handleChange = (e: any, i: any) => {
-    if (isNaN(e.target.value)) return false
+    if (isNaN(e.target.value)) return false;
     setVCode([
       ...VCode.map((data, indx) => (indx === i ? e.target.value : data)),
     ]);
     if (e.target.value && e.target.nextSibling) e.target.nextSibling.focus();
-    if (!e.target.value && e.target.previousSibling) e.target.previousSibling.focus();
+    if (!e.target.value && e.target.previousSibling)
+      e.target.previousSibling.focus();
   };
 
+  
   const handleSbmit = (e: eventType) => {
     // TODO: validate code and navigate to next page
-    e.preventDefault();
-    router.push("./role")
-  }
+    router.push("./role");
+
+    // TODO: clear VCode state
+    setVCode([]);
+  };
 
   const resendCode = (e: eventType) => {
-    // TODO: resend code
     e.preventDefault();
-    alert('code resent')
+    router.push("./role")
   }
 
   return (
@@ -55,12 +58,16 @@ const Verification = () => {
           <div className="code-f flex justify-center items-center gap-2">
             {VCode.map((data, i) => (
               <input
+                title={`OTP_Code_${i}`}
+                key={"input_" + i}
                 type="text"
                 id="N1"
                 value={data}
                 maxLength={1}
                 className="w-[48px] md:w-[69.68px] h-[48px] md:h-[69.68px] text-base lg:text-lg rounded-[12px] md:rounded-[17.42px] border-[1.45px] border-[#C5C6CC] p-[12px] md:py-[17.42px] px-[18px] md:px-[23.23px] outline-[--foreground-green]"
-                onInput={(e) => { handleChange(e, i) }}
+                onInput={(e) => {
+                  handleChange(e, i);
+                }}
               />
             ))}
           </div>
@@ -68,12 +75,18 @@ const Verification = () => {
           {/* buttons */}
           <div className="flex flex-col gap-3 mt-4">
             <div className="w-full px-[10px]">
-              <button onClick={resendCode} className="rounded-[12px] py-4 px-4 text-base font-semibold leading-[14.52px] text-center block w-full text-black scale-100 hover:scale-90 transition-all duration-500">
+              <button
+                onClick={resendCode}
+                className="rounded-[12px] py-4 px-4 text-base font-semibold leading-[14.52px] text-center block w-full text-black scale-100 hover:scale-90 transition-all duration-500"
+              >
                 Resend
               </button>
             </div>
             <div className="w-full px-[10px]">
-              <button onClick={handleSbmit} className="rounded-[12px] py-4 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500">
+              <button
+                onClick={handleSbmit}
+                className="rounded-[12px] py-4 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500"
+              >
                 Continue
               </button>
             </div>
