@@ -23,7 +23,7 @@ const LoginContent = () => {
   const [emailState, setemail] = useForm('')
   const [pwdState, setpwd] = useForm('')
 
-  const handleSubmit = (e: eventType) => {
+  const handleSubmit = (e:eventType) => {
     e.preventDefault()
     if (!emailState || !pwdState) {
       alert('Please fill out all fields')

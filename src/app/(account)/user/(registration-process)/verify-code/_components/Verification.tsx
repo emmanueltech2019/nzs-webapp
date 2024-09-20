@@ -5,7 +5,7 @@ import verifyCodeImage from "@/assets/images/verify-code-img.png";
 import Box from "@/components/Box";
 import { useRouter } from "next/navigation";
 
-type eventType = React.MouseEvent<HTMLButtonElement, MouseEvent>;
+type eventType = React.MouseEvent<HTMLButtonElement, MouseEvent>
 
 const Verification = () => {
   const router = useRouter();
@@ -21,6 +21,7 @@ const Verification = () => {
       e.target.previousSibling.focus();
   };
 
+  
   const handleSbmit = (e: eventType) => {
     e.preventDefault();
     
@@ -37,7 +38,6 @@ const Verification = () => {
       return;
     }
     let res: number = Number(result);
-    
 
     // TODO: validate code and navigate to next page
     router.push("./role");
@@ -48,10 +48,8 @@ const Verification = () => {
 
   const resendCode = (e: eventType) => {
     e.preventDefault();
-    // TODO: resend code
-    // TODO: resend code message
-    alert("code resent");
-  };
+    router.push("./role")
+  }
 
   return (
     <section className="flex flex-col lg:flex-row min-h-screen">
