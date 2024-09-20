@@ -5,6 +5,8 @@ import verifyCodeImage from "@/assets/images/verify-code-img.png";
 import Box from "@/components/Box";
 import { useRouter } from "next/navigation";
 
+type eventType = React.MouseEvent<HTMLButtonElement, MouseEvent>
+
 const Verification = () => {
   const router = useRouter()
   const [VCode, setVCode] = useState<number[]>(new Array(4).fill(""));
@@ -18,14 +20,13 @@ const Verification = () => {
     if (!e.target.value && e.target.previousSibling) e.target.previousSibling.focus();
   };
 
-  type evenType = React.MouseEvent<HTMLButtonElement, MouseEvent>
-  const handleSbmit = (e: evenType) => {
+  const handleSbmit = (e: eventType) => {
     // TODO: validate code and navigate to next page
     e.preventDefault();
     router.push("./role")
   }
 
-  const resendCode = (e: evenType) => {
+  const resendCode = (e: eventType) => {
     // TODO: resend code
     e.preventDefault();
     alert('code resent')
