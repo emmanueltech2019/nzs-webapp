@@ -23,23 +23,26 @@ const Verification = () => {
 
   const handleSbmit = (e: eventType) => {
     e.preventDefault();
-    let result = ''
-    VCode.forEach(a => {
+    
+    let result: string = "";
+    VCode.forEach((a) => {
       if (!a) {
         console.log("Please fill all fields");
-      }else{
+      } else {
         result += a;
       }
-    })
+    });
     if (!result || result.length !== 4) {
       console.log("Please fill all fields");
       return;
     }
-    result = Number(result)
+    let res: number = Number(result);
 
-    console.log(result);
     // TODO: validate code and navigate to next page
     router.push("./role");
+
+    // TODO: clear VCode state
+    setVCode([]);
   };
 
   const resendCode = (e: eventType) => {
@@ -71,8 +74,9 @@ const Verification = () => {
         <form action="">
           <div className="code-f flex justify-center items-center gap-2">
             {VCode.map((data, i) => (
-              <input title={`OTP_Code_${i}`}
-                key={'input_'+i}
+              <input
+                title={`OTP_Code_${i}`}
+                key={"input_" + i}
                 type="text"
                 id="N1"
                 value={data}

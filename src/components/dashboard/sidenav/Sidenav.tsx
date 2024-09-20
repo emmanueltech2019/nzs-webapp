@@ -21,6 +21,15 @@ const Sidenav = () => {
           }
         </ul>
       </nav>
+
+      <div>
+        <div className="p-and-s">
+          <p className='text-[11px] font-[400] leading-[20px] text-[#1F2024]'>Privacy & Security</p>
+        </div>
+        <div className="p-and-s">
+          <p className='text-[11px] font-[400] leading-[20px] text-[#1F2024]'>Log Out</p>
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 
-const useForm = (s:string) => {
+type s = string | number | boolean
+
+const useForm = (s:s) => {
   const [state, setState] = useState(s)
   type setEleType = (e:any) => void
   const setEle:setEleType = (e) => {
