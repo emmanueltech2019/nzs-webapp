@@ -1,0 +1,6 @@
+{
+  "files.autoSave": "afterDelay",
+  "editor.cursorStyle": "line",
+  "workbench.list.multiSelectModifier": "alt",
+  "workbench.colorTheme": "Tailwind - Dark"
+}

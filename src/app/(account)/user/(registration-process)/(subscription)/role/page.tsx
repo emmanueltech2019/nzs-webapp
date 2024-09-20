@@ -1,11 +1,10 @@
 import React from 'react'
-import Role from './_components/Role'
-
+import Role from './_components/Role';
 
 const page = () => {
   return (
     <div>
-        <Role />
+      <Role />
     </div>
   )
 }
