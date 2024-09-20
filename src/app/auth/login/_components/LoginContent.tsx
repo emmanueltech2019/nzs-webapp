@@ -15,19 +15,22 @@ const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center ite
 const eyeslash = 'heroicons:eye-slash-20-solid'
 const eye = 'mdi:eye'
 
+type eventType = React.MouseEvent<HTMLInputElement, MouseEvent>
+
 const LoginContent = () => {
   const router = useRouter();
   const [tpswd, tpswdFunc] = useToggle(false)
   const [emailState, setemail] = useForm('')
   const [pwdState, setpwd] = useForm('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: eventType) => {
     e.preventDefault()
-    // Validation
     if (!emailState || !pwdState) {
       alert('Please fill out all fields')
       return
     }
+    // Validation
+    
     // API call to login user with email and password
     //...
     // Redirect to user onboarding page

@@ -1,8 +1,0 @@
-// validate form inputs
-// validate email format
-// validate phone number format
-// validate password strength
-// validate password confirmation
-
-// handle form submission
-// navigate to onboarding page after submission

@@ -19,9 +19,9 @@ type tCardType = {
 }
 
 const TestimonialCards = ({ children, title, image, name, dept, cardStyles = 'bg-[--foreground-light-green]', box = "bg-[--foreground-green]" }: tCardType) => (
-    <div className={`card px-[29px] lg:px-[38px] py-[32px] rounded-[27.32px] lg:rounded-[36.25px] ${cardStyles}`}>
+    <div className={`card px-[29px] lg:px-[38px] py-[32px] rounded-[27.32px] lg:rounded-[36.25px] hover:bg-[--foreground-green] group hover:text-white transition-all duration-300 ${cardStyles}`}>
         <header className='flex items-center gap-[9px] lg:gap-[11px] pb-[18px] lg:pb-6'>
-            <div className={`box w-[34.42px] lg:w-[45.68px] h-[34.42px] lg:h-[45.68px] rounded-[13.66px] ${box}`}></div>
+            <div className={`box w-[34.42px] lg:w-[45.68px] h-[34.42px] lg:h-[45.68px] rounded-[13.66px] group-hover:bg-[white] transition-all duration-300 ${box}`}></div>
             <h1 className='text-[26px] lg:text-[34px] leading-normal'>{title}</h1>
         </header>
         <div className="stroke h-[0.55px] lg:h-[0.73px] bg-[#979797]"></div>
@@ -65,10 +65,10 @@ const Testimonials = () => {
                     <p className='font-semibold text-2xl lg:text-[46.4px] lg:leading-normal'>What our Users <span className='block'>say About Us?</span></p>
                 </div>
                 <div className="buttons flex items-center justify-end gap-2 pt-3">
-                    <button className="embla__prev" onClick={scrollPrev}>
+                    <button title='prev-btn' className="embla__prev" onClick={scrollPrev}>
                         <span className='flex rotate-180 justify-center items-center w-[32px] lg:w-[59px] h-[32px] lg:h-[59px] rounded-full bg-white shadow-md'><Icon icon="maki:arrow" className='inline my-auto text-sm lg:text-lg' /></span>
                     </button>
-                    <button className="embla__next" onClick={scrollNext}>
+                    <button title='next-btn' className="embla__next" onClick={scrollNext}>
                         <span className='flex justify-center items-center w-[32px] lg:w-[59px] h-[32px] lg:h-[59px] rounded-full bg-[--foreground-orange] shadow-md'><Icon icon="maki:arrow" className='inline my-auto text-sm lg:text-lg text-white' /></span>
                     </button>
                 </div>
@@ -79,7 +79,7 @@ const Testimonials = () => {
                 <div className="embla__viewport" ref={emblaRef}>
                     <div className='testimonial-cards embla__container flex gap-[29px]'>
                         <div className="embla__slide tCard">
-                            <TestimonialCards title='Amara' name='Firdausi Maiwada' dept='CEO, Amara Cosmetics' image={amaraTestimonial} cardStyles='bg-[--foreground-green] text-white' box='bg-white'>
+                            <TestimonialCards title='Amara' name='Firdausi Maiwada' dept='CEO, Amara Cosmetics' image={amaraTestimonial}>
                                 “Finding reliable suppliers for bulk ingredients and packaging has always been a challenge. This app has completely transformed the way we source materials. The extensive listing of vetted suppliers, combined with seamless bulk ordering, has saved us both time and money. Our production has become more efficient, and we’ve built stronger partnerships.
                             </TestimonialCards>
                         </div>
