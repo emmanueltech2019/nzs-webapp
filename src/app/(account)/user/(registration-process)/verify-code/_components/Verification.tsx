@@ -37,6 +37,7 @@ const Verification = () => {
       return;
     }
     let res: number = Number(result);
+    
 
     // TODO: validate code and navigate to next page
     router.push("./role");
