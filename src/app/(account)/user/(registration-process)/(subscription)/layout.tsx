@@ -19,7 +19,7 @@ const layout = ({ image, children, progressbar }: screentype) => {
           </div>
 
           <div className="">
-            <div className="bar mt-[24px] mx-[24px] rounded-full bg-[#E8E9F1] w-full md:w-[305px] h-[6px] md:h-[7px]">
+            <div className="bar mt-[24px] rounded-full bg-[#E8E9F1] w-full md:w-[305px] h-[6px] md:h-[7px]">
               <div
                 className={`progress rounded-full bg-[#006838] w-[30%] h-[6px] md:h-[7px]`}
               ></div>

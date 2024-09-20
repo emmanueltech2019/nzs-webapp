@@ -39,8 +39,7 @@ const Verification = () => {
         <form action="">
           <div className="code-f flex justify-center items-center gap-2">
             {VCode.map((data, i) => (
-              <input
-                type="text"
+              <input type="text"
                 id="N1"
                 value={data}
                 maxLength={1}

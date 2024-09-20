@@ -7,6 +7,7 @@ import { Icon } from "@iconify/react/dist/iconify.js"
 import Link from "next/link"
 import useToggle from "@/hooks/useToggle";
 import useForm from "@/hooks/useForm";
+import { useRouter } from 'next/navigation'
 
 
 const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
@@ -15,9 +16,23 @@ const eyeslash = 'heroicons:eye-slash-20-solid'
 const eye = 'mdi:eye'
 
 const LoginContent = () => {
+  const router = useRouter();
   const [tpswd, tpswdFunc] = useToggle(false)
   const [emailState, setemail] = useForm('')
   const [pwdState, setpwd] = useForm('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // Validation
+    if (!emailState || !pwdState) {
+      alert('Please fill out all fields')
+      return
+    }
+    // API call to login user with email and password
+    //...
+    // Redirect to user onboarding page
+    router.push('/user/onboarding')
+  }
   return (
     <section className='px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]'>
       <div className="flex md:gap-[36.97px] justify-between md:justify-start mb-[25.57px] lg:mb-0">
@@ -57,7 +72,7 @@ const LoginContent = () => {
         </div>
 
         <div className="buttons">
-          <input type="submit" value="Sign In" className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer" onClick={e => {e.preventDefault()}} />
+          <input type="submit" value="Sign In" className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer" onClick={handleSubmit} />
           <span className="ml-3 text-sm lg:text-base">Don&apos;t have an account? <Link href='./sign-up' className="underline">Sign up</Link></span>
         </div>
 

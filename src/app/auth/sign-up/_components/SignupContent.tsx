@@ -7,6 +7,7 @@ import { Icon } from "@iconify/react/dist/iconify.js"
 import Link from "next/link"
 import useToggle from "@/hooks/useToggle"
 import useForm from "@/hooks/useForm"
+import { useRouter } from "next/navigation"
 
 const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
 
@@ -15,12 +16,30 @@ const eye = 'mdi:eye'
 
 const SignupContent = () => {
   const [tpswd, tpswdFunc] = useToggle(false)
+  const router = useRouter()
 
   const [fnameState, setfname] = useForm('')
   const [lnameState, setlname] = useForm('')
   const [emailState, setemail] = useForm('')
   const [phoneState, setphone] = useForm('')
   const [pwdState, setpwd] = useForm('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // validate form inputs
+    if(!fnameState || !lnameState || !emailState || !pwdState || !phoneState) {
+      alert('please input required')
+      return
+    }
+    // validate email format
+    // validate phone number format
+    // validate password strength
+    // validate password confirmation
+
+    // handle form submission
+    // navigate to onboarding page after submission
+    router.push('/user/onboarding')
+  }
   return (
     <section className='px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]'>
       <div className="flex md:gap-[36.97px] justify-between md:justify-start mb-[25.57px] lg:mb-0">
@@ -88,7 +107,7 @@ const SignupContent = () => {
         </div>
 
         <div className="buttons">
-          <input type="submit" value="Sign In" className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer" onClick={e => { e.preventDefault() }} />
+          <input type="submit" value="Sign In" className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer" onClick={handleSubmit} />
           <span className="ml-3 text-sm lg:text-base">Already have an Account <Link href='./login' className="underline">Login</Link></span>
         </div>
 
