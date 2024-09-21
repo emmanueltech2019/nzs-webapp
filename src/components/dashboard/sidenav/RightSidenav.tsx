@@ -23,7 +23,7 @@ const RightSidenav = () => {
         <div className='py-6 grid gap-[10px]'>
           {
             profileOptions.map((item, index) => (
-              <div key={index} className='w-full block border-t-[0.5px] border-[#D4D6DD]'>
+              <div key={index} className='w-full block border-t-[0.5px] border-[#D4D6DD] cursor-pointer'>
                 {item.optionItem}
               </div>
             ))
