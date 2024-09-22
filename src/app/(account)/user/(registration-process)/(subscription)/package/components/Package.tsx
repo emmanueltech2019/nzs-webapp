@@ -1,9 +1,17 @@
-import React from 'react'
+'use client'
+import React, { useEffect } from 'react'
 import { PackageObj } from './PackageObj'
 import { Icon } from '@iconify/react/dist/iconify.js'
+import { useContextStore } from '@/context/SubscriptionContext'
+import ourTeamBanner from "@/assets/images/our-team-banner.svg"
 
 
 const Package = () => {
+  const { handleProgressbar, handleImg } = useContextStore()
+  useEffect(() => {
+    handleImg(ourTeamBanner);
+    handleProgressbar(50);
+  }, [handleImg, handleProgressbar]);
   return (
     <div>
       <section>

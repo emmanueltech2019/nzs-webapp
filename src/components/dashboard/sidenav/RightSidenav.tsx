@@ -5,7 +5,7 @@ import { div } from 'framer-motion/client'
 
 const RightSidenav = () => {
   return (
-    <div className='hidden bg-[#EAF2FF] md:flex justify-between items-center flex-col sticky top-0 h-screen max-h-[1200px] w-3/6 max-w-[344px] m-auto py-[60px] px-[32px]'>
+    <div className='hidden bg-[#EAF2FF] md:flex justify-between items-center flex-col sticky top-0 h-screen max-h-[1200px] w-3/6 max-w-[320px] m-auto py-[60px] px-[32px]'>
 
       {/* Profile */}
       <div className='py-2 block justify-center items-center w-full'>

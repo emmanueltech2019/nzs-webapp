@@ -1,11 +1,18 @@
 'use client'
-import React from "react";
+import React, { useEffect } from "react";
+import ourTeamBanner from "@/assets/images/our-team-banner.svg"
 import useForm from "@/hooks/useForm";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useContextStore } from "@/context/SubscriptionContext";
 
 const Role = () => {
   const [buy,setbuy] = useForm(false)
   const [sell, setsell] = useForm(false)
+  const { handleProgressbar, handleImg } = useContextStore()
+  useEffect(() => {
+    handleImg(ourTeamBanner);
+    handleProgressbar(30);
+  }, [handleImg, handleProgressbar]);
   return (
     <div>
       <section>

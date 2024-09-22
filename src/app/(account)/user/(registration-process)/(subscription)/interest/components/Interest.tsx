@@ -1,7 +1,9 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { interests } from './InterestObj'
 import { Icon } from '@iconify/react';  
+import { useContextStore } from '@/context/SubscriptionContext';
+import businessAnalysis_img from '@/assets/images/business-analysis.png'
 
 
 const Interest = () => {
@@ -20,6 +22,12 @@ const Interest = () => {
       return updatedCheck;
     });
   };
+
+  const { handleProgressbar, handleImg } = useContextStore()
+  useEffect(() => {
+    handleImg(businessAnalysis_img);
+    handleProgressbar(80);
+  }, [handleImg, handleProgressbar]);
 
   return (
     <div>
