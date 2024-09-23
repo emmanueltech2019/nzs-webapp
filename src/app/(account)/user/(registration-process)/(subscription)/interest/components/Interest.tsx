@@ -1,84 +1,126 @@
-"use client"
-import React, { useEffect, useState } from 'react'
-import { interests } from './InterestObj'
-import { Icon } from '@iconify/react';  
-import { useContextStore } from '@/context/SubscriptionContext';
-import businessAnalysis_img from '@/assets/images/business-analysis.png'
+"use client";
+import React, { useEffect, useState } from "react";
+// import { interests } from './InterestObj'
+import { Icon } from "@iconify/react";
+import { useContextStore } from "@/context/SubscriptionContext";
+import businessAnalysis_img from "@/assets/images/business-analysis.png";
 
+type InterestItem = {
+  interest: string;
+  state: boolean;
+  // Add other properties if needed
+};
 
 const Interest = () => {
-  interface InterestItem {
-    interest: string;
-    // Add other properties if needed
-  }
+  const initialState: InterestItem[] = [
+    {
+      interest: "Manufacturing & Equipment",
+      state: false,
+    },
+    {
+      interest: "Food Stock",
+      state: false,
+    },
+    {
+      interest: "General Retail",
+      state: false,
+    },
+    {
+      interest: "Construction",
+      state: false,
+    },
+    {
+      interest: "Furniture",
+      state: false,
+    },
+    {
+      interest: "Stationery",
+      state: false,
+    },
+    {
+      interest: "Medical Supplies",
+      state: false,
+    },
+    {
+      interest: "Electronics",
+      state: false,
+    },
+  ];
 
-  const [check, setCheck] = useState<boolean[]>(new Array(interests.length).fill(false));
-  const [interestItems, setInterestItems] = useState<string[]>([]);
-  const handleInterest = (item:string) => {
-    setInterestItems(prev => [...prev, item])
-  }
-  useEffect(() => {
-    console.log(check)
-  })
+  const [interest, setInterest] = useState(initialState);
 
+  useEffect(() =>{}, [interest])
 
-  const handleClick = (index: number) => {
-    setCheck((prev) => {
-      const updatedCheck = [...prev];
-      updatedCheck[index] = !updatedCheck[index];
-      return updatedCheck;
-    });
+  const handleClick = (a: any) => {
+    console.log(a);
+
+    let itemIndex = initialState.findIndex((obj) => obj.interest === a);
+    if (itemIndex === -1) {
+      setInterest([...interest, { interest: a, state: true }]);
+    } else {
+      setInterest((prev) =>
+        prev.map((item, index) =>
+          index === itemIndex ? { ...item, state: !item.state } : item
+        )
+      );
+    }
   };
 
-  const { handleProgressbar, handleImg } = useContextStore()
+  const { handleProgressbar, handleImg } = useContextStore();
   useEffect(() => {
     handleImg(businessAnalysis_img);
     handleProgressbar(50);
   }, [handleImg, handleProgressbar]);
 
-  const {handleActive, handleNext, handleMessage} = useContextStore()
+  const { handleActive, handleNext, handleMessage } = useContextStore();
   useEffect(() => {
     handleNext("./package");
-    handleActive(check.some(Boolean));
+    handleActive(interest.some((i) => i.state == true));
     handleMessage("Select your interests");
-  }, [handleNext, handleActive, handleMessage, check]);
-
-
+  }, [handleNext, handleActive, handleMessage, interest]);
 
   return (
     <div>
       <section>
         <div>
           <header>
-            <h1 className=' text-2xl text-[#1F2024] md:text-[40px] md:leading-[48.41px] font-[900] mt-[50px]'>
+            <h1 className=" text-2xl text-[#1F2024] md:text-[40px] md:leading-[48.41px] font-[900] mt-[50px]">
               Personalize your market experience
             </h1>
-            <p className='text-[14px] md:text-[18px] text-[#71727A] leading-[20px] md:leading-[16px] font-[400] mt-[16px]'>
+            <p className="text-[14px] md:text-[18px] text-[#71727A] leading-[20px] md:leading-[16px] font-[400] mt-[16px]">
               Choose your interests.
             </p>
           </header>
 
           <div className="choose-interest flex flex-col gap-2 mt-[41px] mb-[24px]">
-            {
-              interests.map((item: InterestItem, index: number) => (
-                <div key={index} className={`p-4 py-3 flex justify-between rounded-[12px] ${check[index]
-                    ? "bg-[#EAF2FF]"
-                    : "bg-[#ffffff]"
+            {interest.map(
+              ({ interest, state }: InterestItem, index: number) => (
+                <div
+                  key={index}
+                  className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 ${
+                    state ? "bg-[#EAF2FF]" : "bg-[#ffffff]"
                   } border-[#C5C6CC] border-[0.5px] cursor-pointer`}
-                  onClick={() => handleClick(index)}
+                  onClick={() => {
+                    handleClick(interest);
+                  }}
                 >
-                  <p className='text-[14px] text-[#1F2024]'>{item.interest}</p>
+                  <p className="text-[14px] text-[#1F2024]">{interest}</p>
                   <div className="checkbox flex items-center">
-                    <Icon icon="ph:check-bold" className={`text-[#006838] text-[14px] transition-all duration-300 ${check[index]?'opacity-100':'opacity-0'}`}></Icon>
+                    <Icon
+                      icon="ph:check-bold"
+                      className={`text-[#006838] text-[14px] transition-all duration-300 ${
+                        state ? "opacity-100" : "opacity-0"
+                      }`}
+                    ></Icon>
                   </div>
                 </div>
-              ))
-            }
+              )
+            )}
           </div>
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Interest
+export default Interest;

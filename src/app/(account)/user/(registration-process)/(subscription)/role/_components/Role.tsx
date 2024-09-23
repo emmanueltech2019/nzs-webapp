@@ -42,7 +42,7 @@ const Role = () => {
           </header>
 
           <div className="choose-role mt-[41px] flex flex-col gap-2">
-            <div className="buy p-4 flex justify-between rounded-[12px] bg-[#EAF2FF] cursor-pointer">
+            <div className={`buy p-4 flex justify-between rounded-[12px] border-[#C5C6CC] border-[0.5px] cursor-pointer ${buy?'bg-[#EAF2FF]':'bg-white'}`} onClick={()=>{setbuy(prev => !prev)}}>
               <p className="text-[14px] text-[#1F2024] select-none">Buy</p>
               <input
                 title="buy"
@@ -53,7 +53,7 @@ const Role = () => {
                 onChange={handleBuy}
               />
               <label htmlFor="buy">
-                <div className="checkbox h-6 w-6 border-[#C5C6CC] border-[1.5px] rounded-md flex items-center justify-center cursor-pointer">
+                <div className={`checkbox h-6 w-6 border-[#C5C6CC] border-[1.5px] rounded-md flex items-center justify-center cursor-pointer`}>
                   <Icon
                     icon="iconamoon:check-duotone"
                     className={`text-lg text-[--icon-green-2] text-center font-bold ${
@@ -63,7 +63,7 @@ const Role = () => {
                 </div>
               </label>
             </div>
-            <div className="sell p-4 flex justify-between rounded-[12px] bg-[#ffffff] border-[#C5C6CC] border-[0.5px] cursor-pointer">
+            <div className={`sell p-4 flex justify-between rounded-[12px] border-[#C5C6CC] border-[0.5px] cursor-pointer ${sell?'bg-[#EAF2FF]':'bg-white'}`} onClick={()=>{setsell(prev => !prev)}}>
               <p className="text-[14px] text-[#1F2024] select-none">Sell</p>
               <input
                 title="sell"

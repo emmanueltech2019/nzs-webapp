@@ -1,27 +1,41 @@
+interface InterestItem {
+  interest: string
+  state: boolean
+  // Add other properties if needed
+}
 
-export const interests: any = [
+
+export const interests: InterestItem[] = [
   {
-    interest: "Manufacturing & Equipment"
+    interest: "Manufacturing & Equipment",
+    state: false
   },
   {
-    interest: "Food Stock"
+    interest: "Food Stock",
+    state: false
   },
   {
-    interest: "General Retail"
+    interest: "General Retail",
+    state: false
   },
   {
-    interest: "Construction"
+    interest: "Construction",
+    state: false
   },
   {
-    interest: "Furniture"
+    interest: "Furniture",
+    state: false
   },
   {
-    interest: "Stationery"
+    interest: "Stationery",
+    state: false
   },
   {
-    interest: "Medical Supplies"
+    interest: "Medical Supplies",
+    state: false
   },
   {
-    interest: "Electronics"
+    interest: "Electronics",
+    state: false
   },
 ]
