@@ -30,7 +30,7 @@ const CarouselEmbla: React.FC = () => {
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           <div className="embla__slide w-full flex-[0_0_100%] bg-blue-100 rounded-lg">
-            <div className="h-40 flex items-center justify-center">
+            <div className="h-72 flex items-center justify-center">
               <Image src={banner} alt="Product 1" className="h-[100%] w-full object-cover" />
             </div>
           </div>

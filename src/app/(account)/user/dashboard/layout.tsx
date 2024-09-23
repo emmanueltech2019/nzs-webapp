@@ -3,9 +3,9 @@ import LeftSidenav from "@/components/dashboard/sidenav/LeftSidenav";
 import RightSidenav from "@/components/dashboard/sidenav/RightSidenav";
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex">
+    <div className="md:flex block">
       <LeftSidenav />
-      <div className="w-full max-w-9/12">{children}</div>
+      <div className="md:w-[60vw] md:px-0 px-2">{children}</div>
       <RightSidenav />
     </div>
   );

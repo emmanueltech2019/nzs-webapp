@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import Card from '@/components/cards/ProductCard';
 import Header from '@/components/header/ProductHeader';
 import Tabs from '@/components/tabs/ProductAndServiceTab';
@@ -18,22 +19,36 @@ const page = () => {
     { title: 'Stunning Shoes', price: '₦ 12.00' },
     { title: 'Wonderful Shoes', price: '₦ 15.00' },
   ];
+  const [activeTab, setActiveTab] = useState('products');
+
   return (
-    <div className="min-h-screen  md:px-10 px-2 ">
+    <div className="min-h-screen md:w-[61vw] ">
+      <div className=''>
+
 
     <Header/>
-    <Tabs/>
+    <Tabs activeTab={activeTab} setActiveTab={setActiveTab}/>
+    {activeTab=="products"?
+    <>
     <SortFilter/>
     <FloatingButton/>
     <Carousel/>
     <ProductGrid title='Perfect for you'/>
-    <ProductGrid title='For this summer'/>
+    <ProductGrid title='For this summer'/></>
+    :<>
+    <FloatingButton/>
+    <h1>Services coming soon.</h1>
+    </>}
+
+    
       {/* search component */}
       {/* <div className="grid grid-cols-2 py-10 sm:grid-cols-2 lg:grid-cols-2 gap-6 overflow-y-scroll	">
         {products.map((product, index) => (
           <Card key={index} title={product.title} price={product.price} />
         ))}
       </div> */}
+            </div>
+
     </div>
   )
 }

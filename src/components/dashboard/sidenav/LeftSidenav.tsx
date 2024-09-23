@@ -4,7 +4,7 @@ import { links } from './NavlinkObj'
 
 const LeftSidenav = () => {
   return (
-    <div className='hidden md:flex justify-between items-center flex-col sticky top-0 h-screen max-h-[1200px] w-3/12 max-w-[241px] py-[70px] ps-[35px]'>
+    <div className='hidden md:flex justify-between items-center flex-col sticky top-0 h-screen max-h-[1200px] w-[22vw] max-w-[241px] py-[70px] ps-[35px]'>
       <div className="box flex-1 self-start">
         <Box />
       </div>
