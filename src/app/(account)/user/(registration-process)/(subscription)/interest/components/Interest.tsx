@@ -12,7 +12,14 @@ const Interest = () => {
     // Add other properties if needed
   }
 
-  const [check, setCheck] = useState<boolean[]>(new Array(interests.length).fill(true));
+  const [check, setCheck] = useState<boolean[]>(new Array(interests.length).fill(false));
+  const [interestItems, setInterestItems] = useState<string[]>([]);
+  const handleInterest = (item:string) => {
+    setInterestItems(prev => [...prev, item])
+  }
+  useEffect(() => {
+    console.log(check)
+  })
 
 
   const handleClick = (index: number) => {
@@ -26,8 +33,17 @@ const Interest = () => {
   const { handleProgressbar, handleImg } = useContextStore()
   useEffect(() => {
     handleImg(businessAnalysis_img);
-    handleProgressbar(80);
+    handleProgressbar(50);
   }, [handleImg, handleProgressbar]);
+
+  const {handleActive, handleNext, handleMessage} = useContextStore()
+  useEffect(() => {
+    handleNext("./package");
+    handleActive(check.some(Boolean));
+    handleMessage("Select your interests");
+  }, [handleNext, handleActive, handleMessage, check]);
+
+
 
   return (
     <div>
@@ -46,14 +62,14 @@ const Interest = () => {
             {
               interests.map((item: InterestItem, index: number) => (
                 <div key={index} className={`p-4 py-3 flex justify-between rounded-[12px] ${check[index]
-                    ? "bg-[#ffffff]"
-                    : "bg-[#EAF2FF]"
+                    ? "bg-[#EAF2FF]"
+                    : "bg-[#ffffff]"
                   } border-[#C5C6CC] border-[0.5px] cursor-pointer`}
                   onClick={() => handleClick(index)}
                 >
                   <p className='text-[14px] text-[#1F2024]'>{item.interest}</p>
-                  <div className="checkbox ">
-                    <Icon icon="ph:check-bold" className='text-[#006838] text-[14px]'></Icon>
+                  <div className="checkbox flex items-center">
+                    <Icon icon="ph:check-bold" className={`text-[#006838] text-[14px] transition-all duration-300 ${check[index]?'opacity-100':'opacity-0'}`}></Icon>
                   </div>
                 </div>
               ))

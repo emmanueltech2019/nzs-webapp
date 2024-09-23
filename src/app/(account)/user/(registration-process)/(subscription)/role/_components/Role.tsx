@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import ourTeamBanner from "@/assets/images/our-team-banner.svg";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useContextStore } from "@/context/SubscriptionContext";
@@ -20,9 +19,9 @@ const Role = () => {
   const { handleNext, handleActive, handleMessage} = useContextStore()
   useEffect(() => {
     handleNext("./interest");
-    handleActive(buy || sell);
+    handleActive(buy || sell)
     handleMessage("Select your role");
-  }, [handleNext, handleActive, handleMessage]);
+  }, [handleNext, handleActive, handleMessage, buy, sell]);
 
   const { handleProgressbar, handleImg } = useContextStore();
   useEffect(() => {

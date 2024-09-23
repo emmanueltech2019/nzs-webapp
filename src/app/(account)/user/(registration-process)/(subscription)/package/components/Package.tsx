@@ -10,7 +10,7 @@ const Package = () => {
   const { handleProgressbar, handleImg } = useContextStore()
   useEffect(() => {
     handleImg(ourTeamBanner);
-    handleProgressbar(50);
+    handleProgressbar(80);
   }, [handleImg, handleProgressbar]);
   return (
     <div>
