@@ -28,7 +28,9 @@ const Package = () => {
           <div className="packages grid md:grid-cols-2 gap-3 pt-12 pb-6">
             {
               PackageObj.map((item, index) => (
+                <>
                 <div key={index}>{item.package}</div>
+                </>
               ))
             }
           </div>
