@@ -14,7 +14,7 @@ export const PackageObj = [
       <div className='rounded-full bg-[#006838] p-1 absolute -top-2 -right-2'>
         <Icon icon="eva:star-fill" className='text-white'></Icon>
       </div>
-      <div className="radio-check me-[5px] w-4 h-4 py-[5px] md:ps-[1px] rounded-full bg-[#006838] border-[1px] flex justify-center items-center">
+      <div className="radio-check w-4 h-4 rounded-full bg-[#006838] border-[1px] flex justify-center items-center">
         <div className="dot bg-white h-[5px] w-[5px] rounded-full"></div>
       </div>
 
@@ -33,7 +33,7 @@ export const PackageObj = [
   {
     package: (<div className='gold h-[69px] p-4 rounded-2xl bg-[#F0B92B] flex items-center gap-2'>
 
-      <div className="radio-check me-[5px] w-4 h-4 py-[5px] md:ps-[1px] rounded-full bg-[#ffffff] border-[1px] flex justify-center items-center">
+      <div className="radio-check w-4 h-4 rounded-full bg-[#ffffff] border-[1px] flex justify-center items-center">
         <div className="dot bg-white h-[5px] w-[5px] rounded-full"></div>
       </div>
 
@@ -52,7 +52,7 @@ export const PackageObj = [
   {
     package: (<div className=' silver h-[69px] p-4 rounded-2xl bg-[#F5F5F5] flex items-center gap-2 border-[#D4D6DD] border-[0.5px]'>
 
-      <div className="radio-check me-[5px] w-4 h-4 py-[5px] md:ps-[1px] rounded-full border-[1.5px] border-[#D4D6DD] flex justify-center items-center">
+      <div className="radio-check w-4 h-4 rounded-full border-[1.5px] border-[#D4D6DD] flex justify-center items-center">
         <div className="dot  h-[5px] w-[5px] rounded-full"></div>
       </div>
 
@@ -71,7 +71,7 @@ export const PackageObj = [
   {
     package: (<div className='bronze h-[69px] p-4 rounded-2xl bg-[#FFEFC5] flex items-center gap-2 border-[#DDB78A] border-[0.5px]'>
 
-      <div className="radio-check me-[5px] w-4 h-4 py-[5px] md:ps-[1px] rounded-full border-[1.5px] border-[#D4D6DD] flex justify-center items-center">
+      <div className="radio-check w-4 h-4 rounded-full border-[1.5px] border-[#D4D6DD] flex justify-center items-center">
         <div className="dot h-[5px] w-[5px] rounded-full"></div>
       </div>
 
@@ -90,7 +90,7 @@ export const PackageObj = [
   {
     package: (<div className='access h-[69px] p-4 rounded-2xl flex items-center gap-2 border-[#D4D6DD] border-[0.5px]'>
 
-      <div className="radio-check me-[5px] w-4 h-4 py-[5px] md:ps-[1px] rounded-full border-[1.5px] border-[#D4D6DD] flex justify-center items-center">
+      <div className="radio-check w-4 h-4 rounded-full border-[1.5px] border-[#D4D6DD] flex justify-center items-center">
         <div className="dot bg-white h-[5px] w-[5px] rounded-full"></div>
       </div>
 

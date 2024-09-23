@@ -1,11 +1,11 @@
-interface InterestItem {
+export type InterestItem = {
   interest: string
   state: boolean
   // Add other properties if needed
 }
 
 
-export const interests: InterestItem[] = [
+const initalState: InterestItem[] = [
   {
     interest: "Manufacturing & Equipment",
     state: false
@@ -39,3 +39,4 @@ export const interests: InterestItem[] = [
     state: false
   },
 ]
+export default initalState

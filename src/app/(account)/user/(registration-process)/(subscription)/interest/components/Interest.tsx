@@ -1,60 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import { interests } from './InterestObj'
+import initalState, {InterestItem} from "./InterestObj"
 import { Icon } from "@iconify/react";
 import { useContextStore } from "@/context/SubscriptionContext";
 import businessAnalysis_img from "@/assets/images/business-analysis.png";
 
-type InterestItem = {
-  interest: string;
-  state: boolean;
-  // Add other properties if needed
-};
-
 const Interest = () => {
-  const initialState: InterestItem[] = [
-    {
-      interest: "Manufacturing & Equipment",
-      state: false,
-    },
-    {
-      interest: "Food Stock",
-      state: false,
-    },
-    {
-      interest: "General Retail",
-      state: false,
-    },
-    {
-      interest: "Construction",
-      state: false,
-    },
-    {
-      interest: "Furniture",
-      state: false,
-    },
-    {
-      interest: "Stationery",
-      state: false,
-    },
-    {
-      interest: "Medical Supplies",
-      state: false,
-    },
-    {
-      interest: "Electronics",
-      state: false,
-    },
-  ];
 
-  const [interest, setInterest] = useState(initialState);
+  const [interest, setInterest] = useState(initalState);
 
   useEffect(() =>{}, [interest])
 
   const handleClick = (a: any) => {
     console.log(a);
 
-    let itemIndex = initialState.findIndex((obj) => obj.interest === a);
+    let itemIndex = initalState.findIndex((obj) => obj.interest === a);
     if (itemIndex === -1) {
       setInterest([...interest, { interest: a, state: true }]);
     } else {

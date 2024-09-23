@@ -59,7 +59,7 @@ const Layer = ({ children }: layerType) => {
         </div>
 
         {/* image */}
-        <div className="col flex-1 hidden lg:block image overflow-hidden">
+        <div className="col flex-1 hidden lg:flex image overflow-hidden items-center">
           <Image src={img} alt="image-layer" className="w-full object-cover" />
         </div>
       </section>
