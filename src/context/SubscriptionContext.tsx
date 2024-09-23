@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import loadingImg from '@/assets/images/loading-forever.gif'
 
 type voidFunctionType = () => void;
 
@@ -23,7 +24,7 @@ type contextProviderType = {
 const subcontext = createContext({} as contextType);
 
 const SubProvider = ({ children }: contextProviderType) => {
-  const [img, setImg] = useState<any>(); // default image
+  const [img, setImg] = useState<any>(loadingImg); // default image
   const [progressbar, setProgressbar] = useState<number>(0);
   const handleImg = (img: any) => {
     setImg(img);

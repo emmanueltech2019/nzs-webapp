@@ -51,7 +51,7 @@ const Layer = ({ children }: layerType) => {
           </div>
 
           <button
-            className={`rounded-[12px] py-4 md:py-4 px-4 text-[#FFFFFF] text-sm md:text-base font-semibold leading-[14.52px] text-center block w-[100%] bg-[#006838] m-auto my-1`}
+            className={`rounded-[12px] py-4 md:py-4 px-4 text-[#FFFFFF] text-sm md:text-base font-semibold leading-[14.52px] text-center block w-[100%] bg-[#006838] m-auto my-1 select-none`}
             onClick={() => handleRoute(next, isActive, message)}
           >
             Next
@@ -59,7 +59,7 @@ const Layer = ({ children }: layerType) => {
         </div>
 
         {/* image */}
-        <div className="col flex-1 hidden lg:block image overflow-hidden">
+        <div className="col flex-1 hidden lg:flex image overflow-hidden items-center">
           <Image src={img} alt="image-layer" className="w-full object-cover" />
         </div>
       </section>
