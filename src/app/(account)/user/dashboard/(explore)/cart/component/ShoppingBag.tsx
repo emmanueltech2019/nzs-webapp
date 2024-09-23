@@ -62,9 +62,9 @@ const ShoppingBag = () => {
       </div>
 
       {/* Checkout Button */}
-      <button className="w-full bg-[#006838] text-white py-3 rounded-full text-center font-semibold">
+      <Link href='./checkout' className="block w-full bg-[#006838] text-white py-3 rounded-full text-center font-semibold">
         Checkout
-      </button>
+      </Link>
     </div>
   );
 };
