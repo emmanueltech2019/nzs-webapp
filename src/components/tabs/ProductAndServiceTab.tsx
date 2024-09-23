@@ -1,8 +1,12 @@
 "use client"
 import { FC, useState } from 'react';
 
-const Tabs: FC = () => {
-  const [activeTab, setActiveTab] = useState('products');
+interface TabsProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}
+
+const Tabs: FC<TabsProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="flex px-2 bg-[#f8f9fe] py-2 mb-5 rounded-full w-[30vw]">

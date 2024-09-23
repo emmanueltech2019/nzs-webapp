@@ -1,7 +1,10 @@
+import ShoppingBag from "./component/ShoppingBag"
 
 const page = () => {
   return (
-    <div>page</div>
+    <>
+      <ShoppingBag/>
+    </>
   )
 }
 

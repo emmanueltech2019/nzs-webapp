@@ -1,11 +1,10 @@
 import React from 'react'
 import { Icon } from '@iconify/react'
 import { profileOptions } from './NavlinkObj'
-import { div } from 'framer-motion/client'
 
 const RightSidenav = () => {
   return (
-    <div className='hidden bg-[#EAF2FF] md:flex justify-between items-center flex-col sticky top-0 h-screen max-h-[1200px] w-3/6 max-w-[320px] m-auto py-[60px] px-[32px]'>
+    <div className='hidden bg-[#EAF2FF] md:flex justify-between items-center flex-col top-0 h-screen w-[22vw] py-[60px] px-[32px] fixed right-0'>
 
       {/* Profile */}
       <div className='py-2 block justify-center items-center w-full'>
