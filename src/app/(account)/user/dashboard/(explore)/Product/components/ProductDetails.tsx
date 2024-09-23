@@ -3,6 +3,7 @@ import CarouselEmbla from '@/components/carousel/Carousel';
 import Link from 'next/link';
 import { FC, useState } from 'react';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import { useRouter } from 'next/navigation';
 const ProductScreen: FC = () => {
   const [selectedSize, setSelectedSize] = useState('S');
   const [selectedColor, setSelectedColor] = useState('green');
@@ -10,11 +11,16 @@ const ProductScreen: FC = () => {
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
   const colors = ['black', 'gray', 'darkGray', 'lightGray', 'white'];
 
+  const router = useRouter()
+  const handleGoBack = () => {
+    router.back(); // Navigate back to the previous page
+  };
+
   return (
     <div className="relative p-4  mx-auto bg-white rounded-lg ">
       {/* Close button */}
       {/* <button className="top-4 left-4 text-2xl z-10 text-[60px]">&times;</button> */}
-      <button className=" text-3xl z-10  py-1 text-gray-500 my-1 ">
+      <button className=" text-3xl z-10  py-1 text-gray-500 my-1 " onClick={handleGoBack}>
         <ArrowBackOutlinedIcon/>
       </button>
 
