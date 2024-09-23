@@ -1,17 +1,26 @@
 import React, { createContext, useContext, useState } from "react";
-import ourTeamBanner from "@/assets/images/our-team-banner.svg"
+
+type voidFunctionType = () => void;
 
 type contextType = {
   progressbar: number
   handleProgressbar: (progress: number) => void
   img: any
   handleImg: (img: any) => void
+
+  next: string,
+  handleNext: (r: string) => void
+  isActive: boolean,
+  handleActive: (a: boolean) => void
+  message: string,
+  handleMessage: (m: string) => void
 }
-const subcontext = createContext({} as contextType);
 
 type contextProviderType = {
   children: React.ReactNode;
 };
+
+const subcontext = createContext({} as contextType);
 
 const SubProvider = ({ children }: contextProviderType) => {
   const [img, setImg] = useState<any>(); // default image
@@ -23,8 +32,19 @@ const SubProvider = ({ children }: contextProviderType) => {
     setProgressbar(progress);
   };
 
+
+  const [next, setNext] = useState(''),
+  [isActive, setActive] = useState(false),
+  [message, setMessage] = useState('')
+
+  const handleNext = (r:string) => {setNext(r)}, 
+  handleActive = (a: boolean) => {setActive(a)},
+  handleMessage = (m: string) => {setMessage(m)}
+
+  const obj = {next, handleNext, isActive, handleActive, message, handleMessage}
+
   return (
-    <subcontext.Provider value={{progressbar, handleProgressbar, img, handleImg}}>{children}</subcontext.Provider>
+    <subcontext.Provider value={{progressbar, handleProgressbar, img, handleImg, ...obj}}>{children}</subcontext.Provider>
   );
 };
 export default SubProvider;
