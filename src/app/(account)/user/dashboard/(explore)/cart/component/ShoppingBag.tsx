@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react';
 import BagItem from './BagItem';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import TagHeader from '@/components/header/TagHeader';
 
 
 
@@ -33,14 +34,8 @@ const ShoppingBag = () => {
   return (
     <div className="w-screen md:mx-1 bg-white md:p-4 pr-6 pl-2 fixed md:w-[60vw]">
       {/* Header */}
-      <div className="flex items-center justify-between py-7">
-        
-        <button onClick={handleGoBack}>
-          <Icon icon="mdi:arrow-left" className="text-2xl text-gray-600" />
-        </button>
-        <h2 className="font-semibold text-lg">Your bag</h2>
-        <div></div> {/* Empty div to balance the header */}
-      </div>
+      <TagHeader title='Your bag'/>
+
 
       {/* Bag Items */}
     <div className='overflow-y-scroll h-[70vh]'>

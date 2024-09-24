@@ -1,7 +1,12 @@
+import TagHeader from "@/components/header/TagHeader"
+import PaymentComponent from "./component/PaymentMethod"
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <TagHeader title="Payment"/>
+      <PaymentComponent/>
+    </div>
   )
 }
 

@@ -1,7 +1,10 @@
+import ShippingOptions from "./component/ShipmentOption"
 
 const page = () => {
   return (
-    <div>page</div>
+    <>
+      <ShippingOptions/>
+    </>
   )
 }
 
