@@ -7,11 +7,11 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 const TagHeader = ({title}:{title:string}) => {
   const router = useRouter()
   return (
-    <div className="flex items-center justify-center">
-        <button onClick={router.back} className=" justify -self-start">
-            <Icon icon='fluent:ios-arrow-24-filled' />
+    <div className="flex py-4">
+        <button onClick={router.back} className="">
+            <Icon icon='fluent:ios-arrow-24-filled' className="text-[--foreground-green] text-xl font-bold" />
         </button>
-        <h1 className="text-2xl font-bold text-center">{title}</h1>
+        <h1 className="font-extrabold text-center w-full">{title}</h1>
     </div>
   );
 };
