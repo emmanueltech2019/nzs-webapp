@@ -1,18 +1,17 @@
-'use client'
+"use client";
 import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-
-
-const TagHeader = ({title}:{title:string}) => {
-  const router = useRouter()
+const TagHeader = ({ title }: { title: string }) => {
+  const router = useRouter();
   return (
-    <div className="flex py-4">
-        <button onClick={router.back} className="">
-            <Icon icon='fluent:ios-arrow-24-filled' className="text-[--foreground-green] text-xl font-bold" />
-        </button>
-        <h1 className="font-extrabold text-center w-full">{title}</h1>
+    <div className="flex items-center justify-between py-7">
+      <button onClick={router.back}>
+        <Icon icon="mdi:arrow-left" className="text-2xl text-gray-600" />
+      </button>
+      <h2 className="font-semibold text-lg">{title}</h2>
+      <div></div>
     </div>
   );
 };
-export default TagHeader
+export default TagHeader;
