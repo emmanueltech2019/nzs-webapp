@@ -17,6 +17,7 @@ const OurPartners = () => {
         <p>From Long-time business relationships</p>
         <h1 className='text-[#393939] text-4xl lg:text-6xl font-semibold'>Our Partners</h1>
         <p>To Happy Investors & Shareholders</p>
+        
       </div>
       <div className="col">
         <p className='text-[#6C6C6C]'>We’re proud to collaborate with a diverse network of partners who share our commitment to service excellence. Our partners include trusted delivery services, payment gateways, and a wide range of essential service providers across Nigeria. </p>
