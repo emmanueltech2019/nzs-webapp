@@ -10,10 +10,10 @@ const CheckoutShipping: React.FC = () => {
   const [shippingMethod, setShippingMethod] = useState("third-party");
 
   return (
-    <div className="p-6 md:w-[56vw] md:mx-20">
+    <div className="p-6 md:w-[56vw] md:mx-20 lg:mx-0 xl:mx-20">
       <TagHeader title="Checkout" />
       {/* Checkout Steps */}
-      <div className="flex justify-around mb-8 mx-auto ml-20 ">
+      <div className="flex justify-around mb-8 mx-auto xl:ml-20 ">
         <div className="flex flex-col items-center text-center justify-center mr-auto">
           <div className="w-8 h-8 rounded-full text-[#006838] bg-[#C4EDDA] flex items-center justify-center">
             <CheckOutlinedIcon />

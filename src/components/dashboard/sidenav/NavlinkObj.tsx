@@ -39,7 +39,7 @@ export const links = [
 export const profileOptions = [
   {
     optionItem: (
-      <span className='p-[26px] flex items-center justify-between'>
+      <span className='p-5 lg:p-[26px] flex items-center justify-between'>
         <p className='text-[#1F2024] text-sm'>My Wallet</p>
         <Icon icon="formkit:right" className='text-[20px] text-[#8F9098]'></Icon>
       </span>
@@ -47,7 +47,7 @@ export const profileOptions = [
   },
   {
     optionItem: (
-      <span className='p-[26px] flex items-center justify-between'>
+      <span className='p-5 lg:p-[26px] flex items-center justify-between'>
         <p className='text-[#1F2024] text-sm'>Inventory</p>
         <Icon icon="formkit:right" className='text-[20px] text-[#8F9098]'></Icon>
       </span>
@@ -55,7 +55,7 @@ export const profileOptions = [
   },
   {
     optionItem: (
-      <span className='p-[26px] flex items-center justify-between'>
+      <span className='p-5 lg:p-[26px] flex items-center justify-between'>
         <p className='text-[#1F2024] text-sm'>Notifications</p>
         <Icon icon="formkit:right" className='text-[20px] text-[#8F9098]'></Icon>
       </span>
@@ -63,7 +63,7 @@ export const profileOptions = [
   },
   {
     optionItem: (
-      <span className='p-[26px] flex items-center justify-between'>
+      <span className='p-5 lg:p-[26px] flex items-center justify-between'>
         <p className='text-[#1F2024] text-sm'>Language</p>
         <Icon icon="formkit:right" className='text-[20px] text-[#8F9098]'></Icon>
       </span>
@@ -71,7 +71,7 @@ export const profileOptions = [
   },
   {
     optionItem: (
-      <span className='p-[26px] flex items-center justify-between'>
+      <span className='p-5 lg:p-[26px] flex items-center justify-between'>
         <p className='text-[#1F2024] text-sm'>Privacy &#38; Security</p>
         <Icon icon="formkit:right" className='text-[20px] text-[#8F9098]'></Icon>
       </span>
@@ -79,7 +79,7 @@ export const profileOptions = [
   },
   {
     optionItem: (
-      <span className='p-[26px] flex items-center justify-between'>
+      <span className='p-5 lg:p-[26px] flex items-center justify-between'>
         <p className='text-[#1F2024] text-sm'>Log Out</p>
         <Icon icon="formkit:right" className='text-[20px] text-[#8F9098]'></Icon>
       </span>

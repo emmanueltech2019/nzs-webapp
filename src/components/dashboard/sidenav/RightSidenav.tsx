@@ -4,7 +4,7 @@ import { profileOptions } from './NavlinkObj'
 
 const RightSidenav = () => {
   return (
-    <div className='hidden bg-[#EAF2FF] md:flex justify-between items-center flex-col top-0 h-screen w-[22vw] py-[60px] px-[32px] fixed right-0'>
+    <div className='hidden bg-[#EAF2FF] md:flex justify-between items-center flex-col top-0 h-screen  lg:w-[22vw] py-[60px] px-[32px] fixed right-0'>
 
       {/* Profile */}
       <div className='py-2 block justify-center items-center w-full'>

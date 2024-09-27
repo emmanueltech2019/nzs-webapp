@@ -21,10 +21,10 @@ const Verification = () => {
       e.target.previousSibling.focus();
   };
 
-  
+
   const handleSbmit = (e: eventType) => {
     e.preventDefault();
-    
+
     let result: string = "";
     VCode.forEach((a) => {
       if (!a) {
