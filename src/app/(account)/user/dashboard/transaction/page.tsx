@@ -20,6 +20,7 @@ const Transactions = () => {
         <button className="bg-gray-100 px-4 py-2 rounded-full">Location</button>
         <button className="bg-gray-100 px-4 py-2 rounded-full">Anambra</button>
       </div> */}
+      
       <div>
         {transactions.map((transaction, index) => (
           <TransactionCard
