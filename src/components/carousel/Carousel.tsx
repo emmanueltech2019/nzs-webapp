@@ -26,7 +26,7 @@ const CarouselEmbla: React.FC = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="relative">
+    <div className="relative md:px-2">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           <div className="embla__slide w-full flex-[0_0_100%] bg-blue-100 rounded-lg">
