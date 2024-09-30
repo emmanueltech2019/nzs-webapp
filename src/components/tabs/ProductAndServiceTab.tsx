@@ -1,4 +1,5 @@
 "use client"
+import Link from 'next/link';
 import { FC, useState } from 'react';
 
 interface TabsProps {
@@ -10,18 +11,20 @@ const Tabs: FC<TabsProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="flex px-2 bg-[#f8f9fe] py-2 mb-5 rounded-full w-[30vw]">
-      <button
+      <Link
+        href={"./dashboard"}
         onClick={() => setActiveTab('products')}
         className={`py-2 px-[16.7%] rounded-full ${activeTab === 'products' ? 'bg-white shadow-md  font-semibold' : ''}`}
       >
         Products
-      </button>
-      <button
+      </Link>
+      <Link
+        href={"./dashboard/services"}
         onClick={() => setActiveTab('services')}
         className={`py-2 px-[16.7%] rounded-full ${activeTab === 'services' ? 'bg-white shadow-md font-semibold' : ''}`}
       >
         Services
-      </button>
+      </Link>
     </div>
   );
 };
