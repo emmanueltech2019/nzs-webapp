@@ -1,10 +1,11 @@
-import Header from '@/components/header/ProductHeader'
+
 import React from 'react'
+import ServiceFilterButtons from '@/components/SortFilter/ServiceFilterButtons'
 
 const Health = () => {
   return (
     <div>
-      <Header />  
+      <ServiceFilterButtons active='Logistics'/>
     </div>
   )
 }

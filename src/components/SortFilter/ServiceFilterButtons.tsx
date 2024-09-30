@@ -16,14 +16,14 @@ interface ServiceFilterButtonsProps {
   ];
 
   return (
-    <div className="flex space-x-2 my-4">
+    <div className="flex p-4 my-4 gap-2">
       {filters.map((filter, index) => (
         <Link
           key={index}
           href={filter.url}
           className={`${
             filter.name==active ? "bg-[#006838] text-[#fff]" : "bg-[#EAF2FF]"
-          } px-4 py-2 rounded-full text-sm text-[#006838]`}
+          } px-2 py-[6px] rounded-[12px] text-[10px] leading-[13.62px] text-[#006838] font-[550] uppercase`}
         >
           {filter.name}
         </Link>
