@@ -4,7 +4,7 @@
 export const links = [
   {text: 'Explore', icon: 'mdi:cart-variant', link: '/user/dashboard'},
   {text: 'Transaction', icon: 'ep:menu', link: '/user/dashboard/transaction'},
-  {text: 'Profile', icon: 'ri:settings-5-fill', link: '/user/profile'},
+  {text: 'Profile', icon: 'fa-solid:user', link: '/user/profile'},
   {text: 'settings', icon: 'ri:settings-5-fill', link: '/user/settings'},
 ]
 
