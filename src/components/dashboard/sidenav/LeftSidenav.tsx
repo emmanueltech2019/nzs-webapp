@@ -1,6 +1,7 @@
 import React from 'react'
 import Box from '../../Box'
 import { links } from './NavlinkObj'
+import Link from 'next/link'
 
 const LeftSidenav = () => {
   return (
@@ -14,7 +15,9 @@ const LeftSidenav = () => {
           {
             links.map((item, index) => (
               <li key={index} className='cursor-pointer'>
+                <Link href={item.link}>
                 {item.listItem}
+                </Link>
               </li>
             ))
           }
