@@ -8,7 +8,7 @@ const page = () => {
 
   return (
     <div className="min-h-screen md:w-[61vw] ">
-        <ServiceFilterButtons active='Logistics'/>
+      <ServiceFilterButtons active='Legal'/>
     </div>
  )
 }
