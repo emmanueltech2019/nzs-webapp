@@ -1,6 +1,8 @@
 import React from 'react';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import CancelIcon from '@mui/icons-material/Cancel';
+import placeholder from '@/assets/images/productMockup.png'
+import Image from 'next/image';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import openSansFont from '@/fonts/OpenSans';
 
 type TransactionCardProps = {
   title: string;
@@ -15,24 +17,30 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ title, location, time
       {yesterday && (
         <div className="mt-4 mb-2 text-gray-500 font-semibold">Yesterday</div>
       )}
-      <div className="flex items-center justify-between bg-white p-4 shadow rounded-lg mb-4">
+      <div className={`flex items-center justify-between bg-white shadow rounded-2xl mb-4 overflow-hidden ${openSansFont}`}>
         <div className="flex items-center space-x-4">
-          <div className="bg-gray-200 rounded-full h-12 w-12 flex items-center justify-center">
-            <img src="/placeholder-image.svg" alt="Placeholder" className="h-8 w-8" />
+          <div className="bg-gray-200 min-h-full w-20 self-stretch">
+            <Image src={placeholder} alt="Placeholder" className="h-full w-full object-cover" />
           </div>
-          <div>
-            <div className="text-lg font-medium">{title}</div>
+          <div className='py-4'>
+            <div className="text-lg font-extrabold">{title}</div>
             <div className='flex space-x-2'>
               <div className="text-sm text-gray-500">{location}</div>
-              <div className="text-sm text-gray-400 italic">{timeAgo}</div>
+              <div className="text-sm text-gray-400 italic font-semibold tracking-wide">{timeAgo}</div>
 
             </div>
           </div>
         </div>
-        <button className="text-gray-500 hover:text-gray-700 focus:outline-none flex space-x-3">
-            <KeyboardArrowRightIcon/>
-            <CancelIcon/>
-        </button>
+        <div className='flex'>
+          <button className="text-gray-500 hover:text-gray-700 focus:outline-none flex space-x-3 pr-4">
+            <Icon icon="ep:arrow-right-bold" className='text-[#8F9098] text-base' />
+          </button>
+          <button className="text-gray-500 hover:text-gray-700 focus:outline-none flex space-x-3 pr-4">
+            <span className='flex items-center justify-center w-6 h-6 rounded-full bg-[#D4D6DD] '>
+              <Icon icon="mingcute:close-fill" className='text-[12px] text-white' />
+            </span>
+          </button>
+        </div>
       </div>
     </>
   );
