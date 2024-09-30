@@ -4,7 +4,6 @@ import ServicesCard from "@/components/cards/ServiceCard";
 import ServiceFilterButtons from "@/components/SortFilter/ServiceFilterButtons";
 import healthImage1 from "../../../../../../assets/images/biochemist.png";
 import GridWrapper from "@/components/Grid/GridWrapper";
-import Header from "@/components/header/ProductHeader";
 
 interface LogisticCompanie {
   id: number;
@@ -93,8 +92,7 @@ const page = () => {
 
   return (
     <div className="min-h-screen md:w-[61vw] ">
-
-      <ServiceFilterButtons active="Health" />
+      <ServiceFilterButtons active="General" />
       {/* <h2 className="text-lg font-bold mb-2">Near you</h2>
       <div className="flex space-x-4 overflow-x-scroll">
         {nearYouTransactions.map((transaction, index) => (
