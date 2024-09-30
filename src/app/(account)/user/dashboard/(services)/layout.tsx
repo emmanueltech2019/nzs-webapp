@@ -1,16 +1,16 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import ProductAndServiceTab from "../../../../../components/tabs/ProductAndServiceTab";
 import Header from "@/components/header/ProductHeader";
 
 export default function layout({ children }: { children: React.ReactNode }) {
-    const [activeTab, setActiveTab] = useState('services');
+  const [activeTab, setActiveTab] = useState("services");
 
   return (
     <div className=" block">
-                    <Header/>
+      <Header />
 
-        <ProductAndServiceTab activeTab={activeTab} setActiveTab={setActiveTab}/>
+      <ProductAndServiceTab activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="md:w-[60vw] md:px-0 px-2">{children}</div>
     </div>
   );
