@@ -5,8 +5,9 @@ import TransactionTab from '@/components/tabs/TransactionTab';
 import { useState } from 'react';
 
 const Transactions = () => {
-  
+
   const transactions = [
+    
     { title: 'Amazing Shoes', location: 'Port Harcourt', timeAgo: '2 hrs ago' },
     { title: 'Amazing Shoes', location: 'Port Harcourt', timeAgo: '2 hrs ago' },
     { title: 'Amazing Shoes', location: 'Port Harcourt', timeAgo: '2 hrs ago' },
