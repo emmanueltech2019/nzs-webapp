@@ -1,55 +1,76 @@
-import React from 'react';
+// import React from 'react';
+// import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
+// interface ProgressBarProps {
+//   progress: number; // percentage value (0-100)
+// }
+
+// const ProgressBar: React.FC<ProgressBarProps> = ({ progress }) => {
+//   const rotation = progress * 3.6; // convert percentage to degrees (360° for 100%)
+  
+//   return (
+//     <div className="relative flex items-center justify-center">
+//       {/* Background circle */}
+//       <div className="w-20 h-20 rounded-full border-4 border-gray-200"></div>
+
+//       {/* Progress semi-circle */}
+//       <div
+//         className="absolute w-20 h-20 rounded-full border-4 border-[#006838] clip-circle"
+//         style={{ transform: `rotate(${rotation}deg)` }}
+//       ></div>
+
+//       {/* Arrow */}
+//       <div className="absolute w-6 h-6 bg-transparent flex items-center justify-center">
+//         <div className=""><EastOutlinedIcon style={{fontSize:"50px", color:"#006838"}}/></div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ProgressBar;
+
+import React from "react";
+import EastOutlinedIcon from "@mui/icons-material/EastOutlined";
 
 interface ProgressBarProps {
   progress: number; // percentage value (0-100)
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ progress }) => {
-  const circumference = 100 * Math.PI; // For a circle with a radius of 50 (arbitrary)
-  const offset = circumference - (progress / 100) * circumference;
-
   return (
     <div className="relative flex items-center justify-center">
-      {/* Background Circle */}
-      <svg className="w-24 h-24">
-        <circle
-          cx="50%"
-          cy="50%"
-          r="48"
-          stroke="#e5e7eb" /* light grey background */
-          strokeWidth="4"
-          fill="none"
-        />
-        {/* Progress Circle */}
-        <circle
-          cx="50%"
-          cy="50%"
-          r="48"
-          stroke="#047857" /* green color */
-          strokeWidth="4"
-          fill="none"
-          strokeDasharray={circumference}
-          strokeDashoffset={offset}
-          strokeLinecap="round"
-          className="transition-all duration-300 ease-in-out"
-        />
-      </svg>
+      {/* Background circle */}
+      <div className="w-20 h-20 rounded-full border-4 border-gray-200"></div>
 
-      {/* Arrow Inside */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={2}
-          stroke="#047857" /* same green */
-          className="w-6 h-6"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
+      {/* Right side of the progress */}
+      <div
+        className={`absolute w-20 h-20 rounded-full border-4 border-transparent ${
+          progress > 50 ? "border-[#006838]" : "border-transparent"
+        }`}
+        style={{
+          clipPath: "inset(0 0 0 50%)", // Right half of the circle
+          transform: `rotate(${Math.min(progress, 50) * 3.6}deg)`, // Cap at 50%
+        }}
+      ></div>
+
+      {/* Left side of the progress */}
+      <div
+        className={`absolute w-20 h-20 rounded-full border-4 border-[#006838] ${
+          progress > 50 ? "border-[#006838]" : "border-transparent"
+        }`}
+        style={{
+          clipPath: "inset(0 50% 0 0)", // Left half of the circle
+          transform: `rotate(${Math.max(progress - 50, 0) * 3.6}deg)`, // Rotating the left half for progress > 50%
+        }}
+      ></div>
+
+      {/* Arrow icon */}
+      <div className="absolute flex items-center justify-center">
+        <EastOutlinedIcon style={{ fontSize: "50px", color: "#006838" }} />
       </div>
     </div>
   );
 };
 
 export default ProgressBar;
+
+

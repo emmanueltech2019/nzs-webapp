@@ -15,6 +15,10 @@ import StarIcon from '@mui/icons-material/Star';
 import TroubleshootIcon from '@mui/icons-material/Troubleshoot';
 import AssistWalkerIcon from '@mui/icons-material/AssistWalker';
 import SpecialtiesCard from '../health/components/SpecialtiesCard';
+import HealthCalendar from '@/components/calendar/HealthCalendar';
+import { CustomCalendar } from '@/components/calendar/CustomCalendar';
+import MyCustomCalendar from '@/components/calendar/HealthCalendar';
+import { useSearchParams } from 'next/navigation';
 
 const FacilityPage = () => {
     const [activeTab, setActiveTab] = useState('Profile');
@@ -75,7 +79,102 @@ const FacilityPage = () => {
           isOpen: true,
         },
       ];
+      const searchParams = useSearchParams(); // Get search parameters from the URL
+      const pageValue = searchParams.get('page'); 
+      console.log(pageValue)
+
   return (
+    <>
+    {pageValue=="hospitality"?<>
+      <div className="w-full">
+      {/* <ProfileHeader
+        title="GilChrist Health"
+        location="Bugis Junction"
+        address="200 Victoria St, Port Harcourt 200261"
+        distance="3 Km"
+        rating={4.5}
+        imageUrl="/hospital.jpg"
+      /> */}
+
+      {/* <TabNavigation /> */}
+      <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full mb-4 p-1 ">
+      {['Profile', 'Facilities', 'Book'].map((tab) => (
+        <button
+          key={tab}
+          onClick={() => setActiveTab(tab)}
+          className={`flex-1 text-center py-2 ${
+            activeTab === tab ? 'bg-white shadow-md  font-semibold rounded-full' : 'text-gray-500'
+          }`}
+        >
+          {tab}
+        </button>
+      ))}
+    </div>
+
+      <div className={`px-4 ${activeTab=="Profile"?'':'hidden'}`}>
+        <div className='flex justify-between items-center pr-5'>
+         <h1 className='font-extrabold text-2xl '>GilChrist Health</h1>
+            <Image src={Logo} alt='' className='w-10'/>
+        </div>
+        <div className=' w-full'>
+        <ProfileHeader
+        title="GilChrist Health"
+        location="Bugis Junction"
+        address="200 Victoria St, Port Harcourt 200261"
+        distance="3 Km"
+        rating={4.5}
+        imageUrl="/hospital.jpg"
+      />
+      <div className='flex justify-items-stretch space-x-5 w-[50vw]'>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 text-center rounded-lg mr-2 "><AssistWalkerIcon/>  {` `} Maternity</span>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg mr-2"><TroubleshootIcon/> {` `} Diagnostics</span>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg mr-2">
+         <span className=" flex items-center">
+           <StarIcon style={{color:"#FFD33C"}}/>
+           4.5
+          </span>
+      </span>
+
+      </div>
+        </div>
+        <p className="text-gray-600 mb-4 py-6">
+        We’re a leading medical practice in Nigeria, dedicated to providing high-quality, patient-centered care across a range of specialties. Established with the vision of delivering world-class healthcare, we have grown into one of the most trusted names in the medical field.         </p>
+
+        {/* Similar Facilities Section */}
+        <GridWrapper title="Similar Services">
+      {nearYouTransactions.map((transaction, index) => (
+        <div className="md:w-[35%] flex-shrink-0">
+            <ServicesCard key={index} {...transaction} />
+        </div>
+        ))}
+      </GridWrapper>
+
+        {/* Review Section */}
+        <div className="mb-4">
+          <Review
+            name="Monye Fubara"
+            time="1 hr ago"
+            reviewText="GilChrist Health’s modern facility is designed to offer comfort, convenience, and cutting-edge medical care."
+          />
+        </div>
+
+        {/* Add a Review Button */}
+        <div className="flex justify-center my-5">
+          <button className="bg-[#006838] w-full text-white px-6 py-2 rounded-full">Add A Review</button>
+        </div>
+      </div>
+
+      <div className={`px-4 ${activeTab=="Specialties"?'':'hidden'}`}>
+        <SpecialtiesCard/>
+      </div>
+      <div className={`px-4 ${activeTab=="Appointments"?'':'hidden'}`}>
+        <MyCustomCalendar/>
+      </div>
+    </div>
+    </>:
+
+
+    pageValue=="health"?<>
     <div className="w-full">
       {/* <ProfileHeader
         title="GilChrist Health"
@@ -157,7 +256,282 @@ const FacilityPage = () => {
       <div className={`px-4 ${activeTab=="Specialties"?'':'hidden'}`}>
         <SpecialtiesCard/>
       </div>
+      <div className={`px-4 ${activeTab=="Appointments"?'':'hidden'}`}>
+        <MyCustomCalendar/>
+      </div>
     </div>
+    </>:
+
+
+    pageValue=="logistics"?<>
+    <div className="w-full">
+      {/* <ProfileHeader
+        title="GilChrist Health"
+        location="Bugis Junction"
+        address="200 Victoria St, Port Harcourt 200261"
+        distance="3 Km"
+        rating={4.5}
+        imageUrl="/hospital.jpg"
+      /> */}
+
+      {/* <TabNavigation /> */}
+      <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full mb-4 p-1 ">
+      {['Profile', 'Routes', 'Carrier Info', 'Load Info'].map((tab) => (
+        <button
+          key={tab}
+          onClick={() => setActiveTab(tab)}
+          className={`flex-1 text-center py-2 ${
+            activeTab === tab ? 'bg-white shadow-md  font-semibold rounded-full' : 'text-gray-500'
+          }`}
+        >
+          {tab}
+        </button>
+      ))}
+    </div>
+
+      <div className={`px-4 ${activeTab=="Profile"?'':'hidden'}`}>
+        <div className='flex justify-between items-center pr-5'>
+         <h1 className='font-extrabold text-2xl '>GilChrist Health</h1>
+            <Image src={Logo} alt='' className='w-10'/>
+        </div>
+        <div className=' w-full'>
+        <ProfileHeader
+        title="GilChrist Health"
+        location="Bugis Junction"
+        address="200 Victoria St, Port Harcourt 200261"
+        distance="3 Km"
+        rating={4.5}
+        imageUrl="/hospital.jpg"
+      />
+      <div className='flex justify-items-stretch space-x-5 w-[50vw]'>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 text-center rounded-lg mr-2 "><AssistWalkerIcon/>  {` `} Maternity</span>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg mr-2"><TroubleshootIcon/> {` `} Diagnostics</span>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg mr-2">
+         <span className=" flex items-center">
+           <StarIcon style={{color:"#FFD33C"}}/>
+           4.5
+          </span>
+      </span>
+
+      </div>
+        </div>
+        <p className="text-gray-600 mb-4 py-6">
+        We’re a leading medical practice in Nigeria, dedicated to providing high-quality, patient-centered care across a range of specialties. Established with the vision of delivering world-class healthcare, we have grown into one of the most trusted names in the medical field.         </p>
+
+        {/* Similar Facilities Section */}
+        <GridWrapper title="Similar Services">
+      {nearYouTransactions.map((transaction, index) => (
+        <div className="md:w-[35%] flex-shrink-0">
+            <ServicesCard key={index} {...transaction} />
+        </div>
+        ))}
+      </GridWrapper>
+
+        {/* Review Section */}
+        <div className="mb-4">
+          <Review
+            name="Monye Fubara"
+            time="1 hr ago"
+            reviewText="GilChrist Health’s modern facility is designed to offer comfort, convenience, and cutting-edge medical care."
+          />
+        </div>
+
+        {/* Add a Review Button */}
+        <div className="flex justify-center my-5">
+          <button className="bg-[#006838] w-full text-white px-6 py-2 rounded-full">Add A Review</button>
+        </div>
+      </div>
+
+      <div className={`px-4 ${activeTab=="Specialties"?'':'hidden'}`}>
+        <SpecialtiesCard/>
+      </div>
+      <div className={`px-4 ${activeTab=="Appointments"?'':'hidden'}`}>
+        <MyCustomCalendar/>
+      </div>
+    </div>
+    </>:
+
+
+    pageValue=="education"?<>
+    <div className="w-full">
+      {/* <ProfileHeader
+        title="GilChrist Health"
+        location="Bugis Junction"
+        address="200 Victoria St, Port Harcourt 200261"
+        distance="3 Km"
+        rating={4.5}
+        imageUrl="/hospital.jpg"
+      /> */}
+
+      {/* <TabNavigation /> */}
+      <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full mb-4 p-1 ">
+      {['Profile', 'Facilities', 'Study', 'Enroll'].map((tab) => (
+        <button
+          key={tab}
+          onClick={() => setActiveTab(tab)}
+          className={`flex-1 text-center py-2 ${
+            activeTab === tab ? 'bg-white shadow-md  font-semibold rounded-full' : 'text-gray-500'
+          }`}
+        >
+          {tab}
+        </button>
+      ))}
+    </div>
+
+      <div className={`px-4 ${activeTab=="Profile"?'':'hidden'}`}>
+        <div className='flex justify-between items-center pr-5'>
+         <h1 className='font-extrabold text-2xl '>GilChrist Health</h1>
+            <Image src={Logo} alt='' className='w-10'/>
+        </div>
+        <div className=' w-full'>
+        <ProfileHeader
+        title="GilChrist Health"
+        location="Bugis Junction"
+        address="200 Victoria St, Port Harcourt 200261"
+        distance="3 Km"
+        rating={4.5}
+        imageUrl="/hospital.jpg"
+      />
+      <div className='flex justify-items-stretch space-x-5 w-[50vw]'>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 text-center rounded-lg mr-2 "><AssistWalkerIcon/>  {` `} Maternity</span>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg mr-2"><TroubleshootIcon/> {` `} Diagnostics</span>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg mr-2">
+         <span className=" flex items-center">
+           <StarIcon style={{color:"#FFD33C"}}/>
+           4.5
+          </span>
+      </span>
+
+      </div>
+        </div>
+        <p className="text-gray-600 mb-4 py-6">
+        We’re a leading medical practice in Nigeria, dedicated to providing high-quality, patient-centered care across a range of specialties. Established with the vision of delivering world-class healthcare, we have grown into one of the most trusted names in the medical field.         </p>
+
+        {/* Similar Facilities Section */}
+        <GridWrapper title="Similar Services">
+      {nearYouTransactions.map((transaction, index) => (
+        <div className="md:w-[35%] flex-shrink-0">
+            <ServicesCard key={index} {...transaction} />
+        </div>
+        ))}
+      </GridWrapper>
+
+        {/* Review Section */}
+        <div className="mb-4">
+          <Review
+            name="Monye Fubara"
+            time="1 hr ago"
+            reviewText="GilChrist Health’s modern facility is designed to offer comfort, convenience, and cutting-edge medical care."
+          />
+        </div>
+
+        {/* Add a Review Button */}
+        <div className="flex justify-center my-5">
+          <button className="bg-[#006838] w-full text-white px-6 py-2 rounded-full">Add A Review</button>
+        </div>
+      </div>
+
+      <div className={`px-4 ${activeTab=="Specialties"?'':'hidden'}`}>
+        <SpecialtiesCard/>
+      </div>
+      <div className={`px-4 ${activeTab=="Appointments"?'':'hidden'}`}>
+        <MyCustomCalendar/>
+      </div>
+    </div>
+    </>:
+
+
+    pageValue=="legal"?<>
+    <div className="w-full">
+      {/* <ProfileHeader
+        title="GilChrist Health"
+        location="Bugis Junction"
+        address="200 Victoria St, Port Harcourt 200261"
+        distance="3 Km"
+        rating={4.5}
+        imageUrl="/hospital.jpg"
+      /> */}
+
+      {/* <TabNavigation /> */}
+      <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full mb-4 p-1 ">
+      {['Profile', 'Specialties', 'Appointments'].map((tab) => (
+        <button
+          key={tab}
+          onClick={() => setActiveTab(tab)}
+          className={`flex-1 text-center py-2 ${
+            activeTab === tab ? 'bg-white shadow-md  font-semibold rounded-full' : 'text-gray-500'
+          }`}
+        >
+          {tab}
+        </button>
+      ))}
+    </div>
+
+      <div className={`px-4 ${activeTab=="Profile"?'':'hidden'}`}>
+        <div className='flex justify-between items-center pr-5'>
+         <h1 className='font-extrabold text-2xl '>GilChrist Health</h1>
+            <Image src={Logo} alt='' className='w-10'/>
+        </div>
+        <div className=' w-full'>
+        <ProfileHeader
+        title="GilChrist Health"
+        location="Bugis Junction"
+        address="200 Victoria St, Port Harcourt 200261"
+        distance="3 Km"
+        rating={4.5}
+        imageUrl="/hospital.jpg"
+      />
+      <div className='flex justify-items-stretch space-x-5 w-[50vw]'>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 text-center rounded-lg mr-2 "><AssistWalkerIcon/>  {` `} Maternity</span>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg mr-2"><TroubleshootIcon/> {` `} Diagnostics</span>
+      <span className="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg mr-2">
+         <span className=" flex items-center">
+           <StarIcon style={{color:"#FFD33C"}}/>
+           4.5
+          </span>
+      </span>
+
+      </div>
+        </div>
+        <p className="text-gray-600 mb-4 py-6">
+        We’re a leading medical practice in Nigeria, dedicated to providing high-quality, patient-centered care across a range of specialties. Established with the vision of delivering world-class healthcare, we have grown into one of the most trusted names in the medical field.         </p>
+
+        {/* Similar Facilities Section */}
+        <GridWrapper title="Similar Services">
+      {nearYouTransactions.map((transaction, index) => (
+        <div className="md:w-[35%] flex-shrink-0">
+            <ServicesCard key={index} {...transaction} />
+        </div>
+        ))}
+      </GridWrapper>
+
+        {/* Review Section */}
+        <div className="mb-4">
+          <Review
+            name="Monye Fubara"
+            time="1 hr ago"
+            reviewText="GilChrist Health’s modern facility is designed to offer comfort, convenience, and cutting-edge medical care."
+          />
+        </div>
+
+        {/* Add a Review Button */}
+        <div className="flex justify-center my-5">
+          <button className="bg-[#006838] w-full text-white px-6 py-2 rounded-full">Add A Review</button>
+        </div>
+      </div>
+
+      <div className={`px-4 ${activeTab=="Specialties"?'':'hidden'}`}>
+        <SpecialtiesCard/>
+      </div>
+      <div className={`px-4 ${activeTab=="Appointments"?'':'hidden'}`}>
+        <MyCustomCalendar/>
+      </div>
+    </div>
+    </>:''
+
+    }
+    
+    </>
   );
 };
 

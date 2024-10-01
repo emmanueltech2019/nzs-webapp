@@ -3,6 +3,7 @@ import React from 'react'
 import ServiceFilterButtons from '@/components/SortFilter/ServiceFilterButtons'
 import GridWrapper from '@/components/Grid/GridWrapper'
 import ServicesCard from '@/components/cards/ServiceCard';
+import Link from 'next/link';
 
 const Health = () => {
   const nearYouTransactions = [
@@ -67,16 +68,16 @@ const Health = () => {
       <ServiceFilterButtons active='Health'/>
       <GridWrapper title="Near You">
       {nearYouTransactions.map((transaction, index) => (
-        <div className="md:w-[35%] flex-shrink-0">
+        <Link href="./company?page=hospitality" className="md:w-[35%] flex-shrink-0">
             <ServicesCard key={index} {...transaction} />
-        </div>
+        </Link>
         ))}
       </GridWrapper>
        <GridWrapper title="Top Rated">
       {nearYouTransactions.map((transaction, index) => (
-        <div className="md:w-[35%] flex-shrink-0">
+        <Link href="./company?page=health" className="md:w-[35%] flex-shrink-0">
             <ServicesCard key={index} {...transaction} />
-        </div>
+        </Link>
         ))}
       </GridWrapper>
     </div>
