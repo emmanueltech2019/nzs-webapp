@@ -1,9 +1,13 @@
+'use client'
 import React from 'react'
 import Box from '../../Box'
 import { links } from './NavlinkObj'
 import Link from 'next/link'
+import { Icon } from '@iconify/react/dist/iconify.js'
+import { usePathname } from 'next/navigation'
 
 const LeftSidenav = () => {
+  const pathname = usePathname()
   return (
     <div className='hidden lg:flex justify-between items-center flex-col sticky top-0 h-screen max-h-[1200px] w-[22vw] max-w-[241px] py-[70px] ps-[35px]'>
       <div className="box flex-1 self-start">
@@ -13,13 +17,19 @@ const LeftSidenav = () => {
       <nav className='mt-[57px] flex-[3]'>
         <ul className='grid h-full justify-between'>
           {
-            links.map((item, index) => (
-              <li key={index} className='cursor-pointer'>
-                <Link href={item.link}>
-                {item.listItem}
-                </Link>
-              </li>
-            ))
+            links.map(({text, icon, link}, index) => {
+              const activeLink = pathname.startsWith(link)
+              return (
+                <li key={index} className='cursor-pointer text-[#71727A]'>
+                  <Link href={link}>
+                    <div className={`flex items-center gap-[10px] pr-4 border-e-4 ${activeLink ? 'border-[--foreground-green]': 'border-transparent'}`}>
+                      <Icon icon={icon} className={`text-[34px] ${activeLink ? 'text-[--foreground-green]': 'text-inherit'}`}></Icon>
+                      <p className={`text-[19px] leading-[22.99px] font-[400] ${activeLink ? 'text-[#191919]': 'text-inherit'}`}>{text}</p>
+                    </div>
+                  </Link>
+                </li>
+              )
+            })
           }
         </ul>
       </nav>

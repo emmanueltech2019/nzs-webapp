@@ -4,7 +4,7 @@ import { profileOptions } from './NavlinkObj'
 
 const RightSidenav = () => {
   return (
-    <div className='hidden bg-[#EAF2FF] md:flex justify-between items-center flex-col top-0 h-screen  lg:w-[22vw] py-[60px] px-[32px] fixed right-0'>
+    <div className='hidden bg-[#EAF2FF] md:flex justify-between items-center flex-col top-0 h-screen  lg:w-[23vw] xl:w-[27vw] py-[60px] px-[32px] sticky right-0'>
 
       {/* Profile */}
       <div className='py-2 block justify-center items-center w-full'>
@@ -21,9 +21,12 @@ const RightSidenav = () => {
         {/* profile options */}
         <div className='py-6 grid gap-[10px]'>
           {
-            profileOptions.map((item, index) => (
+            profileOptions.map(({text, path}, index) => (
               <div key={index} className='w-full block border-t-[0.5px] border-[#D4D6DD] cursor-pointer'>
-                {item.optionItem}
+                <span className='p-5 lg:p-[26px] flex items-center justify-between'>
+                  <p className='text-[#1F2024] text-sm'>{text}</p>
+                  <Icon icon="formkit:right" className='text-[20px] text-[#8F9098]'></Icon>
+                </span>
               </div>
             ))
           }
