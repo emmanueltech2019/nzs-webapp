@@ -8,7 +8,6 @@ export default function layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className=" block">
-        
       <Header />
 
       <ProductAndServiceTab activeTab={activeTab} setActiveTab={setActiveTab} />
