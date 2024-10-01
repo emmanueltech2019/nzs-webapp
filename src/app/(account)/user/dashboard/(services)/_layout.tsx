@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import ProductAndServiceTab from "../../../../../components/tabs/ProductAndServiceTab";
+import ProductAndServiceTab from "@/components/tabs/ProductAndServiceTab";
 import Header from "@/components/header/ProductHeader";
 
 export default function layout({ children }: { children: React.ReactNode }) {
