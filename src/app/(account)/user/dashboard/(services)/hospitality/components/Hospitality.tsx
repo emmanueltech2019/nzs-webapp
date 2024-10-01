@@ -4,7 +4,7 @@ import ServiceFilterButtons from '@/components/SortFilter/ServiceFilterButtons'
 import GridWrapper from '@/components/Grid/GridWrapper'
 import ServicesCard from '@/components/cards/ServiceCard';
 
-const Health = () => {
+const Hospitality = () => {
   const nearYouTransactions = [
     {
       title: "GilChrist Health",
@@ -64,7 +64,7 @@ const Health = () => {
   ];
   return (
     <div>
-      <ServiceFilterButtons active='Health'/>
+      <ServiceFilterButtons active='Hospitality'/>
       <GridWrapper title="Near You">
       {nearYouTransactions.map((transaction, index) => (
         <div className="md:w-[35%] flex-shrink-0">
@@ -83,4 +83,4 @@ const Health = () => {
   )
 }
 
-export default Health
+export default Hospitality
