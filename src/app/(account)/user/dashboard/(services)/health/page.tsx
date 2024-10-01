@@ -1,26 +1,6 @@
-"use client";
-import React, { useState } from "react";
-import ServicesCard from "@/components/cards/ServiceCard";
-import ServiceFilterButtons from "@/components/SortFilter/ServiceFilterButtons";
-import healthImage1 from "../../../../../../assets/images/biochemist.png";
-import GridWrapper from "@/components/Grid/GridWrapper";
-import Header from "@/components/header/ProductHeader";
-
-interface LogisticCompanie {
-  id: number;
-  name: string;
-  rating: number;
-  price: number;
-}
-
-const LogisticCompanies: LogisticCompanie[] = [
-  { id: 1, name: "GIG Logistics", rating: 4.8, price: 5.0 },
-  { id: 2, name: "FedEx Corp", rating: 5.0, price: 12.0 },
-  { id: 3, name: "UPS", rating: 4.8, price: 12.0 },
-  { id: 4, name: "Konga", rating: 4.7, price: 12.0 },
-  { id: 5, name: "DHL", rating: 4.8, price: 12.0 },
-  { id: 6, name: "ARAMEX", rating: 4.9, price: 12.0 },
-];
+"use client"
+import React, { useState } from 'react'
+import Health from './components/Health';
 
 const page = () => {
   const nearYouTransactions = [
@@ -93,21 +73,7 @@ const page = () => {
 
   return (
     <div className="min-h-screen md:w-[61vw] ">
-
-      <ServiceFilterButtons active="Health" />
-      {/* <h2 className="text-lg font-bold mb-2">Near you</h2>
-      <div className="flex space-x-4 overflow-x-scroll">
-        {nearYouTransactions.map((transaction, index) => (
-          <ServicesCard key={index} {...transaction} />
-        ))}
-      </div> */}
-      <GridWrapper title="Near You">
-      {nearYouTransactions.map((transaction, index) => (
-        <div className="md:w-[35%] flex-shrink-0">
-            <ServicesCard key={index} {...transaction} />
-        </div>
-        ))}
-      </GridWrapper>
+      <Health />
     </div>
   );
 };

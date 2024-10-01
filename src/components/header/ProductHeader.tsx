@@ -4,8 +4,8 @@ import { FiSearch, FiShoppingBag } from 'react-icons/fi';
 
 const Header: FC = () => {
   return (
-    <div className="flex justify-between px-10 py-14 py-6 w-full">
-      <h1 className="text-3xl font-bold">Hi User!</h1>
+    <div className="flex justify-between px-10 py-6 w-full">
+      <h1 className="text-2xl font-[900]">Hi User!</h1>
       <div className="flex space-x-4">
         <FiSearch className="text-2xl" />
         <Link href={"./dashboard/cart"}>
