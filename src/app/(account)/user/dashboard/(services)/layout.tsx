@@ -11,7 +11,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
       <Header />
 
       <ProductAndServiceTab activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="md:w-[60vw] md:px-0 px-2">{children}</div>
+      <div className="md:px-0 px-2">{children}</div>
     </div>
   );
 }
