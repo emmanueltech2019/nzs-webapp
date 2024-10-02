@@ -8,6 +8,7 @@ import Carousel from '@/components/carousel/Carousel';
 import SortFilter from '@/components/SortFilter/SortFilter';
 import ProductGrid from '@/components/Grid/ProductGrid';
 import { useRouter } from 'next/navigation';
+import {default as Service} from './(services)/services/page'
 
 const page = () => {
   const products = [
@@ -39,7 +40,7 @@ const page = () => {
             <ProductGrid title='For this summer' /></>
           : <>
             <FloatingButton />
-            <h1>Services coming soon.</h1>
+            <Service />
           </>}
 
 

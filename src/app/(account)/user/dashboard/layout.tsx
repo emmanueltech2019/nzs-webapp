@@ -6,7 +6,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="md:flex block justify-between">
       <LeftSidenav />
-      <div className="w-full">{children}</div>
+      <div className="w-full xl:w-[55vw] mx-auto">{children}</div>
       <RightSidenav />
     </div>
   );

@@ -5,7 +5,7 @@ import GridWrapper from '@/components/Grid/GridWrapper'
 import ServicesCard from '@/components/cards/ServiceCard';
 import Link from 'next/link';
 
-const Health = () => {
+const Hospitality = () => {
   const nearYouTransactions = [
     {
       title: "GilChrist Health",
@@ -62,10 +62,12 @@ const Health = () => {
         "https://img.freepik.com/free-photo/team-medical-scientist-modern-laboratory-searching-coronavirus-vaccine-wearing-ppe-chemist-researcher-global-pandemic-with-covid-19-checking-sample-biochemistry-lab_482257-8802.jpg?t=st=1727723690~exp=1727727290~hmac=74b27af40b5b01b134d21ea83768778dc681ecb038ea61f7e411de920bb89597&w=1800",
       isOpen: true,
     },
+
   ];
+
   return (
     <div>
-      <ServiceFilterButtons active='Health'/>
+      <ServiceFilterButtons active='Hospitality'/>
       <GridWrapper title="Near You">
       {nearYouTransactions.map((transaction, index) => (
         <Link href="./company?page=hospitality" className="md:w-[35%] flex-shrink-0">
@@ -75,7 +77,7 @@ const Health = () => {
       </GridWrapper>
        <GridWrapper title="Top Rated">
       {nearYouTransactions.map((transaction, index) => (
-        <Link href="./company?page=health" className="md:w-[35%] flex-shrink-0">
+        <Link href="./company?page=hospitality" className="md:w-[35%] flex-shrink-0">
             <ServicesCard key={index} {...transaction} />
         </Link>
         ))}
@@ -84,4 +86,4 @@ const Health = () => {
   )
 }
 
-export default Health
+export default Hospitality
