@@ -10,7 +10,7 @@ interface TabsProps {
 const Tabs: FC<TabsProps> = ({ activeTab, setActiveTab }) => {
 
   return (
-    <div className="flex p-1 bg-[#F8F9FE] mb-5 rounded-[16px]">
+    <div className="flex p-1 bg-[#F8F9FE] mb-5 rounded-[16px] max-w-[343px]">
       <button
         // href={"./dashboard"}
         onClick={() => setActiveTab('products')}
