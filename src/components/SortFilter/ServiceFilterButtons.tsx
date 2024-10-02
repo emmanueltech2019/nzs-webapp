@@ -16,7 +16,7 @@ interface ServiceFilterButtonsProps {
   ];
 
   return (
-    <div className="flex p-4 my-4 gap-2">
+    <div className="flex p-4 my-1 gap-2 w-full">
       {filters.map((filter, index) => (
         <Link
           key={index}

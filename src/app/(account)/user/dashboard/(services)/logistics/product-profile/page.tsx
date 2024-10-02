@@ -14,7 +14,7 @@ const page:FC<pagePropsType> = () => {
   const [active, setActive] = useState('profile')
   return (
     <div>
-        <button>
+        <button>.
             <Icon icon='mingcute:close-fill' className="text-[#2F3036]" />
         </button>
         <div className="product-image">
