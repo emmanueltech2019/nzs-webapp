@@ -3,10 +3,14 @@ import LogisticsCarousel from '@/components/carousel/LogisticsCarousel'
 import { topRated } from './TopRatedObj';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import FloatingButton from '@/components/buttons/FloatingButton';
+import ServiceFilterButtons from '@/components/SortFilter/ServiceFilterButtons'
+import SortFilter from '@/components/SortFilter/SortFilter'
 
 const Logistics = () => {
   return (
     <div className='lg:max-w-[89%]'>
+       <ServiceFilterButtons active='Logistics'/>
+       <SortFilter />
       <FloatingButton color='bg-[#E09427]'/>
       <LogisticsCarousel />
 
