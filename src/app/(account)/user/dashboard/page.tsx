@@ -7,8 +7,8 @@ import FloatingButton from '@/components/buttons/FloatingButton';
 import Carousel from '@/components/carousel/Carousel';
 import SortFilter from '@/components/SortFilter/SortFilter';
 import ProductGrid from '@/components/Grid/ProductGrid';
-import { useRouter } from 'next/navigation';
-import {default as Service} from './(services)/services/page'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import Services from './Services';
 
 const page = () => {
   const products = [
@@ -21,13 +21,17 @@ const page = () => {
     { title: 'Stunning Shoes', price: '₦ 12.00' },
     { title: 'Wonderful Shoes', price: '₦ 15.00' },
   ];
-  const [activeTab, setActiveTab] = useState('products');
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname()
+  const main = searchParams.get('main') || '';
+  const [activeTab, setActiveTab] = useState(main || 'products');
+  if(!pathname.endsWith('dashboard')) router.replace(`?main=${activeTab}`)
+  else router.push(`?main=${activeTab}`)
 
   return (
     <div className="min-h-screen">{/*  md:w-[61vw]  */}
       <div className=''>
-
 
         <Header />
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -40,7 +44,7 @@ const page = () => {
             <ProductGrid title='For this summer' /></>
           : <>
             <FloatingButton />
-            <Service />
+            <Services />
           </>}
 
 
