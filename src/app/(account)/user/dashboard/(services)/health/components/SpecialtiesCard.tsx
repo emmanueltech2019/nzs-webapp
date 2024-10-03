@@ -61,7 +61,7 @@ const SpecialtiesCard: React.FC = () => {
       <div className="border p-4 rounded-lg bg-[#f5f6f6] rounded-lg">
         <div className="flex justify-between items-center ">
           <h2 className="text-2xl font-semibold">OUR SPECIALTIES</h2>
-          <button className="bg-[#ECEDEE] rounded-full p-3">
+          <button className="bg-[#ECEDEE] rounded-full p-3">.
             <ArrowOutwardOutlinedIcon style={{fontSize:"25px"}}/>
           </button>
         </div>

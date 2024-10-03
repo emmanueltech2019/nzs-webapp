@@ -55,7 +55,10 @@
   }
 } */
 
-
+.logistics.embla__slide {
+  flex: 0 0 75%;
+  min-width: 0;
+}
 .embla__slide {
   flex: 0 0 100%;
   min-width: 0;
@@ -91,6 +94,11 @@
 @media screen and (min-width: 1024px){
   .embla__slide.onboarding__slide{
     flex: auto;
+  }
+
+  .logistics.embla__slide {
+    flex: 0 0 45%;
+    min-width: 0;
   }
 }
 

@@ -15,7 +15,7 @@ const Carousel: FC<carouselPropsType> = ({children}) => {
         <div>
             <div className="relative md:px-2">
                 <div className="overflow-hidden" ref={emblaRef}>
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 px-3">
                         {children}
                     </div>
                 </div>

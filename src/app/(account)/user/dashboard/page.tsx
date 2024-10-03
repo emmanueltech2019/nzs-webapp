@@ -34,7 +34,7 @@ const page = () => {
         {activeTab == "products" ?
           <>
             <SortFilter />
-            <FloatingButton onClick={() => {router.push('./dashboard/add-item')}} />
+            <FloatingButton color="bg-[#006838]" onClick={() => {router.push('./dashboard/add-item')}} />
             <Carousel />
             <ProductGrid title='Perfect for you' />
             <ProductGrid title='For this summer' /></>
