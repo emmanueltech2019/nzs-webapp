@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 // import Review from '@/components/cards/Review';
 // import ServicesCard from '@/components/cards/ServiceCard';
 // import GridWrapper from '@/components/Grid/GridWrapper';
@@ -486,4 +486,12 @@
 // export default FacilityPage;
 
 
+import React from 'react'
 
+const page = () => {
+  return (
+    <div>page</div>
+  )
+}
+
+export default page
