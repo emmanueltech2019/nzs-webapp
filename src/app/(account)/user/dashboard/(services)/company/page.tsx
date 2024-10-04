@@ -76,7 +76,7 @@ const FacilityPage = () => {
       console.log(pageValue)
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense>
 
     <>
     {pageValue=="hospitality"?<>
