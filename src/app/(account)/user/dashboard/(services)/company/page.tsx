@@ -12,7 +12,7 @@ import TroubleshootIcon from '@mui/icons-material/Troubleshoot';
 import AssistWalkerIcon from '@mui/icons-material/AssistWalker';
 import SpecialtiesCard from '../health/components/SpecialtiesCard';
 
-const FacilityPage = () => {
+const Main = () => {
   const [activeTab, setActiveTab] = useState('Profile');
   const nearYouTransactions = [
     {
@@ -481,7 +481,11 @@ const FacilityPage = () => {
     </Suspense>
   );
 };
-
+const FacilityPage = () => (
+  <Suspense>
+    <Main />
+  </Suspense>
+)
 export default FacilityPage;
 
 
