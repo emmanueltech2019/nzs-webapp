@@ -74,7 +74,7 @@ const Services = () => {
     ];
   
     return (
-      <div className="min-h-screen md:w-[61vw] ">
+      <div className="min-h-screen ">
         <ServiceFilterButtons active="General" />
         {/* <h2 className="text-lg font-bold mb-2">Near you</h2>
         <div className="flex space-x-4 overflow-x-scroll">

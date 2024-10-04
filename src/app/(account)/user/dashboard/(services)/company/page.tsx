@@ -15,9 +15,7 @@ import StarIcon from '@mui/icons-material/Star';
 import TroubleshootIcon from '@mui/icons-material/Troubleshoot';
 import AssistWalkerIcon from '@mui/icons-material/AssistWalker';
 import SpecialtiesCard from '../health/components/SpecialtiesCard';
-import HealthCalendar from '@/components/calendar/HealthCalendar';
 import { CustomCalendar } from '@/components/calendar/CustomCalendar';
-import MyCustomCalendar from '@/components/calendar/HealthCalendar';
 import { useSearchParams } from 'next/navigation';
 
 const FacilityPage = () => {
@@ -168,7 +166,6 @@ const FacilityPage = () => {
         <SpecialtiesCard/>
       </div>
       <div className={`px-4 ${activeTab=="Appointments"?'':'hidden'}`}>
-        <MyCustomCalendar/>
       </div>
     </div>
     </>:
@@ -257,7 +254,6 @@ const FacilityPage = () => {
         <SpecialtiesCard/>
       </div>
       <div className={`px-4 ${activeTab=="Appointments"?'':'hidden'}`}>
-        <MyCustomCalendar/>
       </div>
     </div>
     </>:
@@ -346,7 +342,6 @@ const FacilityPage = () => {
         <SpecialtiesCard/>
       </div>
       <div className={`px-4 ${activeTab=="Appointments"?'':'hidden'}`}>
-        <MyCustomCalendar/>
       </div>
     </div>
     </>:
@@ -435,7 +430,6 @@ const FacilityPage = () => {
         <SpecialtiesCard/>
       </div>
       <div className={`px-4 ${activeTab=="Appointments"?'':'hidden'}`}>
-        <MyCustomCalendar/>
       </div>
     </div>
     </>:
@@ -524,7 +518,6 @@ const FacilityPage = () => {
         <SpecialtiesCard/>
       </div>
       <div className={`px-4 ${activeTab=="Appointments"?'':'hidden'}`}>
-        <MyCustomCalendar/>
       </div>
     </div>
     </>:''
