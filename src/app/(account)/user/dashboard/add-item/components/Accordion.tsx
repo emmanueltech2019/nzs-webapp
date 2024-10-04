@@ -17,7 +17,7 @@ const Accordion: React.FC<accordionPropsType> = ({ title, children, onClick, sta
     <div className='flex justify-between items-start py-4 border-b-[0.5px] border-[#D4D6DD]'>
       <div className="col">
         <h2 className={`card-title`}>{title}</h2>
-        <div className={`overflow-hidden transition-all duration-200 ${state ? 'mt-3 max-h-[100px]' : 'mt-0 max-h-0'}`}>
+        <div className={`overflow-hidden transition-all duration-200 ${state ? 'mt-3 max-h-[1000px]' : 'mt-0 max-h-0'}`}>
           {children}
         </div>
       </div>
