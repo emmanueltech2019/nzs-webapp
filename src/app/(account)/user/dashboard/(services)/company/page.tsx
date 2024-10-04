@@ -4,7 +4,7 @@ import ServicesCard from '@/components/cards/ServiceCard';
 import GridWrapper from '@/components/Grid/GridWrapper';
 import ProfileHeader from '@/components/header/ProfileHeader';
 import Image from 'next/image';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Logo from "@/assets/images/logo.png"
 import StarIcon from '@mui/icons-material/Star';
 import TroubleshootIcon from '@mui/icons-material/Troubleshoot';
@@ -76,6 +76,8 @@ const FacilityPage = () => {
       console.log(pageValue)
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
+
     <>
     {pageValue=="hospitality"?<>
       <div className="w-full">
@@ -482,6 +484,7 @@ const FacilityPage = () => {
     }
     
     </>
+    </Suspense>
   );
 };
 
