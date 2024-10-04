@@ -4,6 +4,8 @@ import openSansFont from '@/fonts/OpenSans'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { FC, useState } from 'react'
 
+const states = ['umuahia', 'jos', 'akwa-ibom', 'anambra', 'bauchi', 'bayelsa', 'delta', 'ebonyi', 'plateau', 'niger', 'kogi']
+
 const Pickup = () => (
   <>
     <div className="row flex justify-between items-center">
@@ -14,17 +16,47 @@ const Pickup = () => (
       </button>
       <div className='flex items-center text-sm tracking-wide'>
         <p>Add Location</p>
-        <button>-</button>
+        <button className='w-6 h-6 rounded-full flex items-center justify-center text-lg bg-[#EAF2FF] leading-[0]'>
+          <Icon icon='flowbite:minus-outline' className='text-sm' />
+        </button>
         <span>1</span>
-        <button className='w-'>+</button>
+        <button className='w-6 h-6 rounded-full flex items-center justify-center text-lg bg-[#EAF2FF] leading-[0]'>
+          <Icon icon='flowbite:plus-outline' className='text-sm' />
+        </button>
       </div>
     </div>
+
+    <section className="locations">
+      <div className="row flex justify-between items-center">
+        <div className="col">
+          <h2 className='text-[#1F2024]'>State</h2>
+          <p className='text-[#71727A] text-sm tracking-wide'>Available in Nigeria</p>
+        </div>
+        <div className="col">
+          <div className='w-6 h-6 rounded-full flex items-center justify-center text-sm bg-[--foreground-green] text-white leading-[0]'>9</div>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap">
+        {states.map(state => (<div className='px-3 py-[6px] text-[--foreground-green] bg-[#EAF2FF] text-sm uppercase tracking-wider rounded-2xl'>{state}</div>))}
+      </div>
+
+      <div className="row flex justify-between items-center">
+        <div className="col">
+          <h2 className='text-[#1F2024]'>City</h2>
+          <p className='text-[#71727A] text-sm tracking-wide'>Available in Nigeria</p>
+        </div>
+        <div className="col">
+          <Icon icon='tabler:chevron-down' className='text-[--foreground-green] text-base' />
+        </div>
+      </div>
+    </section>
   </>
 )
 
 const Dropoff = () => (
   <>
-  <div></div>
+    <div></div>
   </>
 )
 
