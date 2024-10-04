@@ -7,7 +7,7 @@ const page = () => {
 
 
   return (
-    <div className="min-h-screen md:w-[61vw] md:m-auto">
+    <div className="min-h-screen">
         <Logistics/>
     </div>
  )
