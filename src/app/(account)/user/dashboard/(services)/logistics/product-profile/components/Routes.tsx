@@ -37,7 +37,7 @@ const Pickup = () => (
         </div>
       </div>
 
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-2">
         {states.map(state => (<div className='px-3 py-[6px] text-[--foreground-green] bg-[#EAF2FF] text-sm uppercase tracking-wider rounded-2xl'>{state}</div>))}
       </div>
 
