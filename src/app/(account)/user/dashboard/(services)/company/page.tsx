@@ -1,13 +1,8 @@
 "use client"
-// import ProfileHeader from './components/ProfileHeader';
-// import TabNavigation from './components/TabNavigation';
-// import SimilarFacilityCard from './components/SimilarFacilityCard';
-// import Review from './components/Review';
 import Review from '@/components/cards/Review';
 import ServicesCard from '@/components/cards/ServiceCard';
 import GridWrapper from '@/components/Grid/GridWrapper';
 import ProfileHeader from '@/components/header/ProfileHeader';
-import TabNavigation from '@/components/tabs/TabNavigation';
 import Image from 'next/image';
 import { useState } from 'react';
 import Logo from "@/assets/images/logo.png"
@@ -15,7 +10,6 @@ import StarIcon from '@mui/icons-material/Star';
 import TroubleshootIcon from '@mui/icons-material/Troubleshoot';
 import AssistWalkerIcon from '@mui/icons-material/AssistWalker';
 import SpecialtiesCard from '../health/components/SpecialtiesCard';
-import { CustomCalendar } from '@/components/calendar/CustomCalendar';
 import { useSearchParams } from 'next/navigation';
 
 const FacilityPage = () => {
@@ -85,14 +79,7 @@ const FacilityPage = () => {
     <>
     {pageValue=="hospitality"?<>
       <div className="w-full">
-      {/* <ProfileHeader
-        title="GilChrist Health"
-        location="Bugis Junction"
-        address="200 Victoria St, Port Harcourt 200261"
-        distance="3 Km"
-        rating={4.5}
-        imageUrl="/hospital.jpg"
-      /> */}
+
 
       {/* <TabNavigation /> */}
       <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full mb-4 p-1 ">
@@ -173,14 +160,7 @@ const FacilityPage = () => {
 
     pageValue=="health"?<>
     <div className="w-full">
-      {/* <ProfileHeader
-        title="GilChrist Health"
-        location="Bugis Junction"
-        address="200 Victoria St, Port Harcourt 200261"
-        distance="3 Km"
-        rating={4.5}
-        imageUrl="/hospital.jpg"
-      /> */}
+ 
 
       {/* <TabNavigation /> */}
       <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full mb-4 p-1 ">
@@ -261,14 +241,6 @@ const FacilityPage = () => {
 
     pageValue=="logistics"?<>
     <div className="w-full">
-      {/* <ProfileHeader
-        title="GilChrist Health"
-        location="Bugis Junction"
-        address="200 Victoria St, Port Harcourt 200261"
-        distance="3 Km"
-        rating={4.5}
-        imageUrl="/hospital.jpg"
-      /> */}
 
       {/* <TabNavigation /> */}
       <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full mb-4 p-1 ">
@@ -349,14 +321,7 @@ const FacilityPage = () => {
 
     pageValue=="education"?<>
     <div className="w-full">
-      {/* <ProfileHeader
-        title="GilChrist Health"
-        location="Bugis Junction"
-        address="200 Victoria St, Port Harcourt 200261"
-        distance="3 Km"
-        rating={4.5}
-        imageUrl="/hospital.jpg"
-      /> */}
+     
 
       {/* <TabNavigation /> */}
       <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full mb-4 p-1 ">
@@ -437,15 +402,7 @@ const FacilityPage = () => {
 
     pageValue=="legal"?<>
     <div className="w-full">
-      {/* <ProfileHeader
-        title="GilChrist Health"
-        location="Bugis Junction"
-        address="200 Victoria St, Port Harcourt 200261"
-        distance="3 Km"
-        rating={4.5}
-        imageUrl="/hospital.jpg"
-      /> */}
-
+    
       {/* <TabNavigation /> */}
       <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full mb-4 p-1 ">
       {['Profile', 'Specialties', 'Appointments'].map((tab) => (
