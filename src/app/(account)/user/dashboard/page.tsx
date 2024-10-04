@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import Card from '@/components/cards/ProductCard';
 import Header from '@/components/header/ProductHeader';
 import Tabs from '@/components/tabs/ProductAndServiceTab';
@@ -7,7 +7,7 @@ import FloatingButton from '@/components/buttons/FloatingButton';
 import Carousel from '@/components/carousel/Carousel';
 import SortFilter from '@/components/SortFilter/SortFilter';
 import ProductGrid from '@/components/Grid/ProductGrid';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Services from './Services';
 
 const page = () => {
@@ -23,13 +23,11 @@ const page = () => {
   ];
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname()
   const main = searchParams.get('main') || '';
   const [activeTab, setActiveTab] = useState(main || 'products');
-  // if(!pathname.endsWith('dashboard')) router.replace(`?main=${activeTab}`)
-  // else router.push(`?main=${activeTab}`)
 
   return (
+    <Suspense fallback={<div>loading...</div>}>
     <div className="min-h-screen">{/*  md:w-[61vw]  */}
       <div className=''>
 
@@ -57,6 +55,7 @@ const page = () => {
       </div>
 
     </div>
+    </Suspense>
   )
 }
 
