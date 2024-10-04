@@ -480,7 +480,7 @@ const Main = () => {
   );
 };
 const FacilityPage = () => (
-  <Suspense>
+  <Suspense fallback={<div>loading...</div>}>
     <Main />
   </Suspense>
 )

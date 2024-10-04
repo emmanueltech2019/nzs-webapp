@@ -7,10 +7,10 @@ import FloatingButton from '@/components/buttons/FloatingButton';
 import Carousel from '@/components/carousel/Carousel';
 import SortFilter from '@/components/SortFilter/SortFilter';
 import ProductGrid from '@/components/Grid/ProductGrid';
-import { useRouter } from 'next/navigation'; //useSearchParams
+import { useRouter, useSearchParams } from 'next/navigation';
 import Services from './Services';
 
-const page = () => {
+const Dashboard = () => {
   const products = [
     { title: 'Amazing Shoes', price: '₦ 12.00' },
     { title: 'Fabulous Shoes', price: '₦ 15.00' },
@@ -22,12 +22,11 @@ const page = () => {
     { title: 'Wonderful Shoes', price: '₦ 15.00' },
   ];
   const router = useRouter();
-  // const searchParams = useSearchParams();
-  // const main = searchParams.get('main') || '';
-  const [activeTab, setActiveTab] = useState('products');
+  const searchParams = useSearchParams();
+  const main = searchParams.get('main') || '';
+  const [activeTab, setActiveTab] = useState(main || 'products');
 
   return (
-    <Suspense fallback={<div>loading...</div>}>
     <div className="min-h-screen">{/*  md:w-[61vw]  */}
       <div className=''>
 
@@ -36,7 +35,7 @@ const page = () => {
         {activeTab == "products" ?
           <>
             <SortFilter />
-            <FloatingButton color="bg-[#006838]" onClick={() => {router.push('./dashboard/add-item')}} />
+            <FloatingButton color="bg-[#006838]" onClick={() => { router.push('./dashboard/add-item') }} />
             <Carousel />
             <ProductGrid title='Perfect for you' />
             <ProductGrid title='For this summer' /></>
@@ -55,8 +54,13 @@ const page = () => {
       </div>
 
     </div>
-    </Suspense>
   )
 }
+
+const page = () => (
+  <Suspense fallback={<div>loading...</div>}>
+    <Dashboard />
+  </Suspense>
+)
 
 export default page
