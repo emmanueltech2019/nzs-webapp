@@ -26,8 +26,8 @@ const page = () => {
   const pathname = usePathname()
   const main = searchParams.get('main') || '';
   const [activeTab, setActiveTab] = useState(main || 'products');
-  if(!pathname.endsWith('dashboard')) router.replace(`?main=${activeTab}`)
-  else router.push(`?main=${activeTab}`)
+  // if(!pathname.endsWith('dashboard')) router.replace(`?main=${activeTab}`)
+  // else router.push(`?main=${activeTab}`)
 
   return (
     <div className="min-h-screen">{/*  md:w-[61vw]  */}

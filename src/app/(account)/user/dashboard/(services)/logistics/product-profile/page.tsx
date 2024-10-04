@@ -7,6 +7,7 @@ import ProductProfileTab from "@/components/tabs/ProductProfileTab"
 import openSansFont from "@/fonts/OpenSans"
 import { useRouter } from "next/navigation"
 import Profile from "./components/Profile"
+import Routes from "./components/Routes"
 
 
 const page: FC = () => {
@@ -24,7 +25,7 @@ const page: FC = () => {
         <ProductProfileTab activeTab={active} setActiveTab={setActive} />
       </div>
       {active == 'profile' && <Profile />}
-      {}
+      {active == 'routes' && <Routes />}
     </div>
   )
 }
