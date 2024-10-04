@@ -7,7 +7,7 @@ import FloatingButton from '@/components/buttons/FloatingButton';
 import Carousel from '@/components/carousel/Carousel';
 import SortFilter from '@/components/SortFilter/SortFilter';
 import ProductGrid from '@/components/Grid/ProductGrid';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation'; //useSearchParams
 import Services from './Services';
 
 const page = () => {
@@ -22,9 +22,9 @@ const page = () => {
     { title: 'Wonderful Shoes', price: '₦ 15.00' },
   ];
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const main = searchParams.get('main') || '';
-  const [activeTab, setActiveTab] = useState(main || 'products');
+  // const searchParams = useSearchParams();
+  // const main = searchParams.get('main') || '';
+  const [activeTab, setActiveTab] = useState('products');
 
   return (
     <Suspense fallback={<div>loading...</div>}>
