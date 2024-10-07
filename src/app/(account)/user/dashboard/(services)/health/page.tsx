@@ -16,7 +16,7 @@ const page = () => {
   ];
 
   return (
-    <div className="min-h-screen md:w-[61vw] ">
+    <div className="min-h-screen">
       <Health  />
     </div>
   );

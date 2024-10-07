@@ -80,7 +80,7 @@ const Verification = () => {
                 id="N1"
                 value={data}
                 maxLength={1}
-                className="w-[48px] md:w-[69.68px] h-[48px] md:h-[69.68px] text-base lg:text-lg rounded-[12px] md:rounded-[17.42px] border-[1.45px] border-[#C5C6CC] p-[12px] md:py-[17.42px] px-[18px] md:px-[23.23px] outline-[--foreground-green]"
+                className="w-[48px] md:w-[69.68px] h-[48px] md:h-[69.68px] text-base text-center lg:text-lg rounded-[12px] md:rounded-[17.42px] border-[1.45px] border-[#C5C6CC] p-[12px] md:py-[17.42px] px-[18px] md:px-[23.23px] outline-[--foreground-green]"
                 onInput={(e) => {
                   handleChange(e, i);
                 }}

@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
-import loadingImg from '@/assets/images/loading-forever.gif'
-
-type voidFunctionType = () => void;
+// import loadingImg from '@/assets/images/loading-forever.gif'
+import ourTeamBanner from "@/assets/images/our-team-banner.svg";
 
 type contextType = {
   progressbar: number
@@ -24,7 +23,7 @@ type contextProviderType = {
 const subcontext = createContext({} as contextType);
 
 const SubProvider = ({ children }: contextProviderType) => {
-  const [img, setImg] = useState<any>(loadingImg); // default image
+  const [img, setImg] = useState<any>(ourTeamBanner); // default image
   const [progressbar, setProgressbar] = useState<number>(0);
   const handleImg = (img: any) => {
     setImg(img);

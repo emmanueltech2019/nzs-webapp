@@ -7,12 +7,12 @@ interface ServiceFilterButtonsProps {
 
   const ServiceFilterButtons: React.FC<ServiceFilterButtonsProps> = ({ active }) => {
   const filters = [
-    { name: "General", url: "./services" },
-    { name: "Logistics", url: "./logistics" },
-    { name: "Health", url: "./health" },
-    { name: "Hospitality", url: "./hospitality" },
-    { name: "Legal", url: "./legal" },
-    { name: "Education", url: "./education" },
+    { name: "General", url: "/user/dashboard?main=services" },
+    { name: "Logistics", url: "/user/dashboard/logistics" },
+    { name: "Health", url: "/user/dashboard/health" },
+    { name: "Hospitality", url: "/user/dashboard/hospitality" },
+    { name: "Legal", url: "/user/dashboard/legal" },
+    { name: "Education", url: "/user/dashboard/education" },
   ];
 
   return (

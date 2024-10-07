@@ -8,7 +8,7 @@ import SortFilter from '@/components/SortFilter/SortFilter'
 
 const Logistics = () => {
   return (
-    <div className='lg:max-w-[89%]'>
+    <div className=''>
        <ServiceFilterButtons active='Logistics'/>
        <SortFilter />
       <FloatingButton color='bg-[#E09427]'/>
