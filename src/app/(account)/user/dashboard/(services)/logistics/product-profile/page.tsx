@@ -7,6 +7,8 @@ import ProductProfileTab from "@/components/tabs/ProductProfileTab"
 import SimilarServices from "@/components/carousel/SimilarServices"
 import { Rubik } from "next/font/google"
 
+
+
 const rubik = Rubik({
   display: "swap",
   subsets: ["latin"],
@@ -22,7 +24,7 @@ type pagePropsType = {
 const page: FC<pagePropsType> = () => {
   const [active, setActive] = useState('profile')
   return (
-    <div>
+    <div className='lg:max-w-[89%]'>
       <div className="product-image relative ">
         <button className="absolute top-6 left-3 ">
           <Icon icon='mingcute:close-fill' className="text-[#2F3036] text-[25px]" />
@@ -47,7 +49,7 @@ const page: FC<pagePropsType> = () => {
         </div>
       </div>
 
-      <div className="px-2 mb-10">
+      <div className="px-2 mb-10 md:w-[50%]">
         <p className="text-[#71727A] text-xs font-normal">The perfect T-shirt for when you want to feel comfortable but still stylish. Amazing for all occasions.
           Made of 100% cotton fabric in four colours. Its modern style gives a lighter look to the outfit. Perfect for the warmest days.</p>
       </div>
@@ -64,9 +66,9 @@ const page: FC<pagePropsType> = () => {
 
       {/* Review */}
       <section>
-        <div className="flex gap-3 my-[9.4px]">
+        <div className="flex justify-start gap-3 md:gap-10 my-[20px]">
           {/* profile img */}
-          <div className='py-2 block justify-center items-center w-full'>
+          <div className='py-2 block justify-center items-center'>
             <div className='bg-[#EAF2FF] w-[34px] h-[34px] m-auto rounded-full overflow-hidden'>
               <Icon icon="mingcute:user-2-fill" className='relative top-[12px] left-[5px] text-[#E09427] text-[24px]'></Icon>
             </div>
@@ -79,8 +81,22 @@ const page: FC<pagePropsType> = () => {
               <span className="text-sm text-[#707070] font-normal">.</span>
               <p className="text-xs text-[#707070] font-normal">1hr ago</p>
             </div>
-            <p className={`text-[13px] text-[#573926] font-normal ${rubik.className} antialiased`}>Their timely and reliable delivery service helped us streamline our operations and meet customer demands faster than ever. With real-time tracking and exceptional customer support, we never have to worry about where our shipments are.</p>
+            <p className={`text-[13px] text-[#573926] font-normal ${rubik.className} antialiased md:w-[60%]`}>Their timely and reliable delivery service helped us streamline our operations and meet customer demands faster than ever. With real-time tracking and exceptional customer support, we never have to worry about where our shipments are.</p>
+
+            {/* like comment and share Icons */}
+            <div className="flex justify-between items-center my-4">
+              <div className="flex items-center gap-4">
+                <Icon icon="ant-design:like-outlined" className="text-[#D6CCC6] text-[23px]"></Icon>
+                <Icon icon="hugeicons:comment-02" className="text-[#D6CCC6] text-[23px]"></Icon>
+              </div>
+
+              {/* share */}
+              <div>
+                <Icon icon="ph:share-fat" className="text-[#D6CCC6] text-[23px]"></Icon>
+              </div>
+            </div>
           </div>
+
         </div>
       </section>
     </div>

@@ -59,6 +59,10 @@
   flex: 0 0 75%;
   min-width: 0;
 }
+.similar.embla__slide {
+  flex: 0 0 75%;
+  min-width: 0;
+}
 .embla__slide {
   flex: 0 0 100%;
   min-width: 0;
@@ -98,6 +102,10 @@
 
   .logistics.embla__slide {
     flex: 0 0 45%;
+    min-width: 0;
+  }
+  .similar.embla__slide {
+    flex: 0 0 40%;
     min-width: 0;
   }
 }
