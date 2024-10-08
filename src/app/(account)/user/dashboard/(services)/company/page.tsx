@@ -127,7 +127,7 @@ const Main = () => {
             {/* Similar Facilities Section */}
             <GridWrapper title="Similar Services">
               {nearYouTransactions.map((transaction, index) => (
-                <div className="md:w-[35%] flex-shrink-0">
+                <div className="md:w-[42%] flex-shrink-0">
                   <ServicesCard key={index} {...transaction} />
                 </div>
               ))}
@@ -207,7 +207,7 @@ const Main = () => {
               {/* Similar Facilities Section */}
               <GridWrapper title="Similar Services">
                 {nearYouTransactions.map((transaction, index) => (
-                  <div className="md:w-[35%] flex-shrink-0">
+                  <div className="md:w-[42%] flex-shrink-0">
                     <ServicesCard key={index} {...transaction} />
                   </div>
                 ))}
@@ -286,7 +286,7 @@ const Main = () => {
                 {/* Similar Facilities Section */}
                 <GridWrapper title="Similar Services">
                   {nearYouTransactions.map((transaction, index) => (
-                    <div className="md:w-[35%] flex-shrink-0">
+                    <div className="md:w-[42%] flex-shrink-0">
                       <ServicesCard key={index} {...transaction} />
                     </div>
                   ))}
@@ -366,7 +366,7 @@ const Main = () => {
                   {/* Similar Facilities Section */}
                   <GridWrapper title="Similar Services">
                     {nearYouTransactions.map((transaction, index) => (
-                      <div className="md:w-[35%] flex-shrink-0">
+                      <div className="md:w-[42%] flex-shrink-0">
                         <ServicesCard key={index} {...transaction} />
                       </div>
                     ))}
@@ -445,7 +445,7 @@ const Main = () => {
                     {/* Similar Facilities Section */}
                     <GridWrapper title="Similar Services">
                       {nearYouTransactions.map((transaction, index) => (
-                        <div className="md:w-[35%] flex-shrink-0">
+                        <div className="md:w-[42%] flex-shrink-0">
                           <ServicesCard key={index} {...transaction} />
                         </div>
                       ))}

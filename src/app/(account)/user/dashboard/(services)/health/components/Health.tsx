@@ -68,14 +68,14 @@ const Health = () => {
       <ServiceFilterButtons active='Health'/>
       <GridWrapper title="Near You">
       {nearYouTransactions.map((transaction, index) => (
-        <Link href="./company?page=hospitality" className="md:w-[35%] flex-shrink-0">
+        <Link href="./company?page=hospitality" className="md:w-[42%] flex-shrink-0">
             <ServicesCard key={index} {...transaction} />
         </Link>
         ))}
       </GridWrapper>
        <GridWrapper title="Top Rated">
       {nearYouTransactions.map((transaction, index) => (
-        <Link href="./company?page=health" className="md:w-[35%] flex-shrink-0">
+        <Link href="./company?page=health" className="md:w-[42%] flex-shrink-0">
             <ServicesCard key={index} {...transaction} />
         </Link>
         ))}
