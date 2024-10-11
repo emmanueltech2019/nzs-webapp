@@ -23,7 +23,7 @@ const ServicesCard: React.FC<ServicesCardProps> = ({
   return (
     <div className="bg-[#F8F9FE] rounded-2xl w-[250px] md:w-[360px] h-[267px] md:h-[300px]">
       <div className="relative">
-        <img src={imageUrl} alt={title} className="rounded-t-2xl h-[120px] md:h-[150px] w-full object-cover" />
+        <img src={imageUrl} alt={title} className="rounded-t-2xl h-[120px] w-full object-cover" />
         {distance && (
           <div className="absolute top-2 right-2 bg-[#006838] text-white text-[10px] px-2 py-1 rounded-[12px]">
             {distance}

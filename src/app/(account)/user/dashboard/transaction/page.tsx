@@ -15,41 +15,41 @@ const Transactions = () => {
     { title: 'Amazing Shoes', location: 'Port Harcourt', timeAgo: '2 hrs ago', id: 5 },
   ];
   const [transactions, setTransactions] = useState(initialState)
-  const removeTrasaction = (i:number) => {
+  const removeTrasaction = (i: number) => {
     const item = transactions[i]
-    setTransactions(prev => prev.filter(tr => tr.id !== item.id ))
+    setTransactions(prev => prev.filter(tr => tr.id !== item.id))
   }
   const [activeTab, setActiveTab] = useState('outgoing');
 
   return (
     <div className={`max-w-2xl mx-auto px-4 py-6 ${openSansFont}`}>
-      <TagHeader title='My Transactions'/>
+      <TagHeader title='My Transactions' />
 
       <TransactionTab activeTab={activeTab} setActiveTab={setActiveTab} />
-      {activeTab == 'incoming' ? 
-      (<div className='incoming'>
-        <h1>no incoming transaction</h1>
-      </div>) 
-      : activeTab == 'pending' ? 
-      (<div className='pending'>
-        <h1>no pending transaction</h1>
-      </div>) 
-      : (
-        <div>
-        {transactions.map(({title, location, timeAgo, yesterday}, index) => (
-          <TransactionCard
-            key={index}
-            title={title}
-            location={location}
-            timeAgo={timeAgo}
-            yesterday={yesterday}
-            deleteFunc={() => removeTrasaction(index)}
-          />
-        ))}
-      </div>
-      )}
+      {activeTab == 'incoming' ?
+        (<div className='incoming'>
+          <h1>no incoming transaction</h1>
+        </div>)
+        : activeTab == 'pending' ?
+          (<div className='pending'>
+            <h1>no pending transaction</h1>
+          </div>)
+          : (
+            <div>
+              {transactions.map(({ title, location, timeAgo, yesterday }, index) => (
+                <TransactionCard
+                  key={index}
+                  title={title}
+                  location={location}
+                  timeAgo={timeAgo}
+                  yesterday={yesterday}
+                  deleteFunc={() => removeTrasaction(index)}
+                />
+              ))}
+            </div>
+          )}
 
-      
+
     </div>
   );
 };
