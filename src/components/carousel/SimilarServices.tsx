@@ -1,5 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import useEmblaCarousel from 'embla-carousel-react';
+import profileImg1 from '@/assets/images/logistics-img/image copy 2.png'
+import profileImg2 from '@/assets/images/logistics-img/image copy 3.png'
+import Image from 'next/image';
+
+
 const SimilarServices: React.FC = () => {
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
@@ -28,11 +33,11 @@ const SimilarServices: React.FC = () => {
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex gap-3">
 
-            <div className="logistics embla__slide w-[250px] flex-[0_0_50%] bg-blue-100 rounded-2xl">
-              <div className="h-[191px] md:h-[300px]">
+            <div className="similar embla__slide w-[240px] flex-[0_0_50%] bg-blue-100 rounded-2xl">
+              <div className="h-[191px] md:h-[260px]">
                 {/* image */}
-                <div className='h-[120px]'>
-                  {/* <Image src={img1} alt="alt" className='rounded-t-2xl h-[120px] md:h-[150px] object-cover' /> */}
+                <div className=''>
+                  <Image src={profileImg1} alt="alt" className='rounded-t-2xl h-[120px] md:h-[180px] object-cover' />
                 </div>
 
                 {/* details */}
@@ -44,11 +49,11 @@ const SimilarServices: React.FC = () => {
 
               </div>
             </div>
-            <div className="logistics embla__slide w-[250px] flex-[0_0_50%] bg-blue-100 rounded-2xl">
-              <div className="h-[191px] md:h-[300px]">
+            <div className="similar embla__slide w-[240px] flex-[0_0_50%] bg-blue-100 rounded-2xl">
+              <div className="h-[191px] md:h-[260px]">
                 {/* image */}
-                <div className='h-[120px]'>
-                  {/* <Image src={img1} alt="alt" className='rounded-t-2xl h-[120px] md:h-[150px] object-cover' /> */}
+                <div className=''>
+                  <Image src={profileImg2} alt="alt" className='rounded-t-2xl h-[120px] md:h-[180px] object-cover' />
                 </div>
 
                 {/* details */}
@@ -60,11 +65,11 @@ const SimilarServices: React.FC = () => {
 
               </div>
             </div>
-            <div className="logistics embla__slide w-[250px] flex-[0_0_50%] bg-blue-100 rounded-2xl">
-              <div className="h-[191px] md:h-[300px]">
+            <div className="similar embla__slide w-[240px] flex-[0_0_50%] bg-blue-100 rounded-2xl">
+              <div className="h-[191px] md:h-[260px]">
                 {/* image */}
-                <div className='h-[120px]'>
-                  {/* <Image src={img1} alt="alt" className='rounded-t-2xl h-[120px] md:h-[150px] object-cover' /> */}
+                <div className=''>
+                  <Image src={profileImg2} alt="alt" className='rounded-t-2xl h-[120px] md:h-[180px] object-cover' />
                 </div>
 
                 {/* details */}

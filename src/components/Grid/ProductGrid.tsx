@@ -28,6 +28,7 @@
 
 import { FC } from 'react';
 import Card from '../cards/ProductCard';
+import productMockup from "../../assets/images/productMockup.png"
 
 const products = [
   { title: 'Amazing T-shirt', price: '₦ 12.00' },
@@ -59,7 +60,7 @@ const ProductGrid: FC<{ title: string }> = ({ title }) => {
           <div className="flex space-x-4" style={{ minWidth: 'calc(60vw - 72px)', width: '10px' }}>
             {products.map((product, index) => (
               <div className="md:w-[26%] flex-shrink-0" key={index}>
-                <Card  title={product.title} price={product.price} />
+                <Card  title={product.title} price={product.price} image={ productMockup}/>
               </div>
             ))}
           </div>
