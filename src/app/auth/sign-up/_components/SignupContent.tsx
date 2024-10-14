@@ -1,5 +1,6 @@
 'use client'
 import Image from "next/image"
+import { useEffect, useRef, useState } from 'react';
 import Apple from "@/assets/icons/Apple.svg"
 import Andriod from '@/assets/icons/Andriod.svg'
 import playBtn from '@/assets/icons/playBtn.svg'
@@ -8,6 +9,12 @@ import Link from "next/link"
 import useToggle from "@/hooks/useToggle"
 import useForm from "@/hooks/useForm"
 import { useRouter } from "next/navigation"
+import intlTelInput from 'intl-tel-input';
+import 'intl-tel-input/build/css/intlTelInput.css';
+import axios from "axios";
+
+
+const baseURL = 'http://localhost:3000/' // replace with your API URL
 
 const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
 
@@ -25,22 +32,57 @@ const SignupContent = () => {
   const [emailState, setemail] = useForm('')
   const [phoneState, setphone] = useForm('')
   const [pwdState, setpwd] = useForm('')
+  const [messageConsent, setmessageConsent] = useState(false)
+  const [termsConsent, setTermsConsent] = useState(false)
 
-  const handleSubmit = (e: eventType) => {
+  const phoneRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    if (phoneRef.current) {
+      const iti = intlTelInput(phoneRef.current, {
+        loadUtilsOnInit: () => import('intl-tel-input/build/js/utils.js'),
+        initialCountry: 'ng', // Default country Nigeria
+        separateDialCode: true, // Show separate dial code
+      });
+
+      return () => {
+        iti.destroy(); // Clean up on unmount
+      };
+    }
+  }, []);
+
+  const handleSubmit = async (e: eventType) => {
     e.preventDefault()
     // validate form inputs
-    if(!fnameState || !lnameState || !emailState || !pwdState || !phoneState) {
+    const data = {
+      firstname: fnameState,
+      lastname: lnameState,
+      email: emailState,
+      phone: phoneState,
+      messageConsent: messageConsent,
+      termsConsent: termsConsent,
+      password: pwdState,
+    }
+    if (!fnameState || !lnameState || !emailState || !pwdState || !phoneState || !messageConsent || !termsConsent) {
       alert('please input required')
       return
     }
     // validate email format
-    // validate phone number format
     // validate password strength
     // validate password confirmation
 
     // handle form submission
-    // navigate to onboarding page after submission
-    router.push('/user/onboarding')
+    try {
+      axios.post(`${baseURL}auth/register`, data)
+        .then(res => {
+          console.log(res)
+          // navigate to onboarding page after submission
+          router.push('/user/onboarding')
+        })
+    } catch {
+      (e: Error) => { }
+    }
+
+
   }
   return (
     <section className='px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]'>
@@ -76,7 +118,8 @@ const SignupContent = () => {
 
         <div className="phone flex flex-col mb-[10px]">
           <label htmlFor="phone" className='text-sm mb-1'>Phone Number</label>
-          <input type="text" id='phone' onChange={e => setphone(e)} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='1234' />
+          {/* <input ref={phoneRef} type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' /> */}
+          <input type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' />
         </div>
 
         <div className="pswd flex flex-col mb-[10px]">
@@ -92,14 +135,14 @@ const SignupContent = () => {
         <p className="text-sm lg:text-base">Use 8 or more characters with a mix of letters, numbers & symbols</p>
 
         <div className="agree-1 flex my-6 gap-1 items-start">
-          <input id="agree-1" type="checkbox" className="accent-[--icon-light-green] mt-1 outline-none" required />
+          <input id="agree-1" type="checkbox" className="accent-[--icon-light-green] mt-1 outline-none" onChange={(e: any) => setTermsConsent(e.target.checked)} checked={termsConsent} required />
           <label htmlFor="agree-1" className="text-sm lg:text-base">
             By creating an account, I agree to our Terms of use
             and Privacy Policy
           </label>
         </div>
         <div className="agree-2 flex my-6 gap-1 items-start">
-          <input id="agree-2" type="checkbox" className="accent-[--icon-light-green] mt-1" required />
+          <input id="agree-2" type="checkbox" className="accent-[--icon-light-green] mt-1" onChange={(e: any) => setmessageConsent(e.target.checked)} checked={messageConsent} required />
           <label htmlFor="agree-2" className="text-sm lg:text-base">
             By creating an account, I am also consenting to
             receive SMS messages and emails, including

@@ -1,11 +1,28 @@
 'use client'
 import useForm from "@/hooks/useForm"
+import axios from 'axios'
+
+const baseURL = 'http://localhost:3000'
 
 const ContactDetails = () => {
-    const [nameState, setname] = useForm('')
-    const [emailState, setemail] = useForm('')
-    const [subjectState, setsubject] = useForm('')
-    const [messageEmail, setMessage] = useForm('')
+    const [nameState, setname, resetName] = useForm('')
+    const [emailState, setemail, resetEmail] = useForm('')
+    const [subjectState, setsubject, resetSubject] = useForm('')
+    const [messageState, setMessage, resetMessage] = useForm('')
+
+    type event = React.MouseEvent<HTMLFormElement, MouseEvent>
+    const handleSubmit = async (e:event) => {
+        e.preventDefault()
+        const data = {fullname: nameState, email: emailState, subject: subjectState, message: messageState}
+        try{
+            axios.post(`${baseURL}/contact`, data)
+            .then(res => console.log(res))
+            if(resetName) resetName('');
+            if(resetEmail) resetEmail('');
+            if(resetSubject) resetSubject('');
+            if(resetMessage) resetMessage('');
+        }catch{(e:Error) => console.log}
+    }
 
     return (
         <section>
@@ -17,7 +34,7 @@ const ContactDetails = () => {
 
                 <div className="contact-Entries flex flex-col lg:flex-row items-start lg:items-center justify-center gap-10">
                     <div className="col w-full lg:w-max">
-                        <form className='px-[22px] py-[19px] bg-[--form-green] rounded-[9.09px]'>
+                        <form className='px-[22px] py-[19px] bg-[--form-green] rounded-[9.09px]' onSubmit={handleSubmit}>
                             <div className="fname-lname flex flex-col mb-[22px]">
                                 <label htmlFor="fname-lname" className='font-semibold text-sm mb-2'>First & Last Name</label>
                                 <input type="text" id='fname-lname' onChange={e => setname(e)} value={nameState} required className='w-full lg:w-[272.57px] pl-7 pr-2 py-3 rounded-lg text-sm outline-none text-black placeholder:text-[--text-color-gray]' placeholder='i.e. John Doe' />
@@ -35,7 +52,7 @@ const ContactDetails = () => {
 
                             <div className="message flex flex-col mb-[22px]">
                                 <label htmlFor="message" className='font-semibold text-sm mb-2'>Message</label>
-                                <input type="text" id='subject' onChange={e => setMessage(e)} value={messageEmail} className='w-full lg:w-[272.57px] pl-7 pr-2 py-3 rounded-lg text-sm outline-none text-black placeholder:text-[--text-color-gray]' placeholder='Type your message' />
+                                <textarea id='message' rows={2} onChange={(e:any) => setMessage(e)} value={messageState} className='w-full lg:w-[272.57px] pl-7 pr-2 py-3 rounded-lg text-sm outline-none text-black placeholder:text-[--text-color-gray]' placeholder='Type your message' />
                             </div>
 
                             <button className='px-7 py-4 bg-[--foreground-green] text-[--foreground-light-orange] text-base lg:text-lg text-white rounded-lg block w-full'>
@@ -54,8 +71,8 @@ const ContactDetails = () => {
 
                         <div className='pb-10'>
                             <h3 className='font-semibold text-base lg:text-lg mb-4'>Email us</h3>
-                            <p className='text-[--text-color-gray]'>support@naijazone.com</p>
-                            <p className='text-[--text-color-gray]'>contact@naijazone.com</p>
+                            <p className='text-[--text-color-gray]'>support@naijazoneonline.com</p>
+                            <p className='text-[--text-color-gray]'>contact@naijazoneonline.com</p>
                         </div>
 
                         <div className='pb-10'>
