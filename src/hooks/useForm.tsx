@@ -32,7 +32,7 @@ const useForm = (initialValue: s) => {
   };
 
   // Ensure state is returned as a string
-  const res: [string, setEleType] = [String(state), setEle];
+  const res: [string, setEleType, React.Dispatch<React.SetStateAction<s>>?] = [String(state), setEle, setState];
 
   return res;
 };

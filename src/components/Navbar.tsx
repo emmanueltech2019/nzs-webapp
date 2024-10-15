@@ -19,18 +19,12 @@ type navLinksType = {
 
 // arrays
 const links: navLinksType = [
-    {
-        title: 'Pricing & Plans',
-        url: '/billing'
-    }, {
+ {
         title: 'About Us',
         url: '/about'
     }, {
         title: 'Contact',
         url: '/contact'
-    }, {
-        title: 'Customer',
-        url: '/'
     }
 ];
 

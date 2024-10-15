@@ -28,10 +28,10 @@ const Simplify = () => {
                             <span className={icon1Styles}><Image src={Apple} alt="apple icon" className="w-[19.58px] object-cover" /></span>
                             <span className={icon1Styles}><Image src={Andriod} alt="andriod icon" className="w-[19.58px] object-cover" /></span>
                         </h2>
-                        <h2 className="flex items-center gap-2 text-black text-sm font-normal">
+                        {/* <h2 className="flex items-center gap-2 text-black text-sm font-normal">
                             <span><Image src={playBtn} alt="apple icon" className="w-[19.58px] object-cover" /></span>
                             Watch Video
-                        </h2>
+                        </h2> */}
                     </div>
 
                     <div>
