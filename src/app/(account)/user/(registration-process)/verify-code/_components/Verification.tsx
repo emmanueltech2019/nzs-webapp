@@ -4,6 +4,12 @@ import { useState } from "react";
 import verifyCodeImage from "@/assets/images/verify-code-img.png";
 import Box from "@/components/Box";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+
+
+const baseURL = 'http://localhost:3000/' // replace with your API URL
+const userToken = '' // replace with your API token
+
 
 type eventType = React.MouseEvent<HTMLButtonElement, MouseEvent>
 
@@ -20,9 +26,17 @@ const Verification = () => {
     if (!e.target.value && e.target.previousSibling)
       e.target.previousSibling.focus();
   };
+  // Handle pasting OTP
+  const handlePaste = (e: any) => {
+    const pasteData = e.clipboardData.getData('text');
+    const pasteValues = pasteData.split('').slice(0, 4);  // Limiting to 4 digits
+    if (pasteValues.length === 4 && pasteValues.every((char: any) => !isNaN(char))) {
+      setVCode(pasteValues);
+    }
+  };
 
 
-  const handleSbmit = (e: eventType) => {
+  const handleSbmit = async (e: eventType) => {
     e.preventDefault();
 
     let result: string = "";
@@ -40,10 +54,17 @@ const Verification = () => {
     let res: number = Number(result);
 
     // TODO: validate code and navigate to next page
-    router.push("./role");
+    try {
+      const response = await axios.post(`${baseURL}auth/verify-email/${userToken}`, res || result, {headers: { 'Authorization': `Bearer${userToken}`}})
+       // replace with your API URL
+       console.log(response)
+       router.push("./role");
+    } catch (error) {
+      
+    }
 
     // TODO: clear VCode state
-    setVCode([]);
+    setVCode(new Array(4).fill(""));
   };
 
   const resendCode = (e: eventType) => {
@@ -71,7 +92,7 @@ const Verification = () => {
 
         {/* form for code */}
         <form action="">
-          <div className="code-f flex justify-center items-center gap-2">
+          <div className="code-f flex justify-center items-center gap-2" onPaste={handlePaste}>
             {VCode.map((data, i) => (
               <input
                 title={`OTP_Code_${i}`}
@@ -84,6 +105,7 @@ const Verification = () => {
                 onInput={(e) => {
                   handleChange(e, i);
                 }}
+                onKeyDown={(e: any) => { if (e.key === 'Backspace' && !data && e.target.previousSibling) e.target.previousSibling.focus(); }}
               />
             ))}
           </div>
