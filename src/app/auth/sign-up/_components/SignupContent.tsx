@@ -8,6 +8,8 @@ import Link from "next/link"
 import useToggle from "@/hooks/useToggle"
 import useForm from "@/hooks/useForm"
 import { useRouter } from "next/navigation"
+import axios from "axios"
+import { showToast } from "@/utils/axios"
 
 const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
 
@@ -26,12 +28,92 @@ const SignupContent = () => {
   const [phoneState, setphone] = useForm('')
   const [pwdState, setpwd] = useForm('')
 
-  const handleSubmit = (e: eventType) => {
+
+   // Validate email format
+   const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Validate phone number format (e.g., 10 digits)
+  // const validatePhone = (phone: string) => {
+  //   const phoneRegex = /^[0-9]{10}$/;
+  //   return phoneRegex.test(phone);
+  // };
+
+  // const validatePhone = (phone: string) => {
+  //   // Remove all non-numeric characters from the input
+  //   const cleanedPhone = phone.replace(/\D/g, '');
+  
+  //   // Check if the cleaned phone number is exactly 10 digits long
+  //   const phoneRegex = /^[0-9]{10}$/;
+  //   return phoneRegex.test(cleanedPhone);
+  // };
+  
+
+  // Validate password strength
+  const validatePassword = (password: string) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  // Validate form before submission
+  const validateForm = () => {
+    if (!fnameState || !lnameState || !emailState || !pwdState || !phoneState) {
+      alert('Please fill in all required fields.');
+      return false;
+    }
+    if (!validateEmail(emailState)) {
+      alert('Invalid email format.');
+      return false;
+    }
+    // if (!validatePhone(phoneState)) {
+    //   alert('Invalid phone number format. Must be 10 digits.');
+    //   return false;
+    // }
+    if (!validatePassword(pwdState)) {
+      alert('Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
+      return false;
+    }
+    // if (pwdState !== confirmPwdState) {
+    //   alert('Passwords do not match.');
+    //   return false;
+    // }
+    return true;
+  };
+
+
+  const handleSubmit = async (e: eventType) => {
     e.preventDefault()
+    if (!validateForm()) return;
+
     // validate form inputs
-    if(!fnameState || !lnameState || !emailState || !pwdState || !phoneState) {
-      alert('please input required')
-      return
+    // if(!fnameState || !lnameState || !emailState || !pwdState || !phoneState) {
+    //   alert('please input required')
+    //   return
+    // }
+    try {
+      const response = await axios.post('/api/signup', {
+        firstName: fnameState,
+        lastName: lnameState,
+        email: emailState,
+        password: pwdState,
+        phone: phoneState,
+        messageConsent:true, 
+        termsConsent:true,
+      });
+
+      if (response.status === 201) {
+        // On success, navigate to onboarding
+        showToast("success", "Signup sucessfully")
+        
+        // router.push('/user/onboarding');
+      } else {
+        alert('Signup failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during signup:', error);
+      alert('There was an error processing your signup.');
     }
     // validate email format
     // validate phone number format
@@ -40,7 +122,7 @@ const SignupContent = () => {
 
     // handle form submission
     // navigate to onboarding page after submission
-    router.push('/user/onboarding')
+    // router.push('/user/onboarding')
   }
   return (
     <section className='px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]'>
@@ -49,10 +131,10 @@ const SignupContent = () => {
           <span className={icon1Styles}><Image src={Apple} alt="apple icon" className="w-[19.58px] object-cover" /></span>
           <span className={icon1Styles}><Image src={Andriod} alt="andriod icon" className="w-[19.58px] object-cover" /></span>
         </h2>
-        <h2 className="flex items-center gap-2 text-black text-xs lg:text-sm font-normal">
+        {/* <h2 className="flex items-center gap-2 text-black text-xs lg:text-sm font-normal">
           <span><Image src={playBtn} alt="apple icon" className="w-[19.58px] object-cover" /></span>
           Watch Video
-        </h2>
+        </h2> */}
       </div>
       <h1 className="text-[#333333] text-[21px] lg:text-[28px] leading-normal font-medium mt-5 lg:mt-7 mb-5">
         Sign up now
