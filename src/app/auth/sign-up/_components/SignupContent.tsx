@@ -102,6 +102,7 @@ const SignupContent = () => {
         messageConsent:true, 
         termsConsent:true,
       });
+      
 
       if (response.status === 201) {
         // On success, navigate to onboarding
