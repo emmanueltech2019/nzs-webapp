@@ -1,8 +1,10 @@
 'use client'
 import useForm from "@/hooks/useForm"
+import { showToast } from "@/utils/axios"
 import axios from 'axios'
 
-const baseURL = 'http://localhost:3000'
+
+const baseURL = 'https://api.naijazoneonline.com/api/'
 
 const ContactDetails = () => {
     const [nameState, setname, resetName] = useForm('')
@@ -15,8 +17,8 @@ const ContactDetails = () => {
         e.preventDefault()
         const data = {fullname: nameState, email: emailState, subject: subjectState, message: messageState}
         try{
-            axios.post(`${baseURL}/contact`, data)
-            .then(res => console.log(res))
+            axios.post(`${baseURL}contact`, data)
+            .then(res => showToast('success', res.data.message))
             if(resetName) resetName('');
             if(resetEmail) resetEmail('');
             if(resetSubject) resetSubject('');

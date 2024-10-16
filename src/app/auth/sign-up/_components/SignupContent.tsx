@@ -13,9 +13,10 @@ import { showToast } from "@/utils/axios"
 import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import axios from "axios";
+import { validateEmail, validatePassword } from "@/utils/Validator";
 
 
-const baseURL = 'http://localhost:3000/' // replace with your API URL
+const baseURL = 'https://api.naijazoneonline.com/api/' // replace with your API URL
 
 const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
 
@@ -35,35 +36,7 @@ const SignupContent = () => {
   const [pwdState, setpwd] = useForm('')
   const [messageConsent, setmessageConsent] = useState(false)
   const [termsConsent, setTermsConsent] = useState(false)
-
-
-   // Validate email format
-   const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  // Validate phone number format (e.g., 10 digits)
-  // const validatePhone = (phone: string) => {
-  //   const phoneRegex = /^[0-9]{10}$/;
-  //   return phoneRegex.test(phone);
-  // };
-
-  // const validatePhone = (phone: string) => {
-  //   // Remove all non-numeric characters from the input
-  //   const cleanedPhone = phone.replace(/\D/g, '');
   
-  //   // Check if the cleaned phone number is exactly 10 digits long
-  //   const phoneRegex = /^[0-9]{10}$/;
-  //   return phoneRegex.test(cleanedPhone);
-  // };
-  
-
-  // Validate password strength
-  const validatePassword = (password: string) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
-  };
 
   // Validate form before submission
   const validateForm = () => {
@@ -121,16 +94,19 @@ const SignupContent = () => {
         email: emailState,
         password: pwdState,
         phone: phoneState,
-        messageConsent:true, 
-        termsConsent:true,
+        messageConsent: true,
+        termsConsent: true,
       });
-      
+
 
       if (response.status === 201) {
         // On success, navigate to onboarding
         showToast("success", "Signup sucessfully")
         
-        // router.push('/user/onboarding');
+        // Store user data in local storage - userToken
+        localStorage.setItem('userToken', JSON.stringify(response.data.token))
+
+        router.push('/user/onboarding');
       } else {
         alert('Signup failed. Please try again.');
       }
@@ -174,7 +150,7 @@ const SignupContent = () => {
         <div className="phone flex flex-col mb-[10px]">
           <label htmlFor="phone" className='text-sm mb-1'>Phone Number</label>
           {/* <input ref={phoneRef} type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' /> */}
-          <input type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' />
+          <input type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} maxLength={10} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' />
         </div>
 
         <div className="pswd flex flex-col mb-[10px]">

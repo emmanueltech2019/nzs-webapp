@@ -10,6 +10,7 @@ import { CardItemtype } from "./onboarding.types";
 import OnboardingCard from "./OnboardingCard";
 import FuncRouteBtn from "@/components/buttons/FuncRouteBtn";
 import Box from "@/components/Box";
+import axios from "axios";
 
 const chart = "mage:chart-fill";
 const delivery = "solar:delivery-bold";
@@ -17,13 +18,14 @@ const verified_user = "material-symbols:verified-user";
 
 const images = [onboarding_image1, onboarding_image2, onboarding_image3];
 
+const baseURL = 'https://api.naijazoneonline.com/api/' // replace with your API URL
+
+
 export const cardContent: CardItemtype[] = [
   {
     icon: chart,
     headText: (
-      <>
-        Streaming Your <br /> Business Sales and <br /> Purchases
-      </>
+      <>Streaming Your <br /> Business Sales and <br /> Purchases</>
     ),
     paragraph:
       "Enjoy these pre-made components and worry only about creating the best products ever.",
@@ -31,11 +33,7 @@ export const cardContent: CardItemtype[] = [
   {
     icon: delivery,
     headText: (
-      <>
-        Quotes, Orders and
-        <br /> Delivery. All Simplified
-        <br /> for you!
-      </>
+      <>Quotes, Orders and <br /> Delivery. All Simplified <br /> for you!</>
     ),
     paragraph:
       "Enjoy these pre-made components and worry only about creating the best products ever.",
@@ -43,11 +41,7 @@ export const cardContent: CardItemtype[] = [
   {
     icon: verified_user,
     headText: (
-      <>
-        Welcome to Efficiency... <br />
-        Create a Profile and get <br />
-        verified quickly
-      </>
+      <>Welcome to Efficiency... <br /> Create a Profile and get <br /> verified quickly</>
     ),
     paragraph:
       "Enjoy these pre-made components and worry only about creating the best products ever.",
@@ -90,6 +84,20 @@ const Onboarding = () => {
     if (emblaApi) emblaApi.scrollPrev();
     if (imageApi) imageApi.scrollPrev();
   }, [emblaApi, imageApi]);
+
+  useEffect(() => {
+    try {
+      const userToken = localStorage.getItem("userToken");
+      axios.get(`${baseURL}users/67081f098addede380fd9bd7`, {headers: {'Authorization': `Bearer ${userToken}`}},)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    } catch (error) {
+      console.log(error)
+    }
+    // return () => {
+    //   console.log('component unmounted');
+    // }
+  }, [])
 
   return (
     <section className="flex flex-col-reverse lg:flex-row min-h-screen">

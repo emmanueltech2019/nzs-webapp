@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import axios from "axios";
 
 
-const baseURL = 'http://localhost:3000/' // replace with your API URL
+const baseURL = 'https://api.naijazoneonline.com/api/' // replace with your API URL
 
 const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
 
@@ -39,11 +39,10 @@ const LoginContent = () => {
       const data = {
         email: emailState,
         password: pwdState
-      }
+      } 
       const response = await axios.post(`${baseURL}auth/login`, data)
-      console.dir(response)
-      // Store user data in local storage or Redux
-      //..
+      // Store user data in local storage - userToken
+      localStorage.setItem('userToken', JSON.stringify(response.data.token))
       // Redirect to user onboarding page
       router.push('/user/onboarding')
     } catch (error) {
