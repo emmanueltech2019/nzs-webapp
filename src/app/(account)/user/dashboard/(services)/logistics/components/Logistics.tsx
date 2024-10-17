@@ -5,11 +5,12 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import FloatingButton from '@/components/buttons/FloatingButton';
 import ServiceFilterButtons from '@/components/SortFilter/ServiceFilterButtons'
 import SortFilter from '@/components/SortFilter/SortFilter'
+import { filters } from '@/components/SortFilter/Filters';
 
 const Logistics = () => {
   return (
     <div className=''>
-       <ServiceFilterButtons active='Logistics'/>
+       <ServiceFilterButtons active='Logistics' filterArray={filters}/>
        <SortFilter />
       <FloatingButton color='bg-[#E09427]'/>
       <LogisticsCarousel />
