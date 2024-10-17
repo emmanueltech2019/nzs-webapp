@@ -4,7 +4,7 @@ import React from 'react'
 const Incoming = () => {
   return (
     <div>
-      <SellerAccordion />
+      <SellerAccordion status='INCOMING' style='bg-[#20E58A]' imgRepStyle='hidden'/>
     </div>
   )
 }

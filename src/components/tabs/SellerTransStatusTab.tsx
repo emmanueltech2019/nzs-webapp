@@ -10,10 +10,10 @@ interface TabsProps {
 const SellerTransStatusTab: FC<TabsProps> = ({ activeStatTab, setActiveStatTab }) => {
 
   return (
-    <div className="flex p-1 bg-[#F8F9FE] mb-5 mx-4 rounded-[16px] md:w-[50%]">
+    <div className="flex p-1 bg-[#F8F9FE] mb-5 rounded-[16px] md:w-[75%] m-auto">
       <button
         onClick={() => setActiveStatTab('Completed')}
-        className={`py-2 px-3 w-full rounded-[12px] text-center text-xs ${activeStatTab === 'Completed' ? 'bg-white font-semibold' : 'text-[#71727A]'}`}
+        className={`py-2 md:py-3 px-3 w-full rounded-[12px] text-center text-xs ${activeStatTab === 'Completed' ? 'bg-white font-semibold' : 'text-[#71727A]'}`}
       >
         Completed
       </button> 

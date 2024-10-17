@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import Incoming from './components/Incoming'
 import SellerTransactionTab from '../../../../../../components/tabs/SellerTransactionTab';
 import SellerTransStatusTab from '@/components/tabs/SellerTransStatusTab';
+import { div } from 'framer-motion/client';
+import Pending from './components/Pending';
 const page = () => {
   const [activeTab, setActiveTab] = useState('Orders');
   const [activeStatTab, setActiveStatTab] = useState('Completed')
@@ -15,7 +17,11 @@ const page = () => {
         {activeTab === 'Reviews' && <div></div>}
       </div>
       <SellerTransStatusTab activeStatTab={activeStatTab} setActiveStatTab={setActiveStatTab}/>
-      <Incoming />
+      <div>
+        {activeStatTab === "Completed" && <Incoming />}
+        {activeStatTab === "Pending" && <div><Pending /></div>}
+      </div>
+      
     </div>
   )
 }

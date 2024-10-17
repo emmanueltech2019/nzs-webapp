@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation'
 const LeftSidenav = () => {
   const pathname = usePathname()
   return (
-    <div className='hidden lg:flex justify-between items-center flex-col sticky top-0 h-screen max-h-[1200px] w-[23vw] max-w-[241px] py-[70px] ps-[35px]'>
+    <div className='hidden lg:flex justify-between items-center flex-col sticky top-0 h-screen overflow-y-auto max-h-[1200px] w-[23vw] max-w-[241px] py-[70px] ps-[35px]'>
       <div className="box flex-1 self-start">
         <Box />
       </div>
