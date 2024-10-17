@@ -6,3 +6,10 @@ export const filters = [
   { name: "Legal", url: "/user/dashboard/legal" },
   { name: "Education", url: "/user/dashboard/education" },
 ];
+
+export const sellerFilter = [
+  { name: "Date", url: "/user/dashboard/date" },
+  { name: "Status", url: "/user/dashboard/status" },
+  { name: "Location", url: "/user/dashboard/location" },
+  { name: "Price", url: "/user/dashboard/price" },
+]

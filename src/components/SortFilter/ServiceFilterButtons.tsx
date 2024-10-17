@@ -22,9 +22,9 @@ const ServiceFilterButtons: React.FC<ServiceFilterButtonsProps> = ({ active, fil
         <Link
           key={index}
           href={filter.url}
-          className={`${filter.name == active ? "bg-[#006838] text-[#fff]" : "bg-[#EAF2FF]"
-            } px-2 py-[6px] rounded-[12px] text-[10px] leading-[13.62px] text-[#006838] font-[550] uppercase`}
-        >
+          className={`px-2 py-[6px] rounded-[12px] text-[10px] leading-[13.62px] font-[550] uppercase
+          ${filter.name === active ? "bg-[#006838] text-[#fff]" : "bg-[#EAF2FF] text-[#006838]"}`}
+        > 
           {filter.name}
         </Link>
       ))}
