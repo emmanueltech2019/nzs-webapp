@@ -44,8 +44,24 @@ const LoginContent = () => {
       localStorage.setItem('userToken', JSON.stringify(response.data.token))
 
       showToast('success', 'User logged in successfully')
-      // Redirect to user onboarding page
-      router.push('/user/verify-code')
+
+
+      let user = response.data.user
+      if(user.emailVerified==false) {
+        router.push('/user/verify-code')
+      }else if(user.emailVerified==true){
+        if(user.onboarding==false){
+          router.push('/user/onboarding')
+        }else if(user.accountType=="buyer"){
+          router.push('/user/dashboard')
+        }else if(user.accountType=="seller"){
+          router.push('/user/seller')
+        }
+        else{
+          router.push('/user/dashboard') 
+        }
+      }
+      
     } catch (error) {
       console.error(error)
       alert('Failed to login. Please check your email and password.')

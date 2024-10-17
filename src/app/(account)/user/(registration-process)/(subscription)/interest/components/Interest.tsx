@@ -4,16 +4,17 @@ import initalState, {InterestItem} from "./InterestObj"
 import { Icon } from "@iconify/react";
 import { useContextStore } from "@/context/SubscriptionContext";
 import businessAnalysis_img from "@/assets/images/business-analysis.png";
+import axios from "@/utils/axios";
+import { useRouter } from "next/navigation";
 
 const Interest = () => {
 
   const [interest, setInterest] = useState(initalState);
+  const router = useRouter();
 
   useEffect(() =>{}, [interest])
 
   const handleClick = (a: any) => {
-    console.log(a);
-
     let itemIndex = initalState.findIndex((obj) => obj.interest === a);
     if (itemIndex === -1) {
       setInterest([...interest, { interest: a, state: true }]);
@@ -32,12 +33,34 @@ const Interest = () => {
     handleProgressbar(50);
   }, [handleImg, handleProgressbar]);
 
-  const { handleActive, handleNext, handleMessage } = useContextStore();
+  const handleAPI = () => {
+    const userToken = localStorage.getItem("userToken") || ''
+    const tr = JSON.parse(userToken)
+    if (interest) {
+      axios({
+        method: "POST",
+        url: "/users/interests/",
+        data: {
+          interests: interest.filter(a => a.state).map(a => a.interest)
+        },
+        headers: {
+          Authorization: `Bearer ${tr}`,
+        },
+      })
+        .then(res => {
+          console.log(res)
+          router.push("./package")
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
+  }
+
+  const { handleFunc } = useContextStore();
   useEffect(() => {
-    handleNext("./package");
-    handleActive(interest.some((i) => i.state == true));
-    handleMessage("Select your interests");
-  }, [handleNext, handleActive, handleMessage, interest]);
+    handleFunc(handleAPI)
+  }, [interest]);
 
   return (
     <div>

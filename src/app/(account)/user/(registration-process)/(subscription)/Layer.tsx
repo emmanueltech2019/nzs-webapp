@@ -2,8 +2,7 @@
 import { useContextStore } from "@/context/SubscriptionContext";
 import Image from "next/image";
 import Box from "@/components/Box";
-import FuncRouteBtn from "@/components/buttons/FuncRouteBtn";
-import { useRouter } from "next/navigation";
+// import FuncRouteBtn from "@/components/buttons/FuncRouteBtn";
 
 type layerType = {
   children: React.ReactNode;
@@ -15,16 +14,7 @@ type handleRouteType = (
 ) => void;
 
 const Layer = ({ children }: layerType) => {
-  const { progressbar, img } = useContextStore();
-  
-  const router = useRouter();
-  const handleRoute: handleRouteType = (route, active, message) => {
-    console.log(active, route);
-    if (active) router.push(`${route}`);
-    else alert(message);
-  };
-
-  const { next, isActive, message } = useContextStore()
+  const { progressbar, img, func } = useContextStore();
   return (
     <div className="">
       <section className="flex flex-col lg:flex-row min-h-screen p-3">
@@ -52,7 +42,7 @@ const Layer = ({ children }: layerType) => {
 
           <button
             className={`rounded-[12px] py-4 md:py-4 px-4 text-[#FFFFFF] text-sm md:text-base font-semibold leading-[14.52px] text-center block w-[100%] bg-[#006838] m-auto my-1 select-none`}
-            onClick={() => handleRoute(next, isActive, message)}
+            onClick={func.main}
           >
             Next
           </button>

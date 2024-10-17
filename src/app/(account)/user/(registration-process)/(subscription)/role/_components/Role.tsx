@@ -1,27 +1,47 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ourTeamBanner from "@/assets/images/our-team-banner.svg";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useContextStore } from "@/context/SubscriptionContext";
+import axios from "@/utils/axios";
+import { useRouter } from "next/navigation";
 
 type eventType = React.ChangeEvent<HTMLInputElement>;
 
 const Role = () => {
-  const [buy, setbuy] = useState(false);
-  const [sell, setsell] = useState(false);
-  const handleBuy = (e: eventType) => {
-    setbuy(e.target.checked);
-  };
-  const handleSell = (e: eventType) => {
-    setsell(e.target.checked);
-  };
+  const router = useRouter();
+  const [role, setRole] = useState('')
+  const handleRole = (e: eventType) => {
+    setRole(e.target.title);
+  }
+  const handleAPI = async () => {
+    const userToken = localStorage.getItem("userToken") || ''
+    const tr = JSON.parse(userToken)
+    if (role) {
+      axios({
+        method: "PUT",
+        url: "/users/",
+        data: {
+          accountType: role
+        },
+        headers: {
+          Authorization: `Bearer ${tr}`,
+        },
+      })
+        .then(res => {
+          console.log(res)
+          router.push("./interest")
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
+  }
 
-  const { handleNext, handleActive, handleMessage} = useContextStore()
+  const { handleFunc } = useContextStore()
   useEffect(() => {
-    handleNext("./interest");
-    handleActive(buy || sell)
-    handleMessage("Select your role");
-  }, [handleNext, handleActive, handleMessage, buy, sell]);
+    handleFunc(handleAPI)
+  }, [role])
 
   const { handleProgressbar, handleImg } = useContextStore();
   useEffect(() => {
@@ -42,48 +62,47 @@ const Role = () => {
           </header>
 
           <div className="choose-role mt-[41px] flex flex-col gap-2">
-            <div className={`buy p-4 flex justify-between rounded-[12px] border-[#C5C6CC] border-[0.5px] cursor-pointer ${buy?'bg-[#EAF2FF]':'bg-white'}`} onClick={()=>{setbuy(prev => !prev)}}>
-              <p className="text-[14px] text-[#1F2024] select-none">Buy</p>
-              <input
-                title="buy"
-                type="checkbox"
-                name="buy"
-                id="buy"
-                className="hidden"
-                onChange={handleBuy}
-              />
-              <label htmlFor="buy">
+            <input
+              title="buyer"
+              type="radio"
+              name="accountType"
+              id="buyer"
+              className="hidden"
+              onInput={handleRole}
+            />
+            <label htmlFor="buyer">
+              <div className={`buy p-4 flex justify-between rounded-[12px] border-[#C5C6CC] border-[0.5px] cursor-pointer ${role == 'buyer' ? 'bg-[#EAF2FF]' : 'bg-white'}`}>
+                <p className="text-[14px] text-[#1F2024] select-none">Buy</p>
                 <div className={`checkbox h-6 w-6 border-[#C5C6CC] border-[1.5px] rounded-md flex items-center justify-center cursor-pointer`}>
                   <Icon
                     icon="iconamoon:check-duotone"
-                    className={`text-lg text-[--icon-green-2] text-center font-bold ${
-                      buy ? "opacity-100" : "opacity-0"
-                    } transistion-all duration-200`}
+                    className={`text-lg text-[--icon-green-2] text-center font-bold ${role == 'buyer' ? "opacity-100" : "opacity-0"
+                      } transistion-all duration-200`}
                   ></Icon>
                 </div>
-              </label>
-            </div>
-            <div className={`sell p-4 flex justify-between rounded-[12px] border-[#C5C6CC] border-[0.5px] cursor-pointer ${sell?'bg-[#EAF2FF]':'bg-white'}`} onClick={()=>{setsell(prev => !prev)}}>
-              <p className="text-[14px] text-[#1F2024] select-none">Sell</p>
-              <input
-                title="sell"
-                type="checkbox"
-                name="sell"
-                id="sell"
-                className="hidden"
-                onChange={handleSell}
-              />
-              <label htmlFor="sell">
+              </div>
+            </label>
+
+            <input
+              title="seller"
+              type="radio"
+              name="accountType"
+              id="seller"
+              className="hidden"
+              onChange={handleRole}
+            />
+            <label htmlFor="seller">
+              <div className={`sell p-4 flex justify-between rounded-[12px] border-[#C5C6CC] border-[0.5px] cursor-pointer ${role == 'seller' ? 'bg-[#EAF2FF]' : 'bg-white'}`}>
+                <p className="text-[14px] text-[#1F2024] select-none">Sell</p>
                 <div className="checkbox h-6 w-6 border-[#C5C6CC] border-[1.5px] rounded-md flex items-center justify-center cursor-pointer">
                   <Icon
                     icon="iconamoon:check-duotone"
-                    className={`text-lg text-[--icon-green-2] text-center font-bold ${
-                      sell ? "opacity-100" : "opacity-0"
-                    } transistion-all duration-200`}
+                    className={`text-lg text-[--icon-green-2] text-center font-bold ${role == 'seller' ? "opacity-100" : "opacity-0"
+                      } transistion-all duration-200`}
                   ></Icon>
                 </div>
-              </label>
-            </div>
+              </div>
+            </label>
           </div>
         </div>
       </section>

@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { PackageObj } from "./PackageObj";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useContextStore } from "@/context/SubscriptionContext";
+import axios from "@/utils/axios";
 import ourTeamBanner from "@/assets/images/our-team-banner.svg";
+import { useRouter } from "next/navigation";
 
 const Package = () => {
+  const router = useRouter();
   const [pack, setPack] = useState(''),
   handleChange = (name:string) => {setPack(name)}
   const { handleProgressbar, handleImg } = useContextStore();
@@ -14,12 +17,13 @@ const Package = () => {
     handleProgressbar(80);
   }, [handleImg, handleProgressbar]);
 
-  const { handleNext, handleActive, handleMessage} = useContextStore()
+  const { handleFunc } = useContextStore();
   useEffect(() => {
-    handleNext("./dashboard");
-    handleActive(Boolean(pack))
-    handleMessage("Select your desired package...");
-  }, [handleNext, handleActive, handleMessage, pack]);
+    handleFunc(() => {
+      if(pack) router.push('./dashboard')
+      else console.log('pick a package')
+    })
+  }, [pack]);
 
   return (
     <div>

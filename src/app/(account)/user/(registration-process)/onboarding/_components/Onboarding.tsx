@@ -48,10 +48,37 @@ export const cardContent: CardItemtype[] = [
 
 const Onboarding = () => {
   const router = useRouter();
-  const navigate = () => { if (FS == 2) router.push('./role') }
+  /**
+   * @author Miracle Boniface
+   * @function handleOnboarding
+   * @description it handles API calls to check if the onboarding page should be displayed
+   * @return {Promise<void>} it returns a Promise that resolves void
+  */
+  const handleOnboarding = async () => {
+    const userToken = localStorage.getItem("userToken") || '';
+    const tr = JSON.parse(userToken);
+    axios({
+      url: `/users/`,
+      data: {
+        onboarding:true
+      },
+      headers: {
+        'Authorization': `Bearer ${tr}`
+      },
+      method: 'PUT',
+    })
+    .then((res) => {
+      router.push('./role')
+      console.log(res);
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+  }
+  const navigate = () => { if (FS == 2){
+    handleOnboarding();
+  } }
   const [FS, setFS] = useState(0);
-  const [show, setShow] = useState(false);
-  const [counter, setCounter] = useState(1)
   const incrementFS = () => {
     setFS((prev) => (prev < 2 ? prev + 1 : prev));
   };
@@ -86,115 +113,81 @@ const Onboarding = () => {
   }, [emblaApi, imageApi]);
 
 
-  /**
-   * @author Miracle Boniface
-   * @function handleOnboarding
-   * @description it handles API calls to check if the onboarding page should be displayed
-   * @return {Promise<void>} it returns a Promise that resolves void
-  */
-  const handleOnboarding = async () => {
-    try {
-      const userToken = localStorage.getItem("userToken") || '';
-      const tr = JSON.parse(userToken);
-      axios({
-        url: `/users/`,
-        headers: {
-          'Authorization': `Bearer ${tr}`
-        },
-        method: 'GET',
-      })
-        .then((res) => {
-          setShow(res.data.onboarding);
-          if (!show) router.push('./role')
-        })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    handleOnboarding();
-    return () => {
-      console.log('component unmounted');
-    }
-  }, [])
   
 
+
   return (
-    <>
-      {show && <section className="flex flex-col-reverse lg:flex-row min-h-screen">
-        <div className="col flex-[1.2] flex flex-col justify-evenly px-3 md:ps-[150px]">
-          {/* box */}
-          <div className="hidden lg:block">
-            <Box />
-          </div>
-
-          {/* pagination */}
-          <div className="pagination flex items-center gap-[7px] mt-[20px] md:mt-[70px]">
-            {
-              [0, 1, 2].map(a => <div key={'pagination' + a} className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full transition-all duration-500 ${FS === a ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"}`}></div>)
-            }
-          </div>
-
-          {/* Welcome text */}
-          <h1 className="text-3xl md:text-[40px] font-extrabold pt-3 pb-6">
-            Welcome!
-          </h1>
-
-          {/* embla carousel for cards */}
-          <div className="embla overflow-hidden">
-            <div className="embla__viewport xl:w-10/12" ref={emblaRef}>
-              <div className="embla__container flex gap-[10.47px] justify-between lg:bg-[#EAF2FF] lg:rounded-[21px] lg:p-[8.6px]">
-                {cardContent.map(
-                  ({ icon, headText, paragraph }: CardItemtype, i) => (
-                    <div className={`embla__slide onboarding__slide rounded-[21px] transition-all duration-500 ${FS === i ? "bg-[--foreground-green]" : "bg-white"} `} key={i}>
-                      <OnboardingCard
-                        icon={icon}
-                        headText={headText}
-                        paragraph={paragraph}
-                        active={FS === i}
-                      />
-                    </div>
-                  )
-                )}
-              </div>
-
-              {/* carousel buttons */}
-              <div className="flex flex-col-reverse md:flex-row items-center mt-[24px] md:mt-[50px] gap-4 md:gap-5 lg:gap-2 mb-6">
-                <div className="w-full px-[10px] lg:w-[150px]">
-                  <button className="rounded-[12px] py-4 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-white border-[1.5px] border-[--foreground-green] text-[--foreground-green] scale-100 hover:scale-90 transition-all duration-500" onClick={scrollPrev}>
-                    Back
-                  </button>
-                </div>
-                <div className="w-full px-[10px] lg:w-[150px] scale-100 hover:scale-90 transition-all duration-500">
-                  <FuncRouteBtn text="Next" func={() => { navigate(); scrollNext() }} />
-                </div>
-              </div>
-            </div>
-          </div>
+    <section className="flex flex-col-reverse lg:flex-row min-h-screen">
+      <div className="col flex-[1.2] flex flex-col justify-evenly px-3 md:ps-[150px]">
+        {/* box */}
+        <div className="hidden lg:block">
+          <Box />
         </div>
 
-        <div className="col flex-1 image">
-          {/* embla carousel for images */}
-          <div className="embla overflow-hidden h-full">
-            <div className="embla__viewport h-full" ref={imageRef}>
-              <div className="embla__container flex h-full gap-[1px]">
-                {images.map((img, i) => (
-                  <div className="embla__slide w-full" key={"image-" + i}>
-                    <Image
-                      src={img}
-                      alt="onBoarding image-1"
-                      className="w-full object-cover h-full"
+        {/* pagination */}
+        <div className="pagination flex items-center gap-[7px] mt-[20px] md:mt-[70px]">
+          {
+            [0, 1, 2].map(a => <div key={'pagination' + a} className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full transition-all duration-500 ${FS === a ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"}`}></div>)
+          }
+        </div>
+
+        {/* Welcome text */}
+        <h1 className="text-3xl md:text-[40px] font-extrabold pt-3 pb-6">
+          Welcome!
+        </h1>
+
+        {/* embla carousel for cards */}
+        <div className="embla overflow-hidden">
+          <div className="embla__viewport xl:w-10/12" ref={emblaRef}>
+            <div className="embla__container flex gap-[10.47px] justify-between lg:bg-[#EAF2FF] lg:rounded-[21px] lg:p-[8.6px]">
+              {cardContent.map(
+                ({ icon, headText, paragraph }: CardItemtype, i) => (
+                  <div className={`embla__slide onboarding__slide rounded-[21px] transition-all duration-500 ${FS === i ? "bg-[--foreground-green]" : "bg-white"} `} key={i}>
+                    <OnboardingCard
+                      icon={icon}
+                      headText={headText}
+                      paragraph={paragraph}
+                      active={FS === i}
                     />
                   </div>
-                ))}
+                )
+              )}
+            </div>
+
+            {/* carousel buttons */}
+            <div className="flex flex-col-reverse md:flex-row items-center mt-[24px] md:mt-[50px] gap-4 md:gap-5 lg:gap-2 mb-6">
+              <div className="w-full px-[10px] lg:w-[150px]">
+                <button className="rounded-[12px] py-4 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-white border-[1.5px] border-[--foreground-green] text-[--foreground-green] scale-100 hover:scale-90 transition-all duration-500" onClick={scrollPrev}>
+                  Back
+                </button>
+              </div>
+              <div className="w-full px-[10px] lg:w-[150px] scale-100 hover:scale-90 transition-all duration-500">
+                <FuncRouteBtn text="Next" func={() => { navigate(); scrollNext() }} />
               </div>
             </div>
           </div>
         </div>
-      </section>}
-      {!show && <p>loading...</p>}
-    </>
+      </div>
+
+      <div className="col flex-1 image">
+        {/* embla carousel for images */}
+        <div className="embla overflow-hidden h-full">
+          <div className="embla__viewport h-full" ref={imageRef}>
+            <div className="embla__container flex h-full gap-[1px]">
+              {images.map((img, i) => (
+                <div className="embla__slide w-full" key={"image-" + i}>
+                  <Image
+                    src={img}
+                    alt="onBoarding image-1"
+                    className="w-full object-cover h-full"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
