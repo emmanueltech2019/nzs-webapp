@@ -9,14 +9,12 @@ import Link from "next/link"
 import useToggle from "@/hooks/useToggle"
 import useForm from "@/hooks/useForm"
 import { useRouter } from "next/navigation"
-import { showToast } from "@/utils/axios"
+import { showToast } from "@/utils/alert"
 import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
-import axios from "axios";
+import axios from '@/utils/axios'
 import { validateEmail, validatePassword } from "@/utils/Validator";
 
-
-const baseURL = 'https://api.naijazoneonline.com/api/' // replace with your API URL
 
 const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
 
@@ -88,9 +86,9 @@ const SignupContent = () => {
     //   return
     // }
     try {
-      const response = await axios.post('/api/signup', {
-        firstName: fnameState,
-        lastName: lnameState,
+      const response = await axios.post('/auth/register', {
+        firstname: fnameState,
+        lastname: lnameState,
         email: emailState,
         password: pwdState,
         phone: phoneState,
@@ -106,7 +104,7 @@ const SignupContent = () => {
         // Store user data in local storage - userToken
         localStorage.setItem('userToken', JSON.stringify(response.data.token))
 
-        router.push('/user/onboarding');
+        router.push('/user/verify-code');
       } else {
         alert('Signup failed. Please try again.');
       }
