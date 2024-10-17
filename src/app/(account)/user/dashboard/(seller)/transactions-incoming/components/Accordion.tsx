@@ -18,7 +18,7 @@ const SellerAccordion: React.FC<{}> = () => {
 
   return (
     <div>
-      <div className={`bg-[#F8F9FE] p-4 rounded-lg overflow-hidden transition-[max-height] ${accordion ? "h-auto" : "h-0"}`}>
+      <div className="bg-[#F8F9FE] p-4 rounded-lg overflow-hidden transition-[max-height] duration-500 ease-in-out" style={{ maxHeight: accordion ? "500px" : "0px" }}>
         <header>
           {/* product image */}
           <div>
