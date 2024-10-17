@@ -1,8 +1,9 @@
 'use client'
 import useForm from "@/hooks/useForm"
-import axios from 'axios'
+import { showToast } from "@/utils/alert"
+import { validateEmail } from "@/utils/Validator"
+import axios from '@/utils/axios'
 
-const baseURL = 'http://localhost:3000'
 
 const ContactDetails = () => {
     const [nameState, setname, resetName] = useForm('')
@@ -11,17 +12,29 @@ const ContactDetails = () => {
     const [messageState, setMessage, resetMessage] = useForm('')
 
     type event = React.MouseEvent<HTMLFormElement, MouseEvent>
-    const handleSubmit = async (e:event) => {
+
+    /**
+     * @author Miracle Boniface
+     * @async async function
+     * @function handleSubmit
+     * @description This function Post the form to the server
+     * @param {event} e - is the event object passed to the function
+    */
+    const handleSubmit = async (e: event) => {
         e.preventDefault()
-        const data = {fullname: nameState, email: emailState, subject: subjectState, message: messageState}
-        try{
-            axios.post(`${baseURL}/contact`, data)
-            .then(res => console.log(res))
-            if(resetName) resetName('');
-            if(resetEmail) resetEmail('');
-            if(resetSubject) resetSubject('');
-            if(resetMessage) resetMessage('');
-        }catch{(e:Error) => console.log}
+        if (!validateEmail(emailState)) {
+            alert('Invalid email format.');
+            return false;
+        }
+        const data = { fullname: nameState, email: emailState, subject: subjectState, message: messageState }
+        try {
+            axios.post(`/contact`, data)
+                .then(res => showToast('success', res.data.message))
+            if (resetName) resetName('');
+            if (resetEmail) resetEmail('');
+            if (resetSubject) resetSubject('');
+            if (resetMessage) resetMessage('');
+        } catch { (e: Error) => console.log }
     }
 
     return (
@@ -39,7 +52,7 @@ const ContactDetails = () => {
                                 <label htmlFor="fname-lname" className='font-semibold text-sm mb-2'>First & Last Name</label>
                                 <input type="text" id='fname-lname' onChange={e => setname(e)} value={nameState} required className='w-full lg:w-[272.57px] pl-7 pr-2 py-3 rounded-lg text-sm outline-none text-black placeholder:text-[--text-color-gray]' placeholder='i.e. John Doe' />
                             </div>
-                            
+
                             <div className="email flex flex-col mb-[22px]">
                                 <label htmlFor="email" className='font-semibold text-sm mb-2'>Email</label>
                                 <input type="text" id='email' onChange={e => setemail(e)} value={emailState} required className='w-full lg:w-[272.57px] pl-7 pr-2 py-3 rounded-lg text-sm outline-none text-black placeholder:text-[--text-color-gray]' placeholder='i.e. john@mail.com' />
@@ -52,7 +65,7 @@ const ContactDetails = () => {
 
                             <div className="message flex flex-col mb-[22px]">
                                 <label htmlFor="message" className='font-semibold text-sm mb-2'>Message</label>
-                                <textarea id='message' rows={2} onChange={(e:any) => setMessage(e)} value={messageState} className='w-full lg:w-[272.57px] pl-7 pr-2 py-3 rounded-lg text-sm outline-none text-black placeholder:text-[--text-color-gray]' placeholder='Type your message' />
+                                <textarea id='message' rows={2} onChange={(e: any) => setMessage(e)} value={messageState} className='w-full lg:w-[272.57px] pl-7 pr-2 py-3 rounded-lg text-sm outline-none text-black placeholder:text-[--text-color-gray]' placeholder='Type your message' />
                             </div>
 
                             <button className='px-7 py-4 bg-[--foreground-green] text-[--foreground-light-orange] text-base lg:text-lg text-white rounded-lg block w-full'>
