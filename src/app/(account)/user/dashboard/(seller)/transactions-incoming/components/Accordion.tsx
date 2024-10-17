@@ -12,6 +12,14 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
+type accordionPropsTypes = {
+  status: string,
+  // imgRep?: any,
+  imgRepStyle?: string,
+  style?: string,
+  imgStyle?: string,
+}
+
 const accordionObj: any = [
   {
     image: productImg,
@@ -36,7 +44,7 @@ const accordionObj: any = [
   },
 ]
 
-const SellerAccordion: React.FC<{}> = () => {
+const SellerAccordion: FC<accordionPropsTypes> = ({ status, style, imgRepStyle, imgStyle }) => {
   const [activeAccordionIndex, setActiveAccordionIndex] = useState<number | null>(0);
 
   const handleAccordionToggle = (index: number) => {
@@ -52,16 +60,17 @@ const SellerAccordion: React.FC<{}> = () => {
           return (
             <div
               key={index}
-              className={`bg-[#F8F9FE] p-4 rounded-lg overflow-hidden md:w-[620px] m-auto md:h-[546px] transition-[max-height] duration-300 ease-in-out ${isActive ? "flex flex-col justify-center m-auto" : "pt-2"}`}
+              className={`bg-[#F8F9FE] p-4 rounded-lg overflow-hidden w-full md:w-[620px] m-auto md:h-[546px] transition-[max-height] duration-300 ease-in-out ${isActive ? "flex flex-col justify-center m-auto" : "pt-2"}`}
               style={{
                 maxHeight: isActive ? "500px" : "68px",
                 transition: "max-height 0.4s ease-in-out",
               }}
             >
               <header className={`transition-all duration-300 ease-in-out ${isActive ? "" : "flex items-center gap-4"}`}>
+
                 {/* product image */}
                 <div
-                  className={`transition-[width,height] duration-100 ease-in-out ${isActive ? "w-full h-auto" : "w-[39px] h-[33px]"
+                  className={`transition-[width,height] duration-100 ease-in-out ${isActive ? "w-full h-auto" : `w-[39px] h-[33px] ${imgStyle}`
                     }`}
                   style={{
                     width: isActive ? "100%" : "36px",
@@ -71,9 +80,12 @@ const SellerAccordion: React.FC<{}> = () => {
                 >
                   <Image src={details.image} alt="alt" className="w-full h-full rounded-lg" />
                 </div>
+                <div className={`${imgRepStyle}`}>
+                  <Icon icon="lets-icons:close-round-fill" className={`text-[#C3CAD9] text-[27px] ${isActive ? "hidden" : ""}`}></Icon>
+                </div>
 
                 <div
-                  className={`flex justify-between items-center my-2 py-2 border-b-[#0C1F1F0A] border-b-[1px] ${isActive ? "" : "w-full"} transition-all duration-500 ease-in-out`}
+                  className={`flex justify-between items-center my-2 py-2 border-b-[#0C1F1F0A] border-b-[1px] ${isActive ? "" : "w-full border-b-0"} transition-all duration-500 ease-in-out`}
                 >
                   <div>
                     <h1 className={`text-xs font-semibold text-[#0C1F1F] ${poppins.className} antialiased`}>
@@ -85,8 +97,8 @@ const SellerAccordion: React.FC<{}> = () => {
                   <div className="flex items-center gap-2">
                     {/* status */}
                     <div>
-                      <button className="bg-[#20E58A] py-1 px-4 font-sans font-normal rounded-[15px] text-[9px] text-[#0C1F1F] leading-[12.26px]">
-                        INCOMING
+                      <button className={`${style} py-1 px-4 font-sans font-bold rounded-[15px] text-[9px] text-[#0C1F1F] leading-[12.26px]`}>
+                        {status}
                       </button>
                     </div>
 
@@ -120,7 +132,7 @@ const SellerAccordion: React.FC<{}> = () => {
                   {/* description */}
                   <div className="mt-[5px]">
                     <p className="text-[#0C1F1F40] text-[9px] leading-[12.26px] font-bold font-sans">
-                          Description
+                      Description
                     </p>
                     <p className="text-[#71727A] text-[10px] leading-4 font-sans w-[113px] py-1">
                       {details.description}
