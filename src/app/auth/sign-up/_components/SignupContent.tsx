@@ -115,7 +115,7 @@ const SignupContent = () => {
     //   return
     // }
     try {
-      const response = await axios.post('/api/signup', {
+      const response = await axios.post('http://localhost:4000/auth/register', {
         firstName: fnameState,
         lastName: lnameState,
         email: emailState,
