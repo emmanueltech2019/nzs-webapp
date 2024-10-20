@@ -7,13 +7,8 @@ type contextType = {
   handleProgressbar: (progress: number) => void
   img: any
   handleImg: (img: any) => void
-
-  next: string,
-  handleNext: (r: string) => void
-  isActive: boolean,
-  handleActive: (a: boolean) => void
-  message: string,
-  handleMessage: (m: string) => void
+  func: {main: (...args: any[]) => any}
+  handleFunc: (...args: any[]) => void
 }
 
 type contextProviderType = {
@@ -32,19 +27,18 @@ const SubProvider = ({ children }: contextProviderType) => {
     setProgressbar(progress);
   };
 
-
-  const [next, setNext] = useState(''),
-  [isActive, setActive] = useState(false),
-  [message, setMessage] = useState('')
-
-  const handleNext = (r:string) => {setNext(r)}, 
-  handleActive = (a: boolean) => {setActive(a)},
-  handleMessage = (m: string) => {setMessage(m)}
-
-  const obj = {next, handleNext, isActive, handleActive, message, handleMessage}
+  const [func, setFunc] = useState({
+    main: () => console.log('default')
+  })
+  const handleFunc = (f: ((...args: any[]) => any)) => {
+    setFunc({
+      main: f
+    })
+  }
 
   return (
-    <subcontext.Provider value={{progressbar, handleProgressbar, img, handleImg, ...obj}}>{children}</subcontext.Provider>
+    <subcontext.Provider value={{progressbar, handleProgressbar, img, handleImg, func, handleFunc
+    }}>{children}</subcontext.Provider>
   );
 };
 export default SubProvider;

@@ -1,4 +1,3 @@
-// toastUtil.ts
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -18,6 +17,14 @@ const Toast = Swal.mixin({
   }
 });
 
+/**
+ * @author Emmanuel Lucky
+ * @function showToast
+ * @description Show a toast message to the user
+ * @param {string} icon - The icon of the toast alert message success | error | warning | info
+ * @param {string} title - The title of the toast alert
+ * @export
+*/
 // Export the Toast instance
 export const showToast = (icon: 'success' | 'error' | 'warning' | 'info', title: string) => {
   Toast.fire({

@@ -4,6 +4,7 @@ import ServiceFilterButtons from '@/components/SortFilter/ServiceFilterButtons'
 import GridWrapper from '@/components/Grid/GridWrapper'
 import ServicesCard from '@/components/cards/ServiceCard';
 import Link from 'next/link';
+import { filters } from '@/components/SortFilter/Filters';
 
 const Hospitality = () => {
   const nearYouTransactions = [
@@ -67,7 +68,7 @@ const Hospitality = () => {
 
   return (
     <div>
-      <ServiceFilterButtons active='Hospitality'/>
+      <ServiceFilterButtons active='Hospitality' filterArray={filters}/>
       <GridWrapper title="Near You">
       {nearYouTransactions.map((transaction, index) => (
         <Link href="./company?page=hospitality" className="md:w-[35%] flex-shrink-0">

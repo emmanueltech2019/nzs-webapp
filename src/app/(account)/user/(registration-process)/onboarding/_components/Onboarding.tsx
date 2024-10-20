@@ -10,6 +10,7 @@ import { CardItemtype } from "./onboarding.types";
 import OnboardingCard from "./OnboardingCard";
 import FuncRouteBtn from "@/components/buttons/FuncRouteBtn";
 import Box from "@/components/Box";
+import axios from "@/utils/axios";
 
 const chart = "mage:chart-fill";
 const delivery = "solar:delivery-bold";
@@ -17,13 +18,12 @@ const verified_user = "material-symbols:verified-user";
 
 const images = [onboarding_image1, onboarding_image2, onboarding_image3];
 
+
 export const cardContent: CardItemtype[] = [
   {
     icon: chart,
     headText: (
-      <>
-        Streaming Your <br /> Business Sales and <br /> Purchases
-      </>
+      <>Streaming Your <br /> Business Sales and <br /> Purchases</>
     ),
     paragraph:
       "Enjoy these pre-made components and worry only about creating the best products ever.",
@@ -31,11 +31,7 @@ export const cardContent: CardItemtype[] = [
   {
     icon: delivery,
     headText: (
-      <>
-        Quotes, Orders and
-        <br /> Delivery. All Simplified
-        <br /> for you!
-      </>
+      <>Quotes, Orders and <br /> Delivery. All Simplified <br /> for you!</>
     ),
     paragraph:
       "Enjoy these pre-made components and worry only about creating the best products ever.",
@@ -43,11 +39,7 @@ export const cardContent: CardItemtype[] = [
   {
     icon: verified_user,
     headText: (
-      <>
-        Welcome to Efficiency... <br />
-        Create a Profile and get <br />
-        verified quickly
-      </>
+      <>Welcome to Efficiency... <br /> Create a Profile and get <br /> verified quickly</>
     ),
     paragraph:
       "Enjoy these pre-made components and worry only about creating the best products ever.",
@@ -56,7 +48,36 @@ export const cardContent: CardItemtype[] = [
 
 const Onboarding = () => {
   const router = useRouter();
-  const navigate = () =>  {if(FS == 2) router.push('./verify-code')}
+  /**
+   * @author Miracle Boniface
+   * @function handleOnboarding
+   * @description it handles API calls to check if the onboarding page should be displayed
+   * @return {Promise<void>} it returns a Promise that resolves void
+  */
+  const handleOnboarding = async () => {
+    const userToken = localStorage.getItem("userToken") || '';
+    const tr = JSON.parse(userToken);
+    axios({
+      url: `/users/`,
+      data: {
+        onboarding:true
+      },
+      headers: {
+        'Authorization': `Bearer ${tr}`
+      },
+      method: 'PUT',
+    })
+    .then((res) => {
+      router.push('./role')
+      console.log(res);
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+  }
+  const navigate = () => { if (FS == 2){
+    handleOnboarding();
+  } }
   const [FS, setFS] = useState(0);
   const incrementFS = () => {
     setFS((prev) => (prev < 2 ? prev + 1 : prev));
@@ -91,6 +112,10 @@ const Onboarding = () => {
     if (imageApi) imageApi.scrollPrev();
   }, [emblaApi, imageApi]);
 
+
+  
+
+
   return (
     <section className="flex flex-col-reverse lg:flex-row min-h-screen">
       <div className="col flex-[1.2] flex flex-col justify-evenly px-3 md:ps-[150px]">
@@ -102,7 +127,7 @@ const Onboarding = () => {
         {/* pagination */}
         <div className="pagination flex items-center gap-[7px] mt-[20px] md:mt-[70px]">
           {
-            [0,1,2].map(a => <div key={'pagination'+a} className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full transition-all duration-500 ${FS === a ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"}`}></div>)
+            [0, 1, 2].map(a => <div key={'pagination' + a} className={`w-[25.46px] md:w-[36.89px] h-[5.09px] md:h-[7.38px] rounded-full transition-all duration-500 ${FS === a ? "bg-[--foreground-green]" : "bg-[#EAF2FF]"}`}></div>)
           }
         </div>
 
@@ -137,7 +162,7 @@ const Onboarding = () => {
                 </button>
               </div>
               <div className="w-full px-[10px] lg:w-[150px] scale-100 hover:scale-90 transition-all duration-500">
-                <FuncRouteBtn text="Next" func={()=>{navigate();scrollNext()}} />
+                <FuncRouteBtn text="Next" func={() => { navigate(); scrollNext() }} />
               </div>
             </div>
           </div>

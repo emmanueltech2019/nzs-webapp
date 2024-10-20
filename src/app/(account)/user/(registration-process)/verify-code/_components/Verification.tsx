@@ -4,11 +4,10 @@ import { useState } from "react";
 import verifyCodeImage from "@/assets/images/verify-code-img.png";
 import Box from "@/components/Box";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import axios from "@/utils/axios";
+import { showToast } from "@/utils/alert";
 
 
-const baseURL = 'http://localhost:3000/' // replace with your API URL
-const userToken = '' // replace with your API token
 
 
 type eventType = React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -55,21 +54,33 @@ const Verification = () => {
 
     // TODO: validate code and navigate to next page
     try {
-      const response = await axios.post(`${baseURL}auth/verify-email/${userToken}`, res || result, {headers: { 'Authorization': `Bearer${userToken}`}})
-       // replace with your API URL
-       console.log(response)
-       router.push("./role");
-    } catch (error) {
-      
+      const userToken = localStorage.getItem("userToken") || '';
+      let tr = JSON.parse(userToken);
+      const response = await
+        axios({
+          method: "POST",
+          url: `/auth/verify-email/`,
+          data: {
+            code: result
+          },
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${tr}`
+          }
+        })
+      showToast('success',response.data.message)
+      router.push("./onboarding");
+    } catch (error: any) {
+      alert(error.message)
     }
 
     // TODO: clear VCode state
     setVCode(new Array(4).fill(""));
   };
 
+
   const resendCode = (e: eventType) => {
     e.preventDefault();
-    router.push("./role")
   }
 
   return (
