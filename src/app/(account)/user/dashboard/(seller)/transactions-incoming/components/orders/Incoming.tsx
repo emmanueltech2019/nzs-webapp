@@ -1,4 +1,4 @@
-import SellerAccordion from './Accordion'
+import SellerAccordion from '../Accordion'
 import React from 'react'
 
 const Incoming = () => {

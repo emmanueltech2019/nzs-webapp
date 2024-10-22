@@ -5,7 +5,7 @@ import Profile from '@/app/(account)/user/dashboard/(seller)/profile/components/
 
 const RightSidenav = () => {
   return (
-    <div className='hidden bg-[#EAF2FF] md:flex justify-between flex-col top-0 overflow-y-auto max-h-screen  lg:w-[25vw] py-[60px] px-4 sticky right-0'>
+    <div className='hidden bg-[#EAF2FF] md:flex justify-between flex-col top-0 overflow-y-auto max-h-screen  lg:w-[23vw] py-[60px] px-4 sticky right-0'>
 
       <Profile />
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import SellerAccordion from './Accordion'
+import SellerAccordion from '../Accordion'
 import { Icon } from '@iconify/react/dist/iconify.js'
 
 const Pending = () => {
