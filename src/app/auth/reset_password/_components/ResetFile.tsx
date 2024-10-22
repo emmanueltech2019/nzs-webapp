@@ -31,7 +31,7 @@ const ResetFile = () => {
         if (e.target.value && e.target.nextSibling) e.target.nextSibling.focus();
         if (!e.target.value && e.target.previousSibling)
             e.target.previousSibling.focus();
-    };∆
+    };
     // Handle pasting OTP
     const handlePaste = (e: any) => {
         const pasteData = e.clipboardData.getData('text');
