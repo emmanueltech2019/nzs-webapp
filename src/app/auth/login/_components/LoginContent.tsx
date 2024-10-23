@@ -2,7 +2,6 @@
 import Image from "next/image"
 import Apple from "@/assets/icons/Apple.svg"
 import Andriod from '@/assets/icons/Andriod.svg'
-import playBtn from '@/assets/icons/playBtn.svg'
 import { Icon } from "@iconify/react/dist/iconify.js"
 import Link from "next/link"
 import useToggle from "@/hooks/useToggle";
