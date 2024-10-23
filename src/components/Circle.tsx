@@ -10,7 +10,7 @@ type cirlePropsTypes = {
 
 /**
  * @author Miracle Boniface
- * @description - This component is responsible for creating and managing the svg circles, sizes are responsive
+ * @description This component is responsible for creating and managing the svg circles, sizes are responsive
  * @function Circle 
  * @param {React.ReactNode} children - The children node
  * @param {number} size - The size of the circles and svg relative - Default 40

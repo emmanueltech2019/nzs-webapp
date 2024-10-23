@@ -68,7 +68,7 @@ const Onboarding = () => {
       method: 'PUT',
     })
     .then((res) => {
-      router.push('./role')
+      router.push('./interest')
       console.log(res);
     })
     .catch((error) => {

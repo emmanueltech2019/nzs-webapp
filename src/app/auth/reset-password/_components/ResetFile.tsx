@@ -3,7 +3,7 @@ import TagHeader from '@/components/header/TagHeader'
 import openSansFont from '@/fonts/OpenSans'
 import useForm from '@/hooks/useForm'
 import React, { useState } from 'react'
-import Circle from './Circle'
+import Circle from '@/components/Circle'
 import axios from '@/utils/axios'
 import { showToast } from '@/utils/alert'
 import useToggle from '@/hooks/useToggle'
@@ -19,6 +19,7 @@ const ResetFile = () => {
     const router = useRouter()
     const [count, setCount] = useState(60)
     const [loading, setLoading] = useState(false)
+    const [enabled, setEnabled] = useState(false)
     const [sections, setSections] = useState<'first' | 'second' | 'done'>('first')
     const [emailState, setemail] = useForm('')
     const [tpswd, tpswdFunc] = useToggle(false)
@@ -47,7 +48,7 @@ const ResetFile = () => {
     // to GetCode from the server
     const getCode = async () => {
         if (!emailState) {
-            console.log('add your email address please');
+            showToast('warning', 'Add your email address please')
             return;
         }
         // Send email to the user with OTP
@@ -58,6 +59,8 @@ const ResetFile = () => {
                 url: 'auth/reset-request',
                 data: { email: emailState },
             }).then(res => {
+                showToast("info", res.data.message)
+                setEnabled(true)
                 // Then set count to 60 and start timer
                 setCount(60);
                 const timer = setInterval(() => {
@@ -169,8 +172,8 @@ const ResetFile = () => {
                     <div className="p-3">
                         <input type="text" id='email' onChange={e => setemail(e)} value={emailState} required className='w-full pl-7 pr-2 py-3 mb-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='someone@gmail.com' />
                         <div className="flex items-center justify-between">
-                            <button className={`text-xs text-[#0C1F1F] ${openSansFont} py-1 px-[6px] rounded bg-[#0C1F1F0F]`} onClick={getCode}>GET CODE</button>
-                            <div className="">
+                            <button className={`text-xs text-[#0C1F1F] ${openSansFont} py-1 px-[6px] rounded bg-[#0C1F1F0F] focus:shadow-md`} onClick={getCode}>GET CODE</button>
+                            <div className={loading?'animate_loading':''}>
                                 <Circle count={count}>
                                     <p className={`text-[#1F2024] text-sm font-black ${interFont}`}>{count}</p>
                                 </Circle>
@@ -188,6 +191,10 @@ const ResetFile = () => {
                                 <input
                                     title={`OTP_Code_${i}`}
                                     key={"input_" + i}
+                                    style={{
+                                        pointerEvents: enabled ? 'auto' : 'none',
+                                        opacity: enabled ? 1 : 0.5
+                                    }}
                                     type="text"
                                     id="N1"
                                     value={data}
