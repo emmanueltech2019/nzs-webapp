@@ -19,7 +19,7 @@ const ResetFile = () => {
     const router = useRouter()
     const [count, setCount] = useState(60)
     const [loading, setLoading] = useState(false)
-    const [sections, setSections] = useState<'first' | 'second' | 'done'>('second')
+    const [sections, setSections] = useState<'first' | 'second' | 'done'>('first')
     const [emailState, setemail] = useForm('')
     const [tpswd, tpswdFunc] = useToggle(false)
     const [tpswd2, tpswdFunc2] = useToggle(false)
@@ -101,6 +101,7 @@ const ResetFile = () => {
             method: "POST",
             url: `/auth/verify-reset-code/`,
             data: {
+                email: emailState,
                 code: result
             },
         }).then(response => {
@@ -118,7 +119,7 @@ const ResetFile = () => {
     // handles reset password and route to next page
     const handleConfirm = async (e: eventType) => {
         let code = localStorage.getItem('reset_password_code') || '';
-        code = JSON.parse(code);
+        // code = JSON.parse(code);
         const data = { email: emailState, resetCode: code, newPassword: pwdState, confirmPassword: pwdState2 }
         if (data.newPassword !== data.confirmPassword) {
             showToast('error', 'Passwords do not match')
