@@ -27,7 +27,7 @@ const LoginContent = () => {
   const handleSubmit = async (e: eventType) => {
     e.preventDefault()
     if (!emailState || !pwdState) {
-      alert('Please fill out all fields')
+      showToast('warning','Please fill out all fields')
       return
     }
     // Validation
@@ -57,13 +57,13 @@ const LoginContent = () => {
           router.push('/user/seller')
         }
         else{
-          router.push('/user/dashboard') 
+          router.push('/user/interest') 
         }
       }
       
     } catch (error) {
       console.error(error)
-      alert('Failed to login. Please check your email and password.')
+      showToast('error','Failed to login. Please check your email and password.')
     }
   }
   return (

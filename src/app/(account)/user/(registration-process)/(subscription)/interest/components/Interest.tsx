@@ -50,7 +50,7 @@ const Interest = () => {
       }).then(res => {
         console.log(res)
         showToast("success", "Interests saved successfully");
-        router.push("./dashboard")
+        router.push("./role")
       }).catch(err => {
         console.log(err);
         showToast("error", "Failed to save interests");
