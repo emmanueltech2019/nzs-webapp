@@ -99,6 +99,8 @@ const LoginContent = () => {
         </div>
         <p className="text-sm lg:text-base">Use 8 or more characters with a mix of letters, numbers & symbols</p>
 
+        <p>Forgot Password?<Link href={"./forgot-password"} className="text-[#0095FF]">Reset now!</Link></p>
+
         <div className="recognise-device flex my-6 gap-1">
           <input id="rgdvc" type="checkbox" className="accent-[--icon-light-green]" />
           <label htmlFor="rgdvc" className="text-sm lg:text-base">Recognize this device</label>
