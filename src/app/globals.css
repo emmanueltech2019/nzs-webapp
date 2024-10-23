@@ -176,3 +176,16 @@
   padding: 12px;
   outline: none;
 }
+
+.animate_loading {
+  rotate: 0deg;
+  animation: loading 2s infinite;
+}
+@keyframes loading {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
