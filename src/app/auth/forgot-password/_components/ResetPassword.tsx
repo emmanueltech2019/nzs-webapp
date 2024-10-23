@@ -19,7 +19,7 @@ const eye = 'mdi:eye'
 
 type eventType = React.MouseEvent<HTMLInputElement, MouseEvent>
 
-const LoginContent = () => {
+const ResetPassword = () => {
   const router = useRouter();
   const [tpswd, tpswdFunc] = useToggle(false)
   const [emailState, setemail] = useForm('')
@@ -100,7 +100,7 @@ const LoginContent = () => {
         </div>
         <p className="text-sm lg:text-base">Use 8 or more characters with a mix of letters, numbers & symbols</p>
 
-        <p>Forgot Password?<Link href={"./forgot-password"} className="text-[#0095FF]">Reset now!</Link></p>
+        <Link href={"/forgot-password"}>Forgot Password</Link>
 
         <div className="recognise-device flex my-6 gap-1">
           <input id="rgdvc" type="checkbox" className="accent-[--icon-light-green]" />
@@ -117,4 +117,4 @@ const LoginContent = () => {
   )
 }
 
-export default LoginContent
+export default ResetPassword
