@@ -8,15 +8,18 @@ import axios from '@/utils/axios'
 import { showToast } from '@/utils/alert'
 import useToggle from '@/hooks/useToggle'
 import { Icon } from '@iconify/react/dist/iconify.js'
+import interFont from '@/fonts/Inter'
+import { useRouter } from 'next/navigation'
 
 type eventType = React.MouseEvent<HTMLButtonElement, MouseEvent>
 const eyeslash = 'heroicons:eye-slash-20-solid'
 const eye = 'mdi:eye'
 
 const ResetFile = () => {
+    const router = useRouter()
     const [count, setCount] = useState(60)
     const [loading, setLoading] = useState(false)
-    const [sections, setSections] = useState<'first' | 'second' | 'done'>('second')
+    const [sections, setSections] = useState<'first' | 'second' | 'done'>('first')
     const [emailState, setemail] = useForm('')
     const [tpswd, tpswdFunc] = useToggle(false)
     const [tpswd2, tpswdFunc2] = useToggle(false)
@@ -96,8 +99,9 @@ const ResetFile = () => {
         // TODO: validate code and Display the next Screen
         axios({
             method: "POST",
-            url: `/auth/resend-request/`,
+            url: `/auth/verify-reset-code/`,
             data: {
+                email: emailState,
                 code: result
             },
         }).then(response => {
@@ -112,9 +116,10 @@ const ResetFile = () => {
         setVCode(new Array(4).fill(""));
     };
 
+    // handles reset password and route to next page
     const handleConfirm = async (e: eventType) => {
         let code = localStorage.getItem('reset_password_code') || '';
-        code = JSON.parse(code);
+        // code = JSON.parse(code);
         const data = { email: emailState, resetCode: code, newPassword: pwdState, confirmPassword: pwdState2 }
         if (data.newPassword !== data.confirmPassword) {
             showToast('error', 'Passwords do not match')
@@ -128,7 +133,8 @@ const ResetFile = () => {
         }).then(response => {
             showToast('success', response.data.message)
             localStorage.removeItem('reset_password_code')
-            // setSections('third')
+            setSections('done')
+            router.push('/user/dashboard')
         }).catch(err => {
             console.log(err)
             showToast('error', 'Failed to reset password')
@@ -137,7 +143,7 @@ const ResetFile = () => {
     return (
         <section className='px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]'>
             <TagHeader title='Reset Password' />
-            <div className="row flex items-center justify-evenly gap-5">
+            <div className="row flex items-center justify-evenly gap-5 pb-3">
                 <div className="col flex items-center flex-col gap-[9px]">
                     <div className={`flex items-center justify-center leading-0 rounded-full w-6 h-6 text-xs font-semibold text-white ${sections == 'first' ? 'bg-[--foreground-green]' : 'bg-[--icon-light-green3]'}`}>
                         {sections == 'first' ? 1 : <Icon icon='ph:check-bold' className='text-[--foreground-green] font-bold' />}
@@ -145,7 +151,7 @@ const ResetFile = () => {
                     <p className={`text-center font-bold ${sections != 'first' && 'text-[#8F9098]'}`}>Confirm<br /> Reset</p>
                 </div>
                 <div className="col flex items-center flex-col gap-[9px]">
-                    <div className={`flex items-center justify-center leading-0 rounded-full w-6 h-6 text-xs font-semibold ${sections == 'first' ? 'bg-white text-[#8F9098]': sections == 'second' ? 'bg-[--foreground-green] text-white' : 'bg-[--icon-light-green3]'}`}>
+                    <div className={`flex items-center justify-center leading-0 rounded-full w-6 h-6 text-xs font-semibold ${sections == 'first' ? 'bg-white text-[#8F9098]' : sections == 'second' ? 'bg-[--foreground-green] text-white' : 'bg-[--icon-light-green3]'}`}>
                         {sections == 'first' || sections == 'second' ? 2 : <Icon icon='ph:check-bold' className='text-[--foreground-green] font-bold' />}
                     </div>
                     <p className={`text-center font-bold ${sections != 'second' && 'text-[#8F9098]'}`}>Input New<br /> Password</p>
@@ -166,7 +172,7 @@ const ResetFile = () => {
                             <button className={`text-xs text-[#0C1F1F] ${openSansFont} py-1 px-[6px] rounded bg-[#0C1F1F0F]`} onClick={getCode}>GET CODE</button>
                             <div className="">
                                 <Circle count={count}>
-                                    <p className="text-[#1F2024] text-sm font-black">{count}</p>
+                                    <p className={`text-[#1F2024] text-sm font-black ${interFont}`}>{count}</p>
                                 </Circle>
                             </div>
                         </div>
@@ -203,25 +209,31 @@ const ResetFile = () => {
                 </div>)
                 :
                 (<div className="second_secion">
-                    <h2 className='font-black text-[#1F2024] tracking-tight text-xl pb-2'>Please type in your new Password</h2>
-                    <p className={`text-[#71727A] ${openSansFont}`}>
-                        Use only the mail you created your Naijazone account with...
-                    </p>
-                    <div className="relative">
-                        <span className="flex items-center gap-2 cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 -translate-x-1/2" onClick={tpswdFunc}>
-                            <Icon icon={tpswd ? eye : eyeslash} className="inline" />
-                        </span>
-                        <input type={tpswd ? 'text' : 'password'} id='pswd' onChange={e => setpwd(e)} value={pwdState} required className='w-full pl-7 pr-7 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='*****' />
+                    <div className="py-6 px-4">
+                        <h2 className='font-black text-[#1F2024] tracking-tight text-xl pb-2'>Please type in your new Password</h2>
+                        <p className={`text-[#71727A] ${openSansFont}`}>
+                            Use only the mail you created your Naijazone account with...
+                        </p>
                     </div>
-                    <label htmlFor="retype_password">Retype Password</label>
-                    <div className="relative">
-                        <span className="flex items-center gap-2 cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 -translate-x-1/2" onClick={tpswdFunc2}>
-                            <Icon icon={tpswd2 ? eye : eyeslash} className="inline" />
-                        </span>
-                        <input type={tpswd2 ? 'text' : 'password'} id='retype_password' onChange={e => setpwd2(e)} value={pwdState2} required className='w-full pl-7 pr-7 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='*****' />
+                    <div className="py-3 px-3">
+                        <div className="relative">
+                            <span className="flex items-center gap-2 cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 -translate-x-1/2" onClick={tpswdFunc}>
+                                <Icon icon={tpswd ? eye : eyeslash} className="inline" />
+                            </span>
+                            <input type={tpswd ? 'text' : 'password'} id='pswd' onChange={e => setpwd(e)} value={pwdState} required className='w-full pl-7 pr-7 py-3 rounded-[9.3px] text-sm outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[--text-color-gray]' placeholder='.*****' />
+                        </div>
+
+                        <label htmlFor="retype_password" className={`pt-3 pb-2 ${openSansFont} font-bold block`}>Retype Password</label>
+
+                        <div className="relative">
+                            <span className="flex items-center gap-2 cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 -translate-x-1/2" onClick={tpswdFunc2}>
+                                <Icon icon={tpswd2 ? eye : eyeslash} className="inline" />
+                            </span>
+                            <input type={tpswd2 ? 'text' : 'password'} id='retype_password' onChange={e => setpwd2(e)} value={pwdState2} required className='w-full pl-7 pr-7 py-3 rounded-[9.3px] text-sm outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[--text-color-gray]' placeholder='.*****' />
+                        </div>
                     </div>
 
-                    <button
+                    <button onClick={handleConfirm}
                         className="rounded-[12px] mt-3 py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500"
                     >
                         CONFIRM
