@@ -1,18 +1,19 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import initalState, {InterestItem} from "./InterestObj"
+import initalState, { InterestItem } from "./InterestObj"
 import { Icon } from "@iconify/react";
 import { useContextStore } from "@/context/SubscriptionContext";
 import businessAnalysis_img from "@/assets/images/business-analysis.png";
 import axios from "@/utils/axios";
 import { useRouter } from "next/navigation";
+import { showToast } from "@/utils/alert";
 
 const Interest = () => {
 
   const [interest, setInterest] = useState(initalState);
   const router = useRouter();
 
-  useEffect(() =>{}, [interest])
+  useEffect(() => { }, [interest])
 
   const handleClick = (a: any) => {
     let itemIndex = initalState.findIndex((obj) => obj.interest === a);
@@ -36,7 +37,7 @@ const Interest = () => {
   const handleAPI = () => {
     const userToken = localStorage.getItem("userToken") || ''
     const tr = JSON.parse(userToken)
-    if (interest) {
+    if (interest.filter(interest => interest.state).length) {
       axios({
         method: "POST",
         url: "/users/interests/",
@@ -46,14 +47,17 @@ const Interest = () => {
         headers: {
           Authorization: `Bearer ${tr}`,
         },
+      }).then(res => {
+        console.log(res)
+        showToast("success", "Interests saved successfully");
+        router.push("./dashboard")
+      }).catch(err => {
+        console.log(err);
+        showToast("error", "Failed to save interests");
       })
-        .then(res => {
-          console.log(res)
-          router.push("./package")
-        })
-        .catch(err => {
-          console.error(err);
-        })
+    }else {
+      console.log("No interest selected")
+      showToast("error", "No interest selected");
     }
   }
 
@@ -80,9 +84,8 @@ const Interest = () => {
               ({ interest, state }: InterestItem, index: number) => (
                 <div
                   key={index}
-                  className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 ${
-                    state ? "bg-[#EAF2FF]" : "bg-[#ffffff]"
-                  } border-[#C5C6CC] border-[0.5px] cursor-pointer`}
+                  className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 ${state ? "bg-[#EAF2FF]" : "bg-[#ffffff]"
+                    } border-[#C5C6CC] border-[0.5px] cursor-pointer`}
                   onClick={() => {
                     handleClick(interest);
                   }}
@@ -91,9 +94,8 @@ const Interest = () => {
                   <div className="checkbox flex items-center">
                     <Icon
                       icon="ph:check-bold"
-                      className={`text-[#006838] text-[14px] transition-all duration-300 ${
-                        state ? "opacity-100" : "opacity-0"
-                      }`}
+                      className={`text-[#006838] text-[14px] transition-all duration-300 ${state ? "opacity-100" : "opacity-0"
+                        }`}
                     ></Icon>
                   </div>
                 </div>

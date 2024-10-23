@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { useContextStore } from "@/context/SubscriptionContext";
 import axios from "@/utils/axios";
 import { useRouter } from "next/navigation";
+import { showToast } from "@/utils/alert";
 
 type eventType = React.ChangeEvent<HTMLInputElement>;
 
@@ -27,14 +28,17 @@ const Role = () => {
         headers: {
           Authorization: `Bearer ${tr}`,
         },
+      }).then(res => {
+        console.log(res)
+        showToast("success", "Role updated successfully");
+        router.push("./interest")
+      }).catch(err => {
+        console.error(err);
+        showToast("error", "Failed to update role");
       })
-        .then(res => {
-          console.log(res)
-          router.push("./interest")
-        })
-        .catch(err => {
-          console.error(err);
-        })
+    }else{
+      console.log("No role selected")
+      showToast("error", "No role selected");
     }
   }
 
