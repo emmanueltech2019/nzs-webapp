@@ -13,9 +13,9 @@ type cirlePropsTypes = {
  * @description This component is responsible for creating and managing the svg circles, sizes are responsive
  * @function Circle 
  * @param {React.ReactNode} children - The children node
- * @param {number} size - The size of the circles and svg relative - Default 40
+ * @param {number} size - The size of the circles and svg relative - Default: 40
  * @param {number} count - The number of counts for the circle's strokeDashArray and strokeDashOffset properties
- * @param {number} period - The number of seconds for period - Default 60
+ * @param {number} period - The number of seconds for period - Default: 60
  * @param {number} strokeWidth - The stroke width of the circles
 */
 const Circle: FC<cirlePropsTypes> = ({ children, size = 40, count, period = 60, strokeWidth = 3, }) => {

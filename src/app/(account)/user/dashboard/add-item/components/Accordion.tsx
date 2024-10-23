@@ -8,6 +8,7 @@ type accordionPropsType = {
   state: boolean
   onClick: () => void
   batch?: number
+  subTitle?: string
 }
 
 const Accordion: React.FC<accordionPropsType> = ({ title, children, onClick, state, batch = 0 }) => {
