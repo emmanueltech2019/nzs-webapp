@@ -53,34 +53,49 @@ const Verification = () => {
     let res: number = Number(result);
 
     // TODO: validate code and navigate to next page
-    try {
-      const userToken = localStorage.getItem("userToken") || '';
-      let tr = JSON.parse(userToken);
-      const response = await
-        axios({
-          method: "POST",
-          url: `/auth/verify-email/`,
-          data: {
-            code: result
-          },
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${tr}`
-          }
-        })
-      showToast('success',response.data.message)
+
+    const userToken = localStorage.getItem("userToken") || '';
+    let tr = JSON.parse(userToken);
+    axios({
+      method: "POST",
+      url: `/auth/verify-email/`,
+      data: {
+        code: result
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${tr}`
+      }
+    }).then(response => {
+      showToast('success', response.data.message)
       router.push("./onboarding");
-    } catch (error: any) {
-      alert(error.message)
-    }
+    }).catch(err => {
+      console.error(err);
+      showToast('error', err.message)
+    })
 
     // TODO: clear VCode state
     setVCode(new Array(4).fill(""));
   };
 
 
-  const resendCode = (e: eventType) => {
+  const resendCode = async (e: eventType) => {
     e.preventDefault();
+    const userToken = localStorage.getItem("userToken") || '';
+    let tr = JSON.parse(userToken);
+    axios({
+      method: "POST",
+      url: `/auth/resend-request/`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${tr}`
+      }
+    }).then(res => {
+      showToast('info', res.data.message)
+    }).catch(err => {
+      showToast('error', err.message)
+      console.log(err);
+    })
   }
 
   return (

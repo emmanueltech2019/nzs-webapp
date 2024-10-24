@@ -1,21 +1,18 @@
 import React, { FC, useState } from 'react';
 import { Icon } from '@iconify/react';
+import { CartItemT } from '@/types/Product.types';
 
-type ItemType = {
-    title: string;
-    color: string;
-    size: string;
-    price: number;
-  };
+
   
 
 interface BagProps {
-    item: ItemType;
+    item: CartItemT;
     quantity: number;
     setQuantity: (newQuantity: number) => void;
 }
 
-const BagItem: FC<BagProps> = ({ item, quantity, setQuantity }) => {
+const BagItem: FC<BagProps> = ({ item }) => {
+  console.log("item", item)
   return (
     <div className="flex items-center justify-between border-b py-4">
       {/* Image Placeholder */}
@@ -25,19 +22,19 @@ const BagItem: FC<BagProps> = ({ item, quantity, setQuantity }) => {
         </div>
         {/* Item Details */}
         <div>
-          <h3 className="font-semibold">{item.title}</h3>
-          <p className="text-sm text-gray-500">{item.color} / {item.size}</p>
+          <h3 className="font-semibold">{item.productId.name}</h3>
+          {/* <p className="text-sm text-gray-500">{item.color} / {item.size}</p> */}
           {/* Quantity Selector */}
         <div className="flex items-center  rounded-full">
           <button 
-            onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
+            // onClick={() => setQuantity(itemquantity > 1 ? quantity - 1 : 1)}
             className=" py-1 text-gray-600"
           >
             <span className='px-2 py-[1px] border bg-[#EAF2FF] text-[#006838] rounded-full'>-</span>
           </button>
-          <span className="px-3">{quantity}</span>
+          <span className="px-3">{item.quantity}</span>
           <button 
-            onClick={() => setQuantity(quantity + 1)}
+            // onClick={() => setQuantity(quantity + 1)}
             className=" py-1 text-gray-600"
           >
           <span className='px-2 py-[2px] border bg-[#EAF2FF] text-[#006838] rounded-full'>+</span>

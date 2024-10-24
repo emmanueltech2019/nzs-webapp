@@ -1,10 +1,12 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import BagItem from './BagItem';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import TagHeader from '@/components/header/TagHeader';
+import axios from "@/utils/axios";
+import { CartItemT, CartT } from '@/types/Product.types';
 
 
 
@@ -12,12 +14,31 @@ const ShoppingBag = () => {
   const [quantities, setQuantities] = useState([1, 1, 1, 1]);
   const router = useRouter();
 
-  const items = [
-    { title: 'Amazing T-shirt', color: 'Black', size: 'M', price: 12.00 },
-    { title: 'Fabulous Pants', color: 'Blue', size: '42', price: 15.00 },
-    { title: 'Spectacular Dress', color: 'Gold', size: 'L', price: 20.00 },
-    { title: 'Stunning Jacket', color: 'Blue', size: 'M', price: 18.00 },
-  ];
+  const [cartItems, setCartItems] = useState<CartT | null>(null);  // The state should match the CartT interface
+
+  useEffect(() => {
+    const userToken = localStorage.getItem("userToken") || "";
+    const tr = JSON.parse(userToken);
+    
+    axios({
+      method: "GET",
+      url: "cart",
+      headers: {
+        Authorization: `Bearer ${tr}`,
+      },
+    })
+      .then((res) => {
+        console.log(res.data.cart);
+        setCartItems(res.data.cart); 
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    
+  }, []); 
+  
+
+
 
   const handleSetQuantity = (index:number, value:number) => {
     const newQuantities = [...quantities];
@@ -25,7 +46,7 @@ const ShoppingBag = () => {
     setQuantities(newQuantities);
   };
 
-  const total = items.reduce((acc, item, index) => acc + item.price * quantities[index], 0);
+  // const total = items.reduce((acc, item, index) => acc + item.price * quantities[index], 0);
 
   const handleGoBack = () => {
     router.back(); // Navigate back to the previous page
@@ -39,21 +60,21 @@ const ShoppingBag = () => {
 
       {/* Bag Items */}
     <div className='overflow-y-scroll h-[70vh]'>
-      {items.map((item, index) => (
-        <BagItem
-          key={index} 
-          item={item} 
-          quantity={quantities[index]} 
-          setQuantity={(value:number) => handleSetQuantity(index, value)} 
-        />
-      ))}
+    {cartItems?.items.map((item:CartItemT, index) => (
+          <BagItem
+            key={item._id} // Unique key from item._id
+            item={item}
+            quantity={quantities[index]}
+            setQuantity={(value: number) => handleSetQuantity(index, value)}
+          />
+        ))}
 
     </div>
 
       {/* Total */}
       <div className="flex justify-between items-center py-4 font-extrabold">
         <span>Total</span>
-        <span>₦ {total.toFixed(2)}</span>
+        {/* <span>₦ {total.toFixed(2)}</span> */}
       </div>
 
       {/* Checkout Button */}

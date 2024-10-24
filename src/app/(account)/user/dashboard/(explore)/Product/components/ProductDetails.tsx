@@ -1,10 +1,17 @@
 "use client"
 import CarouselEmbla from '@/components/carousel/Carousel';
 import Link from 'next/link';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import axios from "@/utils/axios";
+import { ProductT } from '@/types/Product.types';
+import { showToast } from '@/utils/alert';
+// import { useRouter } from 'next/router';
+
+
 const ProductScreen: FC = () => {
+  const [product, setProduct] = useState<ProductT>();
   const [selectedSize, setSelectedSize] = useState('S');
   const [selectedColor, setSelectedColor] = useState('green');
 
@@ -15,6 +22,50 @@ const ProductScreen: FC = () => {
   const handleGoBack = () => {
     router.back(); // Navigate back to the previous page
   };
+
+  const userToken = localStorage.getItem("userToken") || "";
+  const tr = JSON.parse(userToken);
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  let id = urlParams.get("id")
+
+  const addToCart = () =>{
+    axios({
+      method: "POST",
+      url: "cart/add/",
+      data:{productId:id, quantity:1},
+      headers: {
+        Authorization: `Bearer ${tr}`,
+      },
+    })
+      .then((res) => {
+        showToast("success","Item added to cart")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  useEffect(() => {
+    const userToken = localStorage.getItem("userToken") || "";
+  const tr = JSON.parse(userToken);
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  let id = urlParams.get("id")
+    axios({
+      method: "GET",
+      url: "products/single/"+id,
+      headers: {
+        Authorization: `Bearer ${tr}`,
+      },
+    })
+      .then((res) => {
+        setProduct(res.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [])
+  
 
   return (
     <div className="relative p-4  mx-auto bg-white rounded-lg ">
@@ -32,13 +83,9 @@ const ProductScreen: FC = () => {
       {/* Product Info */}
       <div className="mt-4">
         <span className="inline-block py-2 px-4 bg-[#EAF2FF] text-black rounded-lg mb-4 mt-2">Outgoing</span>
-        <h2 className="text-2xl font-bold">Amazing T-Shirt</h2>
-        <p className="text-xl text-gray-700">₦ 12.00</p>
-        <p className="mt-2 text-gray-500">
-          The perfect T-shirt for when you want to feel comfortable but still stylish. Amazing for all occasions. Made
-          of 100% cotton fabric in four colors. Its modern style gives a lighter look to the outfit. Perfect for the
-          warmest days.
-        </p>
+        <h2 className="text-2xl font-bold">{product?.name}</h2>
+        <p className="text-xl text-gray-700">₦ {product?.price}</p>
+        <p className="mt-2 text-gray-500">{product?.description}</p>
       </div>
 
       {/* Size Selector */}
@@ -73,12 +120,10 @@ const ProductScreen: FC = () => {
       </div>
 
       {/* Add to Bag Button */}
-      <Link href={"./cart"}>
 
-      <button className="mt-6 w-full py-3 bg-[#006838] text-white text-lg rounded-lg flex items-center justify-center">
+      <button className="mt-6 w-full py-3 bg-[#006838] text-white text-lg rounded-lg flex items-center justify-center" onClick={addToCart}>
         + Add to Bag
       </button>
-      </Link>
     </div>
   );
 };

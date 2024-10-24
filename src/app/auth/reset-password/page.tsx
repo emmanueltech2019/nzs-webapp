@@ -1,9 +1,9 @@
-import LoginContent from "./_components/LoginContent"
+import ResetFile from './_components/ResetFile'
 
 const page = () => {
   return (
     <div>
-        <LoginContent />
+        <ResetFile />
     </div>
   )
 }

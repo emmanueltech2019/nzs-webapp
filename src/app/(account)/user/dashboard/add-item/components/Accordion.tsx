@@ -1,16 +1,10 @@
 'use client'
 import React, { useState } from 'react'
 import { Icon } from "@iconify/react/dist/iconify.js"
+import { AccordionPropsType } from '@/types/AccordionProps.types'
 
-type accordionPropsType = {
-  children: React.ReactNode
-  title: string,
-  state: boolean
-  onClick: () => void
-  batch?: number
-}
 
-const Accordion: React.FC<accordionPropsType> = ({ title, children, onClick, state, batch = 0 }) => {
+const Accordion: React.FC<AccordionPropsType> = ({ title, children, onClick, state, batch = 0 }) => {
   const [batchNum, setBatch] = useState(batch)
 
   return (

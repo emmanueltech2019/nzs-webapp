@@ -1,51 +1,14 @@
-// import { FC } from 'react';
-// import Card from '../cards/ProductCard';
-
-// const products = [
-//   { title: 'Amazing T-shirt', price: '₦ 12.00' },
-//   { title: 'Fabulous Pants', price: '₦ 15.00' },
-//   { title: 'Amazing T-shirt', price: '₦ 12.00' },
-// ];
-
-// const ProductGrid: FC<{ title: string }> = ({ title }) => {
-//   return (
-//     <div className="px-4 py-6">
-//       <div className="flex justify-between items-center">
-//         <h2 className="text-xl font-semibold">{title}</h2>
-//         <button className="text-[#006838]">See more</button>
-//       </div>
-//       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-//         {products.map((product, index) => (
-//           <Card key={index} title={product.title} price={product.price} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProductGrid;
-
-
 import { FC } from 'react';
 import Card from '../cards/ProductCard';
 import productMockup from "../../assets/images/productMockup.png"
+import { ProductT } from '@/types/Product.types';
+import Link from 'next/link';
 
-const products = [
-  { title: 'Amazing T-shirt', price: '₦ 12.00' },
-  { title: 'Fabulous Pants', price: '₦ 15.00' },
-  { title: 'Amazing T-shirt', price: '₦ 12.00' },
-  { title: 'Spectacular Shirt', price: '₦ 14.00' },
-  { title: 'Fantastic Shoes', price: '₦ 13.00' },
-  { title: 'Wonderful Shoes', price: '₦ 15.00' },
-  { title: 'Amazing T-shirt', price: '₦ 12.00' },
-  { title: 'Fabulous Pants', price: '₦ 15.00' },
-  { title: 'Amazing T-shirt', price: '₦ 12.00' },
-  { title: 'Spectacular Shirt', price: '₦ 14.00' },
-  { title: 'Fantastic Shoes', price: '₦ 13.00' },
-  { title: 'Wonderful Shoes', price: '₦ 15.00' },
-];
 
-const ProductGrid: FC<{ title: string }> = ({ title }) => {
+
+
+
+const ProductGrid: FC<{ title: string; products: ProductT[] }> = ({ title, products }) => {
   return (
     <div className="px-4 py-6">
       <div className="flex justify-between items-center">
@@ -60,7 +23,9 @@ const ProductGrid: FC<{ title: string }> = ({ title }) => {
           <div className="flex space-x-4" style={{ minWidth: 'calc(60vw - 72px)', width: '10px' }}>
             {products.map((product, index) => (
               <div className="md:w-[26%] flex-shrink-0" key={index}>
-                <Card  title={product.title} price={product.price} image={ productMockup}/>
+                <Link href={`./dashboard/Product?id=${product._id}`}>
+                <Card  title={product.name} price={product.price} image={ productMockup}/>
+              </Link>
               </div>
             ))}
           </div>

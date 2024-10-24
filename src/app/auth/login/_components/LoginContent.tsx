@@ -2,7 +2,6 @@
 import Image from "next/image"
 import Apple from "@/assets/icons/Apple.svg"
 import Andriod from '@/assets/icons/Andriod.svg'
-import playBtn from '@/assets/icons/playBtn.svg'
 import { Icon } from "@iconify/react/dist/iconify.js"
 import Link from "next/link"
 import useToggle from "@/hooks/useToggle";
@@ -28,7 +27,7 @@ const LoginContent = () => {
   const handleSubmit = async (e: eventType) => {
     e.preventDefault()
     if (!emailState || !pwdState) {
-      alert('Please fill out all fields')
+      showToast('warning','Please fill out all fields')
       return
     }
     // Validation
@@ -58,13 +57,13 @@ const LoginContent = () => {
           router.push('/user/seller')
         }
         else{
-          router.push('/user/dashboard') 
+          router.push('/user/interest') 
         }
       }
       
     } catch (error) {
       console.error(error)
-      alert('Failed to login. Please check your email and password.')
+      showToast('error','Failed to login. Please check your email and password.')
     }
   }
   return (
@@ -99,6 +98,8 @@ const LoginContent = () => {
           <input type={tpswd ? 'text' : 'password'} id='pswd' onChange={e => setpwd(e)} value={pwdState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='*****' />
         </div>
         <p className="text-sm lg:text-base">Use 8 or more characters with a mix of letters, numbers & symbols</p>
+
+        <p>Forgot Password?<Link href={"./forgot-password"} className="text-[#0095FF]">Reset now!</Link></p>
 
         <div className="recognise-device flex my-6 gap-1">
           <input id="rgdvc" type="checkbox" className="accent-[--icon-light-green]" />
