@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { CartItemT } from '@/types/Product.types';
+import axios from "@/utils/axios";
+import { showToast } from '@/utils/alert';
 
-
-  
 
 interface BagProps {
     item: CartItemT;
@@ -12,7 +12,24 @@ interface BagProps {
 }
 
 const BagItem: FC<BagProps> = ({ item }) => {
-  console.log("item", item)
+  const updateCart  = (id: string, action: string) =>{
+    const userToken = localStorage.getItem("userToken") || "";
+     const tr = JSON.parse(userToken);
+    axios({
+      method: "PUT",
+      url: "cart/update/",
+      data:{productId:id, action},
+      headers: {
+        Authorization: `Bearer ${tr}`,
+      },
+    })
+      .then((res) => {
+        showToast("success","Item updated")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   return (
     <div className="flex items-center justify-between border-b py-4">
       {/* Image Placeholder */}
@@ -27,14 +44,14 @@ const BagItem: FC<BagProps> = ({ item }) => {
           {/* Quantity Selector */}
         <div className="flex items-center  rounded-full">
           <button 
-            // onClick={() => setQuantity(itemquantity > 1 ? quantity - 1 : 1)}
+          onClick={()=>updateCart(item.productId._id, "minus")}
             className=" py-1 text-gray-600"
           >
             <span className='px-2 py-[1px] border bg-[#EAF2FF] text-[#006838] rounded-full'>-</span>
           </button>
           <span className="px-3">{item.quantity}</span>
           <button 
-            // onClick={() => setQuantity(quantity + 1)}
+            onClick={()=>updateCart(item.productId._id, "plus")}
             className=" py-1 text-gray-600"
           >
           <span className='px-2 py-[2px] border bg-[#EAF2FF] text-[#006838] rounded-full'>+</span>
