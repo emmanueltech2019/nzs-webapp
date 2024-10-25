@@ -77,7 +77,8 @@ const ProductScreen: FC = () => {
 
 
       {/* Product Image/Carousel */}
-      <CarouselEmbla/>
+      {/* <CarouselEmbla images={product?.images}/> */}
+      <CarouselEmbla images={product?.images ?? []} />
 
 
       {/* Product Info */}
