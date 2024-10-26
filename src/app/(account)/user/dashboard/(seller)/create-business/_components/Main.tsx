@@ -8,6 +8,7 @@ import Circle from '@/components/Circle'
 import BusinessDescription from './BusinessDescription'
 import BusinessInfo from './BusinessInfo'
 import PaymentInfo from './PaymentInfo'
+import Preview from './Preview'
 
 
 const initialState = [
@@ -38,8 +39,6 @@ const Main = () => {
     const [btnFunc, setBtnFunc] = useState({func: () => console.log('default')})
     const handleBtnFunc = (param:((...args: any[]) => any)) => setBtnFunc({func: param})
 
-    const Preview = () => (<div></div>)
-
     return (
         <div>
             <TagHeader title="Add Business" />
@@ -56,7 +55,7 @@ const Main = () => {
             {section === 1 && <BusinessDescription setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
             {section === 2 && <BusinessInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
             {section === 3 && <PaymentInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
-            {section === 4 && <Preview />}
+            {section === 4 && <Preview setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
 
             <div className='flex items-center pt-3 pb-4 gap-6'>
                 <button onClick={btnFunc.func}
