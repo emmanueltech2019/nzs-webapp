@@ -35,8 +35,8 @@ const Interest = () => {
   }, [handleImg, handleProgressbar]);
 
   const handleAPI = () => {
-    const userToken = localStorage.getItem("userToken") || ''
-    const tr = JSON.parse(userToken)
+    // const userToken = localStorage.getItem("userToken") || ''
+    // const tr = JSON.parse(userToken)
     if (interest.filter(interest => interest.state).length) {
       axios({
         method: "POST",
@@ -45,7 +45,7 @@ const Interest = () => {
           interests: interest.filter(a => a.state).map(a => a.interest)
         },
         headers: {
-          Authorization: `Bearer ${tr}`,
+          Authorization: `Bearer ${localStorage.getItem("userToken") }`,
         },
       }).then(res => {
         console.log(res)

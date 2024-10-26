@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import TagHeader from '@/components/header/TagHeader';
 import axios from "@/utils/axios";
 import { CartItemT, CartT } from '@/types/Product.types';
+import { showToast } from '@/utils/alert';
 
 
 
@@ -16,15 +17,30 @@ const ShoppingBag = () => {
 
   const [cartItems, setCartItems] = useState<CartT | null>(null);  // The state should match the CartT interface
 
+  const checkOut = () =>{
+    axios({
+      method: "POST",
+      url: "products/checkout",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    })
+      .then((res) => {
+        showToast('success', "Order placed successfully")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   useEffect(() => {
-    const userToken = localStorage.getItem("userToken") || "";
-    const tr = JSON.parse(userToken);
+    // const userToken = localStorage.getItem("userToken") || "";
+    // const tr = JSON.parse(userToken);
     
     axios({
       method: "GET",
       url: "cart",
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then((res) => {

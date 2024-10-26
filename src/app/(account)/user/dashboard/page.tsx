@@ -20,14 +20,14 @@ const Dashboard = () => {
   const [products, setProducts] = useState<ProductT[]>([]); // useState expects an array of Product
 
   useEffect(() => {
-    const userToken = localStorage.getItem("userToken") || "";
-    const tr = JSON.parse(userToken);
+    // const userToken = localStorage.getItem("userToken") || "";
+    // const tr = JSON.parse(userToken);
     
     axios({
       method: "GET",
       url: "products",
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then((res) => {
@@ -47,6 +47,8 @@ const Dashboard = () => {
   const main = searchParams.get("main") || "";
   const [activeTab, setActiveTab] = useState(main || "products");
   const imagesL = [Banner1, Banner2, Banner3, Banner4]
+  const imageSrcArray = imagesL.map((image) => image.src);
+
   return (
     <div className="min-h-screen">
       {/*  md:w-[61vw]  */}
@@ -62,7 +64,7 @@ const Dashboard = () => {
                 router.push("./dashboard/add-item");
               }}
             />
-            <Carousel images={imagesL}/>
+            <Carousel images={imageSrcArray}/>
             <ProductGrid title="Perfect for you" products={products} />
             <ProductGrid title="For this summer" products={products} />
           </>

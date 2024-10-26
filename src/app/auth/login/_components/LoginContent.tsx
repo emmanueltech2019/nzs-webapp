@@ -40,7 +40,7 @@ const LoginContent = () => {
       } 
       const response = await axios.post(`/auth/login`, data)
       // Store user data in local storage - userToken
-      localStorage.setItem('userToken', JSON.stringify(response.data.token))
+      localStorage.setItem('userToken', response.data.token)
 
       showToast('success', 'User logged in successfully')
 

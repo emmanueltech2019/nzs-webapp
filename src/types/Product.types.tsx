@@ -13,11 +13,11 @@
 //     _id: string;
 //   }
 export interface ProductT {
-    _id: number;
-    name: string;
-    price: string;
-    description: string;
-    images: string[]
+  _id: string;
+  name: string;
+  images: string[]; // Add images as an array of strings
+  price: string;
+  description: string;
 }
 
 export interface CartItemT {

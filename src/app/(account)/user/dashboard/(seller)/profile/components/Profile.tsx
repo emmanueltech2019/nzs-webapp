@@ -22,7 +22,12 @@ interface User {
   email: string;
   accountType: "buyer" | "seller";
 }
+<<<<<<< HEAD
 
+=======
+// const userToken = localStorage.getItem("userToken") || "";
+// const tr = JSON.parse(userToken);
+>>>>>>> 9c0ec4a3d73d5063c9a5bf4ef6076cc2380f44a4
 
 const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -50,10 +55,10 @@ const Profile = () => {
   };
   useEffect(() => {
     // Make sure `tr` is defined and valid
-    const userToken = localStorage.getItem("userToken");
-    const tr = userToken ? JSON.parse(userToken) : null;
+    // const userToken = localStorage.getItem("userToken");
+    // const tr = userToken ? JSON.parse(userToken) : null;
 
-    if (!tr) {
+    if (!localStorage.getItem("userToken")) {
       console.error("User token is missing.");
       return;
     }
@@ -62,7 +67,7 @@ const Profile = () => {
       method: "GET",
       url: "/users/profile", // Make sure this URL is correct and your base URL is set up in axios
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then((res) => {

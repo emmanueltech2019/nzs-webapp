@@ -18,8 +18,8 @@ const Seller_Role = () => {
     setRole(e.target.title);
   }
   const handleAPI = async () => {
-    const userToken = localStorage.getItem("userToken") || ''
-    const tr = JSON.parse(userToken)
+    // const userToken = localStorage.getItem("userToken") || ''
+    // const tr = JSON.parse(userToken)
     if (role) {
       axios({
         method: "PUT",
@@ -28,7 +28,7 @@ const Seller_Role = () => {
           role
         },
         headers: {
-          Authorization: `Bearer ${tr}`,
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
       }).then(res => {
         console.log(res)

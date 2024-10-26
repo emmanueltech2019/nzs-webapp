@@ -102,7 +102,7 @@ const SignupContent = () => {
         showToast("success", "Signup sucessfully")
         
         // Store user data in local storage - userToken
-        localStorage.setItem('userToken', JSON.stringify(response.data.token))
+        localStorage.setItem('userToken', response.data.token)
 
         router.push('/user/verify-code');
       } else {

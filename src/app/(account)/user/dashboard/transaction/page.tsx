@@ -28,14 +28,14 @@ const Transactions = () => {
   ];
 
   useEffect(() => {
-    const userToken = localStorage.getItem("userToken");
-    const tr = userToken ? JSON.parse(userToken) : null;
+    // const userToken = localStorage.getItem("userToken");
+    // const tr = userToken ? JSON.parse(userToken) : null;
 
     axios({
       url: 'users/transactions',
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     }).then((res) => {
       const transactions: Transaction[] = res.data.transactions;

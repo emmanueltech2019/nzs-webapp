@@ -19,14 +19,14 @@ const Notifications = () => {
   const [unreadNotifications, setUnreadNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
-    const userToken = localStorage.getItem("userToken");
-    const tr = userToken ? JSON.parse(userToken) : null;
+    // const userToken = localStorage.getItem("userToken");
+    // const tr = userToken ? JSON.parse(userToken) : null;
 
     axios({
       url: 'users/notifications',
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     }).then((res) => {
       const notifications: Notification[] = res.data.notifications;

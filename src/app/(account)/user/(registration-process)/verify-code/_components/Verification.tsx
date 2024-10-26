@@ -53,9 +53,6 @@ const Verification = () => {
     let res: number = Number(result);
 
     // TODO: validate code and navigate to next page
-
-    const userToken = localStorage.getItem("userToken") || '';
-    let tr = JSON.parse(userToken);
     axios({
       method: "POST",
       url: `/auth/verify-email/`,
@@ -64,7 +61,7 @@ const Verification = () => {
       },
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${tr}`
+        'Authorization': `Bearer ${localStorage.getItem("userToken")}`
       }
     }).then(response => {
       showToast('success', response.data.message)
