@@ -1,7 +1,6 @@
 "use client";
 import Image from 'next/image'
 import Link from 'next/link'
-import logo from '@/assets/images/logo.png'
 import logoTitle from '@/assets/images/logoTitle.png'
 import useToggle from '@/hooks/useToggle'
 import { Icon } from '@iconify/react';
@@ -32,6 +31,7 @@ const links: navLinksType = [
 // constant styles
 const TbtnIonstyle = "w-[26.91px] h-[3.84px] bg-black rounded-full leading-none"
 
+const logo = 'https://res.cloudinary.com/wise-solution-inc/image/upload/v1729911544/fulllogo_full_green_1_gg1urs.png'
 
 // returned JSX.Elements
 const Navbar = ({ children }: NavbarType) => {
