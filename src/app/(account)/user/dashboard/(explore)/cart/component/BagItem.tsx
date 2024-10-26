@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react';
 import { CartItemT } from '@/types/Product.types';
 import axios from "@/utils/axios";
 import { showToast } from '@/utils/alert';
+import Image from 'next/image';
 
 
 interface BagProps {
@@ -35,7 +36,7 @@ const BagItem: FC<BagProps> = ({ item }) => {
       {/* Image Placeholder */}
       <div className="flex items-center">
         <div className="w-[100px] h-[100px] bg-gray-200 rounded-md mr-4 flex items-center justify-center">
-          <Icon icon="mdi:image-outline" className="text-gray-400 text-2xl" />
+          <Image src={item.productId?.images[0]} width={100} height={100} alt='' className="text-gray-400 text-2xl" />
         </div>
         {/* Item Details */}
         <div>
