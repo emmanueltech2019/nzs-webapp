@@ -16,7 +16,7 @@ export interface ProductT {
   _id: string;
   name: string;
   images: string[]; // Add images as an array of strings
-  price: number;
+  price: string;
   description: string;
 }
 
