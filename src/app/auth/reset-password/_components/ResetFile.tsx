@@ -170,7 +170,7 @@ const ResetFile = () => {
                         </p>
                     </div>
                     <div className="p-3">
-                        <input type="text" id='email' onChange={e => setemail(e)} value={emailState} required className='w-full pl-7 pr-2 py-3 mb-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='someone@gmail.com' />
+                        <input type="email" id='email' onChange={e => setemail(e)} value={emailState} required className='w-full pl-7 pr-2 py-3 mb-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='someone@gmail.com' />
                         <div className="flex items-center justify-between">
                             <button className={`text-xs text-[#0C1F1F] ${openSansFont} py-1 px-[6px] rounded bg-[#0C1F1F0F] focus:shadow-md`} onClick={getCode}>GET CODE</button>
                             <div className={loading?'animate_loading':''}>

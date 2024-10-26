@@ -7,11 +7,6 @@ import Box from "@/components/Box";
 type layerType = {
   children: React.ReactNode;
 };
-type handleRouteType = (
-  route: string,
-  active: boolean,
-  message: string
-) => void;
 
 const Layer = ({ children }: layerType) => {
   const { progressbar, img, func } = useContextStore();
@@ -44,7 +39,7 @@ const Layer = ({ children }: layerType) => {
             className={`rounded-[12px] py-4 md:py-4 px-4 text-[#FFFFFF] text-sm md:text-base font-semibold leading-[14.52px] text-center block w-[100%] bg-[#006838] m-auto my-1 select-none`}
             onClick={func.main}
           >
-            Next
+            {progressbar == 80 ? 'CREATE PROFILE' : 'Next'}
           </button>
         </div>
 

@@ -1,12 +1,11 @@
 'use client'
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import { Icon } from "@iconify/react/dist/iconify.js"
 import { AccordionPropsType } from '@/types/AccordionProps.types'
 
 
-const Accordion: React.FC<AccordionPropsType> = ({ title, children, onClick, state, batch = 0 }) => {
+const Accordion: FC<AccordionPropsType> = ({ title, children, onClick, state, batch = 0 }) => {
   const [batchNum, setBatch] = useState(batch)
-
   return (
     <div className='flex justify-between items-start py-4 border-b-[0.5px] border-[#D4D6DD]'>
       <div className="col">
