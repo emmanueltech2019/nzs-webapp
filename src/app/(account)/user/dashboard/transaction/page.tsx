@@ -28,8 +28,8 @@ const Transactions = () => {
   ];
 
   useEffect(() => {
-    const userToken = localStorage.getItem("userToken");
-    const tr = userToken ? JSON.parse(userToken) : null;
+    // const userToken = localStorage.getItem("userToken");
+    // const tr = userToken ? JSON.parse(userToken) : null;
 
     axios({
       url: 'users/transactions',

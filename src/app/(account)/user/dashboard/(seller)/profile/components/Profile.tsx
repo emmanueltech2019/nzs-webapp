@@ -51,8 +51,8 @@ const Profile = () => {
   };
   useEffect(() => {
     // Make sure `tr` is defined and valid
-    const userToken = localStorage.getItem("userToken");
-    const tr = userToken ? JSON.parse(userToken) : null;
+    // const userToken = localStorage.getItem("userToken");
+    // const tr = userToken ? JSON.parse(userToken) : null;
 
     if (!tr) {
       console.error("User token is missing.");
