@@ -103,7 +103,7 @@ const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection })
             <div className="py-5 w-full">
                 <div className="bg-[#F8F9FE] p-4 rounded-lg">
                     <div className="bg-white rounded-lg min-h-[97px] justify-center items-center flex">
-                        <input type="file" name="logo" id="logo" className='hidden' value={file} onChange={(e) => console.log(e.target)} />
+                        <input type="file" name="logo" id="logo" className='hidden' onChange={(e) => console.log(e.target)} />
                         <label htmlFor="logo">
                             <Circle size={48} count={uploadCount} period={100}>
                                 <Icon icon='akar-icons:arrow-up' className='text-xl text-[--foreground-green] font-extrabold'></Icon>
