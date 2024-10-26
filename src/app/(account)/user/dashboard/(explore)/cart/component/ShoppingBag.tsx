@@ -26,7 +26,7 @@ const ShoppingBag = () => {
       },
     })
       .then((res) => {
-showToast('success', "Order placed successfully")
+        showToast('success', "Order placed successfully")
       })
       .catch((error) => {
         console.log(error);
