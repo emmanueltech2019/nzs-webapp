@@ -4,6 +4,7 @@ import openSansFont from '@/fonts/OpenSans'
 import general_type from './general.types'
 import useForm from '@/hooks/useForm'
 import { Icon } from '@iconify/react/dist/iconify.js'
+import { ProfileInfo } from './Main'
 
 const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) => {
     useEffect(() => {
@@ -42,26 +43,27 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
                 </div>
                 <input type="text" id='businessName' onChange={e => setAccountName(e)} value={accountName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Registered Business Name' />
                 <div className='flex flex-col gap-3 py-3'>
-                        {accountType.map(({ item, state }, i) => (
-                            <div
-                                key={item}
-                                className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 border-[0.5px] ${state ? "bg-[#EAF2FF] border-transparent" : "bg-[#ffffff] border-[#C5C6CC]"
-                                    } cursor-pointer`}
-                                onClick={() => {
-                                    handleClick(item);
-                                }}
-                            >
-                                <p className="text-[14px] text-[#1F2024]">{item}</p>
-                                <div className="checkbox flex items-center">
+                    {accountType.map(({ item, state }, i) => (
+                        <div
+                            key={item}
+                            className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 border-[0.5px] ${state ? "bg-[#EAF2FF] border-transparent" : "bg-[#ffffff] border-[#C5C6CC]"
+                                } cursor-pointer`}
+                            onClick={() => {
+                                handleClick(item);
+                            }}
+                        >
+                            <p className="text-[14px] text-[#1F2024]">{item}</p>
+                            <div className="checkbox flex items-center">
                                 <Icon
                                     icon="ph:check-bold"
                                     className={`text-[#006838] text-[14px] transition-all duration-300 ${state ? "opacity-100" : "opacity-0"}`}
                                 ></Icon>
                             </div>
-                            </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
+                </div>
             </div>
+            <ProfileInfo />
         </div>
     )
 }

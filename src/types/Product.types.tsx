@@ -21,13 +21,15 @@ export interface ProductT {
 }
 
 export interface CartItemT {
-  _id: string;
-  productId: ProductT;
-  quantity: number;
-  price: number;
-}
+    productId: ProductT[];
+    quantity: number;
+    price: number;
+    _id: string;
+  }
+  
+  export interface CartT {
+    _id: string;   
+    items: CartItemT[]; 
+  }
 
-export interface CartT {
-  _id: string;
-  items: CartItemT[];
-}
+  
