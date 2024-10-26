@@ -53,9 +53,6 @@ const Verification = () => {
     let res: number = Number(result);
 
     // TODO: validate code and navigate to next page
-
-    const userToken = localStorage.getItem("userToken") || '';
-    let tr = JSON.parse(userToken);
     axios({
       method: "POST",
       url: `/auth/verify-email/`,
@@ -81,14 +78,12 @@ const Verification = () => {
 
   const resendCode = async (e: eventType) => {
     e.preventDefault();
-    const userToken = localStorage.getItem("userToken") || '';
-    let tr = JSON.parse(userToken);
     axios({
       method: "POST",
       url: `/auth/resend-request/`,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("userToken")}`
+        'Authorization': `Bearer ${localStorage.getItem("userToken") }`
       }
     }).then(res => {
       showToast('info', res.data.message)

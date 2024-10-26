@@ -27,7 +27,7 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
                     We provide multiple options so feel free to get
                     super-specific!
                 </p>
-            </div>
+            </div> 
 
             <div className="border-[0.5px] border-[#D4D6DD] rounded-2xl p-4 mt-3">
                 <h1 className='flex gap-2 items-center pb-6'>

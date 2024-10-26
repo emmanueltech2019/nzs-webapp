@@ -3,7 +3,7 @@ import TagHeader from '@/components/header/TagHeader'
 import openSansFont from '@/fonts/OpenSans'
 import useToggle from '@/hooks/useToggle'
 import { Icon } from '@iconify/react/dist/iconify.js'
-import {useState } from 'react'
+import { useEffect, useState } from 'react'
 import Circle from '@/components/Circle'
 import BusinessDescription from './BusinessDescription'
 import BusinessInfo from './BusinessInfo'
@@ -33,11 +33,17 @@ export const ProfileInfo = () => {
 }
 
 const Main = () => {
-    const [section, setSection] = useState<1 | 2 | 3 | 4 | 'done'>(3)
+    const [section, setSection] = useState<1 | 2 | 3 | 4 | 'done'>(2)
+    // (typeof section == 'number' && section > id)
     const [tab, setTab] = useState(initialState)
+    useEffect(() => {
+        setTab(prev => prev.map(({ id, title, done }) => ({ id, title, done: (typeof section == 'number' && section > id) })))
+    }, [section])
     const [count, setCount] = useState(0)
-    const [btnFunc, setBtnFunc] = useState({func: () => console.log('default')})
-    const handleBtnFunc = (param:((...args: any[]) => any)) => setBtnFunc({func: param})
+    const [btnFunc, setBtnFunc] = useState({ func: () => console.log('default') })
+    const handleBtnFunc = (param: ((...args: any[]) => any)) => setBtnFunc({ func: param })
+    const [displayCircle, setDisplayCircle] = useState(true)
+    const [btnText, setBtnText] = useState('')
 
     return (
         <div>
@@ -45,8 +51,8 @@ const Main = () => {
             <div className="row flex items-start justify-between gap-5 pb-3">
                 {tab.map(({ id, title, done }) => (
                     <div key={id} className="col flex items-center flex-col gap-[9px]">
-                        <div className={`flex items-center justify-center leading-0 rounded-full w-6 h-6 text-[10px] font-semibold ${openSansFont} ${section == id ? 'text-white bg-[--foreground-green]' : done || (typeof section == 'number' && section > id) ? 'bg-[#1FCB2B]' : 'text-[#8F9098] bg-[#F8F9FE]'}`}>
-                            {done || (typeof section == 'number' && section > id) ? <Icon icon='fa6-solid:check' className='text-[--foreground-green] font-bold' /> : id}
+                        <div className={`flex items-center justify-center leading-0 rounded-full w-6 h-6 text-[10px] font-semibold ${openSansFont} ${section == id ? 'text-white bg-[--foreground-green]' : done ? 'bg-[#1FCB2B]' : 'text-[#8F9098] bg-[#F8F9FE]'}`}>
+                            {done ? <Icon icon='fa6-solid:check' className='text-[--foreground-green] font-bold' /> : id}
                         </div>
                         <p className={`text-center font-bold text-sm ${openSansFont} ${section == id ? 'text-[#1F2024]' : 'text-[#8F9098]'}`}>{title}</p>
                     </div>
@@ -55,17 +61,17 @@ const Main = () => {
             {section === 1 && <BusinessDescription setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
             {section === 2 && <BusinessInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
             {section === 3 && <PaymentInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
-            {section === 4 && <Preview setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
+            {section === 4 && <Preview setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} setDisplayCircle={setDisplayCircle} setBtnText={setBtnText} />}
 
             <div className='flex items-center pt-3 pb-4 gap-6'>
                 <button onClick={btnFunc.func}
                     className="rounded-[12px] py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500">
-                    NEXT
+                    {btnText || 'NEXT'}
                 </button>
                 <div>
-                    <Circle count={count} period={100} size={48}>
+                    {displayCircle ? <Circle count={count} period={100} size={48}>
                         <Icon icon='akar-icons:arrow-right' className='text-xl text-[--foreground-green] font-extrabold'></Icon>
-                    </Circle>
+                    </Circle> : ''}
                 </div>
             </div>
         </div>

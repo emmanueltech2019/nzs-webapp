@@ -10,6 +10,8 @@ import useForm from '@/hooks/useForm'
 import Accordion from './Accordion'
 import useToggle from '@/hooks/useToggle'
 import { ProfileInfo } from './Main'
+import axios from "@/utils/axios";
+import { showToast } from "@/utils/alert";
 
 const initialState = [
     { item: 'Health Regulation', state: false },
@@ -34,27 +36,28 @@ const mainState = [
 // dummy google map
 const GoogleMapEmbed = () => {
     return (
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.4729100739933!2d7.022166680562655!3d4.860128682521301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1069d3356c536691%3A0x545520791186f2d3!2sPristine%20Medical%20Consultants!5e0!3m2!1sen!2sng!4v1726304749925!5m2!1sen!2sng"
-        height="450"
-        style={{ border: 0, width: '100vw' }}
-        allowFullScreen
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        title="Google Map Embed"
-      ></iframe>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.4729100739933!2d7.022166680562655!3d4.860128682521301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1069d3356c536691%3A0x545520791186f2d3!2sPristine%20Medical%20Consultants!5e0!3m2!1sen!2sng!4v1726304749925!5m2!1sen!2sng"
+            height="450"
+            style={{ border: 0, width: '100vw' }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Google Map Embed"
+        ></iframe>
     );
-  };
+};
 
 const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) => {
-    const [uploadCount, setuploadCount] = useState(50)
+    const [uploadCount, setuploadCount] = useState(0)
+    const [file, setFile] = useState()
     const [states, setState] = useState(mainState)
     const handleStates = (a: string) => {
         setState(prev => prev.map(({ item, state }, i) => ({ item, state: item == a ? !state : state })))
     }
 
     const [registeredBusinessName, setRegisteredBusinessName] = useForm('')
-    const [businessDetails, setBusinessDetails] = useForm('')
+    const [description, setDescription] = useForm('')
     const [CAC, setCAC] = useForm('' as any)
 
     const [regulations, setRegulations] = useState(initialState)
@@ -62,7 +65,23 @@ const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection })
     const [a, aFunc] = useToggle(true)
     const [b, bFunc] = useToggle(true)
     const handleAPI = async () => {
-        console.log('handle API')
+        axios({
+            method: 'PUT',
+            url: '/business/add-business-info',
+            data: {
+                businessName: registeredBusinessName,
+                description,
+                registrationNumber: CAC,
+                regulations: regulations.filter(({ state }) => state).map(({ item }) => item),
+                state: states.filter(({ state }) => state).map(({ item }) => item),
+                city: 'Test City',
+                streetInfo: 'Test Street',
+                logo: ''
+            },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            }
+        })
     }
     useEffect(() => {
         setCount(50)
@@ -70,7 +89,7 @@ const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection })
         return () => {
             handleBtnFunc(() => console.log('default'))
         }
-    }, [regulations, uploadCount, states, registeredBusinessName, businessDetails, CAC])
+    }, [regulations, uploadCount, states, registeredBusinessName, description, CAC])
     return (
         <div className='py-3'>
             <div className="py-5">
@@ -84,13 +103,16 @@ const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection })
             <div className="py-5 w-full">
                 <div className="bg-[#F8F9FE] p-4 rounded-lg">
                     <div className="bg-white rounded-lg min-h-[97px] justify-center items-center flex">
-                        <Circle size={48} count={uploadCount} period={100}>
-                            <Icon icon='akar-icons:arrow-up' className='text-xl text-[--foreground-green] font-extrabold'></Icon>
-                        </Circle>
+                        <input type="file" name="logo" id="logo" className='hidden' onChange={(e) => console.log(e.target)} />
+                        <label htmlFor="logo">
+                            <Circle size={48} count={uploadCount} period={100}>
+                                <Icon icon='akar-icons:arrow-up' className='text-xl text-[--foreground-green] font-extrabold'></Icon>
+                            </Circle>
+                        </label>
                     </div>
                     <div className='flex py-2 items-center gap-2'>
                         <h3 className={`${poppinsFont} mr-auto`}>YOUR LOGO</h3>
-                        <button className={`py-1 px-2 text-sm text-[#0C1F1F] bg-[#EAF2FF] rounded-[4px] ${openSansFont}`}>Upload Logo</button>
+                        <label htmlFor={'logo'} className={`py-1 px-2 text-sm text-[#0C1F1F] bg-[#EAF2FF] rounded-[4px] ${openSansFont}`}>Upload Logo</label>
                         <Icon icon={`bi:chevron-down`} className='font-extrabold text-[#0C1F1F80]' />
                     </div>
                 </div>
@@ -98,11 +120,11 @@ const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection })
                 <div className="py-5 flex flex-col gap-4">
                     <input type="text" id='businessName' onChange={e => setRegisteredBusinessName(e)} value={registeredBusinessName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Registered Business Name' />
                     <div>
-                        <input type="text" id='businessName' onChange={e => setBusinessDetails(e)} value={businessDetails} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Briefly describe your business' />
+                        <input type="text" id='description' onChange={e => setDescription(e)} value={description} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Briefly describe your business' />
                         <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/30</p>
                     </div>
                     <div>
-                        <input type="text" id='businessName' onChange={e => setCAC(e)} value={CAC} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='CAC Registration Number' />
+                        <input type="text" id='CAC' onChange={e => setCAC(e)} value={CAC} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='CAC Registration Number' />
                         <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/7</p>
                     </div>
                 </div>

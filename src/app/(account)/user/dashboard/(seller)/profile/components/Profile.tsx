@@ -43,7 +43,7 @@ const Profile = () => {
           title: "Logout!",
           text: "Logout successfully.",
           icon: "success",
-        }).then(()=>{
+        }).then(() => {
           window.location.replace('/')
         })
       }
@@ -95,7 +95,7 @@ const Profile = () => {
               </p>
             </div>
             <Image
-              src={user?.accountType=="buyer"?'https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906737/Asset_490_dzaqyl.png':'https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906736/Asset_390_y9mpv3.png'}
+              src={user?.accountType == "buyer" ? 'https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906737/Asset_490_dzaqyl.png' : 'https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906736/Asset_390_y9mpv3.png'}
               alt="alt"
               width={'100'}
               height={'100'}
@@ -173,20 +173,20 @@ const Profile = () => {
           <div className="grid gap-[10px] w-full">
             {profileOptions.map(({ text, path }, index) => (
               <Link href={`${path}`} key={index}>
-              <div
-                
-                className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full"
-              >
-                <span className="flex items-center justify-between w-full font-sans">
-                  <p className="text-[#1F2024] text-sm">{text}</p>
-                  <Icon
-                    icon="formkit:right"
-                    className="text-[20px] text-[#8F9098]"
-                  ></Icon>
-                </span>
+                <div
 
-              </div>
-                </Link>
+                  className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full"
+                >
+                  <span className="flex items-center justify-between w-full font-sans">
+                    <p className="text-[#1F2024] text-sm">{text}</p>
+                    <Icon
+                      icon="formkit:right"
+                      className="text-[20px] text-[#8F9098]"
+                    ></Icon>
+                  </span>
+
+                </div>
+              </Link>
             ))}
           </div>
           <div className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full">
