@@ -24,9 +24,12 @@ const ProductScreen: FC = () => {
 
   // const userToken = localStorage.getItem("userToken") || "";
   // const tr = JSON.parse(userToken);
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  let id = urlParams.get("id");
+  var id:string|null
+  if (typeof window !== "undefined") {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    id = urlParams.get("id");
+  }
 
   const addToCart = () => {
     axios({
