@@ -4,10 +4,6 @@ import productMockup from "../../assets/images/productMockup.png"
 import { ProductT } from '@/types/Product.types';
 import Link from 'next/link';
 
-
-
-
-
 const ProductGrid: FC<{ title: string; products: ProductT[] }> = ({ title, products }) => {
   return (
     <div className="px-4 py-6">
@@ -24,7 +20,7 @@ const ProductGrid: FC<{ title: string; products: ProductT[] }> = ({ title, produ
             {products.map((product, index) => (
               <div className="md:w-[26%] flex-shrink-0" key={index}>
                 <Link href={`./dashboard/Product?id=${product._id}`}>
-                <Card  title={product.name} price={product.price} image={ productMockup}/>
+                <Card  title={product.name} price={product.price} image={product?.images[0]}/>
               </Link>
               </div>
             ))}

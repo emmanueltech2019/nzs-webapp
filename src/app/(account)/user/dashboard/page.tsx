@@ -11,6 +11,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Services from "./Services";
 import axios from "@/utils/axios";
 import { ProductT } from "@/types/Product.types";
+import Banner1 from '../../../../assets/images/banner-img/banner-img-1.jpg'
+import Banner2 from '../../../../assets/images/banner-img/banner-img-2.jpg'
+import Banner3 from '../../../../assets/images/banner-img/banner-img-3.jpg'
+import Banner4 from '../../../../assets/images/banner-img/banner-img-4.jpg'
 
 const Dashboard = () => {
   const [products, setProducts] = useState<ProductT[]>([]); // useState expects an array of Product
@@ -42,7 +46,7 @@ const Dashboard = () => {
   const searchParams = useSearchParams();
   const main = searchParams.get("main") || "";
   const [activeTab, setActiveTab] = useState(main || "products");
-
+  const imagesL = [Banner1, Banner2, Banner3, Banner4]
   return (
     <div className="min-h-screen">
       {/*  md:w-[61vw]  */}
@@ -58,7 +62,7 @@ const Dashboard = () => {
                 router.push("./dashboard/add-item");
               }}
             />
-            <Carousel />
+            <Carousel images={imagesL}/>
             <ProductGrid title="Perfect for you" products={products} />
             <ProductGrid title="For this summer" products={products} />
           </>

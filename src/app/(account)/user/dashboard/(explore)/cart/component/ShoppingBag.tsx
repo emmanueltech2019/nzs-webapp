@@ -35,7 +35,7 @@ const ShoppingBag = () => {
         console.log(error);
       });
     
-  }, []); 
+  }, [cartItems]); 
   
 
 

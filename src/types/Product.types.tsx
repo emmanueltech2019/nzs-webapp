@@ -2,7 +2,8 @@ export interface ProductT {
     _id: number;
     name: string;
     price: string;
-    description: string
+    description: string;
+    images: string[]
 }
 
 export interface CartItemT {
