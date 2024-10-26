@@ -54,7 +54,7 @@ const Profile = () => {
     // const userToken = localStorage.getItem("userToken");
     // const tr = userToken ? JSON.parse(userToken) : null;
 
-    if (!tr) {
+    if (!localStorage.getItem("userToken")) {
       console.error("User token is missing.");
       return;
     }
