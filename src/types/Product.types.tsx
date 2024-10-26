@@ -17,6 +17,7 @@ export interface ProductT {
   name: string;
   images: string[]; // Add images as an array of strings
   price: number;
+  description: string;
 }
 
 export interface CartItemT {
