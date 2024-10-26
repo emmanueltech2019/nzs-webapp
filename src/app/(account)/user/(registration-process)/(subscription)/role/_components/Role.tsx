@@ -53,7 +53,7 @@ const Role = () => {
   const { handleProgressbar, handleImg } = useContextStore();
   useEffect(() => {
     handleImg(ourTeamBanner);
-    handleProgressbar(30);
+    handleProgressbar(50);
   }, [handleImg, handleProgressbar]);
   return (
     <div>

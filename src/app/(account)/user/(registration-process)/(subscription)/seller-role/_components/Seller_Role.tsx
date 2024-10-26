@@ -52,7 +52,7 @@ const Seller_Role = () => {
   const { handleProgressbar, handleImg } = useContextStore();
   useEffect(() => {
     handleImg(ourTeamBanner);
-    handleProgressbar(30);
+    handleProgressbar(80); 
   }, [handleImg, handleProgressbar]);
   return (
     <div>

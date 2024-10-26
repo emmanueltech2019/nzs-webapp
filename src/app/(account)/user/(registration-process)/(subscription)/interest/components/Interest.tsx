@@ -31,7 +31,7 @@ const Interest = () => {
   const { handleProgressbar, handleImg } = useContextStore();
   useEffect(() => {
     handleImg(businessAnalysis_img);
-    handleProgressbar(50);
+    handleProgressbar(30);
   }, [handleImg, handleProgressbar]);
 
   const handleAPI = () => {
