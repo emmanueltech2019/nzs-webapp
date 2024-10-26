@@ -110,26 +110,26 @@ const BagItem: FC<BagProps> = ({ item }) => {
     <div className="flex items-center justify-between border-b py-4">
       <div className="flex items-center">
         <div className="w-[100px] h-[100px] bg-gray-200 rounded-md mr-4 flex items-center justify-center">
-          <Image
+          {/* <Image
             src={item.productId?.images?.[0] || 'https://res.cloudinary.com/wise-solution-inc/image/upload/v1729911544/fulllogo_full_green_1_gg1urs.png'} // fallback if image is missing
             width={100}
             height={100}
             alt={item.productId?.name || 'Product image'}
             className="text-gray-400 text-2xl"
-          />
+          /> */}
         </div>
         <div>
-          <h3 className="font-semibold">{item.productId.name}</h3>
+          {/* <h3 className="font-semibold">{item.productId.name}</h3> */}
           <div className="flex items-center rounded-full">
             <button
-              onClick={() => updateCart(item.productId._id, "minus")}
+              // onClick={() => updateCart(item.productId._id, "minus")}
               className="py-1 text-gray-600"
             >
               <span className='px-2 py-[1px] border bg-[#EAF2FF] text-[#006838] rounded-full'>-</span>
             </button>
             <span className="px-3">{item.quantity}</span>
             <button
-              onClick={() => updateCart(item.productId._id, "plus")}
+              // onClick={() => updateCart(item.productId._id, "plus")}
               className="py-1 text-gray-600"
             >
               <span className='px-2 py-[2px] border bg-[#EAF2FF] text-[#006838] rounded-full'>+</span>
