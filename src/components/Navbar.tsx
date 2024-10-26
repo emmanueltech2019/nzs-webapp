@@ -40,11 +40,11 @@ const Navbar = ({ children }: NavbarType) => {
         <header className='pt-[35.17px] px-[--padding-x] flex justify-between relative'>
             <Link href='/'>
                 <div className={`logo-header flex gap-[19px] items-center`}>
-                    <div className={`logo w-[30.05px] xl:w-[35.53px]`}>
-                        <Image src={logo} alt='logo-image' />
+                    <div className={`logo w-[35.05px] xl:w-[35.53px]`}>
+                        <Image src={logo} width={250} height={250} alt='logo-image' />
                     </div>
                     <div className={`logo-title w-[122.94px] xl:w-[145.37px]`}>
-                        <Image src={logoTitle} alt='logoTItle' />
+                        <Image src={logoTitle} width={100} height={100} alt='logoTItle' />
                     </div>
                 </div>
             </Link>
