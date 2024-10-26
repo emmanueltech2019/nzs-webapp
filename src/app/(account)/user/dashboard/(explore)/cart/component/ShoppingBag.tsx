@@ -17,8 +17,8 @@ const ShoppingBag = () => {
   const [cartItems, setCartItems] = useState<CartT | null>(null);  // The state should match the CartT interface
 
   useEffect(() => {
-    const userToken = localStorage.getItem("userToken") || "";
-    const tr = JSON.parse(userToken);
+    // const userToken = localStorage.getItem("userToken") || "";
+    // const tr = JSON.parse(userToken);
     
     axios({
       method: "GET",

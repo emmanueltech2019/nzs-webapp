@@ -23,8 +23,8 @@ const ProductScreen: FC = () => {
     router.back(); // Navigate back to the previous page
   };
 
-  const userToken = localStorage.getItem("userToken") || "";
-  const tr = JSON.parse(userToken);
+  // const userToken = localStorage.getItem("userToken") || "";
+  // const tr = JSON.parse(userToken);
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   let id = urlParams.get("id")
@@ -46,8 +46,8 @@ const ProductScreen: FC = () => {
       });
   }
   useEffect(() => {
-    const userToken = localStorage.getItem("userToken") || "";
-  const tr = JSON.parse(userToken);
+  //   const userToken = localStorage.getItem("userToken") || "";
+  // const tr = JSON.parse(userToken);
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   let id = urlParams.get("id")

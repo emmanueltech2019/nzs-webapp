@@ -20,8 +20,8 @@ const Dashboard = () => {
   const [products, setProducts] = useState<ProductT[]>([]); // useState expects an array of Product
 
   useEffect(() => {
-    const userToken = localStorage.getItem("userToken") || "";
-    const tr = JSON.parse(userToken);
+    // const userToken = localStorage.getItem("userToken") || "";
+    // const tr = JSON.parse(userToken);
     
     axios({
       method: "GET",

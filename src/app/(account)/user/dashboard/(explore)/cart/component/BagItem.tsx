@@ -88,8 +88,8 @@ interface BagProps {
 
 const BagItem: FC<BagProps> = ({ item }) => {
   const updateCart = (id: string, action: string) => {
-    const userToken = localStorage.getItem("userToken") || "";
-    const tr = JSON.parse(userToken);
+    // const userToken = localStorage.getItem("userToken") || "";
+    // const tr = JSON.parse(userToken);
     axios({
       method: "PUT",
       url: "cart/update/",
