@@ -22,12 +22,8 @@ interface User {
   email: string;
   accountType: "buyer" | "seller";
 }
-<<<<<<< HEAD
-
-=======
 // const userToken = localStorage.getItem("userToken") || "";
 // const tr = JSON.parse(userToken);
->>>>>>> 9c0ec4a3d73d5063c9a5bf4ef6076cc2380f44a4
 
 const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
