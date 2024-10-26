@@ -27,7 +27,7 @@ const Dashboard = () => {
       method: "GET",
       url: "products",
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then((res) => {

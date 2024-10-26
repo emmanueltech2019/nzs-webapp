@@ -26,7 +26,7 @@ const Notifications = () => {
       url: 'users/notifications',
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     }).then((res) => {
       const notifications: Notification[] = res.data.notifications;

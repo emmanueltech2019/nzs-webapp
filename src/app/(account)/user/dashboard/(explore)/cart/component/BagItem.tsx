@@ -21,7 +21,7 @@
 //       url: "cart/update/",
 //       data:{productId:id, action},
 //       headers: {
-//         Authorization: `Bearer ${tr}`,
+//         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
 //       },
 //     })
 //       .then((res) => {
@@ -95,7 +95,7 @@ const BagItem: FC<BagProps> = ({ item }) => {
       url: "cart/update/",
       data: { productId: id, action },
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then(() => {

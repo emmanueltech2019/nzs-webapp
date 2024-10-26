@@ -64,7 +64,7 @@ const Verification = () => {
       },
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${tr}`
+        'Authorization': `Bearer ${localStorage.getItem("userToken")}`
       }
     }).then(response => {
       showToast('success', response.data.message)
@@ -88,7 +88,7 @@ const Verification = () => {
       url: `/auth/resend-request/`,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${tr}`
+        'Authorization': `Bearer ${localStorage.getItem("userToken")}`
       }
     }).then(res => {
       showToast('info', res.data.message)

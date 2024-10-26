@@ -63,7 +63,7 @@ const Profile = () => {
       method: "GET",
       url: "/users/profile", // Make sure this URL is correct and your base URL is set up in axios
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then((res) => {

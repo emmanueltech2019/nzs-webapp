@@ -57,7 +57,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
                     categories: categories,
                 },
                 headers: {
-                    Authorization: `Bearer ${tr}`,
+                    Authorization: `Bearer ${localStorage.getItem("userToken")}`,
                 },
             }).then(res => {
                 console.log(res.data)

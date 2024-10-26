@@ -24,7 +24,7 @@ const ShoppingBag = () => {
       method: "GET",
       url: "cart",
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then((res) => {

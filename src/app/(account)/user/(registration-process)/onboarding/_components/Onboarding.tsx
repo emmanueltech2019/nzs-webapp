@@ -55,15 +55,15 @@ const Onboarding = () => {
    * @return {Promise<void>} it returns a Promise that resolves void
   */
   const handleOnboarding = async () => {
-    const userToken = localStorage.getItem("userToken") || '';
-    const tr = JSON.parse(userToken);
+    // const userToken = localStorage.getItem("userToken") || '';
+    // const tr = JSON.parse(userToken);
     axios({
       url: `/users/`,
       data: {
         onboarding:true
       },
       headers: {
-        'Authorization': `Bearer ${tr}`
+        'Authorization': `Bearer ${localStorage.getItem("userToken")}`
       },
       method: 'PUT',
     })

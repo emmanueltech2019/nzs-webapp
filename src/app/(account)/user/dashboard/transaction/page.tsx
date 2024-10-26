@@ -35,7 +35,7 @@ const Transactions = () => {
       url: 'users/transactions',
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     }).then((res) => {
       const transactions: Transaction[] = res.data.transactions;

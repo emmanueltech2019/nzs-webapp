@@ -35,7 +35,7 @@ const ProductScreen: FC = () => {
       url: "cart/add/",
       data:{productId:id, quantity:1},
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then((res) => {
@@ -55,7 +55,7 @@ const ProductScreen: FC = () => {
       method: "GET",
       url: "products/single/"+id,
       headers: {
-        Authorization: `Bearer ${tr}`,
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then((res) => {
