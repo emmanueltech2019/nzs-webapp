@@ -62,7 +62,7 @@ const Dashboard = () => {
                 router.push("./dashboard/add-item");
               }}
             />
-            <Carousel images={imagesL}/>
+            {/* <Carousel images={imagesL}/> */}
             <ProductGrid title="Perfect for you" products={products} />
             <ProductGrid title="For this summer" products={products} />
           </>
