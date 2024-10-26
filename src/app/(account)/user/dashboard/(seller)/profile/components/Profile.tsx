@@ -15,11 +15,18 @@ const roboto = Roboto({
   // variable: '--font-poppins',
   weight: ["100", "300", "400", "500", "700", "900"],
 });
+
+interface User {
+  firstname: string;
+  lastname: string;
+  email: string;
+  accountType: "buyer" | "seller";
+}
 const userToken = localStorage.getItem("userToken") || "";
 const tr = JSON.parse(userToken);
 
 const Profile = () => {
-  const [user, setUser] = useState(null); // Step 2: Initialize state to hold user data
+  const [user, setUser] = useState<User | null>(null);
 
   const LogOut = () => {
     Swal.fire({
