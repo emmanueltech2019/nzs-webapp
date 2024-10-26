@@ -73,7 +73,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
         }
     }
     useEffect(() => {
-        setCount(25)
+        setCount(25);
         handleBtnFunc(handleAPI)
         return () => {
             handleBtnFunc(() => console.log('default'))
