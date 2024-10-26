@@ -10,11 +10,10 @@ export const links = [
 
 
 export const profileOptions = [
-  {text: 'My Wallet', path: '/user/dashboard'},
-  {text: 'Inventory', path: '/user/dashboard'},
-  {text: 'Notifications', path: '/user/dashboard'},
-  {text: 'Language', path: '/user/dashboard'},
-  {text: 'Privacy & Security', path: '/user/dashboard'},
-  {text: 'Log Out', path: '/user/dashboard'},
+  {text: 'My Wallet', path: '/user/dashboard/wallet'},
+  {text: 'Notifications', path: '/user/dashboard/notifications'},
+  // {text: 'Language', path: '/user/dashboard'},
+  {text: 'Privacy & Security', path: '/user/dashboard/privacy'},
+  // {text: 'Log Out', path: '/user/dashboard'},
 ]
 

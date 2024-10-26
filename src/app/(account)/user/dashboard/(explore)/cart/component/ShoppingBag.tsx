@@ -53,7 +53,7 @@ const ShoppingBag = () => {
   };
   
   return (
-    <div className="w-screen md:mx-1 bg-white md:p-4 pr-6 pl-2 fixed md:w-[60vw]">
+    <div className="w-screen md:mx-1 bg-white md:p-4 pr-6 pl-2 fixed md:w-[57vw]">
       {/* Header */}
       <TagHeader title='Your bag'/>
 
