@@ -12,6 +12,7 @@ import useToggle from '@/hooks/useToggle'
 import { ProfileInfo } from './Main'
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
+import Image from 'next/image'
 
 const initialState = [
     { item: 'Health Regulation', state: false },
@@ -50,7 +51,7 @@ const GoogleMapEmbed = () => {
 
 const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) => {
     const [uploadCount, setuploadCount] = useState(0)
-    const [file, setFile] = useState()
+    const [file, setFile] = useState<File | null >(null)
     const [states, setState] = useState(mainState)
     const handleStates = (a: string) => {
         setState(prev => prev.map(({ item, state }, i) => ({ item, state: item == a ? !state : state })))
@@ -65,6 +66,10 @@ const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection })
     const [a, aFunc] = useToggle(true)
     const [b, bFunc] = useToggle(true)
     const handleAPI = async () => {
+        if (!file) {
+            showToast( 'error','Please upload a logo.')
+            return
+        }
         axios({
             method: 'PUT',
             url: '/business/add-business-info',
@@ -76,11 +81,14 @@ const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection })
                 state: states.filter(({ state }) => state).map(({ item }) => item),
                 city: 'Test City',
                 streetInfo: 'Test Street',
-                logo: ''
+                logo: file
             },
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('userToken')}`,
             }
+        }).catch(err => {
+            console.error(err);
+            showToast( 'error', err.message)
         })
     }
     useEffect(() => {
@@ -103,7 +111,7 @@ const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection })
             <div className="py-5 w-full">
                 <div className="bg-[#F8F9FE] p-4 rounded-lg">
                     <div className="bg-white rounded-lg min-h-[97px] justify-center items-center flex">
-                        <input type="file" name="logo" id="logo" className='hidden' onChange={(e) => console.log(e.target)} />
+                        <input type="file" name="logo" id="logo" accept="image/*" className='hidden' onChange={(e:any) => setFile(e.target.files[0])} />
                         <label htmlFor="logo">
                             <Circle size={48} count={uploadCount} period={100}>
                                 <Icon icon='akar-icons:arrow-up' className='text-xl text-[--foreground-green] font-extrabold'></Icon>
@@ -124,7 +132,7 @@ const BusinessInfo: FC<general_type> = ({ handleBtnFunc, setCount, setSection })
                         <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/30</p>
                     </div>
                     <div>
-                        <input type="text" id='CAC' onChange={e => setCAC(e)} value={CAC} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='CAC Registration Number' />
+                        <input type="text" id='CAC' onChange={(e:any) => {if(isNaN(e.target.value)) return; setCAC(e)}} value={CAC} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='CAC Registration Number' />
                         <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/7</p>
                     </div>
                 </div>
