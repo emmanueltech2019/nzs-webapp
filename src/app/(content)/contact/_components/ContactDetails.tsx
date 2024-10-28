@@ -90,8 +90,8 @@ const ContactDetails = () => {
 
                         <div className='pb-10'>
                             <h3 className='font-semibold text-base lg:text-lg'>Visit us</h3>
-                            {/* <p className='text-[--text-color-gray]'>34 Madison Street,</p>
-                            <p className='text-[--text-color-gray]'>NY, USA 10005</p> */}
+                            <p className='text-[--text-color-gray]'>Eliozu Road, Aliosu,</p>
+                            <p className='text-[--text-color-gray]'> Port Harcourt 500102, Rivers</p>
                         </div>
                     </div>
                 </div>
