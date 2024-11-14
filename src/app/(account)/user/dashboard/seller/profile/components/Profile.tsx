@@ -97,7 +97,7 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="">
+      <div className="pb-20">
         <header>
           <h1 className="font-sans text-2xl font-extrabold text-center py-[19.5px]">
             Profile
