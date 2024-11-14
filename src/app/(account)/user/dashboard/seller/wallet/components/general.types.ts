@@ -8,8 +8,8 @@ export default interface general_type {
     setBtnText?: React.Dispatch<SetStateAction<string>>
 }
 
-export type general_type2 = {
-    setCount: (value: number) => void;
-    setSection: (value: number) => void;
-    handleBtnFunc: (callback: () => void) => void;
-  }
+// export type general_type2 = {
+//     setCount: (value: number) => void;
+//     setSection: (value: number) => void;
+//     handleBtnFunc: (callback: () => void) => void;
+//   }
