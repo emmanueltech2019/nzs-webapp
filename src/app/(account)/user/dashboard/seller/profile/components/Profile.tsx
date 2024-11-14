@@ -27,7 +27,7 @@ interface User {
 // const tr = JSON.parse(userToken);
 
 type Business = {
-  id: string;
+  _id: string;
   businessName: string;
   logoUrl: string;
 };
@@ -42,6 +42,9 @@ const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [businessList, setBusinessList] = useState(true)
+  const handleSwitch = (id:string) =>{
+    localStorage.setItem('activeBusiness', id)
+  }
   const LogOut = () => {
     Swal.fire({
       title: "Are you sure you want to logout?",
@@ -174,7 +177,8 @@ const Profile = () => {
 <div className="max-w-sm mx-auto p-4 space-y-2">
       {businesses?.map((business, index) => (
         <div
-          key={business.id}
+          key={business._id}
+          onClick={()=>handleSwitch(business._id)}
           className={`flex items-center p-3 rounded-lg hover:bg-blue-100`}
         >
           <Avatar src={business.logoUrl} alt={business.businessName} className="mr-3" />
