@@ -58,11 +58,19 @@ const LeftSidenav = () => {
             links.map(({text, icon, link}, index) => {
               const activeLink = pathname.startsWith(link)
               return (
-                <li key={index} className='cursor-pointer text-[#fff]'>
+                // <li key={index} className='cursor-pointer text-[#fff]'>
+                //   <Link href={link}>
+                //     <div className={`flex items-center gap-[10px] pr-4 border-e-4 ${activeLink ? 'border-[#fff]': 'border-transparent'}`}>
+                //       <Icon icon={icon} className={`text-[34px] ${activeLink ? 'text-[#fff]': 'text-[#D4D6DD]'}`}></Icon>
+                //       <p className={`text-[19px] leading-[22.99px] font-[400]  ${activeLink ? 'text-[#fff]': 'text-inherit'}`}>{text}</p>
+                //     </div>
+                //   </Link>
+                // </li>
+                <li key={index} className='cursor-pointer text-[#D4D6DD]'>
                   <Link href={link}>
-                    <div className={`flex items-center gap-[10px] pr-4 border-e-4 ${activeLink ? 'border-[#fff]': 'border-transparent'}`}>
-                      <Icon icon={icon} className={`text-[34px] ${activeLink ? 'text-[#fff]': 'text-[#D4D6DD]'}`}></Icon>
-                      <p className={`text-[19px] leading-[22.99px] font-[400]  ${activeLink ? 'text-[#fff]': 'text-inherit'}`}>{text}</p>
+                    <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${activeLink ? 'lg:border-[#D4D6DD]': 'lg:border-transparent'}`}>
+                      <Icon icon={icon} className={`text-[30px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
+                      <p className={`text-[14px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
                     </div>
                   </Link>
                 </li>

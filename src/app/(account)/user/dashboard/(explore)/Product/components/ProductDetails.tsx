@@ -41,7 +41,7 @@ const ProductScreen: FC = () => {
       },
     })
       .then((res) => {
-        showToast("success", "Item added to cart");
+        showToast("success", "Item added to basket");
       })
       .catch((error) => {
         console.log(error);
