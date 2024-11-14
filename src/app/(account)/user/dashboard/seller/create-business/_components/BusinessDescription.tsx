@@ -219,7 +219,7 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
                 setSection(2);
             } catch (err) {
                 console.error(err);
-                showToast('error', err.message || 'An error occurred');
+                showToast('error','An error occurred');
             }
         } else {
             showToast('error', 'Please select both a sector and categories');
