@@ -1,6 +1,6 @@
 import React from 'react'
 import { Icon } from '@iconify/react'
-import Profile from '@/app/(account)/user/dashboard/(seller)/profile/components/Profile'
+import Profile from '@/app/(account)/user/dashboard/seller/profile/components/Profile'
 
 
 const RightSidenav = () => {

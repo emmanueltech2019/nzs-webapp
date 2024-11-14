@@ -8,6 +8,7 @@ import { profileOptions } from "@/components/dashboard/sidenav/NavlinkObj";
 import axios from "@/utils/axios";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import Avatar from '@mui/material/Avatar';
 
 const roboto = Roboto({
   display: "swap",
@@ -25,9 +26,22 @@ interface User {
 // const userToken = localStorage.getItem("userToken") || "";
 // const tr = JSON.parse(userToken);
 
-const Profile = () => {
-  const [user, setUser] = useState<User | null>(null);
+type Business = {
+  id: string;
+  businessName: string;
+  logoUrl: string;
+};
 
+// const businesses: Business[] = [
+//   { id: '1', name: "Mira's Fashion", image: 'https://via.placeholder.com/150' },
+//   { id: '2', name: 'Bags and Boots', image: 'https://via.placeholder.com/150' },
+//   { id: '3', name: 'Bags and Boots', image: 'https://via.placeholder.com/150' },
+// ];
+const Profile = () => {
+  
+  const [user, setUser] = useState<User | null>(null);
+  const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [businessList, setBusinessList] = useState(true)
   const LogOut = () => {
     Swal.fire({
       title: "Are you sure you want to logout?",
@@ -50,10 +64,6 @@ const Profile = () => {
     });
   };
   useEffect(() => {
-    // Make sure `tr` is defined and valid
-    // const userToken = localStorage.getItem("userToken");
-    // const tr = userToken ? JSON.parse(userToken) : null;
-
     if (!localStorage.getItem("userToken")) {
       console.error("User token is missing.");
       return;
@@ -61,19 +71,21 @@ const Profile = () => {
 
     axios({
       method: "GET",
-      url: "/users/profile", // Make sure this URL is correct and your base URL is set up in axios
+      url: "/users/profile", 
       headers: {
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then((res) => {
-        console.log(res.data.user); // Log response data, not just the entire response object
-        setUser(res.data.user); // Step 3: Set the user data to state
+        console.log("All Businesses",res.data.businesses);
+        setBusinesses(res.data.businesses)
+        // console.log(res.data.business); 
+        setUser(res.data.user); 
       })
       .catch((error) => {
         console.error("Error fetching profile:", error);
       });
-  }, []); // Dependency array ensures it runs only once on mount
+  }, []);
 
   return (
     <div>
@@ -131,7 +143,7 @@ const Profile = () => {
           {user?.accountType == "seller" ? (
             <>
               <div className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full">
-                <div>
+                <div onClick={()=>setBusinessList(!businessList)}>
                   <h2
                     className={`text-[#ADB8CC] text-[10px] leading-5 font-bold ${roboto.className} antialiased`}
                   >
@@ -143,7 +155,7 @@ const Profile = () => {
                 </div>
 
                 {/* imgaes */}
-                <div className="flex items-center gap-5">
+                <div className="flex items-center gap-5" onClick={()=>setBusinessList(!businessList)}>
                   <div className="relative flex">
                     <div className="h-[35px] w-[35px] bg-slate-500 rounded-full border border-white"></div>
                     <div className="h-[35px] w-[35px] bg-slate-500 rounded-full border border-white -ms-3"></div>
@@ -155,8 +167,31 @@ const Profile = () => {
                     className="text-[18px] text-[#8F9098] rotate-90"
                   ></Icon>
                 </div>
+                
               </div>
-              <div className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full">
+                {businessList==false&&
+                <>
+<div className="max-w-sm mx-auto p-4 space-y-2">
+      {businesses?.map((business, index) => (
+        <div
+          key={business.id}
+          className={`flex items-center p-3 rounded-lg hover:bg-blue-100`}
+        >
+          <Avatar src={business.logoUrl} alt={business.businessName} className="mr-3" />
+          <span className="text-lg font-semibold">{business.businessName?business.businessName:"No NAME"}</span>
+        </div>
+      ))}
+
+      <Link
+        href="./create-business"
+        className="flex items-center justify-center mt-4 text-gray-500 text-lg font-semibold"
+      >
+        <span>Add Business</span>
+        <span className="text-2xl ml-2">+</span>
+      </Link>
+    </div>
+                </>}
+              {/* <div className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full">
                 <span className="flex items-center justify-between w-full font-sans">
                   <p className="text-[#1F2024] text-sm">Inventory</p>
                   <Icon
@@ -164,7 +199,7 @@ const Profile = () => {
                     className="text-[20px] text-[#8F9098]"
                   ></Icon>
                 </span>
-              </div>
+              </div> */}
             </>
           ) : (
             ""
@@ -189,6 +224,17 @@ const Profile = () => {
               </Link>
             ))}
           </div>
+          <Link href={'/user/dashboard/seller/wallet'} className="md:hidden block">
+          <div className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full">
+            <span className="flex items-center justify-between w-full font-sans" >
+              <p className="text-[#1F2024] text-sm">My Wallet</p>
+              <Icon
+                icon="formkit:right"
+                className="text-[20px] text-[#8F9098]"
+              ></Icon>
+            </span>
+          </div>
+          </Link>
           <div className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full">
             <span className="flex items-center justify-between w-full font-sans" onClick={LogOut}>
               <p className="text-[#1F2024] text-sm">Log Out</p>

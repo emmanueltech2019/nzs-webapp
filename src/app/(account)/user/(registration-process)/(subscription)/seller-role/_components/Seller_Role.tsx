@@ -33,7 +33,7 @@ const Seller_Role = () => {
       }).then(res => {
         console.log(res)
         showToast("success", "Sellers Role updated successfully");
-        router.push("./dashboard/create-business")
+        router.push("./dashboard/seller/create-business")
       }).catch(err => {
         console.error(err);
         showToast("error", "Failed to update Sellers Role");

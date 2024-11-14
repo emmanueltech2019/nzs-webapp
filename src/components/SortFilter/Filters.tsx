@@ -13,3 +13,10 @@ export const sellerFilter = [
   { name: "Location", url: "/user/dashboard/location" },
   { name: "Price", url: "/user/dashboard/price" },
 ]
+
+export const walletFilter = [
+  { name: "A - Z", url: "/user/dashboard/date" },
+  { name: "Date", url: "/user/dashboard/date" },
+  { name: "Price", url: "/user/dashboard/status" },
+  { name: "Transactions", url: "/user/dashboard/location" },
+]

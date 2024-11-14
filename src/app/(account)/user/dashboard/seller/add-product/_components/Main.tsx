@@ -12,10 +12,10 @@ import Preview from './Preview'
 
 
 const initialState = [
-    { id: 1, title: <>Business<br /> Description</>, done: false },
-    { id: 2, title: <>Business<br /> Info</>, done: false },
-    { id: 3, title: <>Payment<br /> Info</>, done: false },
-    { id: 4, title: <>Preview</>, done: false },
+    { id: 1, title: <>Product<br /> Info</>, done: false },
+    { id: 2, title: <>Quantity<br /> </>, done: false },
+    { id: 3, title: <>Pricing<br /> </>, done: false },
+    { id: 4, title: <>Review</>, done: false },
 ]
 
 export const ProfileInfo = () => {
@@ -33,7 +33,7 @@ export const ProfileInfo = () => {
 }
 
 const Main = () => {
-    const [section, setSection] = useState<1 | 2 | 3 | 4 | 'done'>(2)
+    const [section, setSection] = useState<1 | 2 | 3 | 4 | 'done'>(1)
     // (typeof section == 'number' && section > id)
     const [tab, setTab] = useState(initialState)
     useEffect(() => {
@@ -46,8 +46,8 @@ const Main = () => {
     const [btnText, setBtnText] = useState('')
 
     return (
-        <div>
-            <TagHeader title="Add Business" />
+        <div className='h-10'>
+            <TagHeader title="Add Product" />
             <div className="row flex items-start justify-between gap-5 pb-3">
                 {tab.map(({ id, title, done }) => (
                     <div key={id} className="col flex items-center flex-col gap-[9px]">
@@ -63,7 +63,7 @@ const Main = () => {
             {section === 3 && <PaymentInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
             {section === 4 && <Preview setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} setDisplayCircle={setDisplayCircle} setBtnText={setBtnText} />}
 
-            <div className='flex items-center pt-3 pb-4 gap-6'>
+            <div className='flex items-center pt-3 pb-40 gap-6'>
                 <button onClick={btnFunc.func}
                     className="rounded-[12px] py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500">
                     {btnText || 'NEXT'}

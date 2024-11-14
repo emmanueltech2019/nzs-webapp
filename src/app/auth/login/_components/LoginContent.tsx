@@ -54,7 +54,7 @@ const LoginContent = () => {
         }else if(user.accountType=="buyer"){
           router.push('/user/dashboard')
         }else if(user.accountType=="seller"){
-          router.push('/user/seller')
+          router.push('/user/dashboard/seller/transaction')
         }
         else{
           router.push('/user/interest') 

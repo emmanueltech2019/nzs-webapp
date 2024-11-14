@@ -4,14 +4,33 @@ import Circle from '@/components/Circle'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import poppinsFont from '@/fonts/Poppins'
 import openSansFont from '@/fonts/OpenSans'
+import axios from "@/utils/axios";
 
 const Preview: FC<general_type> = ({handleBtnFunc, setCount, setSection, setDisplayCircle, setBtnText}) => {
   const [uploadCount, setuploadCount] = useState(75)
+  const handleConfirm = () =>{
+    window.location.replace('./inventory')
+  }
   useEffect(() => {
     setCount(100)
     if(setDisplayCircle) setDisplayCircle(false)
     if(setBtnText) setBtnText('CONFIRM')
-  })
+      axios({
+        url:'/business/'+localStorage.getItem('addNewBusiness'),
+        method:"GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+      }
+      }).then((res)=>{
+        console.log(res.data.business[0])
+      })
+        setCount(75)
+        handleBtnFunc(handleConfirm)
+        return () => {
+            handleBtnFunc(() => console.log('default'))
+        }
+
+  },[])
   return (
     <div className='py-3'>
       <div className="bg-[#F8F9FE] p-4 rounded-lg">
