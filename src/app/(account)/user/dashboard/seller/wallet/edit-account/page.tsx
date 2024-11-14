@@ -2,7 +2,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import interFont from '@/fonts/Inter'
 import openSansFont from '@/fonts/OpenSans'
-import general_type from '../components/general.types'
+import general_type2 from '../components/general.types'
 import useForm from '@/hooks/useForm'
 import { Icon } from '@iconify/react/dist/iconify.js'
 // import { ProfileInfo } from './Main'
@@ -10,7 +10,7 @@ import axios from "@/utils/axios";
 import { showToast } from '@/utils/alert'
 import Header from '@/components/header/TagHeader'
 
-const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) => {
+const PaymentInfo: FC<general_type2> = ({ setCount, setSection, handleBtnFunc }) => {
     
     const [accountNumber, setAccountNumber] = useForm('')
     const [accountName, setAccountName] = useForm('')

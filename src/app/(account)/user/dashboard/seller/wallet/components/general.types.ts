@@ -7,3 +7,9 @@ export default interface general_type {
     setDisplayCircle?: React.Dispatch<SetStateAction<boolean>>
     setBtnText?: React.Dispatch<SetStateAction<string>>
 }
+
+export type general_type2 = {
+    setCount: (value: number) => void;
+    setSection: (value: number) => void;
+    handleBtnFunc: (callback: () => void) => void;
+  }
