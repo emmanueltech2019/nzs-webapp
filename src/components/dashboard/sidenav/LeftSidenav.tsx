@@ -53,7 +53,7 @@ const LeftSidenav = () => {
       </div>
 
       <nav className='md:mt-[57px] flex-[3] w-full'>
-        {user?.accountType == "buyer" ? <ul className='flex flex-row lg:flex-col h-full justify-between'>
+        {user?.accountType == "buyer" ? <ul className='flex flex-row lg:flex-col h-full  md:w-fit w-screen px-5 justify-between lg:justify-around'>
           {
             links.map(({text, icon, link}, index) => {
               const activeLink = pathname.startsWith(link)
