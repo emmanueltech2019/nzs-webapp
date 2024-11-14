@@ -39,7 +39,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
           className="w-full h-48 rounded-t-lg object-cover"
         />
         <div className="absolute top-4 right-4">
-          <Button variant="outlined" size="small">
+          <Button variant="contained" color="success" size="small">
             Edit Product
           </Button>
         </div>
