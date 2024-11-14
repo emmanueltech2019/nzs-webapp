@@ -9,12 +9,12 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import axios from "@/utils/axios";
 import { showToast } from '@/utils/alert'
 import Header from '@/components/header/TagHeader'
-type general_type2 = {
-    setCount: (value: number) => void;
-    setSection: (value: number) => void;
-    handleBtnFunc: (callback: () => void) => void;
-  }
-const PaymentInfo: FC<general_type2> = ({ setCount, setSection, handleBtnFunc }) => {
+// type general_type2 = {
+//     setCount: (value: number) => void;
+//     setSection: (value: number) => void;
+//     handleBtnFunc: (callback: () => void) => void;
+//   }
+const PaymentInfo: FC = ({ }) => {
     
     const [accountNumber, setAccountNumber] = useForm('')
     const [accountName, setAccountName] = useForm('')
@@ -39,7 +39,7 @@ const PaymentInfo: FC<general_type2> = ({ setCount, setSection, handleBtnFunc })
             }
         }).then((res) => {
             showToast('success', res.data.message);
-            setSection(4);
+            // setSection(4);
         }).catch(err => {
             console.error(err);
             showToast('error', err.message);
