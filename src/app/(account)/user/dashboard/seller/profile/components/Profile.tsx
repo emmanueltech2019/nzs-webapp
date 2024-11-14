@@ -9,6 +9,7 @@ import axios from "@/utils/axios";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import Avatar from '@mui/material/Avatar';
+import { showToast } from "@/utils/alert";
 
 const roboto = Roboto({
   display: "swap",
@@ -44,6 +45,10 @@ const Profile = () => {
   const [businessList, setBusinessList] = useState(true)
   const handleSwitch = (id:string) =>{
     localStorage.setItem('activeBusiness', id)
+    setTimeout(()=>{
+      showToast('success', "Business switched successfully")
+      window.location.replace("./inventory")
+    }, 2000)
   }
   const LogOut = () => {
     Swal.fire({
@@ -182,7 +187,7 @@ const Profile = () => {
           className={`flex items-center p-3 rounded-lg hover:bg-blue-100`}
         >
           <Avatar src={business.logoUrl} alt={business.businessName} className="mr-3" />
-          <span className="text-lg font-semibold">{business.businessName?business.businessName:"No NAME"}</span>
+          <span className="text-lg font-semibold">{business.businessName!=undefined||null||''?business.businessName:"No BUSINESS NAME"}</span>
         </div>
       ))}
 

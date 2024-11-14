@@ -77,8 +77,8 @@ const LeftSidenav = () => {
                 <li key={index} className='cursor-pointer text-[#D4D6DD]'>
                   <Link href={link}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${activeLink ? 'lg:border-[#D4D6DD]': 'lg:border-transparent'}`}>
-                      <Icon icon={icon} className={`text-[34px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
-                      <p className={`text-[16px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
+                      <Icon icon={icon} className={`text-[30px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
+                      <p className={`text-[14px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
                     </div>
                   </Link>
                 </li>
@@ -88,16 +88,16 @@ const LeftSidenav = () => {
            <li  className='cursor-pointer text-[#D4D6DD] md:hidden block'>
                   <Link href={'/user/dashboard/settings'}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-                      <SettingsOutlinedIcon className={`text-[34px]`}/>
-                      <p className={`text-[16px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
+                      <SettingsOutlinedIcon className={`text-[30px]`}/>
+                      <p className={`text-[14px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
                     </div>
                   </Link>
                 </li>
           <li  className='cursor-pointer text-[#D4D6DD] hidden md:block'>
                   <Link href={'/wallet'}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-                      <AccountBalanceWalletOutlinedIcon className={`text-[34px]`}/>
-                      <p className={`text-[16px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
+                      <AccountBalanceWalletOutlinedIcon className={`text-[30px]`}/>
+                      <p className={`text-[14px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
                     </div>
                   </Link>
                 </li>

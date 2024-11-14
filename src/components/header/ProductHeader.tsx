@@ -17,7 +17,8 @@ type Business = {
 };
 const Header: FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [businesses, setBusinesses] = useState<Business | null>(null);
+  const [businessName, setBusinessName] = useState<string>('');
 
   useEffect(() => {
     if (!localStorage.getItem("userToken")) {
@@ -41,22 +42,26 @@ const Header: FC = () => {
         console.error("Error fetching profile:", error);
       });
       axios({
-        url:'/business/'+localStorage.getItem('addNewBusiness'),
+        url:'/business/'+localStorage.getItem('activeBusiness'),
         method:"GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
       }
       }).then((res)=>{
-        setBusinesses(res.data.business)
+        
+        setBusinesses(res.data.business[0])
+        
+        setBusinessName(res.data.business[0].businessName)
       })
   }, []);
   return (
     <div className="flex justify-between px-10 py-6 w-full">
       {/* <h1 className="text-2xl font-[900]">Hi {user?.lastname}!</h1> */}
       <div className='flex space-x-4'>
-        <Image src={businesses[0]?.businessName?businesses[0].businessName:"https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906736/Asset_390_y9mpv3.png"} width={30} height={10} alt={businesses[0]?.businessName?businesses[0].businessName:"No Name"}/>
-      <h1 className="text-2xl font-[900]">{businesses[0]?.businessName?businesses[0].businessName:"No Name"}</h1>
-
+        <Image src={businesses?.logoUrl?businesses.logoUrl:"https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906736/Asset_390_y9mpv3.png"} width={30} height={10} alt={businesses?.businessName?businesses.businessName:"No Name"} className='rounded-full'/>
+        <h1 className="text-2xl font-[900]">
+  {businessName? businessName : "No Business Name"}
+</h1>    {/* <h1 className="text-2xl font-[900]">{businesses?.businessName}</h1> */}
       </div>
 
       <div className="flex space-x-4">
