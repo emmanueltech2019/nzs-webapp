@@ -22,6 +22,7 @@ const LeftSidenav = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
+    console.log(pathname.endsWith('/user/dashboard'))
     if (!localStorage.getItem("userToken")) {
       console.error("User token is missing.");
       return;
@@ -59,18 +60,18 @@ const LeftSidenav = () => {
       <Link href="/user/dashboard">
         <div
           className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
-            pathname.startsWith('/user/dashboard') ? 'lg:border-[#D4D6DD]' : ''
+            !pathname.endsWith('/user/dashboard') ? 'lg:border-[#D4D6DD]' : 'text-[#FFBB5B]'
           }`}
         >
           <Icon
             icon="mdi:cart-variant"
-            className={`text-[30px] ${
-              pathname.startsWith('/user/dashboard') ? 'text-[#D4D6DD]' : 'text-[#D4D6DD]'
+            className={`text-[25px] ${
+              !pathname.endsWith('/user/dashboard') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           ></Icon>
           <p
-            className={`text-[14px] leading-[22.99px] lg:block font-[400] ${
-              pathname.startsWith('/user/dashboard') ? 'text-[#D4D6DD]' : 'text-inherit'
+            className={`text-[12px] leading-[22.99px] lg:block font-[400] ${
+              !pathname.endsWith('/user/dashboard') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           >
             Explore
@@ -79,21 +80,21 @@ const LeftSidenav = () => {
       </Link>
     </li>
     <li className="cursor-pointer text-[#D4D6DD]">
-      <Link href="">
+      <Link href="#">
         <div
           className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
-            pathname.startsWith('/user/dashboard/transaction') ? 'lg:border-[#D4D6DD]' : ''
+            pathname.endsWith('#') ? 'lg:border-[#D4D6DD]' : ''
           }`}
         >
           <Icon
             icon="ep:search"
-            className={`text-[30px] ${
-              pathname.startsWith('/user/dashboard/transaction') ? 'text-[#D4D6DD]' : 'text-[#D4D6DD]'
+            className={`text-[25px] ${
+              pathname.endsWith('#') ? 'text-[#D4D6DD]' : ''
             }`}
           ></Icon>
           <p
-            className={`text-[14px] leading-[22.99px] lg:block font-[400] ${
-              pathname.startsWith('/user/dashboard/transaction') ? 'text-[#D4D6DD]' : 'text-inherit'
+            className={`text-[12px] leading-[22.99px] lg:block font-[400] ${
+              pathname.endsWith('#') ? 'text-[#D4D6DD]' : ''
             }`}
           >
             Search
@@ -105,18 +106,18 @@ const LeftSidenav = () => {
       <Link href="/user/dashboard/transaction">
         <div
           className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
-            pathname.startsWith('/user/dashboard/transaction') ? 'lg:border-[#D4D6DD]' : ''
+            !pathname.endsWith('/user/dashboard/transaction') ? 'lg:border-[#D4D6DD]' : 'text-[#FFBB5B]'
           }`}
         >
           <Icon
             icon="ep:menu"
-            className={`text-[30px] ${
-              pathname.startsWith('/user/dashboard/transaction') ? 'text-[#D4D6DD]' : 'text-[#D4D6DD]'
+            className={`text-[25px] ${
+              !pathname.endsWith('/user/dashboard/transaction') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           ></Icon>
           <p
-            className={`text-[14px] leading-[22.99px] lg:block font-[400] ${
-              pathname.startsWith('/user/dashboard/transaction') ? 'text-[#D4D6DD]' : 'text-inherit'
+            className={`text-[12px] leading-[22.99px] lg:block font-[400] ${
+              !pathname.endsWith('/user/dashboard/transaction') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           >
             Transaction
@@ -128,18 +129,18 @@ const LeftSidenav = () => {
       <Link href="/user/dashboard/settings">
         <div
           className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
-            pathname.startsWith('/user/dashboard/settings') ? 'lg:border-[#D4D6DD]' : ''
+            !pathname.endsWith('/user/dashboard/settings') ? 'lg:border-[#D4D6DD]' : 'text-[#FFBB5B]'
           }`}
         >
           <Icon
             icon="ri:settings-5-fill"
-            className={`text-[30px] ${
-              pathname.startsWith('/user/dashboard/settings') ? 'text-[#D4D6DD]' : 'text-[#D4D6DD]'
+            className={`text-[25px] ${
+              !pathname.endsWith('/user/dashboard/settings') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           ></Icon>
           <p
-            className={`text-[14px] leading-[22.99px] lg:block font-[400] ${
-              pathname.startsWith('/user/dashboard/settings') ? 'text-[#D4D6DD]' : 'text-inherit'
+            className={`text-[12px] leading-[22.99px] lg:block font-[400] ${
+              !pathname.endsWith('/user/dashboard/settings') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           >
             Settings
@@ -151,13 +152,13 @@ const LeftSidenav = () => {
 ) : <ul className='flex flex-row lg:flex-col h-full  md:w-fit w-screen px-5 justify-between lg:justify-around'>
 {
   linksSeller.map(({text, icon, link}, index) => {
-    const activeLink = pathname.startsWith(link)
+    const activeLink = pathname.endsWith(link)
     return (
       <li key={index} className='cursor-pointer text-[#D4D6DD]'>
         <Link href={link}>
           <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${activeLink ? 'lg:border-[#D4D6DD]': 'lg:border-transparent'}`}>
-            <Icon icon={icon} className={`text-[30px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
-            <p className={`text-[14px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
+            <Icon icon={icon} className={`text-[25px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
+            <p className={`text-[12px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
           </div>
         </Link>
       </li>
@@ -167,16 +168,16 @@ const LeftSidenav = () => {
  <li  className='cursor-pointer text-[#D4D6DD] md:hidden block'>
         <Link href={'/user/dashboard/settings'}>
           <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-            <SettingsOutlinedIcon className={`text-[30px]`}/>
-            <p className={`text-[14px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
+            <SettingsOutlinedIcon className={`text-[25px]`}/>
+            <p className={`text-[12px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
           </div>
         </Link>
       </li>
 <li  className='cursor-pointer text-[#D4D6DD] hidden md:block'>
         <Link href={'/user/dashboard/seller/wallet'}>
           <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-            <AccountBalanceWalletOutlinedIcon className={`text-[30px]`}/>
-            <p className={`text-[14px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
+            <AccountBalanceWalletOutlinedIcon className={`text-[25px]`}/>
+            <p className={`text-[12px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
           </div>
         </Link>
       </li>
@@ -185,7 +186,7 @@ const LeftSidenav = () => {
         {user?.accountType == "buyer" ? <ul className='flex flex-row lg:flex-col h-full  md:w-fit w-screen px-5 justify-between lg:justify-around'>
           {
             links.map(({text, icon, link}, index) => {
-              const activeLink = pathname.startsWith(link)
+              const activeLink = pathname.endsWith(link)
               return (
                 // <li key={index} className='cursor-pointer text-[#fff]'>
                 //   <Link href={link}>
@@ -198,8 +199,8 @@ const LeftSidenav = () => {
                 <li key={index} className='cursor-pointer text-[#D4D6DD]'>
                   <Link href={link}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${activeLink ? 'lg:border-[#D4D6DD]': 'lg:border-transparent'}`}>
-                      <Icon icon={icon} className={`text-[30px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
-                      <p className={`text-[14px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
+                      <Icon icon={icon} className={`text-[25px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
+                      <p className={`text-[12px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
                     </div>
                   </Link>
                 </li>
@@ -209,13 +210,13 @@ const LeftSidenav = () => {
         </ul>: <ul className='flex flex-row lg:flex-col h-full  md:w-fit w-screen px-5 justify-between lg:justify-around'>
           {
             linksSeller.map(({text, icon, link}, index) => {
-              const activeLink = pathname.startsWith(link)
+              const activeLink = pathname.endsWith(link)
               return (
                 <li key={index} className='cursor-pointer text-[#D4D6DD]'>
                   <Link href={link}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${activeLink ? 'lg:border-[#D4D6DD]': 'lg:border-transparent'}`}>
-                      <Icon icon={icon} className={`text-[30px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
-                      <p className={`text-[14px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
+                      <Icon icon={icon} className={`text-[25px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
+                      <p className={`text-[12px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
                     </div>
                   </Link>
                 </li>
@@ -225,16 +226,16 @@ const LeftSidenav = () => {
            <li  className='cursor-pointer text-[#D4D6DD] md:hidden block'>
                   <Link href={'/user/dashboard/settings'}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-                      <SettingsOutlinedIcon className={`text-[30px]`}/>
-                      <p className={`text-[14px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
+                      <SettingsOutlinedIcon className={`text-[25px]`}/>
+                      <p className={`text-[12px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
                     </div>
                   </Link>
                 </li>
           <li  className='cursor-pointer text-[#D4D6DD] hidden md:block'>
                   <Link href={'/wallet'}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-                      <AccountBalanceWalletOutlinedIcon className={`text-[30px]`}/>
-                      <p className={`text-[14px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
+                      <AccountBalanceWalletOutlinedIcon className={`text-[25px]`}/>
+                      <p className={`text-[12px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
                     </div>
                   </Link>
                 </li>
