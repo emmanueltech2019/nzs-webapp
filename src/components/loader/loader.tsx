@@ -1,5 +1,6 @@
 import React from 'react';
-import { Circle } from 'react-preloaders';
+// import { Circle } from 'react-preloaders';
+import { ThreeDots } from 'react-loader-spinner'
 
 interface CircleLoaderProps {
   isVisible: boolean; // To toggle the loader visibility
@@ -25,7 +26,17 @@ const CircleLoader: React.FC<CircleLoaderProps> = ({ isVisible }) => {
         zIndex: 1000000000, // Ensure it appears above other content
       }}
     >
-      <Circle color="#006838"/>
+      {/* <Circle color="#006838"/> */}
+      <ThreeDots
+        visible={true}
+        height="80"
+        width="80"
+        color="#4fa94d"
+        radius="9"
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        />
     </div>
   );
 };
