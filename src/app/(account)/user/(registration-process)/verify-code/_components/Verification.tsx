@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import verifyCodeImage from "@/assets/images/verify-code-img.png";
 import Box from "@/components/Box";
 import { useRouter } from "next/navigation";
@@ -17,6 +17,7 @@ const Verification = () => {
   const router = useRouter();
   const [VCode, setVCode] = useState<number[]>(new Array(4).fill(""));
   const [loading, setLoading] = useState(false);
+  const [lEmail, setLEmail] = useState<string | null>('')
 
   const handleChange = (e: any, i: any) => {
     if (isNaN(e.target.value)) return false;
@@ -96,6 +97,10 @@ const Verification = () => {
       console.log(err);
     })
   }
+useEffect(() => {
+ let email = localStorage.getItem('RegEmailState')
+ setLEmail(email)
+}, [])
 
   return (
     <section className="flex flex-col lg:flex-row min-h-screen">
@@ -112,7 +117,7 @@ const Verification = () => {
             Enter confirmation code
           </h1>
           <p className="text-[#71727A] text-lg">
-            A 4-digit code was sent to {localStorage.getItem('RegEmailState')}
+            A 4-digit code was sent to {lEmail}
           </p>
         </div>
 
