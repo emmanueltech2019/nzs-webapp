@@ -56,7 +56,7 @@ const Dashboard = () => {
         <Header />
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         {activeTab == "products" ? (
-          <>
+          <div className="mb-24 md:mb-0">
             <SortFilter />
             <FloatingButton
               color="bg-[#006838]"
@@ -67,7 +67,7 @@ const Dashboard = () => {
             <Carousel images={imageSrcArray}/>
             <ProductGrid title="Perfect for you" products={products} />
             <ProductGrid title="For this summer" products={products} />
-          </>
+          </div>
         ) : (
           <>
             <FloatingButton />

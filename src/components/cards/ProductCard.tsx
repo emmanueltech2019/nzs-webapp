@@ -9,7 +9,7 @@ interface CardProps {
   
   const Card: React.FC<CardProps> = ({ title, price, image }) => {
     return (
-        <div className="bg-[#F8F9FE] rounded-2xl w-full  h-[240px]">
+        <div className="bg-[#F8F9FE] rounded-2xl w-full  h-fit">
           <div className="flex-grow flex items-center justify-center">
             <Image src={image} alt={title} width="100" height={'100'} className="rounded-t-2xl h-[120px] md:h-[160px] w-full object-cover"/>
           </div>

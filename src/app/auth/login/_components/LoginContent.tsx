@@ -9,6 +9,8 @@ import useForm from "@/hooks/useForm";
 import { useRouter } from 'next/navigation'
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
+import { useState } from "react";
+import CircleLoader from "@/components/loader/loader";
 
 
 const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
@@ -23,6 +25,7 @@ const LoginContent = () => {
   const [tpswd, tpswdFunc] = useToggle(false)
   const [emailState, setemail] = useForm('')
   const [pwdState, setpwd] = useForm('')
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: eventType) => {
     e.preventDefault()
@@ -30,7 +33,8 @@ const LoginContent = () => {
       showToast('warning','Please fill out all fields')
       return
     }
-    // Validation
+
+    setLoading(true);
 
     // API call to login user with email and password
     try {
@@ -41,7 +45,7 @@ const LoginContent = () => {
       const response = await axios.post(`/auth/login`, data)
       // Store user data in local storage - userToken
       localStorage.setItem('userToken', response.data.token)
-
+      setLoading(false);
       showToast('success', 'User logged in successfully')
 
 
@@ -63,11 +67,13 @@ const LoginContent = () => {
       
     } catch (error) {
       console.error(error)
+      setLoading(false);
       showToast('error','Failed to login. Please check your email and password.')
     }
   }
   return (
     <section className='px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]'>
+            <CircleLoader isVisible={loading} />
       <div className="flex md:gap-[36.97px] justify-between md:justify-start mb-[25.57px] lg:mb-0">
         <h2 className="flex items-center gap-2 text-black text-xs lg:text-sm font-normal">Download App
           <span className={icon1Styles}><Image src={Apple} alt="apple icon" className="w-[19.58px] object-cover" /></span>
@@ -97,9 +103,9 @@ const LoginContent = () => {
           </label>
           <input type={tpswd ? 'text' : 'password'} id='pswd' onChange={e => setpwd(e)} value={pwdState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='*****' />
         </div>
-        <p className="text-sm lg:text-base">Use 8 or more characters with a mix of letters, numbers & symbols</p>
+        {/* <span className="text-[1px] lg:text-[12px]">Use 8 or more characters with a mix of letters, numbers & symbols</span> */}
 
-        <p>Forgot Password?<Link href={"./forgot-password"} className="text-[#0095FF]">Reset now!</Link></p>
+        <p className="my-5">Forgot Password?<Link href={"./forgot-password"} className="text-[#0095FF]">Reset now!</Link></p>
 
         <div className="recognise-device flex my-6 gap-1">
           <input id="rgdvc" type="checkbox" className="accent-[--icon-light-green]" />

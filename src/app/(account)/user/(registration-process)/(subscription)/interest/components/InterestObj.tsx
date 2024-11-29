@@ -38,5 +38,13 @@ const initalState: InterestItem[] = [
     interest: "Electronics",
     state: false
   },
+  {
+    interest: "Auto Mobile",
+    state: false
+  },
+  {
+    interest: "Real Estate",
+    state: false
+  },
 ]
 export default initalState

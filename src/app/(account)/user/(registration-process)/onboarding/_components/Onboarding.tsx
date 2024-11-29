@@ -11,6 +11,7 @@ import OnboardingCard from "./OnboardingCard";
 import FuncRouteBtn from "@/components/buttons/FuncRouteBtn";
 import Box from "@/components/Box";
 import axios from "@/utils/axios";
+import CircleLoader from "@/components/loader/loader";
 
 const chart = "mage:chart-fill";
 const delivery = "solar:delivery-bold";
@@ -47,6 +48,8 @@ export const cardContent: CardItemtype[] = [
 ];
 
 const Onboarding = () => {
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   /**
    * @author Miracle Boniface
@@ -57,6 +60,7 @@ const Onboarding = () => {
   const handleOnboarding = async () => {
     // const userToken = localStorage.getItem("userToken") || '';
     // const tr = JSON.parse(userToken);
+    setLoading(true)
     axios({
       url: `/users/`,
       data: {
@@ -68,10 +72,12 @@ const Onboarding = () => {
       method: 'PUT',
     })
     .then((res) => {
+      setLoading(false)
       router.push('./interest')
       console.log(res);
     })
     .catch((error) => {
+      setLoading(false)
       console.error('Error fetching data:', error);
     });
   }
@@ -118,6 +124,7 @@ const Onboarding = () => {
 
   return (
     <section className="flex flex-col-reverse lg:flex-row min-h-screen">
+       <CircleLoader isVisible={loading} />
       <div className="col flex-[1.2] flex flex-col justify-evenly px-3 md:ps-[150px]">
         {/* box */}
         <div className="hidden lg:block">

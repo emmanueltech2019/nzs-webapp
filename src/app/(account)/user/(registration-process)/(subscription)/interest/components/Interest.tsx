@@ -7,9 +7,10 @@ import businessAnalysis_img from "@/assets/images/business-analysis.png";
 import axios from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import { showToast } from "@/utils/alert";
+import CircleLoader from "@/components/loader/loader";
 
 const Interest = () => {
-
+  const [loading, setLoading] = useState(false);
   const [interest, setInterest] = useState(initalState);
   const router = useRouter();
 
@@ -35,6 +36,7 @@ const Interest = () => {
   }, [handleImg, handleProgressbar]);
 
   const handleAPI = () => {
+    setLoading(false)
     // const userToken = localStorage.getItem("userToken") || ''
     // const tr = JSON.parse(userToken)
     if (interest.filter(interest => interest.state).length) {
@@ -69,6 +71,8 @@ const Interest = () => {
   return (
     <div>
       <section>
+      <CircleLoader isVisible={loading} />
+
         <div>
           <header>
             <h1 className=" text-2xl text-[#1F2024] md:text-[40px] md:leading-[48.41px] font-[900] mt-[50px]">

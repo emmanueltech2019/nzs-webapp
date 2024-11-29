@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import axios from "@/utils/axios";
 import { ProductT } from "@/types/Product.types";
 import { showToast } from "@/utils/alert";
+import Image from "next/image";
 // import { useRouter } from 'next/router';
 
 const ProductScreen: FC = () => {
@@ -74,12 +75,22 @@ const ProductScreen: FC = () => {
     <div className="relative p-4  mx-auto bg-white rounded-lg ">
       {/* Close button */}
       {/* <button className="top-4 left-4 text-2xl z-10 text-[60px]">&times;</button> */}
-      <button
-        className=" text-3xl z-10  py-1 text-gray-500 my-1 "
-        onClick={handleGoBack}
-      >
-        <ArrowBackOutlinedIcon />
-      </button>
+      <div className="flex justify-between">
+        <button
+          className=" text-3xl z-10  py-1 text-gray-500 my-1 "
+          onClick={handleGoBack}
+        >
+          <ArrowBackOutlinedIcon fontSize={'20'} />
+        </button>
+        <Link href={"./dashboard/cart"}>
+        <div className="relative">
+          <Image src={'https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png'} alt='cart icon' height={100} width={40} className="text-2xl" />
+          <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
+            9
+          </span>
+        </div>
+        </Link>
+      </div>
 
       {/* Product Image/Carousel */}
       {/* <CarouselEmbla images={product?.images}/> */}

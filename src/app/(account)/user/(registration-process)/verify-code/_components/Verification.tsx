@@ -6,6 +6,7 @@ import Box from "@/components/Box";
 import { useRouter } from "next/navigation";
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
+import CircleLoader from "@/components/loader/loader";
 
 
 
@@ -15,6 +16,7 @@ type eventType = React.MouseEvent<HTMLButtonElement, MouseEvent>
 const Verification = () => {
   const router = useRouter();
   const [VCode, setVCode] = useState<number[]>(new Array(4).fill(""));
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any, i: any) => {
     if (isNaN(e.target.value)) return false;
@@ -37,7 +39,7 @@ const Verification = () => {
 
   const handleSbmit = async (e: eventType) => {
     e.preventDefault();
-
+    setLoading(true)
     let result: string = "";
     VCode.forEach((a) => {
       if (!a) {
@@ -64,10 +66,12 @@ const Verification = () => {
         'Authorization': `Bearer ${localStorage.getItem("userToken")}`
       }
     }).then(response => {
+      setLoading(false)
       showToast('success', response.data.message)
       router.push("./onboarding");
     }).catch(err => {
       console.error(err);
+      setLoading(false)
       showToast('error', err.message)
     })
 
@@ -95,6 +99,7 @@ const Verification = () => {
 
   return (
     <section className="flex flex-col lg:flex-row min-h-screen">
+       <CircleLoader isVisible={loading} />
       <div className="col flex-[1.2] flex flex-col justify-evenly px-3 lg:ps-[150px]">
         {/* box */}
         <div className="hidden lg:block">
@@ -107,7 +112,7 @@ const Verification = () => {
             Enter confirmation code
           </h1>
           <p className="text-[#71727A] text-lg">
-            A 4-digit code was sent to lucasscott3@email.com
+            A 4-digit code was sent to {localStorage.getItem('RegEmailState')}
           </p>
         </div>
 

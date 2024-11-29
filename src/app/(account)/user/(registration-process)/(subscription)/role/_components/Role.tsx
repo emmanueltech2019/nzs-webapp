@@ -6,18 +6,22 @@ import { useContextStore } from "@/context/SubscriptionContext";
 import axios from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import { showToast } from "@/utils/alert";
+import CircleLoader from "@/components/loader/loader";
 
 type eventType = React.ChangeEvent<HTMLInputElement>;
 
 const Role = () => {
   const router = useRouter();
   const [role, setRole] = useState('')
+  const [loading, setLoading] = useState(false);
+
   const handleRole = (e: eventType) => {
     setRole(e.target.title);
   }
   const handleAPI = async () => {
     // const userToken = localStorage.getItem("userToken") || ''
     // const tr = JSON.parse(userToken)
+    setLoading(true)
     if (role) {
       axios({
         method: "PUT",
@@ -30,6 +34,7 @@ const Role = () => {
         },
       }).then(res => {
         console.log(res)
+        setLoading(false)
         showToast("success", "Role updated successfully");
 
         if(role == 'buyer') router.push("./dashboard")
@@ -37,6 +42,7 @@ const Role = () => {
 
       }).catch(err => {
         console.error(err);
+        setLoading(false)
         showToast("error", "Failed to update role");
       })
     }else{
@@ -58,6 +64,8 @@ const Role = () => {
   return (
     <div>
       <section>
+      <CircleLoader isVisible={loading} />
+
         <div>
           <header>
             <h1 className=" text-2xl text-[#1F2024] md:text-[40px] md:leading-[48.41px] font-[900] mt-[50px]">

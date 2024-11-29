@@ -14,6 +14,7 @@ import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import axios from '@/utils/axios'
 import { validateEmail, validatePassword } from "@/utils/Validator";
+import CircleLoader from "@/components/loader/loader";
 
 
 const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
@@ -34,7 +35,8 @@ const SignupContent = () => {
   const [pwdState, setpwd] = useForm('')
   const [messageConsent, setmessageConsent] = useState(false)
   const [termsConsent, setTermsConsent] = useState(false)
-  
+  const [loading, setLoading] = useState(false);
+
 
   // Validate form before submission
   const validateForm = () => {
@@ -78,6 +80,7 @@ const SignupContent = () => {
 
   const handleSubmit = async (e: eventType) => {
     e.preventDefault()
+    setLoading(true)
     if (!validateForm()) return;
 
     // validate form inputs
@@ -85,6 +88,7 @@ const SignupContent = () => {
     //   alert('please input required')
     //   return
     // }
+    localStorage.setItem('RegEmailState', emailState)
     try {
       const response = await axios.post('/auth/register', {
         firstname: fnameState,
@@ -95,7 +99,7 @@ const SignupContent = () => {
         messageConsent: true,
         termsConsent: true,
       });
-
+      setLoading(false)
 
       if (response.status === 201) {
         // On success, navigate to onboarding
@@ -109,12 +113,14 @@ const SignupContent = () => {
         alert('Signup failed. Please try again.');
       }
     } catch (error) {
+      setLoading(false)
       console.error('Error during signup:', error);
       alert('There was an error processing your signup.');
     }
   }
   return (
     <section className='px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]'>
+      <CircleLoader isVisible={loading} />
       <div className="flex md:gap-[36.97px] justify-between md:justify-start mb-[25.57px] lg:mb-0">
         <h2 className="flex items-center gap-2 text-black text-xs lg:text-sm font-normal">Download App
           <span className={icon1Styles}><Image src={Apple} alt="apple icon" className="w-[19.58px] object-cover" /></span>
@@ -161,7 +167,7 @@ const SignupContent = () => {
           </label>
           <input type={tpswd ? 'text' : 'password'} id='pswd' onChange={e => setpwd(e)} value={pwdState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='*****' />
         </div>
-        <p className="text-sm lg:text-base">Use 8 or more characters with a mix of letters, numbers & symbols</p>
+        <span className="text-[10px] lg:text-[12px]">Use 8 or more characters with a mix of letters, numbers & symbols</span>
 
         <div className="agree-1 flex my-6 gap-1 items-start">
           <input id="agree-1" type="checkbox" className="accent-[--icon-light-green] mt-1 outline-none" onChange={(e: any) => setTermsConsent(e.target.checked)} checked={termsConsent} required />
@@ -181,7 +187,7 @@ const SignupContent = () => {
         </div>
 
         <div className="buttons">
-          <input type="submit" value="Sign In" className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer" onClick={handleSubmit} />
+          <input type="submit" value="Sign Up" className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer" onClick={handleSubmit} />
           <span className="ml-3 text-sm lg:text-base">Already have an Account <Link href='./login' className="underline">Login</Link></span>
         </div>
 
