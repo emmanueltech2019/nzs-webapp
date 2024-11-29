@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Incoming from "./components/orders/Incoming";
-import WalletTab from "../../../../../components/tabs/WalletTab";
+import WalletTab from "./components/WalletTab";
 import SellerTransStatusTab from "@/components/tabs/SellerTransStatusTab";
 import { div } from "framer-motion/client";
 import Pending from "./components/orders/Pending";
@@ -13,7 +13,7 @@ import AccountBalanceCard from "@/components/cards/AccountBalanceCard";
 import WalletInfo from "./components/WalletInfo";
 
 const page = () => {
-  const [activeTab, setActiveTab] = useState("PAYIN");
+  const [activeTab, setActiveTab] = useState("PURCHASE");
   const totalBalance = 2542522.34;
   const transactions = [
     {
@@ -38,13 +38,13 @@ const page = () => {
       <WalletTab activeTab={activeTab} setActiveTab={setActiveTab} />
       
       <div className="">
-        {activeTab === "PAYIN" && (
+        {activeTab === "PURCHASE" && (
           <div>
             <AccountBalanceCard color="bg-[#006838]" value={1563} />
           </div>
         )}
 
-        {activeTab === "WITHDRAWAL" && (
+        {activeTab === "DEPOSITS" && (
           <div>
             <AccountBalanceCard color="bg-[#E09427]" value={1563} />
           </div>
@@ -54,12 +54,12 @@ const page = () => {
         <SortFilter />
         <ServiceFilterButtons active="Status" filterArray={walletFilter} />
       </div>
-      {activeTab === "PAYIN" && (
+      {activeTab === "PURCHASE" && (
           <div>
             <WalletInfo totalBalance={totalBalance} transactions={transactions} color="#006838" />
           </div>
         )}
-{activeTab === "WITHDRAWAL" && (
+{activeTab === "DEPOSITS" && (
           <div>
             <WalletInfo totalBalance={totalBalance} transactions={transactions} color="#E09427" />
           </div>

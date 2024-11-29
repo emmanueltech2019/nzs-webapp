@@ -17,7 +17,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ totalBalance, transactions, col
 
   return (
     <>
-    <div className="p-6 bg-white rounded-lg h-[44vh] overflow-auto">
+    <div className="p-6 bg-white rounded-lg h-[50vh] overflow-auto">
       {/* Wallet Info Header */}
       <div className="flex justify-between items-center mb-4">
         <div>
@@ -64,7 +64,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ totalBalance, transactions, col
       {/* Withdraw Button */}
     </div>
       <button className="w-full bg-green-800 text-white py-3 rounded-full font-semibold mt-4 mb-10">
-        WITHDRAW FROM WALLET
+       ADD TO WALLET
       </button>
     </>
   );

@@ -21,7 +21,7 @@ export interface ProductT {
 }
 
 export interface CartItemT {
-    productId: ProductT[];
+    productId: ProductT;
     quantity: number;
     price: number;
     _id: string;

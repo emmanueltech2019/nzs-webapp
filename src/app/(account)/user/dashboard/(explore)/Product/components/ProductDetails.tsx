@@ -14,6 +14,7 @@ const ProductScreen: FC = () => {
   const [product, setProduct] = useState<ProductT>();
   const [selectedSize, setSelectedSize] = useState("S");
   const [selectedColor, setSelectedColor] = useState("green");
+  const [cartLength, setCartLength] = useState(0);
 
   const sizes = ["XS", "S", "M", "L", "XL"];
   const colors = ["black", "gray", "darkGray", "lightGray", "white"];
@@ -51,6 +52,19 @@ const ProductScreen: FC = () => {
   useEffect(() => {
     //   const userToken = localStorage.getItem("userToken") || "";
     // const tr = JSON.parse(userToken);
+    axios({
+      method: "GET",
+      url: "cart",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    })
+      .then((res) => {
+        setCartLength(res.data.cart.items.length);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     if (typeof window !== "undefined") {
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
@@ -86,7 +100,7 @@ const ProductScreen: FC = () => {
         <div className="relative">
           <Image src={'https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png'} alt='cart icon' height={100} width={40} className="text-2xl" />
           <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
-            9
+            {cartLength}
           </span>
         </div>
         </Link>
@@ -149,7 +163,7 @@ const ProductScreen: FC = () => {
         className="mt-6 w-full py-3 bg-[#006838] text-white text-lg rounded-lg flex items-center justify-center"
         onClick={addToCart}
       >
-        + Add to Bag
+        + Add to Basket
       </button>
     </div>
   );

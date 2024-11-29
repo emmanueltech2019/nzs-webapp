@@ -16,10 +16,10 @@ const WalletTab: FC<WalletTabProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className='flex items-center w-full md:w-[90%] md:mx-[40px] border-b-[2px] '>
-      <button onClick={() => setActiveTab('PAYIN')} className={`font-sans text-xs text-center uppercase w-full p-4 transition duration-700 ${activeTab === 'Orders' ? 'bg-[#EAF2FF] border-b-4 border-[#006838] text-[#71727A] font-bold' : `border-b-[#0C1F1F33] ${inter.className} antialiased`}`}>
+      <button onClick={() => setActiveTab('PAYIN')} className={`font-sans text-xs text-center uppercase w-full p-4 transition duration-700 ${activeTab === 'PAYIN' ? 'bg-[#EAF2FF] border-b-4 border-[#006838] text-[#71727A] font-bold' : `border-b-[#0C1F1F33] ${inter.className} antialiased`}`}>
         PAY IN 
       </button>
-      <button onClick={() => setActiveTab('WITHDRAWAL')} className={`font-sans text-xs text-center uppercase w-full p-4 transition duration-700 ${activeTab === 'Reviews' ? 'bg-[#EAF2FF] border-b-4 border-[#006838] text-[#71727A] font-bold' : `border-b-[#0C1F1F33] ${inter.className} antialiased`}`}>
+      <button onClick={() => setActiveTab('WITHDRAWAL')} className={`font-sans text-xs text-center uppercase w-full p-4 transition duration-700 ${activeTab === 'WITHDRAWAL' ? 'bg-[#EAF2FF] border-b-4 border-[#006838] text-[#71727A] font-bold' : `border-b-[#0C1F1F33] ${inter.className} antialiased`}`}>
         WITHDRAWAL
       </button>
     </div>

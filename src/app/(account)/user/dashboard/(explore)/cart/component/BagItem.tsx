@@ -110,13 +110,13 @@ const BagItem: FC<BagProps> = ({ item }) => {
     <div className="flex items-center justify-between border-b py-4">
       <div className="flex items-center">
         <div className="w-[100px] h-[100px] bg-gray-200 rounded-md mr-4 flex items-center justify-center">
-          {/* <Image
+          <Image
             src={item.productId?.images?.[0] || 'https://res.cloudinary.com/wise-solution-inc/image/upload/v1729911544/fulllogo_full_green_1_gg1urs.png'} // fallback if image is missing
             width={100}
             height={100}
             alt={item.productId?.name || 'Product image'}
             className="text-gray-400 text-2xl"
-          /> */}
+          />
         </div>
         <div>
           {/* <h3 className="font-semibold">{item.productId.name}</h3> */}

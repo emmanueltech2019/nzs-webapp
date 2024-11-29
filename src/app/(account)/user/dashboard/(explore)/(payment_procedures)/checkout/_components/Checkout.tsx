@@ -1,15 +1,54 @@
 "use client";
 import TagHeader from "@/components/header/TagHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
 import Link from "next/link";
+import AddressModal from "./AddressModal";
+import axios from "@/utils/axios";
+
+
+interface User {
+  firstname: string;
+  lastname: string;
+  email: string;
+  accountType: "buyer" | "seller";
+  street:  string
+}
+
+
 const CheckoutShipping: React.FC = () => {
   const [selectedShipping, setSelectedShipping] = useState("Standard");
-  const [address, setAddress] = useState("+2349000011112"); // Saved Address
+  const [address, setAddress] = useState(""); // Saved Address
   const [shippingMethod, setShippingMethod] = useState("third-party");
+  const [showModal, setShowModal] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
+  useEffect(() => {
+    if (!localStorage.getItem("userToken")) {
+      console.error("User token is missing.");
+      return;
+    }
+
+    axios({
+      method: "GET",
+      url: "/users/profile", 
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    })
+      .then((res) => {
+        console.log(res.data.user); 
+        setUser(res.data.user); 
+        setAddress(res.data.user.addresses.street)
+      })
+      .catch((error) => {
+        console.error("Error fetching profile:", error);
+      });
+  }, []);
   return (
+    <>
+            {showModal && <AddressModal onClose={() => setShowModal(false)} />}
     <div className="p-6 md:w-[56vw] md:mx-20 lg:mx-0 xl:mx-20">
       <TagHeader title="Checkout" />
       {/* Checkout Steps */}
@@ -20,8 +59,6 @@ const CheckoutShipping: React.FC = () => {
           </div>
           <p className="text-sm font-bold py-2">Your bag</p>
         </div>
-
-
         <div className="flex flex-col items-center justify-center mr-auto">
           <div className="w-8 h-8 rounded-full bg-[#006838] flex items-center justify-center text-white">
             2
@@ -62,7 +99,7 @@ const CheckoutShipping: React.FC = () => {
           </div>
         </div>
         <div className="flex justify-center item-center">
-          <button className="text-[#006838] mt-2">+ Add Address</button>
+          <button className="text-[#006838] mt-2" onClick={() => setShowModal(true)}>+ Add Address</button>
         </div>
       </div>
 
@@ -134,6 +171,7 @@ const CheckoutShipping: React.FC = () => {
         </button>
       </Link>
     </div>
+    </>
   );
 };
 

@@ -48,7 +48,7 @@ const LeftSidenav = () => {
      {/* <div className='bg-[#006838] fixed z-[10000] text-[#D4D6DD] bottom-24 rounded-e-full left-0  p-5'>
       <SearchOutlinedIcon fontSize={'medium'}/>
       </div> */}
-    <div className=' bg-[#006838] text-[#D4D6DD] flex justify-between items-center md:flex-col flex-row md:sticky fixed md:top-0 bottom-0 md:h-screen overflow-y-auto md:max-h-[1200px] md:min-w-[23vw] md:max-w-[241px] w-screen md:py-[70px] py-4 md:ps-[35px]'>
+    <div className=' bg-[#006838] text-[#D4D6DD] flex justify-between items-center md:flex-col flex-row md:sticky fixed md:top-0 bottom-0 md:h-screen overflow-y-auto md:max-h-[1200px] md:min-w-[23vw] md:max-w-[241px] w-screen md:py-[70px] py-3 md:ps-[35px]'>
       <div className="box flex-1 self-start hidden lg:flex">
         <Box />
       </div>
@@ -65,12 +65,12 @@ const LeftSidenav = () => {
         >
           <Icon
             icon="mdi:cart-variant"
-            className={`text-[25px] ${
+            className={`text-[25px] md:text-[30px] ${
               !pathname.endsWith('/user/dashboard') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           ></Icon>
           <p
-            className={`text-[12px] leading-[22.99px] lg:block font-[400] ${
+            className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
               !pathname.endsWith('/user/dashboard') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           >
@@ -88,12 +88,12 @@ const LeftSidenav = () => {
         >
           <Icon
             icon="ep:search"
-            className={`text-[25px] ${
+            className={`text-[25px] md:text-[30px] ${
               pathname.endsWith('#') ? 'text-[#D4D6DD]' : ''
             }`}
           ></Icon>
           <p
-            className={`text-[12px] leading-[22.99px] lg:block font-[400] ${
+            className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
               pathname.endsWith('#') ? 'text-[#D4D6DD]' : ''
             }`}
           >
@@ -111,12 +111,12 @@ const LeftSidenav = () => {
         >
           <Icon
             icon="ep:menu"
-            className={`text-[25px] ${
+            className={`text-[25px] md:text-[30px] ${
               !pathname.endsWith('/user/dashboard/transaction') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           ></Icon>
           <p
-            className={`text-[12px] leading-[22.99px] lg:block font-[400] ${
+            className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
               !pathname.endsWith('/user/dashboard/transaction') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           >
@@ -134,12 +134,12 @@ const LeftSidenav = () => {
         >
           <Icon
             icon="ri:settings-5-fill"
-            className={`text-[25px] ${
+            className={`text-[25px] md:text-[30px] ${
               !pathname.endsWith('/user/dashboard/settings') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           ></Icon>
           <p
-            className={`text-[12px] leading-[22.99px] lg:block font-[400] ${
+            className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
               !pathname.endsWith('/user/dashboard/settings') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
             }`}
           >
@@ -157,8 +157,8 @@ const LeftSidenav = () => {
       <li key={index} className='cursor-pointer text-[#D4D6DD]'>
         <Link href={link}>
           <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${activeLink ? 'lg:border-[#D4D6DD]': 'lg:border-transparent'}`}>
-            <Icon icon={icon} className={`text-[25px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
-            <p className={`text-[12px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
+            <Icon icon={icon} className={`text-[25px] md:text-[30px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
+            <p className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
           </div>
         </Link>
       </li>
@@ -168,16 +168,16 @@ const LeftSidenav = () => {
  <li  className='cursor-pointer text-[#D4D6DD] md:hidden block'>
         <Link href={'/user/dashboard/settings'}>
           <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-            <SettingsOutlinedIcon className={`text-[25px]`}/>
-            <p className={`text-[12px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
+            <SettingsOutlinedIcon className={`text-[25px] md:text-[30px]`}/>
+            <p className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
           </div>
         </Link>
       </li>
 <li  className='cursor-pointer text-[#D4D6DD] hidden md:block'>
         <Link href={'/user/dashboard/seller/wallet'}>
           <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-            <AccountBalanceWalletOutlinedIcon className={`text-[25px]`}/>
-            <p className={`text-[12px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
+            <AccountBalanceWalletOutlinedIcon className={`text-[25px] md:text-[30px]`}/>
+            <p className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
           </div>
         </Link>
       </li>
@@ -199,8 +199,8 @@ const LeftSidenav = () => {
                 <li key={index} className='cursor-pointer text-[#D4D6DD]'>
                   <Link href={link}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${activeLink ? 'lg:border-[#D4D6DD]': 'lg:border-transparent'}`}>
-                      <Icon icon={icon} className={`text-[25px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
-                      <p className={`text-[12px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
+                      <Icon icon={icon} className={`text-[25px] md:text-[30px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
+                      <p className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
                     </div>
                   </Link>
                 </li>
@@ -215,8 +215,8 @@ const LeftSidenav = () => {
                 <li key={index} className='cursor-pointer text-[#D4D6DD]'>
                   <Link href={link}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${activeLink ? 'lg:border-[#D4D6DD]': 'lg:border-transparent'}`}>
-                      <Icon icon={icon} className={`text-[25px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
-                      <p className={`text-[12px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
+                      <Icon icon={icon} className={`text-[25px] md:text-[30px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
+                      <p className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
                     </div>
                   </Link>
                 </li>
@@ -226,16 +226,16 @@ const LeftSidenav = () => {
            <li  className='cursor-pointer text-[#D4D6DD] md:hidden block'>
                   <Link href={'/user/dashboard/settings'}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-                      <SettingsOutlinedIcon className={`text-[25px]`}/>
-                      <p className={`text-[12px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
+                      <SettingsOutlinedIcon className={`text-[25px] md:text-[30px]`}/>
+                      <p className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
                     </div>
                   </Link>
                 </li>
           <li  className='cursor-pointer text-[#D4D6DD] hidden md:block'>
                   <Link href={'/wallet'}>
                     <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-                      <AccountBalanceWalletOutlinedIcon className={`text-[25px]`}/>
-                      <p className={`text-[12px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
+                      <AccountBalanceWalletOutlinedIcon className={`text-[25px] md:text-[30px]`}/>
+                      <p className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
                     </div>
                   </Link>
                 </li>
