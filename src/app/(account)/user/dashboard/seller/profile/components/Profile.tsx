@@ -233,7 +233,7 @@ const Profile = () => {
               </Link>
             ))}
           </div>
-          <Link href={'/user/dashboard/seller/wallet'} className="md:hidden block">
+          {user?.accountType == "seller" ?<Link href={'/user/dashboard/seller/wallet'} className="md:hidden block">
           <div className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full">
             <span className="flex items-center justify-between w-full font-sans" >
               <p className="text-[#1F2024] text-sm">My Wallet</p>
@@ -243,7 +243,18 @@ const Profile = () => {
               ></Icon>
             </span>
           </div>
-          </Link>
+          </Link>:<Link href={'/user/dashboard/wallet'} className="md:hidden block">
+          <div className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full">
+            <span className="flex items-center justify-between w-full font-sans" >
+              <p className="text-[#1F2024] text-sm">My Wallet</p>
+              <Icon
+                icon="formkit:right"
+                className="text-[20px] text-[#8F9098]"
+              ></Icon>
+            </span>
+          </div>
+          </Link>}
+          
           <div className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full">
             <span className="flex items-center justify-between w-full font-sans" onClick={LogOut}>
               <p className="text-[#1F2024] text-sm">Log Out</p>
