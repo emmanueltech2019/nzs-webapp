@@ -73,6 +73,8 @@ const Education = () => {
           </Link>
         ))}
       </GridWrapper>
+
+      
     </div>
   )
 }

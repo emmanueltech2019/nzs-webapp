@@ -76,7 +76,7 @@ const Services = () => {
   
     return (
       <div className="min-h-screen ">
-        <ServiceFilterButtons active="General" filterArray={filters}/>
+        <ServiceFilterButtons active="Logistics" filterArray={filters}/>
         {/* <h2 className="text-lg font-bold mb-2">Near you</h2>
         <div className="flex space-x-4 overflow-x-scroll">
           {nearYouTransactions.map((transaction, index) => (
