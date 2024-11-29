@@ -72,7 +72,7 @@ const ProductScreen: FC = () => {
   }, []);
 
   return (
-    <div className="relative p-4  mx-auto bg-white rounded-lg ">
+    <div className=" p-4  mx-auto bg-white rounded-lg mb-20 md:mb-0">
       {/* Close button */}
       {/* <button className="top-4 left-4 text-2xl z-10 text-[60px]">&times;</button> */}
       <div className="flex justify-between">
@@ -82,7 +82,7 @@ const ProductScreen: FC = () => {
         >
           <ArrowBackOutlinedIcon fontSize={'large'} />
         </button>
-        <Link href={"./dashboard/cart"}>
+        <Link href={"./cart"}>
         <div className="relative">
           <Image src={'https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png'} alt='cart icon' height={100} width={40} className="text-2xl" />
           <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
