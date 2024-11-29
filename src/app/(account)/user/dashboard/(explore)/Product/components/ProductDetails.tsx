@@ -80,7 +80,7 @@ const ProductScreen: FC = () => {
           className=" text-3xl z-10  py-1 text-gray-500 my-1 "
           onClick={handleGoBack}
         >
-          <ArrowBackOutlinedIcon fontSize={'20'} />
+          <ArrowBackOutlinedIcon fontSize={'large'} />
         </button>
         <Link href={"./dashboard/cart"}>
         <div className="relative">
