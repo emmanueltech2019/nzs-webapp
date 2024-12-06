@@ -38,7 +38,7 @@ const PaymentComponent = () => {
           // setCartItems(res.data.cart); 
 
           const { access_code, authorization_url } = res.data.data;
-          if (typeof window !== "undefined") {
+          if (typeof window !== "undefined" && window.PaystackPop) {
             const handler = window.PaystackPop.setup({
               key: "pk_test_7e949957b4cd3245c97c27433fef90679cca3479", // Replace with your Paystack public key
               email: res.data.user.email,
