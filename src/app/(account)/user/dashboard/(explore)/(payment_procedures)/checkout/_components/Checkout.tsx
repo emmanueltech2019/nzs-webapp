@@ -49,7 +49,7 @@ const CheckoutShipping: React.FC = () => {
   return (
     <>
             {showModal && <AddressModal onClose={() => setShowModal(false)} />}
-    <div className="p-6 md:w-[50vw] md:mx-10 lg:mx-0 xl:mx-10 h-[60vh]">
+    <div className="p-6 md:w-[50vw] md:mx-10 lg:mx-0 xl:mx-10 h-[60vh] fixed">
       <TagHeader title="Checkout" />
       {/* Checkout Steps */}
       <div className="flex justify-around mb-8 mx-auto xl:ml-20 ml-12">
