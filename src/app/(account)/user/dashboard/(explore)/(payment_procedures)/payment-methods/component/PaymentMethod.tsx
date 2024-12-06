@@ -21,6 +21,23 @@ const PaymentComponent = () => {
   const popup = new PaystackPop()
   const [user, setUser] = useState<User | null>(null);
 
+
+  useEffect(() => {
+    // Load the Paystack script safely
+    if (typeof window !== "undefined") {
+      const script = document.createElement("script");
+      script.src = "https://js.paystack.co/v1/inline.js";
+      script.async = true;
+      script.onload = () => {
+        console.log("Paystack script loaded");
+      };
+      document.body.appendChild(script);
+
+      return () => {
+        document.body.removeChild(script); // Clean up script
+      };
+    }
+  }, []);
   const handlePay = () =>{
     if (selectedShipping=="Paystack") {
       axios({
