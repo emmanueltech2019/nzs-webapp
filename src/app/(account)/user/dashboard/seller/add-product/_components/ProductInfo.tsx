@@ -72,17 +72,18 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
     
         if (productType && color.length) { // Both need to be non-empty
             try {
-                const res = await axios({
-                    method: "POST",
-                    url: "/vendor/create",
-                    data: {  },
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-                    },
-                });
-                console.log(res.data);
-                showToast('success', res.data.message);
-                setSection(2);
+                // console.log(product)
+                // const res = await axios({
+                //     method: "POST",
+                //     url: "/vendor/create",
+                //     data: {  },
+                //     headers: {
+                //         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+                //     },
+                // });
+                // console.log(res.data);
+                // showToast('success', res.data.message);
+                // setSection(2);
             } catch (err) {
                 console.error(err);
                 // showToast('error', err.message || 'An error occurred');
@@ -134,7 +135,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
         <div className='py-3 pb-5 '>
 
                 <div className='pb-3'>
-                    <input type="text" id='businessName'  required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Product Name' />
+                    <input type="text" id='productName'  required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Product Name' />
                     <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/10</p>
                 </div>
                 <div className='pb-3'>
