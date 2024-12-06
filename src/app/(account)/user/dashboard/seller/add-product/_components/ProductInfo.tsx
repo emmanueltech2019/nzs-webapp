@@ -45,6 +45,7 @@ const color = [
 const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSection}) => {
     const [a, aFunc] = useToggle(true)
     const [b, bFunc] = useToggle(true)
+    const [productName, setProductName] = useState("")
 
     const [productTypetate, setproductTypetate] = useState(productType)
     const handleSector = (a: string) => {
@@ -135,7 +136,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
         <div className='py-3 pb-5 '>
 
                 <div className='pb-3'>
-                    <input type="text" id='productName'  required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Product Name' />
+                    <input type="text" id='productName' value={productName} onChange={(e)=>setProductName(e.target.value)} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Product Name' />
                     <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/10</p>
                 </div>
                 <div className='pb-3'>

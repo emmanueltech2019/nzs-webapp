@@ -23,7 +23,6 @@ const CheckoutShipping: React.FC = () => {
   const [shippingMethod, setShippingMethod] = useState("third-party");
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-
   useEffect(() => {
     if (!localStorage.getItem("userToken")) {
       console.error("User token is missing.");

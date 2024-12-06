@@ -35,7 +35,7 @@ const ShippingOptions: React.FC = () => {
     : 0;
 
   return (
-    <div className="p-4">
+    <div className="p-4 mb-20">
         <TagHeader title='Shipping Options'/>
       {/* Filter & Sort Options */}
       <SortFilter/>
