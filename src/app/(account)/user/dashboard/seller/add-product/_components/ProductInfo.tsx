@@ -46,6 +46,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
     const [a, aFunc] = useToggle(true)
     const [b, bFunc] = useToggle(true)
     const [productName, setProductName] = useState("")
+    const [productDescription, setProductDescription] = useState("")
 
     const [productTypetate, setproductTypetate] = useState(productType)
     const handleSector = (a: string) => {
@@ -56,11 +57,11 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
     const handleCategory = (a: string) => {
         setcolorState(prev => prev.map(({ item, state }, i) => ({ item, state: item == a ? !state : state })))
     }
-    const [accountType, setAccountType] = useState([
+    const [handlingType, setHandlingType] = useState([
         { item: 'Fragile', state: false },
         { item: 'Perishable', state: false },
     ])
-    const handleClick = (a: any) => setAccountType(prev => prev.map(({ item, state }) => ({ item, state: item == a ? !state : state })));
+    const handleClick = (a: any) => setHandlingType(prev => prev.map(({ item, state }) => ({ item, state: item == a ? !state : state })));
     const handleAPI = async () => {
         const userToken = localStorage.getItem("userToken");
         if (!userToken) {
@@ -73,6 +74,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
     
         if (productType && color.length) { // Both need to be non-empty
             try {
+                console.log(productName, color, productDescription, productType, handlingType)
                 // console.log(product)
                 // const res = await axios({
                 //     method: "POST",
@@ -140,7 +142,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
                     <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/10</p>
                 </div>
                 <div className='pb-3'>
-                    <input type="text" id='businessName'  required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Description' />
+                    <input type="text" id='productDescription' value={productDescription} onChange={(e)=>setProductDescription(e.target.value)}  required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Description' />
                     <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/10</p>
                 </div>
             <Accordion title='Product Type' subTitle='Select up to 2 options' onClick={aFunc} state={a} batch={11}>
@@ -168,7 +170,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
 
                
                 <div className='flex flex-col gap-3 py-3'>
-                    {accountType.map(({ item, state }, i) => (
+                    {handlingType.map(({ item, state }, i) => (
                         <div
                             key={item}
                             className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 border-[0.5px] ${state ? "bg-[#EAF2FF] border-transparent" : "bg-[#ffffff] border-[#C5C6CC]"
