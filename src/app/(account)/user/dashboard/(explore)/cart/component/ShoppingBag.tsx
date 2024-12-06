@@ -70,13 +70,13 @@ const ShoppingBag = () => {
   };
   
   return (
-    <div className="w-screen md:mx-1 bg-white md:p-4 pr-6 pl-2 fixed md:w-[53vw]">
+    <div className="w-screen md:mx-1 bg-white md:p-4 pr-6 pl-2  md:w-[53vw]">
       {/* Header */}
       <TagHeader title='Your bag'/>
 
 
       {/* Bag Items */}
-    <div className='overflow-y-scroll h-[70vh]'>
+    <div className='overflow-y-scroll h-[65vh]'>
     {cartItems?.items.map((item:CartItemT, index) => (
           <BagItem
             key={item._id} // Unique key from item._id

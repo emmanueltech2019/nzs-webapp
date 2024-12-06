@@ -19,6 +19,12 @@ const sector = [
     { item: 'Legal', state: false },
     { item: 'Logistics', state: false },
 ]
+const productType = [
+    { item: 'Editble', state: false },
+    { item: 'Wears', state: false },
+    { item: 'Eqipment', state: false },
+    { item: 'Stationaries', state: false },
+]
 const color = [
   
     { item: 'WHILE', state: false },
@@ -40,9 +46,9 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
     const [a, aFunc] = useToggle(true)
     const [b, bFunc] = useToggle(true)
 
-    const [sectorState, setSectorState] = useState(sector)
+    const [productTypetate, setproductTypetate] = useState(productType)
     const handleSector = (a: string) => {
-        setSectorState(prev => prev.map(({ item, state }, i) => ({ item, state: item == a ? !state : state })))
+        setproductTypetate(prev => prev.map(({ item, state }, i) => ({ item, state: item == a ? !state : state })))
     }
 
     const [colorState, setcolorState] = useState(color)
@@ -61,29 +67,28 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
             return;
         }
     
-        let sectors = sectorState.filter(s => s.state).map(({ item }) => item);
-        let categories = colorState.filter(c => c.state).map(({ item }) => item);
+        let productType = productTypetate.filter(s => s.state).map(({ item }) => item);
+        let color = colorState.filter(c => c.state).map(({ item }) => item);
     
-        if (sectors && categories.length) { // Both need to be non-empty
-            setSection(2);
-            // try {
-            //     const res = await axios({
-            //         method: "PUT",
-            //         url: "/business/select-sectors-categories",
-            //         data: { sectors, categories },
-            //         headers: {
-            //             Authorization: `Bearer ${userToken}`,
-            //         },
-            //     });
-            //     console.log(res.data);
-            //     showToast('success', res.data.message);
-            //     setSection(2);
-            // } catch (err) {
-            //     console.error(err);
-            //     // showToast('error', err.message || 'An error occurred');
-            // }
+        if (productType && color.length) { // Both need to be non-empty
+            try {
+                const res = await axios({
+                    method: "POST",
+                    url: "/vendor/create",
+                    data: {  },
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+                    },
+                });
+                console.log(res.data);
+                showToast('success', res.data.message);
+                setSection(2);
+            } catch (err) {
+                console.error(err);
+                // showToast('error', err.message || 'An error occurred');
+            }
         } else {
-            showToast('error', 'Please select both sectors and categories');
+            showToast('error', 'Please select both productType and color');
         }
     };
     
@@ -91,16 +96,16 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
     //     // const userToken = localStorage.getItem("userToken") || ''
     //     // const tr = JSON.parse(userToken)
 
-    //     let sectors = sectorState.filter(s => s.state).map(({ item }) => item)
-    //     let categories = colorState.filter(c => c.state).map(({ item }) => item)
-    //     // (sectorState.filter(s => s.state).length == 0 || colorState.filter(c => c.state).length == 0)
-    //     if (sectors.length || categories.length) {
+    //     let productType = productTypetate.filter(s => s.state).map(({ item }) => item)
+    //     let color = colorState.filter(c => c.state).map(({ item }) => item)
+    //     // (productTypetate.filter(s => s.state).length == 0 || colorState.filter(c => c.state).length == 0)
+    //     if (productType.length || color.length) {
     //         axios({
     //             method: "PUT",
-    //             url: "/business/select-sectors-categories",
+    //             url: "/business/select-productType-color",
     //             data: {
-    //                 sectors: sectors,
-    //                 categories: categories,
+    //                 productType: productType,
+    //                 color: color,
     //             },
     //             headers: {
     //                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -114,7 +119,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
     //             showToast('error', err.message)
     //         })
     //     } else {
-    //         showToast('error', 'Please select sectors and categories')
+    //         showToast('error', 'Please select productType and color')
     //         return
     //     }
     // }
@@ -124,7 +129,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
         return () => {
             handleBtnFunc(() => console.log('default'))
         }
-    },[sectorState, colorState])
+    },[productTypetate, colorState])
     return (
         <div className='py-3 pb-5 '>
 
@@ -138,7 +143,7 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
                 </div>
             <Accordion title='Product Type' subTitle='Select up to 2 options' onClick={aFunc} state={a} batch={11}>
                 <div className='flex gap-2 flex-wrap'>
-                    {sectorState.map(({ item, state }) => (
+                    {productTypetate.map(({ item, state }) => (
                         <button key={item} className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`} onClick={() => handleSector(item)}>{item}</button>
                     ))}
                 </div>

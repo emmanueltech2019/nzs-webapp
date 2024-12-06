@@ -22,7 +22,7 @@ const page = () => {
       <SellerTransactionTab activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className='md:ms-5 flex items-center'>
         <SortFilter />
-        <ServiceFilterButtons active='Status' filterArray={sellerFilter} />
+        {/* <ServiceFilterButtons active='Status' filterArray={sellerFilter} /> */}
       </div>
 
       <div className="">

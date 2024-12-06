@@ -5,7 +5,7 @@ import useToggle from '@/hooks/useToggle'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { useEffect, useState } from 'react'
 import Circle from '@/components/Circle'
-import BusinessDescription from './BusinessDescription'
+import ProductInfo from './ProductInfo'
 import BusinessInfo from './BusinessInfo'
 import PaymentInfo from './PaymentInfo'
 import Preview from './Preview'
@@ -58,7 +58,7 @@ const Main = () => {
                     </div>
                 ))}
             </div>
-            {section === 1 && <BusinessDescription setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
+            {section === 1 && <ProductInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
             {section === 2 && <BusinessInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
             {section === 3 && <PaymentInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
             {section === 4 && <Preview setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} setDisplayCircle={setDisplayCircle} setBtnText={setBtnText} />}
