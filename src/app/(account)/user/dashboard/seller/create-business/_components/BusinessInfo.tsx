@@ -59,6 +59,8 @@
 
         const [registeredBusinessName, setRegisteredBusinessName] = useForm('')
         const [description, setDescription] = useForm('')
+        const [city, setCity] = useForm('')
+        const [stateOfOrigin, setStateOfOrigin] = useForm('')
         const [CAC, setCAC] = useForm('' as any)
         const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const selectedFile = e.target.files?.[0];
@@ -77,15 +79,19 @@
                 showToast( 'error','Please upload a logo.')
                 return
             }
+            console.log(stateOfOrigin)
+            console.log(city)
             const formData = new FormData();
             formData.append('businessName', registeredBusinessName);
             formData.append('description', description);
             formData.append('registrationNumber', CAC);
             formData.append('regulations', JSON.stringify(regulations.filter(({ state }) => state).map(({ item }) => item)));
-            formData.append('state', JSON.stringify(states.filter(({ state }) => state).map(({ item }) => item)));
-            formData.append('city', 'Test City');
+            // formData.append('state', JSON.stringify(states.filter(({ state }) => state).map(({ item }) => item)));
+            formData.append("state", stateOfOrigin)
+            formData.append('city', city);
             formData.append('streetInfo', 'Test Street');
             formData.append('logo', file);
+            formData.append('businessId', `${localStorage.getItem('addNewBusiness')}`)
             axios({
                 method: 'PUT',
                 url: '/business/add-business-info',
@@ -186,18 +192,24 @@
                         </div>
                     </div>
 
-                    <Accordion title='State' subTitle='Available in Nigeria' batch={9} state={a} onClick={aFunc} border={false}>
-                        {<div className='flex gap-2 flex-wrap'>
+                    {/* <Accordion title='State' subTitle='Available in Nigeria' batch={9} state={a} onClick={aFunc} border={false}> */}
+                        {/* {<div className='flex gap-2 flex-wrap'>
                             {states.map(({ item, state }) => (
                                 <button key={item} className={`px-4 py-[6px] text-3 rounded-2xl uppercase ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`} onClick={() => handleStates(item)}>{item}</button>
                             ))}
-                        </div>}
-                    </Accordion>
-                    <Accordion title='City' subTitle='Available in Nigeria' state={b} onClick={bFunc} border={false} durations={500}>
+                        </div>} */}
+                                            <div className="py-5 flex flex-col gap-4">
+
+                        <input type="text" id='state' onChange={e => setStateOfOrigin(e)} value={stateOfOrigin} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='State' />
                         <div className='w-full'>
-                            <GoogleMapEmbed />
+                            {/* <GoogleMapEmbed /> */}
+                            <input type="text" id='city' onChange={e => setCity(e)} value={city} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='City' />
+
                         </div>
-                    </Accordion>
+</div>
+                    {/* </Accordion> */}
+                    {/* <Accordion title='City' subTitle='Available in Nigeria' state={b} onClick={bFunc} border={false} durations={500}> */}
+                    {/* </Accordion> */}
 
                     <ProfileInfo />
                 </div>

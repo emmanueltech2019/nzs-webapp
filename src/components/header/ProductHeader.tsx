@@ -19,6 +19,7 @@ const Header: FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [businesses, setBusinesses] = useState<Business | null>(null);
   const [businessName, setBusinessName] = useState<string>('');
+  const [cartLength, setCartLength] = useState(0);
 
   useEffect(() => {
     if (!localStorage.getItem("userToken")) {
@@ -55,6 +56,19 @@ const Header: FC = () => {
           setBusinessName(res.data.business[0].businessName)
         })
       }
+      axios({
+        method: "GET",
+        url: "cart",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      })
+        .then((res) => {
+          setCartLength(res.data.cart.items.length);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
   }, []);
   return (
     <div className="flex justify-between px-10 py-6 w-full">
@@ -72,14 +86,14 @@ const Header: FC = () => {
         <div className="relative">
           <ShowChartOutlinedIcon className="text-2xl" />
           <span className="absolute top-0 right-0 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
-            9
+          {cartLength}
           </span>
         </div>
         </Link>: <Link href={"./dashboard/cart"}>
         <div className="relative">
         <Image src={'https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png'} alt='cart icon' height={100} width={40} className="text-2xl" />
           <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
-            9
+          {cartLength}
           </span>
         </div>
         </Link>}

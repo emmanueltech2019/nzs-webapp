@@ -41,7 +41,7 @@ const ShippingOptions: React.FC = () => {
       <SortFilter/>
 
       {/* Shipping Options */}
-      <ul className="space-y-4 h-[60vh] overflow-y-scroll scrollbar-hide pt-10">
+      <ul className="space-y-4 h-[57vh] overflow-y-scroll scrollbar-hide pt-10">
         {shippingOptions.map((option) => (
           <li
             key={option.id}

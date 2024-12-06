@@ -31,7 +31,9 @@ const Seller_Role = () => {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
       }).then(res => {
-        console.log(res)
+        // console.log(res)
+        localStorage.setItem('addNewBusiness', res.data.profile._id)
+        // console.log(res)
         showToast("success", "Sellers Role updated successfully");
         router.push("./dashboard/seller/create-business")
       }).catch(err => {

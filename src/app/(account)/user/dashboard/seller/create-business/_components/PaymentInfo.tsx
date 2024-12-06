@@ -32,6 +32,7 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
             method: 'PUT',
             url: '/business/update-payment-info',
             data: {
+                businessId: localStorage.getItem('addNewBusiness'),
                 accountNumber: accountNumber,
                 accountName: accountName,
                 accountType: selectedAccountType, // Send only the selected item
@@ -42,7 +43,8 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
         }).then((res) => {
             localStorage.setItem('addNewBusiness',res.data.business._id)
             showToast('success', res.data.message);
-            setSection(4);
+            // setSection(4);
+            window.location.replace('./inventory');
         }).catch(err => {
             console.error(err);
             showToast('error', err.message);

@@ -209,12 +209,13 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
                 const res = await axios({
                     method: "PUT",
                     url: "/business/select-sectors-categories",
-                    data: { sectors: selectedSector, categories },
+                    data: { sectors: selectedSector, categories, businessId: localStorage.getItem('addNewBusiness')},
                     headers: {
                         Authorization: `Bearer ${userToken}`,
                     },
                 });
                 console.log(res.data);
+                localStorage.setItem('addNewBusiness', res.data.profile._id)
                 showToast('success', res.data.message);
                 setSection(2);
             } catch (err) {

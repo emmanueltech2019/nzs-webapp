@@ -21,21 +21,21 @@ type Product = {
 };
 
 const productsList: Product[] = [
-  {
-    id: '1',
-    name: 'Maggi',
-    price: 1800,
-    quantity: 43,
-    image: 'https://res.cloudinary.com/wise-solution-inc/image/upload/v1731595043/Website_Banner_1500x700_lkb0li.jpg',
-    description: 'The perfect T-shirt for when you want to feel at ease but still stylish...',
-    productType: 'Maggi',
-    addedDate: 'September 30, 2024',
-    productId: '30045-HA',
-    thresholdQuantity: '43 Cartons',
-    thresholdPrice: 1600,
-    totalStock: '43 CARTONS',
-    stockSold: '3 Sold',
-  },
+  // {
+  //   id: '1',
+  //   name: 'Maggi',
+  //   price: 1800,
+  //   quantity: 43,
+  //   image: 'https://res.cloudinary.com/wise-solution-inc/image/upload/v1731595043/Website_Banner_1500x700_lkb0li.jpg',
+  //   description: 'The perfect T-shirt for when you want to feel at ease but still stylish...',
+  //   productType: 'Maggi',
+  //   addedDate: 'September 30, 2024',
+  //   productId: '30045-HA',
+  //   thresholdQuantity: '43 Cartons',
+  //   thresholdPrice: 1600,
+  //   totalStock: '43 CARTONS',
+  //   stockSold: '3 Sold',
+  // },
   // Add more products as needed
 ];
 const InStock = () => {
@@ -101,7 +101,7 @@ const InStock = () => {
 
         </div>
       ))} */}
-       {products.map((product) => (
+       {products.length !==0? products.map((product) => (
         <div key={product.id} className="border rounded-lg p-2  bg-[#F8F9FE]">
           <div className="flex items-center justify-between">
             <button className="text-[#F8F9FE] bg-[#C3CAD9] w-7 h-7 rounded-full text-lg">✕</button>
@@ -144,7 +144,7 @@ const InStock = () => {
             </div>
           )}
         </div>
-      ))}
+      )):<div>No product uploaded</div>}
     </div>
   )
 }

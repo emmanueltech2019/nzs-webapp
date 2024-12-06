@@ -14,9 +14,9 @@ type TransactionCardProps = {
 const TransactionCard: React.FC<TransactionCardProps> = ({ title, location, timeAgo, yesterday, deleteFunc }) => {
   return (
     <>
-      {yesterday && (
+      {/* {yesterday && (
         <div className="mt-4 mb-2 text-gray-500 font-semibold">Yesterday</div>
-      )}
+      )} */}
       <div className={`flex items-center justify-between bg-white shadow rounded-2xl mb-4 overflow-hidden`}>
         <div className="flex items-center space-x-4">
           <div className="bg-gray-200 min-h-full w-20 self-stretch">

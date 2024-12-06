@@ -19,21 +19,21 @@ type Product = {
 };
 
 const productsList: Product[] = [
-  {
-    id: '1',
-    name: 'Maggi',
-    price: 1800,
-    quantity: 43,
-    image: 'https://res.cloudinary.com/wise-solution-inc/image/upload/v1731595043/Website_Banner_1500x700_lkb0li.jpg',
-    description: 'The perfect T-shirt for when you want to feel at ease but still stylish...',
-    productType: 'Maggi',
-    addedDate: 'September 30, 2024',
-    productId: '30045-HA',
-    thresholdQuantity: '0 Cartons',
-    thresholdPrice: 1600,
-    totalStock: '0 CARTONS',
-    stockSold: '3 Sold',
-  },
+  // {
+  //   id: '1',
+  //   name: 'Maggi',
+  //   price: 1800,
+  //   quantity: 43,
+  //   image: 'https://res.cloudinary.com/wise-solution-inc/image/upload/v1731595043/Website_Banner_1500x700_lkb0li.jpg',
+  //   description: 'The perfect T-shirt for when you want to feel at ease but still stylish...',
+  //   productType: 'Maggi',
+  //   addedDate: 'September 30, 2024',
+  //   productId: '30045-HA',
+  //   thresholdQuantity: '0 Cartons',
+  //   thresholdPrice: 1600,
+  //   totalStock: '0 CARTONS',
+  //   stockSold: '3 Sold',
+  // },
   // Add more products as needed
 ];
 const Incoming = () => {

@@ -49,10 +49,10 @@ const CheckoutShipping: React.FC = () => {
   return (
     <>
             {showModal && <AddressModal onClose={() => setShowModal(false)} />}
-    <div className="p-6 md:w-[56vw] md:mx-20 lg:mx-0 xl:mx-20">
+    <div className="p-6 md:w-[50vw] md:mx-10 lg:mx-0 xl:mx-10">
       <TagHeader title="Checkout" />
       {/* Checkout Steps */}
-      <div className="flex justify-around mb-8 mx-auto xl:ml-20 ">
+      <div className="flex justify-around mb-8 mx-auto xl:ml-20 ml-12">
         <div className="flex flex-col items-center text-center justify-center mr-auto">
           <div className="w-8 h-8 rounded-full text-[#006838] bg-[#C4EDDA] flex items-center justify-center">
             <CheckOutlinedIcon />
@@ -71,12 +71,12 @@ const CheckoutShipping: React.FC = () => {
           </div>
           <p className="text-sm font-bold py-2">Payment</p>
         </div>
-        <div className="flex flex-col items-center text-gray-400 mr-auto">
+        {/* <div className="flex flex-col items-center text-gray-400 mr-auto">
           <div className="w-8 h-8 rounded-full bg-[#F8F9FE] flex items-center justify-center">
             4
           </div>
           <p className="text-sm font-bold py-2">Review</p>
-        </div>
+        </div> */}
       </div>
 
       {/* Address Section */}

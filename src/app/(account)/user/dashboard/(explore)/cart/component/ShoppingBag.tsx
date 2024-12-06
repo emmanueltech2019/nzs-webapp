@@ -16,7 +16,7 @@ const ShoppingBag = () => {
   const router = useRouter();
 
   const [cartItems, setCartItems] = useState<CartT | null>(null);  // The state should match the CartT interface
-
+  const [total, setTotal] = useState(0)
   const checkOut = () =>{
     axios({
       method: "POST",
@@ -45,6 +45,7 @@ const ShoppingBag = () => {
     })
       .then((res) => {
         console.log(res.data.cart);
+        setTotal(res.data.total)
         setCartItems(res.data.cart); 
       })
       .catch((error) => {
@@ -69,7 +70,7 @@ const ShoppingBag = () => {
   };
   
   return (
-    <div className="w-screen md:mx-1 bg-white md:p-4 pr-6 pl-2 fixed md:w-[57vw]">
+    <div className="w-screen md:mx-1 bg-white md:p-4 pr-6 pl-2 fixed md:w-[53vw]">
       {/* Header */}
       <TagHeader title='Your bag'/>
 
@@ -90,7 +91,7 @@ const ShoppingBag = () => {
       {/* Total */}
       <div className="flex justify-between items-center py-4 font-extrabold">
         <span>Total</span>
-        {/* <span>₦ {total.toFixed(2)}</span> */}
+        <div>₦ {total.toFixed(2)}</div>
       </div>
 
       {/* Checkout Button */}
