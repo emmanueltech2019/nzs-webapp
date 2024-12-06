@@ -38,43 +38,46 @@ const PaymentComponent = () => {
           // setCartItems(res.data.cart); 
 
           const { access_code, authorization_url } = res.data.data;
-
-        const handler = window.PaystackPop.setup({
-          key: "pk_test_7e949957b4cd3245c97c27433fef90679cca3479", // Replace with your Paystack public key
-          email: res.data.user.email,
-          amount: Math.round(res.data.total * 100),
-          currency: "NGN",
-          ref: res.data.data.reference, // Reference from the backend
-          onClose: () => {
-            showToast("info", "Payment window closed");
-          },
-          callback: (response) => {
-            // This is where you verify the payment on your backend
-            axios({
-              method: "post",
-              url: "auth/verify-payment",
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          if (typeof window !== "undefined") {
+            const handler = window.PaystackPop.setup({
+              key: "pk_test_7e949957b4cd3245c97c27433fef90679cca3479", // Replace with your Paystack public key
+              email: res.data.user.email,
+              amount: Math.round(res.data.total * 100),
+              currency: "NGN",
+              ref: res.data.data.reference, // Reference from the backend
+              onClose: () => {
+                showToast("info", "Payment window closed");
               },
-              data: { reference: response.reference, amount: Math.round(res.data.total * 100) },
-            })
-              .then((verifyRes) => {
-                if (verifyRes.data.status === "success") {
-                  showToast("success", "Payment successful!");
-                  window.location.replace("/user/dashboard/transaction")
-                  // Handle successful payment (e.g., clear cart, update UI)
-                } else {
-                  showToast("error", "Payment verification failed!");
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-                showToast("error", "Error verifying payment");
-              });
-          },
-        });
+              callback: (response) => {
+                // This is where you verify the payment on your backend
+                axios({
+                  method: "post",
+                  url: "auth/verify-payment",
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+                  },
+                  data: { reference: response.reference, amount: Math.round(res.data.total * 100) },
+                })
+                  .then((verifyRes) => {
+                    if (verifyRes.data.status === "success") {
+                      showToast("success", "Payment successful!");
+                      window.location.replace("/user/dashboard/transaction")
+                      // Handle successful payment (e.g., clear cart, update UI)
+                    } else {
+                      showToast("error", "Payment verification failed!");
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                    showToast("error", "Error verifying payment");
+                  });
+              },
+            });
+            handler.openIframe();
 
-        handler.openIframe();
+          }
+
+
         })
         .catch((error) => {
           console.log(error);

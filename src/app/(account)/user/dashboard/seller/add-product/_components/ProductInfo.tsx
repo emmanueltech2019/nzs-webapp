@@ -71,10 +71,12 @@ const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSecti
     
         let productType = productTypetate.filter(s => s.state).map(({ item }) => item);
         let color = colorState.filter(c => c.state).map(({ item }) => item);
-    
+        let selectedProductTypes = productTypetate.filter(s => s.state).map(({ item }) => item);
+        let selectedColors = colorState.filter(c => c.state).map(({ item }) => item);
+        let selectedHandlingTypes = handlingType.filter(h => h.state).map(({ item }) => item);
         if (productType && color.length) { // Both need to be non-empty
             try {
-                console.log(productName, color, productDescription, productType, handlingType)
+                console.log({productName, color:selectedColors, productDescription, productType:selectedProductTypes, handlingType:selectedHandlingTypes})
                 // console.log(product)
                 // const res = await axios({
                 //     method: "POST",
