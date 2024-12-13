@@ -66,13 +66,13 @@ const Education = () => {
   ];
   return (
     <div className='md:w-[87%]'>
-      <GridWrapper title="Near You">
+      {/* <GridWrapper title="Near You">
         {nearYouTransactions.map((transaction, index) => (
           <Link href="./company?page=education" className="md:w-[42%] flex-shrink-0">
             <ServicesCard key={index} {...transaction} />
           </Link>
         ))}
-      </GridWrapper>
+      </GridWrapper> */}
 
       
     </div>

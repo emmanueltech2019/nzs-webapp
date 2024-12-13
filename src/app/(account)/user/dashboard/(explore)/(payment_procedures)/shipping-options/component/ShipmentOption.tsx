@@ -16,12 +16,12 @@ const ShippingOptions: React.FC = () => {
 
   // Shipping options data
   const shippingOptions: ShippingOption[] = [
-    { id: 1, name: 'GIG Logistics', rating: 4.8, price: 5.0 },
-    { id: 2, name: 'FedEx Corp', rating: 5.0, price: 12.0 },
-    { id: 3, name: 'UPS', rating: 4.8, price: 12.0 },
-    { id: 4, name: 'Konga', rating: 4.7, price: 12.0 },
-    { id: 5, name: 'DHL', rating: 4.8, price: 12.0 },
-    { id: 6, name: 'ARAMEX', rating: 4.9, price: 12.0 },
+    // { id: 1, name: 'GIG Logistics', rating: 4.8, price: 5.0 },
+    // { id: 2, name: 'FedEx Corp', rating: 5.0, price: 12.0 },
+    // { id: 3, name: 'UPS', rating: 4.8, price: 12.0 },
+    // { id: 4, name: 'Konga', rating: 4.7, price: 12.0 },
+    // { id: 5, name: 'DHL', rating: 4.8, price: 12.0 },
+    // { id: 6, name: 'ARAMEX', rating: 4.9, price: 12.0 },
   ];
 
   // Function to handle selection

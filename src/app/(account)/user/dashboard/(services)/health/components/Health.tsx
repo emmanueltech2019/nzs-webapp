@@ -67,20 +67,20 @@ const Health = () => {
   return (
     <div>
       <ServiceFilterButtons active='Health' filterArray={filters}/>
-      <GridWrapper title="Near You">
+      {/* <GridWrapper title="Near You">
       {nearYouTransactions.map((transaction, index) => (
         <Link href="./company?page=hospitality" className="md:w-[42%] flex-shrink-0">
             <ServicesCard key={index} {...transaction} />
         </Link>
         ))}
-      </GridWrapper>
-       <GridWrapper title="Top Rated">
+      </GridWrapper> */}
+       {/* <GridWrapper title="Top Rated">
       {nearYouTransactions.map((transaction, index) => (
         <Link href="./company?page=health" className="md:w-[42%] flex-shrink-0">
             <ServicesCard key={index} {...transaction} />
         </Link>
         ))}
-      </GridWrapper>
+      </GridWrapper> */}
     </div>
   )
 }

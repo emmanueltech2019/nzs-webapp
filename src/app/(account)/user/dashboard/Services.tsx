@@ -83,13 +83,13 @@ const Services = () => {
             <ServicesCard key={index} {...transaction} />
           ))}
         </div> */}
-        <GridWrapper title="Near You">
+        {/* <GridWrapper title="Near You">
         {nearYouTransactions.map((transaction, index) => (
           <div className="md:w-[35%] flex-shrink-0">
               <ServicesCard key={index} {...transaction} />
           </div>
           ))}
-        </GridWrapper>
+        </GridWrapper> */}
       </div>
     );
   };

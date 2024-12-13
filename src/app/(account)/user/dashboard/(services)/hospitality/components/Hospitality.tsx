@@ -69,20 +69,20 @@ const Hospitality = () => {
   return (
     <div>
       <ServiceFilterButtons active='Hospitality' filterArray={filters}/>
-      <GridWrapper title="Near You">
+      {/* <GridWrapper title="Near You">
       {nearYouTransactions.map((transaction, index) => (
         <Link href="./company?page=hospitality" className="md:w-[35%] flex-shrink-0">
             <ServicesCard key={index} {...transaction} />
         </Link>
         ))}
-      </GridWrapper>
-       <GridWrapper title="Top Rated">
+      </GridWrapper> */}
+       {/* <GridWrapper title="Top Rated">
       {nearYouTransactions.map((transaction, index) => (
         <Link href="./company?page=hospitality" className="md:w-[35%] flex-shrink-0">
             <ServicesCard key={index} {...transaction} />
         </Link>
         ))}
-      </GridWrapper>
+      </GridWrapper> */}
     </div>
   )
 }

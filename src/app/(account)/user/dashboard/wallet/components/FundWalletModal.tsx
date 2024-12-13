@@ -54,7 +54,7 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
           // Ensure window and PaystackPop are defined
           if (typeof window !== "undefined" && window.PaystackPop) {
             const handler = window.PaystackPop.setup({
-              key: "pk_test_7e949957b4cd3245c97c27433fef90679cca3479", // Replace with your Paystack public key
+              key: "pk_test_ab278e8e5bf14e297cb6f867ad553df75268a89b", // Replace with your Paystack public key
               email: res.data.user.email,
               amount: Math.round(formData.amount * 100),
               currency: "NGN",
