@@ -22,7 +22,7 @@ export interface ProductT {
   discount: number;
   type: string;
   createdAt: string;
-  stockSold:number
+  // stockSold:number
 }
 
 export interface CartItemT {

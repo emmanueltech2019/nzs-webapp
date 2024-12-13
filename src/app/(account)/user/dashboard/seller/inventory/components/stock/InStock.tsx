@@ -94,7 +94,7 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
                   quantity={product.quantity}
                   price={product.price}
                   discount={product.discount}
-                  stockSold={product.stockSold}
+                  // stockSold={product.stockSold}
                 />
               </div>
             )}
