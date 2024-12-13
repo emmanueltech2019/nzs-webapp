@@ -73,7 +73,7 @@ const page: React.FC = () => {
           {activeOrderTab === "IN-STOCK" && products && <InStock products={products} />}
           {activeOrderTab === "OUT OF STOCK" && (
             <div>
-              <OutOfStock />
+              {/* <OutOfStock  products={products} /> */}
             </div>
           )}
         </div>
