@@ -64,7 +64,7 @@ const Dashboard = () => {
                 router.push("./dashboard/add-item");
               }}
             />
-            <Carousel images={imageSrcArray}/>
+            <Carousel images={['https://res.cloudinary.com/wise-solution-inc/image/upload/v1734092703/NZS_Web_banner_bsqgqg.jpg','https://res.cloudinary.com/wise-solution-inc/image/upload/v1734092703/NZS_Web_banner_bsqgqg.jpg']}/>
             <ProductGrid title="Perfect for you" products={products} />
             <ProductGrid title="For this summer" products={products} />
           </div>

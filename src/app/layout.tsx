@@ -11,7 +11,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "NaijaZone | Home",
-  description: "Generated app for NaijaZone",
+  description: " NaijaZone",
 };
 
 export default function RootLayout({

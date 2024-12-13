@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Incoming from "./components/orders/Incoming";
 import WalletTab from "../../../../../../components/tabs/WalletTab";
 import SellerTransStatusTab from "@/components/tabs/SellerTransStatusTab";
@@ -11,10 +11,50 @@ import SortFilter from "@/components/SortFilter/SortFilter";
 import Read from "./reviews/Read";
 import AccountBalanceCard from "@/components/cards/AccountBalanceCard";
 import WalletInfo from "./components/WalletInfo";
+import axios from "@/utils/axios";
+
+interface Transaction {
+  date: string;
+  description: string;
+  amount: number;
+}
+
+interface Wallet {
+  balance: number;
+  transactions: Transaction[];
+}
 
 const page = () => {
   const [activeTab, setActiveTab] = useState("PAYIN");
-  const totalBalance = 2542522.34;
+  const [balance, setBalance] = useState(0);
+  const [wallet, setWallet] = useState<Wallet | null>(null);
+  const totalBalance = 9000
+  useEffect(() => {
+    if (!localStorage.getItem("userToken")) {
+      console.error("User token is missing.");
+      return;
+    }
+
+    axios({
+      method: "GET",
+      url: "/users/profile",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    })
+      .then((res) => {
+        console.log("Profile", res.data);
+        setWallet({
+          balance: res.data.wallet.balance,
+          transactions: res.data.wallet.transactions,
+        });
+        // setAddress(res.data.user.addresses.street)
+      })
+      .catch((error) => {
+        console.error("Error fetching profile:", error);
+      });
+  }, []);
+
   const transactions = [
     {
       year: "2024",
@@ -40,13 +80,13 @@ const page = () => {
       <div className="">
         {activeTab === "PAYIN" && (
           <div>
-            <AccountBalanceCard color="bg-[#006838]" value={1563} />
+            <AccountBalanceCard color="bg-[#006838]" value={balance} button={true} />
           </div>
         )}
 
         {activeTab === "WITHDRAWAL" && (
           <div>
-            <AccountBalanceCard color="bg-[#E09427]" value={1563} />
+            <AccountBalanceCard color="bg-[#E09427]" value={balance} button={true}/>
           </div>
         )}
       </div>

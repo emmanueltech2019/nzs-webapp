@@ -1,14 +1,14 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import Box from '../../Box'
-import { links, linksSeller } from './NavlinkObj'
-import Link from 'next/link'
-import { Icon } from '@iconify/react/dist/iconify.js'
-import { usePathname } from 'next/navigation'
+"use client";
+import React, { useEffect, useState } from "react";
+import Box from "../../Box";
+import { links, linksSeller } from "./NavlinkObj";
+import Link from "next/link";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { usePathname } from "next/navigation";
 import axios from "@/utils/axios";
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 interface User {
   firstname: string;
   lastname: string;
@@ -16,13 +16,12 @@ interface User {
   accountType: "buyer" | "seller";
 }
 
-
 const LeftSidenav = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    console.log(pathname.endsWith('/user/dashboard'))
+    console.log(pathname.endsWith("/user/dashboard"));
     if (!localStorage.getItem("userToken")) {
       console.error("User token is missing.");
       return;
@@ -30,14 +29,14 @@ const LeftSidenav = () => {
 
     axios({
       method: "GET",
-      url: "/users/profile", 
+      url: "/users/profile",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
     })
       .then((res) => {
-        console.log(res.data.user); 
-        setUser(res.data.user); 
+        console.log(res.data.user);
+        setUser(res.data.user);
       })
       .catch((error) => {
         console.error("Error fetching profile:", error);
@@ -45,144 +44,211 @@ const LeftSidenav = () => {
   }, []);
   return (
     <>
-     {/* <div className='bg-[#006838] fixed z-[10000] text-[#D4D6DD] bottom-24 rounded-e-full left-0  p-5'>
+      {/* <div className='bg-[#006838] fixed z-[10000] text-[#D4D6DD] bottom-24 rounded-e-full left-0  p-5'>
       <SearchOutlinedIcon fontSize={'medium'}/>
       </div> */}
-    <div className=' bg-[#006838] text-[#D4D6DD] flex justify-between items-center md:flex-col flex-row md:sticky fixed md:top-0 bottom-0 md:h-screen overflow-y-auto md:max-h-[1200px] md:min-w-[23vw] md:max-w-[241px] w-screen md:py-[70px] py-3 md:ps-[35px]'>
-      <div className="box flex-1 self-start hidden lg:flex">
-        <Box />
-      </div>
+      <div className=" bg-[#006838] text-[#D4D6DD] flex justify-between items-center md:flex-col flex-row md:sticky fixed md:top-0 bottom-0 md:h-screen overflow-y-auto md:max-h-[1200px] md:min-w-[23vw] md:max-w-[241px] w-screen md:py-[70px] py-3 md:ps-[35px]">
+        <div className="box flex-1 self-start hidden lg:flex">
+          <Box />
+        </div>
 
-      <nav className='md:mt-[57px] flex-[3] w-full'>
-      {user?.accountType == "buyer" ? (
-  <ul className="flex flex-row lg:flex-col h-full md:w-fit w-screen px-5 justify-between lg:justify-around">
-    <li className="cursor-pointer text-[#D4D6DD]">
-      <Link href="/user/dashboard">
-        <div
-          className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
-            !pathname.endsWith('/user/dashboard') ? 'lg:border-[#D4D6DD]' : 'text-[#FFBB5B]'
-          }`}
-        >
-          <Icon
-            icon="mdi:cart-variant"
-            className={`text-[25px] md:text-[30px] ${
-              !pathname.endsWith('/user/dashboard') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
-            }`}
-          ></Icon>
-          <p
-            className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
-              !pathname.endsWith('/user/dashboard') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
-            }`}
-          >
-            Explore
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li className="cursor-pointer text-[#D4D6DD]">
-      <Link href="#">
-        <div
-          className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
-            pathname.endsWith('#') ? 'lg:border-[#D4D6DD]' : ''
-          }`}
-        >
-          <Icon
-            icon="ep:search"
-            className={`text-[25px] md:text-[30px] ${
-              pathname.endsWith('#') ? 'text-[#D4D6DD]' : ''
-            }`}
-          ></Icon>
-          <p
-            className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
-              pathname.endsWith('#') ? 'text-[#D4D6DD]' : ''
-            }`}
-          >
-            Search
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li className="cursor-pointer text-[#D4D6DD]">
-      <Link href="/user/dashboard/transaction">
-        <div
-          className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
-            !pathname.endsWith('/user/dashboard/transaction') ? 'lg:border-[#D4D6DD]' : 'text-[#FFBB5B]'
-          }`}
-        >
-          <Icon
-            icon="ep:menu"
-            className={`text-[25px] md:text-[30px] ${
-              !pathname.endsWith('/user/dashboard/transaction') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
-            }`}
-          ></Icon>
-          <p
-            className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
-              !pathname.endsWith('/user/dashboard/transaction') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
-            }`}
-          >
-            Transaction
-          </p>
-        </div>
-      </Link>
-    </li>
-    <li className="cursor-pointer text-[#D4D6DD]">
-      <Link href="/user/dashboard/settings">
-        <div
-          className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
-            !pathname.endsWith('/user/dashboard/settings') ? 'lg:border-[#D4D6DD]' : 'text-[#FFBB5B]'
-          }`}
-        >
-          <Icon
-            icon="ri:settings-5-fill"
-            className={`text-[25px] md:text-[30px] ${
-              !pathname.endsWith('/user/dashboard/settings') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
-            }`}
-          ></Icon>
-          <p
-            className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
-              !pathname.endsWith('/user/dashboard/settings') ? 'text-[#D4D6DD]' : 'text-[#FFBB5B]'
-            }`}
-          >
-            Settings
-          </p>
-        </div>
-      </Link>
-    </li>
-  </ul>
-) : <ul className='flex flex-row lg:flex-col h-full  md:w-fit w-screen px-5 justify-between lg:justify-around'>
-{
-  linksSeller.map(({text, icon, link}, index) => {
-    const activeLink = pathname.endsWith(link)
-    return (
-      <li key={index} className='cursor-pointer text-[#D4D6DD]'>
-        <Link href={link}>
-          <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${activeLink ? 'lg:border-[#D4D6DD]': 'lg:border-transparent'}`}>
-            <Icon icon={icon} className={`text-[25px] md:text-[30px] ${activeLink ? 'text-[#D4D6DD]': 'text-[#D4D6DD]'}`}></Icon>
-            <p className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${activeLink ? 'text-[#D4D6DD]': 'text-inherit'}`}>{text}</p>
-          </div>
-        </Link>
-      </li>
-    )
-  })
-}
- <li  className='cursor-pointer text-[#D4D6DD] md:hidden block'>
-        <Link href={'/user/dashboard/settings'}>
-          <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-            <SettingsOutlinedIcon className={`text-[25px] md:text-[30px]`}/>
-            <p className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}>Settings</p>
-          </div>
-        </Link>
-      </li>
-<li  className='cursor-pointer text-[#D4D6DD] hidden md:block'>
-        <Link href={'/user/dashboard/seller/wallet'}>
-          <div className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}>
-            <AccountBalanceWalletOutlinedIcon className={`text-[25px] md:text-[30px]`}/>
-            <p className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}>Wallet</p>
-          </div>
-        </Link>
-      </li>
-</ul>}
-{/* 
+        <nav className="md:mt-[57px] flex-[3] w-full">
+          {user?.accountType == "buyer" ? (
+            <ul className="flex flex-row lg:flex-col h-full md:w-fit w-screen px-5 justify-between lg:justify-around">
+              <li className="cursor-pointer text-[#D4D6DD]">
+                <Link href="/user/dashboard">
+                  <div
+                    className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
+                      !pathname.endsWith("/user/dashboard")
+                        ? "lg:border-[#D4D6DD]"
+                        : "text-[#FFBB5B]"
+                    }`}
+                  >
+                    <Icon
+                      icon="mdi:cart-variant"
+                      className={`text-[25px] md:text-[30px] ${
+                        !pathname.endsWith("/user/dashboard")
+                          ? "text-[#D4D6DD]"
+                          : "text-[#FFBB5B]"
+                      }`}
+                    ></Icon>
+                    <p
+                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
+                        !pathname.endsWith("/user/dashboard")
+                          ? "text-[#D4D6DD]"
+                          : "text-[#FFBB5B]"
+                      }`}
+                    >
+                      Explore
+                    </p>
+                  </div>
+                </Link>
+              </li>
+              <li className="cursor-pointer text-[#D4D6DD]">
+                <Link href="#">
+                  <div
+                    className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
+                      pathname.endsWith("#") ? "lg:border-[#D4D6DD]" : ""
+                    }`}
+                  >
+                    <Icon
+                      icon="ep:search"
+                      className={`text-[25px] md:text-[30px] ${
+                        pathname.endsWith("#") ? "text-[#D4D6DD]" : ""
+                      }`}
+                    ></Icon>
+                    <p
+                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
+                        pathname.endsWith("#") ? "text-[#D4D6DD]" : ""
+                      }`}
+                    >
+                      Search
+                    </p>
+                  </div>
+                </Link>
+              </li>
+              <li className="cursor-pointer text-[#D4D6DD]">
+                <Link href="/user/dashboard/transaction">
+                  <div
+                    className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
+                      !pathname.endsWith("/user/dashboard/transaction")
+                        ? "lg:border-[#D4D6DD]"
+                        : "text-[#FFBB5B]"
+                    }`}
+                  >
+                    <Icon
+                      icon="ep:menu"
+                      className={`text-[25px] md:text-[30px] ${
+                        !pathname.endsWith("/user/dashboard/transaction")
+                          ? "text-[#D4D6DD]"
+                          : "text-[#FFBB5B]"
+                      }`}
+                    ></Icon>
+                    <p
+                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
+                        !pathname.endsWith("/user/dashboard/transaction")
+                          ? "text-[#D4D6DD]"
+                          : "text-[#FFBB5B]"
+                      }`}
+                    >
+                      Transaction
+                    </p>
+                  </div>
+                </Link>
+              </li>
+              <li className="cursor-pointer text-[#D4D6DD] md:hidden block">
+                <Link href="/user/dashboard/settings">
+                  <div
+                    className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
+                      !pathname.endsWith("/user/dashboard/settings")
+                        ? "lg:border-[#D4D6DD]"
+                        : "text-[#FFBB5B]"
+                    }`}
+                  >
+                    <Icon
+                      icon="ri:settings-5-fill"
+                      className={`text-[25px] md:text-[30px] ${
+                        !pathname.endsWith("/user/dashboard/settings")
+                          ? "text-[#D4D6DD]"
+                          : "text-[#FFBB5B]"
+                      }`}
+                    ></Icon>
+                    <p
+                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
+                        !pathname.endsWith("/user/dashboard/settings")
+                          ? "text-[#D4D6DD]"
+                          : "text-[#FFBB5B]"
+                      }`}
+                    >
+                      Settings
+                    </p>
+                  </div>
+                </Link>
+              </li>
+              <li className="cursor-pointer text-[#D4D6DD] hidden md:block">
+                <Link href={"/user/dashboard/wallet"}>
+                  <div
+                    className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}
+                  >
+                    <AccountBalanceWalletOutlinedIcon
+                      className={`text-[25px] md:text-[30px]`}
+                    />
+                    <p
+                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}
+                    >
+                      Wallet
+                    </p>
+                  </div>
+                </Link>
+              </li>
+            </ul>
+          ) : (
+            <ul className="flex flex-row lg:flex-col h-full  md:w-fit w-screen px-5 justify-between lg:justify-around">
+              {linksSeller.map(({ text, icon, link }, index) => {
+                const activeLink = pathname.endsWith(link);
+                return (
+                  <li key={index} className="cursor-pointer text-[#D4D6DD]">
+                    <Link href={link}>
+                      <div
+                        className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${
+                          activeLink
+                            ? "lg:border-[#D4D6DD]"
+                            : "lg:border-transparent"
+                        }`}
+                      >
+                        <Icon
+                          icon={icon}
+                          className={`text-[25px] md:text-[30px] ${
+                            activeLink ? "text-[#D4D6DD]" : "text-[#D4D6DD]"
+                          }`}
+                        ></Icon>
+                        <p
+                          className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
+                            activeLink ? "text-[#D4D6DD]" : "text-inherit"
+                          }`}
+                        >
+                          {text}
+                        </p>
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
+              <li className="cursor-pointer text-[#D4D6DD] md:hidden block">
+                <Link href={"/user/dashboard/settings"}>
+                  <div
+                    className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}
+                  >
+                    <SettingsOutlinedIcon
+                      className={`text-[25px] md:text-[30px]`}
+                    />
+                    <p
+                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}
+                    >
+                      Settings
+                    </p>
+                  </div>
+                </Link>
+              </li>
+              <li className="cursor-pointer text-[#D4D6DD] hidden md:block">
+                <Link href={"/user/dashboard/seller/wallet"}>
+                  <div
+                    className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}
+                  >
+                    <AccountBalanceWalletOutlinedIcon
+                      className={`text-[25px] md:text-[30px]`}
+                    />
+                    <p
+                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}
+                    >
+                      Wallet
+                    </p>
+                  </div>
+                </Link>
+              </li>
+            </ul>
+          )}
+          {/* 
         {user?.accountType == "buyer" ? <ul className='flex flex-row lg:flex-col h-full  md:w-fit w-screen px-5 justify-between lg:justify-around'>
           {
             links.map(({text, icon, link}, index) => {
@@ -241,12 +307,12 @@ const LeftSidenav = () => {
                 </li>
         </ul>}
         */}
-      </nav>
-     
-      <div className='empty_element flex-1 flex flex-col justify-end self-start'></div>
-    </div>
-    </>
-  )
-}
+        </nav>
 
-export default LeftSidenav
+        <div className="empty_element flex-1 flex flex-col justify-end self-start"></div>
+      </div>
+    </>
+  );
+};
+
+export default LeftSidenav;

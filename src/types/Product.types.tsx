@@ -16,8 +16,13 @@ export interface ProductT {
   _id: string;
   name: string;
   images: string[]; // Add images as an array of strings
-  price: string;
+  price: number;
   description: string;
+  quantity: number;
+  discount: number;
+  type: string;
+  createdAt: string;
+  stockSold:number
 }
 
 export interface CartItemT {

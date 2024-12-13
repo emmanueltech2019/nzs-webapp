@@ -15,6 +15,7 @@ import 'intl-tel-input/build/css/intlTelInput.css';
 import axios from '@/utils/axios'
 import { validateEmail, validatePassword } from "@/utils/Validator";
 import CircleLoader from "@/components/loader/loader";
+import { handleApiError } from "@/utils/errors";
 
 
 const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
@@ -115,7 +116,8 @@ const SignupContent = () => {
     } catch (error) {
       setLoading(false)
       console.error('Error during signup:', error);
-      alert('There was an error processing your signup.');
+      const errorMessage = handleApiError(error, 'There was an error processing your signup.');
+      showToast("error", handleApiError(errorMessage));
     }
   }
   return (

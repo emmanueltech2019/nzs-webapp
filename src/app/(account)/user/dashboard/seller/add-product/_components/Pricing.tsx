@@ -1,43 +1,44 @@
 import React, { FC, useEffect, useState } from 'react'
-import interFont from '@/fonts/Inter'
+// import interFont from '@/fonts/Inter'
 import openSansFont from '@/fonts/OpenSans'
 import general_type from './general.types'
 import useForm from '@/hooks/useForm'
-import { Icon } from '@iconify/react/dist/iconify.js'
-import { ProfileInfo } from './Main'
+// import { Icon } from '@iconify/react/dist/iconify.js'
+// import { ProfileInfo } from './Main'
 import axios from "@/utils/axios";
 import { showToast } from '@/utils/alert'
 
-const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) => {
+const Pricing: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) => {
     
-    const [accountNumber, setAccountNumber] = useForm('')
-    const [accountName, setAccountName] = useForm('')
-    const [accountType, setAccountType] = useState([
-        { item: 'Savings', state: false },
-        { item: 'Current', state: false },
-    ])
-    const handleClick = (a: any) => setAccountType(prev => prev.map(({ item, state }) => ({ item, state: item == a ? !state : state })));
+    const [price, setPrice] = useForm(0)
+    const [discount, setDiscount] = useForm(0)
+    // const [accountType, setAccountType] = useState([
+    //     { item: 'Savings', state: false },
+    //     { item: 'Current', state: false },
+    // ])
+    // const handleClick = (a: any) => setAccountType(prev => prev.map(({ item, state }) => ({ item, state: item == a ? !state : state })));
     const handleAPI = async () => {
         // const selectedAccountType = accountType.find(({ state }) => state)?.item || null;
-        setSection(4);
-        // axios({
-        //     method: 'PUT',
-        //     url: '/business/update-payment-info',
-        //     data: {
-        //         accountNumber: accountNumber,
-        //         accountName: accountName,
-        //         accountType: selectedAccountType, // Send only the selected item
-        //     },
-        //     headers: {
-        //         Authorization: `Bearer ${localStorage.getItem('userToken')}`,
-        //     }
-        // }).then((res) => {
-        //     showToast('success', res.data.message);
-        //     setSection(4);
-        // }).catch(err => {
-        //     console.error(err);
-        //     showToast('error', err.message);
-        // });
+        // setSection(4);
+        axios({
+            method: 'PUT',
+            url: `/products/vendor/add-price-info/${localStorage.getItem(
+                "addProductActive"
+              )}`,
+            data: {
+                price, discount
+            },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('userToken')}`,
+            }
+        }).then((res) => {
+            console.log(res)
+            showToast('success', res.data.message);
+            // setSection(4);
+        }).catch(err => {
+            console.error(err);
+            showToast('error', err.message);
+        });
     }
     
     useEffect(() => {
@@ -57,7 +58,7 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
                 </p>
             </div>  */}
                 <div className='pb-3'>
-                    <input type="text" id='businessName' onChange={e => setAccountNumber(e)} value={accountNumber} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='NGN 0.00' />
+                    <input type="text" id='businessName' onChange={e => setPrice(e)} value={price} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='NGN 0.00' />
                     <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>Product Price</p>
                 </div>
             <div className="border-[0.5px] border-[#D4D6DD] rounded-2xl p-4 mt-3">
@@ -69,7 +70,7 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
                 </h1>
 
                 
-                <input type="text" id='businessName' onChange={e => setAccountName(e)} value={accountName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='% 10' />
+                <input type="text" id='discount' onChange={e => setDiscount(e)} value={discount} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='% 10' />
                 <span className={`text-[#71727A] text-sm  ${openSansFont}`}>Purchase Discount</span>
 
             </div>
@@ -78,4 +79,4 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
     )
 }
 
-export default PaymentInfo
+export default Pricing

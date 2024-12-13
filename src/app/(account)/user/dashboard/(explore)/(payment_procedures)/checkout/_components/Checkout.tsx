@@ -115,7 +115,7 @@ const CheckoutShipping: React.FC = () => {
         >
           <div className="flex justify-between items-center">
             <p>Standard Pickup</p>
-            <p>N 5.00 Max.</p>
+            {/* <p>N 5.00 Max.</p> */}
           </div>
           <p className="text-gray-500 text-sm">5 - 8 days</p>
         </div>
@@ -129,14 +129,14 @@ const CheckoutShipping: React.FC = () => {
         >
           <div className="flex justify-between items-center">
             <p>Express</p>
-            <p>N 20.00 Max.</p>
+            {/* <p>N 20.00 Max.</p> */}
           </div>
           <p className="text-gray-500 text-sm">1 - 2 days</p>
         </div>
         <div className="flex justify-center item-center">
-          <button className="text-[#006838] mt-4 ">
+          {/* <button className="text-[#006838] mt-4 ">
             + Get Priority Shipping
-          </button>
+          </button> */}
         </div>
       </div>
 

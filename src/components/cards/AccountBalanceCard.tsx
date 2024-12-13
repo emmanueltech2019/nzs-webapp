@@ -5,9 +5,10 @@ import React from 'react';
 interface AccountBalanceCardProps {
   color: string;
   value: number;
+  button: boolean
 }
 
-const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ color, value }) => {
+const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ color, value, button }) => {
   return (
     <div className={`p-4 rounded-lg ${color} text-white flex justify-between items-center`}>
       {/* Left Side with Balance Info */}
@@ -20,12 +21,13 @@ const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({ color, value })
         </p>
       </div>
 
-      {/* Right Side with Edit Account Button */}
-      <Link href={'./wallet/edit-account'}>
+      {button?<Link href={'./wallet/edit-account'}>
       <button className="bg-white text-green-800 px-4 py-1 rounded-full font-semibold flex items-center">
         EDIT ACCOUNT <span className="ml-2">→</span>
       </button>
-      </Link>
+      </Link>:null}
+      
+      
     </div>
   );
 };

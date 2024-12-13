@@ -6,8 +6,8 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import { useEffect, useState } from 'react'
 import Circle from '@/components/Circle'
 import ProductInfo from './ProductInfo'
-import BusinessInfo from './BusinessInfo'
-import PaymentInfo from './PaymentInfo'
+import ProductSpec from './ProductSpec'
+import Pricing from './Pricing'
 import Preview from './Preview'
 
 
@@ -59,8 +59,8 @@ const Main = () => {
                 ))}
             </div>
             {section === 1 && <ProductInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
-            {section === 2 && <BusinessInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
-            {section === 3 && <PaymentInfo setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
+            {section === 2 && <ProductSpec setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
+            {section === 3 && <Pricing setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
             {section === 4 && <Preview setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} setDisplayCircle={setDisplayCircle} setBtnText={setBtnText} />}
 
             <div className='flex items-center pt-3 pb-40 gap-6'>
