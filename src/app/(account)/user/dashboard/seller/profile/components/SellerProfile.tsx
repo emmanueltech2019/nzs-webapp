@@ -10,14 +10,8 @@ import Profile from './Profile'
 const SellerProfile = () => {
 
   const products = [
-    { title: "Amazing Shoes", price: "N 12.00", image: productImg },
-    { title: "Amazing Shoes", price: "N 12.00", image: productImg },
-    { title: "Amazing Shoes", price: "N 12.00", image: productImg },
-    { title: "Amazing Shoes", price: "N 12.00", image: productImg },
-    { title: "Amazing Shoes", price: "N 12.00", image: productImg },
-    { title: "Amazing Shoes", price: "N 12.00", image: productImg },
-    { title: "Amazing Shoes", price: "N 12.00", image: productImg },
-    { title: "Amazing Shoes", price: "N 12.00", image: productImg },
+    { title: "Amazing Shoes", price: 12, image: productImg },
+    
   ]
 
   return (
