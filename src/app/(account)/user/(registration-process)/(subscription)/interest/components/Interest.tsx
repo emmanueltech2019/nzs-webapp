@@ -83,12 +83,12 @@ const Interest = () => {
             </p>
           </header>
 
-          <div className="choose-interest flex flex-col gap-2 mt-[41px] mb-[24px]">
+          <div className="choose-interest flex flex-col gap-1 mt-[41px] mb-[24px]">
             {interest.map(
               ({ interest, state }: InterestItem, index: number) => (
                 <div
                   key={index}
-                  className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 ${state ? "bg-[#EAF2FF]" : "bg-[#ffffff]"
+                  className={`p-4 py-2 flex justify-between rounded-[12px] transition-all duration-300 ${state ? "bg-[#EAF2FF]" : "bg-[#ffffff]"
                     } border-[#C5C6CC] border-[0.5px] cursor-pointer`}
                   onClick={() => {
                     handleClick(interest);

@@ -75,12 +75,7 @@
         const [a, aFunc] = useToggle(true)
         const [b, bFunc] = useToggle(true)
         const handleAPI = async () => {
-            if (!file) {
-                showToast( 'error','Please upload a logo.')
-                return
-            }
-            console.log(stateOfOrigin)
-            console.log(city)
+            
             const formData = new FormData();
             formData.append('businessName', registeredBusinessName);
             formData.append('description', description);
@@ -90,7 +85,6 @@
             formData.append("state", stateOfOrigin)
             formData.append('city', city);
             formData.append('streetInfo', 'Test Street');
-            formData.append('logo', file);
             formData.append('businessId', `${localStorage.getItem('addNewBusiness')}`)
             axios({
                 method: 'PUT',
@@ -127,40 +121,17 @@
         }, [regulations, uploadCount, states, registeredBusinessName, description, CAC])
         return (
             <div className='py-3'>
-                <div className="py-5">
-                    <h2 className={`font-black text-[#1F2024] text-xl pb-2 ${interFont}`}>Select the right profile for your business.</h2>
-                    <p className={`text-[#71727A] ${openSansFont} pb-2`}>
-                        We provide multiple options so feel free to get
-                        super-specific!
-                    </p>
-                    <Link href={''} className='underline text-[#006FFD] text-sm'>View here</Link>
-                </div>
+
                 <div className="py-5 w-full">
-                    <div className="bg-[#F8F9FE] p-4 rounded-lg">
-                        <div className="bg-white rounded-lg min-h-[97px] justify-center items-center flex">
-                            <input type="file" name="logo" id="logo" accept="image/*" className='hidden' onChange={handleFileChange} />
-                            <label htmlFor="logo">
-                                <Circle size={48} count={uploadCount} period={100}>
-                                    <Icon icon='akar-icons:arrow-up' className='text-xl text-[--foreground-green] font-extrabold'></Icon>
-                                </Circle>
-                            </label>
-                        </div>
-                        <div className='flex py-2 items-center gap-2'>
-                            <h3 className={`${poppinsFont} mr-auto`}>YOUR LOGO</h3>
-                            <label htmlFor={'logo'} className={`py-1 px-2 text-sm text-[#0C1F1F] bg-[#EAF2FF] rounded-[4px] ${openSansFont}`}>Upload Logo</label>
-                            <Icon icon={`bi:chevron-down`} className='font-extrabold text-[#0C1F1F80]' />
-                        </div>
-                    </div>
+  
 
                     <div className="py-5 flex flex-col gap-4">
                         <input type="text" id='businessName' onChange={e => setRegisteredBusinessName(e)} value={registeredBusinessName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Registered Business Name' />
                         <div>
                             <input type="text" id='description' onChange={e => setDescription(e)} value={description} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Briefly describe your business' />
-                            <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/30</p>
                         </div>
                         <div>
-                            <input type="text" id='CAC' onChange={(e:any) => {if(isNaN(e.target.value)) return; setCAC(e)}} value={CAC} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='CAC Registration Number' />
-                            <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/7</p>
+                            <input type="text" id='CAC' onChange={(e:any) => {if(isNaN(e.target.value)) return; setCAC(e)}} value={CAC} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='CAC Registration Number (optional)' />
                         </div>
                     </div>
                     <div className="border-[0.5px] border-[#D4D6DD] rounded-2xl p-4 mt-3">

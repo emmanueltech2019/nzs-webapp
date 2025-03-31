@@ -46,5 +46,29 @@ const initalState: InterestItem[] = [
     interest: "Real Estate",
     state: false
   },
+  {
+    interest: "Babies, toys & kids",
+    state: false
+  },
+  {
+    interest: "Cosmetics and skin care",
+    state: false
+  },
+  {
+    interest: "Fashion (Men & Women)",
+    state: false
+  },
+  {
+    interest: "Phones and tablets",
+    state: false
+  },
+  {
+    interest: "Travel bags and luggage",
+    state: false
+  },
+  {
+    interest: "Weddings",
+    state: false
+  },
 ]
 export default initalState

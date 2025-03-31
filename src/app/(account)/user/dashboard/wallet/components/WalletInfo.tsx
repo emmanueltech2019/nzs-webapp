@@ -49,25 +49,25 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ totalBalance, transactions, col
             </div>
           </div>
           <span className="text-2xl font-bold text-gray-800">
-            {totalBalance.toLocaleString()}
+          ₦{totalBalance.toLocaleString()}
           </span>
         </div>
 
         {/* Transaction History */}
         {transactions.length > 0 ? (
-          transactions.map((transaction, idx) => (
+          transactions.map(({date, description, amount}, idx) => (
             <div
               key={idx}
               className="flex items-center justify-between bg-gray-50 p-2 rounded-lg mb-2"
             >
               <div className="md:text-sm text-xs text-gray-500">
-                {transaction.date.split("T")[0]}
+                {date.split("T")[0]}
               </div>
               <div className="md:text-sm text-xs text-gray-500">
-                {transaction.description}
+                {description}
               </div>
               <div className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full md:text-sm text-xs font-semibold">
-                {transaction.amount.toLocaleString()}
+                {(amount/100).toLocaleString()}
               </div>
             </div>
           ))
