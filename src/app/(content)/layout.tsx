@@ -1,3 +1,5 @@
+import TawkToChat from "@/components/Tawk";
+
 const layout = ({
     children,
 }: Readonly<{
@@ -6,6 +8,7 @@ const layout = ({
     return (
         <div className="bg-[--background-color]">
             {children}
+            {/* <TawkToChat/> */}
         </div>
     )
 }

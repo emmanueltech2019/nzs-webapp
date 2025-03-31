@@ -1,5 +1,6 @@
 "use client"
 import TagHeader from '@/components/header/TagHeader';
+import ShippingRates from '@/components/shipping/fedExShippingRates';
 import SortFilter from '@/components/SortFilter/SortFilter';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -39,7 +40,7 @@ const ShippingOptions: React.FC = () => {
         <TagHeader title='Shipping Options'/>
       {/* Filter & Sort Options */}
       <SortFilter/>
-
+    <ShippingRates/>
       {/* Shipping Options */}
       <ul className="space-y-4 h-[57vh] overflow-y-scroll scrollbar-hide pt-10">
         {shippingOptions.map((option) => (

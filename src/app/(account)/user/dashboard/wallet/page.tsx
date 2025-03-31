@@ -87,7 +87,7 @@ const page = () => {
       {activeTab === "PURCHASE" && (
         <div>
           <WalletInfo
-            totalBalance={totalBalance}
+            totalBalance={totalBalance/100}
             transactions={debitTransactions}
             color="#006838"
           />
@@ -96,7 +96,7 @@ const page = () => {
       {activeTab === "DEPOSITS" && (
         <div>
           <WalletInfo
-            totalBalance={totalBalance}
+            totalBalance={totalBalance/100}
             transactions={creditTransactions}
             color="#E09427"
           />

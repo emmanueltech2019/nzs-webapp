@@ -5,7 +5,7 @@ import axios from "@/utils/axios";
 
 
 interface FormData {
-  amount: number;
+  amount: string | number;
 }
 interface FundWalletModalProps {
   onClose: () => void; // Define the type for the onClose prop
@@ -14,7 +14,7 @@ type eventType = React.MouseEvent<HTMLInputElement, MouseEvent>
 
 const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
   const [formData, setFormData] = useState<FormData>({
-    amount:0
+    amount:""
   });
   useEffect(() => {
     // Load Paystack script on the client-side
@@ -30,16 +30,26 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
       };
     }
   }, []);
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "amount" ? Number(value) || 0 : value, // Ensure amount is always a number
     }));
   };
+  
   const handlePay = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (formData.amount >= 1000) {
+    if (Number(formData.amount) >= 1000) {
       axios({
         method: "post",
         url: "auth/topup",
@@ -56,7 +66,7 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
             const handler = window.PaystackPop.setup({
               key: "pk_test_ab278e8e5bf14e297cb6f867ad553df75268a89b", // Replace with your Paystack public key
               email: res.data.user.email,
-              amount: Math.round(formData.amount * 100),
+              amount: Math.round(Number(formData.amount) * 100),
               currency: "NGN",
               ref: res.data.data.reference,
               onClose: () => showToast("info", "Payment window closed"),
@@ -68,12 +78,12 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
                   headers: {
                     Authorization: `Bearer ${localStorage.getItem("userToken")}`,
                   },
-                  data: { reference: response.reference, amount: Math.round(formData.amount * 100) },
+                  data: { reference: response.reference, amount: Math.round(Number(formData.amount) * 100) },
                 })
                   .then((verifyRes) => {
                     if (verifyRes.data.status === "success") {
                       showToast("success", "Payment successful!");
-                    //   window.location.reload()
+                      window.location.reload()
                     } else {
                       showToast("error", "Payment verification failed!");
                     }
@@ -110,7 +120,7 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
             >
               Amount
             </label>
-            <input
+            {/* <input
               type="number"
               id="amount"
               name="amount"
@@ -118,7 +128,17 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
               onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
               placeholder="123 Main St"
+            /> */}
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              value={formData.amount} // This will now be empty initially
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
+              placeholder="Enter amount"
             />
+
           </div>
 
 

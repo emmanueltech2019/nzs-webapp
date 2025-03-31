@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../../globals.css";
 import { Poppins } from "next/font/google"
-import TawkToChat from "@/components/Tawk";
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const poppins = Poppins({
   display: "swap",

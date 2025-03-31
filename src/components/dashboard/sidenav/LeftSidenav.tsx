@@ -9,6 +9,8 @@ import axios from "@/utils/axios";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import Image from "next/image";
+import cartIcon from "../../../assets/icons/cart.png"
 interface User {
   firstname: string;
   lastname: string;
@@ -64,14 +66,19 @@ const LeftSidenav = () => {
                         : "text-[#FFBB5B]"
                     }`}
                   >
-                    <Icon
+                    <Image src={cartIcon} width={35} alt="" className={`text-[25px] md:text-[30px] ${
+                        !pathname.endsWith("/user/dashboard")
+                          ? "text-[#D4D6DD]"
+                          : "text-[#FFBB5B]"
+                      }`}/>
+                    {/* <Icon
                       icon="mdi:cart-variant"
                       className={`text-[25px] md:text-[30px] ${
                         !pathname.endsWith("/user/dashboard")
                           ? "text-[#D4D6DD]"
                           : "text-[#FFBB5B]"
                       }`}
-                    ></Icon>
+                    ></Icon> */}
                     <p
                       className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
                         !pathname.endsWith("/user/dashboard")

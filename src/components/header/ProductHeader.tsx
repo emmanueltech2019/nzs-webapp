@@ -50,7 +50,7 @@ const Header: FC = () => {
             Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         }
         }).then((res)=>{
-          
+          console.log("res", res)
           setBusinesses(res.data.business[0])
           
           setBusinessName(res.data.business[0].businessName)

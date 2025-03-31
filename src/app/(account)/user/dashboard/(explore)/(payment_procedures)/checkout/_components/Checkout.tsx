@@ -6,7 +6,9 @@ import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
 import Link from "next/link";
 import AddressModal from "./AddressModal";
 import axios from "@/utils/axios";
-
+import Image from "next/image";
+import DHLLOGO from "@/assets/images/dhl-express-logo-black.png"
+import FEDEXLOGO from "@/assets/images/fedex-logo.png"
 
 interface User {
   firstname: string;
@@ -104,7 +106,7 @@ const CheckoutShipping: React.FC = () => {
 
       {/* Shipping Method */}
       <div className="mb-4">
-        <h3 className="text-lg font-semibold mb-4">Third-Party Shipping</h3>
+        <h3 className="text-lg font-semibold mb-4">Pick Shipping Option</h3>
         <div
           className={`p-4 mb-2 rounded-lg border ${
             selectedShipping === "Standard"
@@ -114,10 +116,11 @@ const CheckoutShipping: React.FC = () => {
           onClick={() => setSelectedShipping("Standard")}
         >
           <div className="flex justify-between items-center">
-            <p>Standard Pickup</p>
+            <Image src={DHLLOGO} alt="" width={100} height={20}/>
+            <p>DHL</p>
             {/* <p>N 5.00 Max.</p> */}
           </div>
-          <p className="text-gray-500 text-sm">5 - 8 days</p>
+          {/* <p className="text-gray-500 text-sm">5 - 8 days</p> */}
         </div>
         <div
           className={`p-4 rounded-lg border ${
@@ -128,10 +131,10 @@ const CheckoutShipping: React.FC = () => {
           onClick={() => setSelectedShipping("Express")}
         >
           <div className="flex justify-between items-center">
-            <p>Express</p>
-            {/* <p>N 20.00 Max.</p> */}
+          <Image src={FEDEXLOGO} alt="" width={100} height={20}/>
+          <p>FEDEX</p>
           </div>
-          <p className="text-gray-500 text-sm">1 - 2 days</p>
+          {/* <p className="text-gray-500 text-sm">1 - 2 days</p> */}
         </div>
         <div className="flex justify-center item-center">
           {/* <button className="text-[#006838] mt-4 ">
