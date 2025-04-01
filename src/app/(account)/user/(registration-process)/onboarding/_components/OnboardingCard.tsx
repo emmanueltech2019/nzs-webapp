@@ -13,11 +13,11 @@ const OnboardingCard = ({
   const cardbg = "bg-[#ffffff]";
 
   const cardheadText =
-    "font-[700] text-[22px] md:text-[12.9px] md:leading-[15.61px] transition-all duration-500";
+    "font-[700] text-[22px] md:text-[14.4px] md:leading-[15.61px] transition-all duration-500";
   const activeheadText = `${active ? "text-white" : "text-black"}`;
 
   const cardparText =
-    "font-[400] text-[14px] md:text-[10.32px] leading-[19.49px] md:leading-[12.49px]";
+    "font-[400] text-[14px] md:text-[12.32px] leading-[19.49px] md:leading-[16.49px]";
   const activeparText = `transition-all duration-500 ${active ? "text-[#ffbb5b]" : "text-[#71727a]"}`;
 
   const cardIcon = "border-[1px] border-[#eaf2ff]";
