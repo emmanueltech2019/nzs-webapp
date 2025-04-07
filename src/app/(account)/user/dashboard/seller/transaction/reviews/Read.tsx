@@ -7,6 +7,7 @@ import userimg2 from "./img/image copy 3.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Rubik } from "next/font/google";
 import Comments from "./components/Comments";
+import { motion, AnimatePresence } from "framer-motion";
 
 const rubik = Rubik({
   display: "swap",
@@ -21,14 +22,13 @@ interface Counts {
 
 const Read: React.FC = () => {
   const [commentCount, setCommentCount] = useState(0);
-  const [viewComments, setViewComments] = useState(false);
-
-  const handleViewComments = () => {
-    setViewComments(!viewComments);
-  };
+  const [viewComments, setViewComments] = useState<{ [key: number]: boolean }>(
+    {}
+  );
 
   const reviews = [
     {
+      id: 1,
       productImage: img1,
       title: "Amazing Shoe",
       price: "₦ 12.00",
@@ -40,6 +40,7 @@ const Read: React.FC = () => {
         "Their timely and reliable delivery service helped us streamline our operations and meet customer demands faster than ever. With real-time tracking and exceptional customer support, we never have to worry about where our shipments are.",
     },
     {
+      id: 2,
       productImage: img2,
       title: "Amazing Shoe",
       price: "₦ 12.00",
@@ -51,6 +52,7 @@ const Read: React.FC = () => {
         "Their timely and reliable delivery service helped us streamline our operations and meet customer demands faster than ever. With real-time tracking and exceptional customer support, we never have to worry about where our shipments are.",
     },
     {
+      id: 3,
       productImage: img1,
       title: "Amazing Shoe",
       price: "₦ 12.00",
@@ -62,6 +64,12 @@ const Read: React.FC = () => {
         "Their timely and reliable delivery service helped us streamline our operations and meet customer demands faster than ever. With real-time tracking and exceptional customer support, we never have to worry about where our shipments are.",
     },
   ];
+  const handleViewComments = (index: number) => {
+    setViewComments((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
 
   const [counts, setCounts] = useState<Counts[]>(
     reviews.map(() => ({ likes: 0, comments: 0 }))
@@ -93,7 +101,7 @@ const Read: React.FC = () => {
       <div className="grid gap-10">
         {reviews.map((review, index) => (
           <div
-            key={index}
+            key={review.id}
             className="bg-[#EAF2FF] py-[10px] px-3 rounded-2xl transition-all duration-500"
           >
             {/* Product Image */}
@@ -199,18 +207,18 @@ const Read: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex items-center cursor-pointer w-[40px] text-[#006838]">
-                  {viewComments ? (
+                  {viewComments[review.id] ? (
                     <Icon
                       icon="fluent:comment-48-filled"
                       width="24"
                       height="24"
-                      onClick={handleViewComments}
+                      onClick={() => handleViewComments(review.id)}
                     />
                   ) : (
                     <Icon
                       icon="hugeicons:comment-02"
                       className={` text-[23px] text-[#D6CCC6]`}
-                      onClick={handleViewComments}
+                      onClick={() => handleViewComments(review.id)}
                     />
                   )}
                   <span
@@ -227,9 +235,19 @@ const Read: React.FC = () => {
               </div>
             </div>
 
-            <div className={`m-3 ${viewComments ? "block" : "hidden"}`}>
-              <Comments updateCommentCounts={setCommentCount} />
-            </div>
+            <AnimatePresence>
+              {viewComments[review.id] && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.1, ease: "linear" }}
+                  className="m-3"
+                >
+                  <Comments updateCommentCounts={setCommentCount} />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         ))}
       </div>
