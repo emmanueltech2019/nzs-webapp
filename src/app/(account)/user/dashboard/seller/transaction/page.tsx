@@ -18,7 +18,7 @@ const page = () => {
   const pendingTabs = ['Read', 'Pending']
   return (
 
-    <div className='p-4 md:w-[85%] m-auto'>
+    <div className='p-4 md:w-[85%] m-auto mb-[5rem]'>
       <SellerTransactionTab activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className='md:ms-5 flex items-center'>
         <SortFilter />

@@ -88,7 +88,7 @@ const SellerAccordion: FC<accordionPropsTypes> = ({ status, style, imgRepStyle, 
                   className={`flex justify-between items-center my-2 py-2 border-b-[#0C1F1F0A] border-b-[1px] ${isActive ? "" : "w-full border-b-0"} transition-all duration-500 ease-in-out`}
                 >
                   <div>
-                    <h1 className={`text-xs font-semibold text-[#0C1F1F] ${poppins.className} antialiased`}>
+                    <h1 className={`text-xs sm:text-[16px] font-semibold text-[#0C1F1F] ${poppins.className} antialiased`}>
                       PRODUCT DETAILS
                     </h1>
                   </div>
@@ -97,7 +97,7 @@ const SellerAccordion: FC<accordionPropsTypes> = ({ status, style, imgRepStyle, 
                   <div className="flex items-center gap-2">
                     {/* status */}
                     <div>
-                      <button className={`${style} py-1 px-4 font-sans font-bold rounded-[15px] text-[9px] text-[#0C1F1F] leading-[12.26px]`}>
+                      <button className={`${style} py-1 px-4 font-sans font-bold rounded-[15px] text-[9px] sm:text-[12px] text-[#0C1F1F] leading-[12.26px]`}>
                         {status}
                       </button>
                     </div>
@@ -121,30 +121,30 @@ const SellerAccordion: FC<accordionPropsTypes> = ({ status, style, imgRepStyle, 
                 <div>
                   {/* product type */}
                   <div>
-                    <p className="text-[#0C1F1F40] text-[9px] leading-[12.26px] font-bold font-sans">
+                    <p className="text-[#0C1F1F40] text-[12px] leading-[12.26px] font-bold font-sans">
                       Product Type
                     </p>
-                    <h2 className="text-[11px] text-[#0C1F1F] font-normal font-sans pt-1 pb-2">
+                    <h2 className="text-[13px] text-[#0C1F1F] font-normal font-sans pt-1 pb-2">
                       {details.productType}
                     </h2>
                   </div>
 
                   {/* description */}
                   <div className="mt-[5px]">
-                    <p className="text-[#0C1F1F40] text-[9px] leading-[12.26px] font-bold font-sans">
+                    <p className="text-[#0C1F1F40] text-[12px] leading-[12.26px] font-bold font-sans">
                       Description
                     </p>
-                    <p className="text-[#71727A] text-[10px] leading-4 font-sans w-[113px] py-1">
+                    <p className="text-[#71727A] text-[12px] leading-4 font-sans w-[113px] md:w-[130px] py-1">
                       {details.description}
                     </p>
                   </div>
 
                   {/* estimated arrival */}
                   <div>
-                    <p className="text-[#0C1F1F40] text-[9px] leading-[12.26px] font-bold font-sans">
+                    <p className="text-[#0C1F1F40] text-[12px] leading-[12.26px] font-bold font-sans">
                       Estimated Arrival
                     </p>
-                    <h2 className="text-[11px] text-[#0C1F1F] font-normal font-sans py-1">
+                    <h2 className="text-[13px] text-[#0C1F1F] font-normal font-sans py-1">
                       {details.arrival}
                     </h2>
                   </div>
@@ -154,32 +154,32 @@ const SellerAccordion: FC<accordionPropsTypes> = ({ status, style, imgRepStyle, 
                 <div>
                   {/* time */}
                   <div>
-                    <div className="border-[1px] border-[#00683880] rounded-[4px] py-1 px-2 w-[97px]">
-                      <p className="text-[9px] leading-[12.26px] font-sans font-normal text-[#0C1F1F]">
+                    <div className="border-[1px] border-[#00683880] rounded-[4px] py-1 px-2 w-[130px]">
+                      <p className="text-[12px] leading-[12.26px] font-sans font-normal text-[#0C1F1F]">
                         8:00 AM - 11:00 AM
                       </p>
                     </div>
-                    <h2 className="text-[11px] text-[#0C1F1F] font-normal font-sans py-1">
+                    <h2 className="text-[13px] text-[#0C1F1F] font-normal font-sans py-1">
                       September 30, 2024
                     </h2>
                   </div>
 
                   {/* approximate distance */}
                   <div>
-                    <p className="text-[#0C1F1F40] text-[9px] leading-[12.26px] font-bold font-sans">
+                    <p className="text-[#0C1F1F40] text-[12px] leading-[12.26px] font-bold font-sans">
                       Order Location
                     </p>
-                    <h2 className="text-[11px] text-[#0C1F1F] font-normal font-sans">
+                    <h2 className="text-[13px] text-[#0C1F1F] font-normal font-sans">
                       Umahia, Abia
                     </h2>
                   </div>
 
                   {/* order location */}
                   <div className="mt-[37px]">
-                    <p className="text-[#0C1F1F40] text-[9px] leading-[12.26px] font-bold font-sans py-1">
+                    <p className="text-[#0C1F1F40] text-[12px] leading-[12.26px] font-bold font-sans py-1">
                       Approximate Distance
                     </p>
-                    <h2 className="text-[11px] text-[#0C1F1F] font-normal font-sans py-[3px]">
+                    <h2 className="text-[13px] text-[#0C1F1F] font-normal font-sans py-[3px]">
                       500 km
                     </h2>
                   </div>
@@ -190,17 +190,17 @@ const SellerAccordion: FC<accordionPropsTypes> = ({ status, style, imgRepStyle, 
               <div>
                 {/* size */}
                 <div className="grid grid-cols-2 items-center">
-                  <p className="text-[#0C1F1F40] text-[9px] leading-[12.26px] font-bold font-sans">
+                  <p className="text-[#0C1F1F40] text-[12px] leading-[12.26px] font-bold font-sans">
                     Size
                   </p>
-                  <button className="py-[6px] px-2 bg-[#006838] text-[#fff] text-[10px] font-sans font-semibold rounded-xl w-[37px]">
+                  <button className="py-[6px] px-2 bg-[#006838] text-[#fff] text-[12px] font-sans font-semibold rounded-xl w-[37px]">
                     XL
                   </button>
                 </div>
 
                 {/* price */}
                 <div className="grid grid-cols-2 items-center mt-[9px]">
-                  <p className="text-[#0C1F1F40] text-[9px] leading-[12.26px] font-bold font-sans">
+                  <p className="text-[#0C1F1F40] text-[12px] leading-[12.26px] font-bold font-sans">
                     Price (NGN)
                   </p>
                   <button className="py-1 px-4 bg-[#EBEDEB] text-[#1F2024] text-[10px] font-sans font-[900] rounded-[15px] w-[79px]">
@@ -210,7 +210,7 @@ const SellerAccordion: FC<accordionPropsTypes> = ({ status, style, imgRepStyle, 
 
                 {/* delivery */}
                 <div className="grid grid-cols-2 items-center mt-[9px]">
-                  <p className="text-[#0C1F1F40] text-[9px] leading-[12.26px] font-bold font-sans">
+                  <p className="text-[#0C1F1F40] text-[12px] leading-[12.26px] font-bold font-sans">
                     Delivery
                   </p>
                   <button className="py-1 px-4 bg-[#EBEDED] text-[#000000] text-[11px] font-sans font-normal rounded-[15px] w-[54px]">

@@ -49,7 +49,7 @@ const LeftSidenav = () => {
       {/* <div className='bg-[#006838] fixed z-[10000] text-[#D4D6DD] bottom-24 rounded-e-full left-0  p-5'>
       <SearchOutlinedIcon fontSize={'medium'}/>
       </div> */}
-      <div className=" bg-[#006838] text-[#D4D6DD] flex justify-between items-center md:flex-col flex-row md:sticky fixed md:top-0 bottom-0 md:h-screen overflow-y-auto md:max-h-[1200px] md:min-w-[23vw] md:max-w-[241px] w-screen md:py-[70px] py-3 md:ps-[35px]">
+      <div className=" bg-[#006838] text-[#D4D6DD] flex justify-between items-center md:flex-col flex-row md:sticky fixed md:top-0 bottom-0 md:h-screen overflow-y-auto md:max-h-[1200px] md:min-w-[23vw] md:max-w-[241px] w-screen md:py-[70px] py-3 md:ps-[35px] z-50">
         <div className="box flex-1 self-start hidden lg:flex">
           <Box />
         </div>

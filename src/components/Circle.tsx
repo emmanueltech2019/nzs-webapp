@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
 type CircleProgressProps = {
-  count: 1 | 2 | 3 | 4 // Current stage (1-4)
+  count: number // Current stage (1-4)
   size?: number
   strokeWidth?: number
   children?: React.ReactNode

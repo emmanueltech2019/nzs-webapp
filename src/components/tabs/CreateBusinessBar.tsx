@@ -24,7 +24,7 @@ const CreateBusinessBar = () => {
     ]
   return (
     <div>
-      <section>
+      <section className="max-w-[600px] mx-auto">
         <header className="flex items-center justify-between w-[65%] py-5">
           <Icon icon="mynaui:chevron-left" className="text-[#D4D6DD]" width="30" height="30" />
 

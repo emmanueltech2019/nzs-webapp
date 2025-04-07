@@ -1,26 +1,39 @@
-import { useEffect, useState, FC } from 'react';
+import { useEffect, useState, FC } from "react";
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
-import useToggle from '@/hooks/useToggle';
-import Accordion from './Accordion';
-import interFont from '@/fonts/Inter';
-import openSansFont from '@/fonts/OpenSans';
-import { Icon } from '@iconify/react/dist/iconify.js';
-import general_type from './general.types';
-import { handleApiError } from '@/utils/errors';
+import useToggle from "@/hooks/useToggle";
+import Accordion from "./Accordion";
+import interFont from "@/fonts/Inter";
+import openSansFont from "@/fonts/OpenSans";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import general_type from "./general.types";
+import { handleApiError } from "@/utils/errors";
 
 const OPTIONS = {
   sector: ["Health", "Hospitality", "Education", "Legal", "Logistics"],
   productType: ["Edible", "Wears", "Equipment", "Stationaries"],
   color: [
-    "WHITE", "BLACK", "GRAY", "YELLOW", "BLUE",
-    "PURPLE", "GREEN", "RED", "PINK", "ORANGE",
-    "GOLD", "SILVER"
+    "WHITE",
+    "BLACK",
+    "GRAY",
+    "YELLOW",
+    "BLUE",
+    "PURPLE",
+    "GREEN",
+    "RED",
+    "PINK",
+    "ORANGE",
+    "GOLD",
+    "SILVER",
   ],
-  handlingType: ["Fragile", "Perishable"]
+  handlingType: ["Fragile", "Perishable"],
 };
 
-const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) => {
+const BusinessDescription: FC<general_type> = ({
+  handleBtnFunc,
+  setCount,
+  setSection,
+}) => {
   const [isProductTypeOpen, toggleProductType] = useToggle(true);
   const [isColorOpen, toggleColor] = useToggle(true);
 
@@ -41,7 +54,9 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
 
   const handleSelection = (
     state: { item: string; state: boolean }[],
-    setState: React.Dispatch<React.SetStateAction<{ item: string; state: boolean }[]>>,
+    setState: React.Dispatch<
+      React.SetStateAction<{ item: string; state: boolean }[]>
+    >,
     selectedItem: string
   ) => {
     setState((prev) =>
@@ -51,32 +66,36 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
       }))
     );
   };
-  
-  
 
   const handleAPI = async () => {
     const userToken = localStorage.getItem("userToken");
     if (!userToken) {
-      showToast('error', 'User token not found');
+      showToast("error", "User token not found");
       return;
     }
 
-    const selectedProductTypes = productTypeState.filter(({ state }) => state).map(({ item }) => item);
-    const selectedColors = colorState.filter(({ state }) => state).map(({ item }) => item);
-    const selectedHandlingTypes = handlingTypeState.filter(({ state }) => state).map(({ item }) => item);
+    const selectedProductTypes = productTypeState
+      .filter(({ state }) => state)
+      .map(({ item }) => item);
+    const selectedColors = colorState
+      .filter(({ state }) => state)
+      .map(({ item }) => item);
+    const selectedHandlingTypes = handlingTypeState
+      .filter(({ state }) => state)
+      .map(({ item }) => item);
 
     if (!selectedProductTypes.length || !selectedColors.length) {
-      showToast('error', 'Please select both product types and colors');
+      showToast("error", "Please select both product types and colors");
       return;
     }
 
     const payload = {
       productName,
-      description:productDescription,
+      description: productDescription,
       category: selectedProductTypes,
       color: selectedColors,
       specialHandling: selectedHandlingTypes,
-      businessId:localStorage.getItem("activeBusiness")
+      businessId: localStorage.getItem("activeBusiness"),
     };
 
     try {
@@ -85,55 +104,66 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
       const response = await axios.post("/products/vendor/create", payload, {
         headers: { Authorization: `Bearer ${userToken}` },
       });
-      localStorage.setItem("addProductActive", response.data.productId)
-      showToast('success', response.data.message);
+      localStorage.setItem("addProductActive", response.data.productId);
+      showToast("success", response.data.message);
       setSection(2);
     } catch (error) {
       console.error(error);
-      const errorMessage = handleApiError(error, 'An error occurred')
-      showToast('error', errorMessage);
+      const errorMessage = handleApiError(error, "An error occurred");
+      showToast("error", errorMessage);
     }
   };
 
   useEffect(() => {
     setCount(25);
     handleBtnFunc(handleAPI);
-    return () => handleBtnFunc(() => console.log('default'));
+    return () => handleBtnFunc(() => console.log("default"));
   }, [productTypeState, colorState]);
 
   return (
-    <div className='py-3 pb-5'>
-      <div className='pb-3'>
+    <div className="py-3 pb-5">
+      <div className="pb-3">
         <input
           type="text"
-          id='productName'
+          id="productName"
           value={productName}
           onChange={(e) => setProductName(e.target.value)}
           required
-          className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]'
-          placeholder='Product Name'
+          className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+          placeholder="Product Name"
         />
       </div>
 
-      <div className='pb-3'>
+      <div className="pb-3">
         <input
           type="text"
-          id='productDescription'
+          id="productDescription"
           value={productDescription}
           onChange={(e) => setProductDescription(e.target.value)}
           required
-          className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]'
-          placeholder='Description'
+          className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+          placeholder="Description"
         />
       </div>
 
-      <Accordion title='Product Type' subTitle='Select at least 1' onClick={toggleProductType} state={isProductTypeOpen}>
-        <div className='flex gap-2 flex-wrap'>
+      <Accordion
+        title="Product Type"
+        subTitle="Select at least 1"
+        onClick={toggleProductType}
+        state={isProductTypeOpen}
+      >
+        <div className="flex gap-2 flex-wrap">
           {productTypeState.map(({ item, state }) => (
             <button
               key={item}
-              className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`}
-              onClick={() => handleSelection(productTypeState, setProductTypeState, item)}
+              className={`px-4 py-[6px] text-3 rounded-2xl ${
+                state
+                  ? "bg-[--foreground-green] text-white"
+                  : "bg-[#EAF2FF] text-[--foreground-green]"
+              }`}
+              onClick={() =>
+                handleSelection(productTypeState, setProductTypeState, item)
+              }
             >
               {item}
             </button>
@@ -141,12 +171,21 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
         </div>
       </Accordion>
 
-      <Accordion title='Color' subTitle='Select at least 1' onClick={toggleColor} state={isColorOpen}>
-        <div className='flex gap-3 flex-wrap'>
+      <Accordion
+        title="Color"
+        subTitle="Select at least 1"
+        onClick={toggleColor}
+        state={isColorOpen}
+      >
+        <div className="flex gap-3 flex-wrap">
           {colorState.map(({ item, state }) => (
             <button
               key={item}
-              className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`}
+              className={`px-4 py-[6px] text-3 rounded-2xl ${
+                state
+                  ? "bg-[--foreground-green] text-white"
+                  : "bg-[#EAF2FF] text-[--foreground-green]"
+              }`}
               onClick={() => handleSelection(colorState, setColorState, item)}
             >
               {item}
@@ -156,24 +195,34 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
       </Accordion>
 
       <div className="border-[0.5px] border-[#D4D6DD] rounded-2xl p-4 mt-3">
-        <h1 className='flex gap-2 items-center pb-6'>
+        <h1 className="flex gap-2 items-center pb-6">
           <span className="flex items-center justify-center rounded-full w-4 h-4 bg-[--foreground-green]">
             <span className="flex items-center justify-center rounded-full bg-white h-[5px] w-[5px]"></span>
           </span>
-          <span className={`text-[#71727A] text-sm font-bold ${openSansFont}`}>Special Handling</span>
+          <span className={`text-[#71727A] text-sm font-bold ${openSansFont}`}>
+            Special Handling
+          </span>
         </h1>
 
-        <div className='flex flex-col gap-3 py-3'>
+        <div className="flex flex-col gap-3 py-3">
           {handlingTypeState.map(({ item, state }) => (
             <div
               key={item}
-              className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 border-[0.5px] ${state ? 'bg-[#EAF2FF] border-transparent' : 'bg-[#ffffff] border-[#C5C6CC]'}`}
-              onClick={() => handleSelection(handlingTypeState, setHandlingTypeState, item)}
+              className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 border-[0.5px] ${
+                state
+                  ? "bg-[#EAF2FF] border-transparent"
+                  : "bg-[#ffffff] border-[#C5C6CC]"
+              }`}
+              onClick={() =>
+                handleSelection(handlingTypeState, setHandlingTypeState, item)
+              }
             >
               <p className="text-[14px] text-[#1F2024]">{item}</p>
               <Icon
                 icon="ph:check-bold"
-                className={`text-[#006838] text-[14px] transition-all duration-300 ${state ? 'opacity-100' : 'opacity-0'}`}
+                className={`text-[#006838] text-[14px] transition-all duration-300 ${
+                  state ? "opacity-100" : "opacity-0"
+                }`}
               />
             </div>
           ))}

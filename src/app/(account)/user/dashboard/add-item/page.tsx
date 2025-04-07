@@ -36,7 +36,7 @@ const page = () => {
         setBtnState(prev => prev.map(({ item, state }, i) => ({ item, state: item == a ? !state : state })))
     }
     return (
-        <div className={`max-w-3xl mx-auto px-4 py-6 ${openSansFont}`}>
+        <div className={`max-w-3xl mx-auto mb-[2.5rem] px-4 py-6 ${openSansFont}`}>
             <TagHeader title='Add item' />
             <div className="image">
                 <Image src={placeholder} alt='placeholder' className='w-full' />

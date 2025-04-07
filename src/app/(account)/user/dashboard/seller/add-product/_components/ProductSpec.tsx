@@ -90,7 +90,7 @@ const ProductSpec: FC<general_type> = ({
       .then((res) => {
         showToast("success", res.data.message);
         setSection(3);
-        window.location.replace("/user/dashboard/seller/inventory")
+        // window.location.replace("/user/dashboard/seller/inventory")
       })
       .catch((err) => {
         console.error(err);

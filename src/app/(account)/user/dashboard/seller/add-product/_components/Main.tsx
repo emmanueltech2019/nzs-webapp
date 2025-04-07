@@ -63,13 +63,13 @@ const Main = () => {
             {section === 3 && <Pricing setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} />}
             {section === 4 && <Preview setCount={setCount} handleBtnFunc={handleBtnFunc} setSection={setSection} setDisplayCircle={setDisplayCircle} setBtnText={setBtnText} />}
 
-            <div className='flex items-center pt-3 pb-40 gap-6'>
+            <div className='flex items-center justify-center pt-3 pb-40 gap-6 w-full'>
                 <button onClick={btnFunc.func}
                     className="rounded-[12px] py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500">
                     {btnText || 'NEXT'}
                 </button>
                 <div>
-                    {displayCircle ? <Circle count={count} period={100} size={48}>
+                    {displayCircle ? <Circle count={count} size={48}>
                         <Icon icon='akar-icons:arrow-right' className='text-xl text-[--foreground-green] font-extrabold'></Icon>
                     </Circle> : ''}
                 </div>

@@ -1,9 +1,9 @@
-'use client'
+"use client";
 import SubProvider from "@/context/SubscriptionContext";
 import Layer from "./Layer";
 
 type screentype = {
-  children: React.ReactNode
+  children: React.ReactNode;
 };
 
 const SubcriptionLayout = ({ children }: screentype) => {

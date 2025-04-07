@@ -34,7 +34,7 @@ const Pricing: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) => {
         }).then((res) => {
             console.log(res)
             showToast('success', res.data.message);
-            // setSection(4);
+            setSection(4);
         }).catch(err => {
             console.error(err);
             showToast('error', err.message);
