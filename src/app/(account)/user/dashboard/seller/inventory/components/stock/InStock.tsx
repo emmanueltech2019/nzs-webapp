@@ -1,9 +1,10 @@
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
-import ProductDetail from './ProductDetails';
-import { ProductT } from '@/types/Product.types';
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
+import ProductDetail from "./ProductDetails";
+import { ProductT } from "@/types/Product.types";
 import axios from "@/utils/axios";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 interface InStockProps {
   products: ProductT[];
@@ -11,7 +12,9 @@ interface InStockProps {
 
 const InStock: React.FC<InStockProps> = ({ products }) => {
   const [productss, setProducts] = useState<ProductT[]>([]); // Corrected to an array
-  const [expandedProductId, setExpandedProductId] = useState<string | null>(null);
+  const [expandedProductId, setExpandedProductId] = useState<string | null>(
+    null
+  );
 
   const handleExpandClick = (productId: string) => {
     setExpandedProductId(expandedProductId === productId ? null : productId);
@@ -24,6 +27,31 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
       return;
     }
 
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.naijazoneonline.com/api/products/vendor/`,
+          {
+            data: {
+              businessId: "67173e931d6947e96ed8354a",
+            },
+            headers: {
+              Authorization: `Bearer ${userToken}`, // Ensure userToken is set
+            },
+          }
+        );
+    
+        console.log("Products Response:", response.data);
+        setProducts(response.data.products || []);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Error fetching products:", error.response?.data || error.message);
+        } else {
+          console.error("Error fetching products:", error);
+        }
+      }
+    };
+
     axios({
       method: "GET",
       url: "/users/profile",
@@ -32,8 +60,12 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
       },
     })
       .then((res) => {
+        if (res.data.businessId) {
+          localStorage.setItem("businessId", res.data.businessId);
+        }
         if (Array.isArray(res.data.products)) {
           setProducts(res.data.products);
+          fetchProducts();
         } else {
           console.error("Invalid product data format.");
         }
@@ -43,9 +75,11 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
       });
   }, []);
 
+  //
+
   return (
-    <div className="w-full rounded-xl space-y-4 pb-40">
-      <div className="flex items-center justify-between border-b pb-3 py-3 px-2 bg-[#E0F4EA]">
+    <div className="w-full rounded-xl space-y-2 pb-40">
+      <div className="flex items-center justify-between pb-3 py-3 px-2 bg-[#E0F4EA]">
         <h2 className="text-lg font-semibold text-gray-800">NEW PRODUCT</h2>
         <span className="text-green-600 px-3 py-1 rounded-full text-sm font-medium">
           <Link href="./add-product">
@@ -58,27 +92,50 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
 
       {productss.length !== 0 ? (
         productss.map((product) => (
-          <div key={product._id} className="border rounded-lg p-2 bg-[#F8F9FE]">
+          <div key={product._id} className="rounded-lg p-2 bg-[#F8F9FE]">
             <div className="flex items-center justify-between">
-              <button className="text-[#F8F9FE] bg-[#C3CAD9] w-7 h-7 rounded-full text-lg">✕</button>
-              <div className="flex flex-row space-x-5 ml-3 flex-1 items-center text-xs">
-                <span className="text-gray-900 w-[25%] font-medium">{product.name}</span>
-                <span className="text-gray-500 w-[21%]">₦{product.price.toLocaleString()}</span>
-                <div className="flex flex-col w-[27%]">
-                  <span className="text-gray-500 text-xs">
-                    {product.quantity}/{product.quantity}
-                  </span>
-                  <span className="text-gray-500 text-xs">Cartons</span>
+              <div className="flex items-center gap-1">
+                <div>
+                  <Icon
+                    icon="lets-icons:close-round-fill"
+                    className="text-[#C3CAD9] cursor-pointer"
+                    width="30"
+                    height="30"
+                  />
+                </div>
+                <div className="flex items-center justify-between gap-2 text-xs">
+                  <div className="text-gray-900 font-medium">
+                    <p className="">
+                      {product.name.length > 6
+                        ? product.name.substring(0, 5) + "..."
+                        : product.name}
+                    </p>
+                  </div>
+                  <div className="text-gray-500">
+                    ₦{product.price.toLocaleString()}
+                  </div>
+                  <div className="flex flex-col ms-2">
+                    <span className="text-gray-500 text-xs">
+                      {product.quantity}/{product.quantity}
+                    </span>
+                    <span className="text-gray-500 text-xs">Cartons</span>
+                  </div>
                 </div>
               </div>
-              <button className="bg-[#FFEFC5] text-black px-4 py-2 rounded-lg font-medium text-xs w-[27%]">
-                COMPLETE PRODUCT
-              </button>
-              <ExpandMoreOutlinedIcon
-                fontSize="medium"
-                onClick={() => handleExpandClick(product._id)}
-                className="cursor-pointer"
-              />
+              <div className="flex items-center gap-2">
+                <button className="bg-[#FFEFC5] text-black py-1 rounded-[4px] font-medium text-[10px] w-[65px]">
+                  COMPLETE PRODUCT
+                </button>
+                <Icon
+                  icon="bx:chevron-down"
+                  className={`text-[#0C1F1F] cursor-pointer ${
+                    expandedProductId === product._id ? "rotate-180" : ""
+                  } transition-transform duration-500`}
+                  width="24"
+                  height="24"
+                  onClick={() => handleExpandClick(product._id)}
+                />
+              </div>
             </div>
 
             {/* Conditionally render the expanded product details */}

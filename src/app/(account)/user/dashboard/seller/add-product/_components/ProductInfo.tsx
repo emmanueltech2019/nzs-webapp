@@ -8,6 +8,7 @@ import openSansFont from "@/fonts/OpenSans";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import general_type from "./general.types";
 import { handleApiError } from "@/utils/errors";
+import Circle from "@/components/Circle";
 
 const OPTIONS = {
   sector: ["Health", "Hospitality", "Education", "Legal", "Logistics"],
@@ -40,9 +41,14 @@ const BusinessDescription: FC<general_type> = ({
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
 
+  const [uploadCount, setuploadCount] = useState(75);
+
   const [productTypeState, setProductTypeState] = useState(
     OPTIONS.productType.map((item) => ({ item, state: false }))
   );
+
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const [colorState, setColorState] = useState(
     OPTIONS.color.map((item) => ({ item, state: false }))
@@ -67,6 +73,45 @@ const BusinessDescription: FC<general_type> = ({
     );
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImageFile(file);
+
+    // Clean up the previous preview URL
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview);
+    }
+
+    // Generate new preview URL
+    const previewUrl = URL.createObjectURL(file);
+    setImagePreview(previewUrl);
+  };
+
+  const handleImageUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "my_preset");
+    formData.append("cloud_name", "dyrleuyj9");
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dyrleuyj9/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      return data.secure_url; // Get the image URL
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      return null;
+    }
+  };
+
   const handleAPI = async () => {
     const userToken = localStorage.getItem("userToken");
     if (!userToken) {
@@ -89,6 +134,17 @@ const BusinessDescription: FC<general_type> = ({
       return;
     }
 
+    if (!imageFile) {
+      alert("Please select an image.");
+      return;
+    }
+
+    const uploadedImageUrl = await handleImageUpload(imageFile);
+    if (!uploadedImageUrl) {
+      alert("Image upload failed.");
+      return;
+    }
+
     const payload = {
       productName,
       description: productDescription,
@@ -96,6 +152,7 @@ const BusinessDescription: FC<general_type> = ({
       color: selectedColors,
       specialHandling: selectedHandlingTypes,
       businessId: localStorage.getItem("activeBusiness"),
+      image: uploadedImageUrl,
     };
 
     try {
@@ -122,6 +179,57 @@ const BusinessDescription: FC<general_type> = ({
 
   return (
     <div className="py-3 pb-5">
+      <div className="bg-[#F8F9FE] p-4 rounded-lg my-[2rem]">
+        <div className="bg-[#FFFFFF] p-4 flex justify-center">
+          {imageFile ? (
+            // Display the uploaded image preview
+            <div className=" transition-all duration-300 ease-in-ou">
+              <img
+                src={imagePreview || undefined}
+                alt="Preview"
+                className="w-full h-full object-cover rounded-lg transition-all duration-300 ease-in-out"
+
+                width="100"
+                height="100"
+              />
+            </div>
+          ) : (
+            // Show the Circle component when no image is uploaded
+            <div className="-rotate-90 py-4">
+              <Circle count={uploadCount}>
+                <Icon
+                  icon="ri:arrow-right-line"
+                  className="text-[#006838]"
+                  width="32"
+                  height="32"
+                />
+              </Circle>
+            </div>
+          )}
+        </div>
+
+        <div className="pb-3 mt-2 flex items-center justify-center">
+          <input
+            type="file"
+            id="file"
+            onChange={handleFileChange}// Handle file selection
+            accept="image/*"
+            className="w-full px-4 py-2 rounded-xl outline-none placeholder:text-[#8F9098] text-[12px] hidden"
+            placeholder="Upload Image"
+          />
+          <label
+            htmlFor="file"
+            className="w-full text-[12px] px-4 py-3 rounded-xl bg-[#EAF2FF] flex items-center justify-center cursor-pointer"
+          >
+            {imageFile ? (
+              <span>{imageFile.name}</span> // Display the file name once uploaded
+            ) : (
+              <span>Product Image</span> // Default text before selection
+            )}
+          </label>
+        </div>
+      </div>
+
       <div className="pb-3">
         <input
           type="text"

@@ -48,8 +48,8 @@ const ProductDetail: React.FC<ProductT> = ({
                 <span className="font-medium">{description}</span>
             </div>
             <div className="flex flex-col">
-                <span className="font-small text-[#71727A]">Product ID</span>
-                <span className="font-medium">{_id}</span>
+                <span className="font-small text-[#71727A] ">Product ID</span>
+                <span className="font-medium text-[10px]">{_id}</span>
             </div>
             <div className="flex flex-col">
                 <span className="font-small text-[#71727A]">Threshold Quantity</span>

@@ -2,8 +2,8 @@ import { FC, useEffect, useState } from "react";
 import general_type from "./general.types";
 import Circle from "@/components/Circle";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import poppinsFont from "@/fonts/Poppins";
-import openSansFont from "@/fonts/OpenSans";
+import axios from "@/utils/axios";
+import { showToast } from "@/utils/alert";
 
 const Preview: FC<general_type> = ({
   handleBtnFunc,
@@ -12,21 +12,24 @@ const Preview: FC<general_type> = ({
   setDisplayCircle,
   setBtnText,
 }) => {
+  const [productData, setProductData] = useState<any>(null);
   const [uploadCount, setuploadCount] = useState(75);
-  const handleConfirm = () => {
-    window.location.replace("./inventory/");
-  };
   useEffect(() => {
     setCount(100);
     if (setDisplayCircle) setDisplayCircle(false);
     if (setBtnText) setBtnText("CONFIRM");
 
+    const data = JSON.parse(localStorage.getItem("productFormData") || "{}");
     setCount(75);
     handleBtnFunc(handleConfirm);
     return () => {
       handleBtnFunc(() => console.log("default"));
     };
   }, [handleBtnFunc, setBtnText, setDisplayCircle, setCount]);
+
+  const handleConfirm = () => {
+    window.location.replace("./inventory/");
+  };
 
   return (
     <div className="py-3">
@@ -68,7 +71,7 @@ const Preview: FC<general_type> = ({
                 <div>
                   <p className="text-[#0C1F1F40] text-[12px]">Product Type</p>
                   <p className="text-[#0C1F1F] font-normal text-[12px]">
-                    Product Name
+                    {productData.category?.join(", ") || "N/A"}
                   </p>
                 </div>
                 <div>
@@ -80,41 +83,70 @@ const Preview: FC<general_type> = ({
                 <div>
                   <p className="text-[#0C1F1F40] text-[12px]">Description</p>
                   <p className="text-[#0C1F1F] font-normal text-[12px]">
-                    The perfect T-shirt for when you want to feel at ease but
-                    still stylish...
+                    {productData.description || "N/A"}
                   </p>
                 </div>
                 <div>
                   <p className="text-[#0C1F1F40] text-[12px]">Product ID</p>
-                  <p className="text-[#0C1F1F] font-normal text-[12px]">30045-HA</p>
+                  <p className="text-[#0C1F1F] font-normal text-[12px]">
+                    30045-HA
+                  </p>
                 </div>
                 <div className="col-span-2 mt-2 flex gap-12">
-                  <p className="text-[#0C1F1F40] text-[12px]">Purchase Discount</p>
-                  <span className="ms-[2rem] bg-[#C5C6CC] text-[16px] text-[#1F2024] font-black px-4 py-1 rounded-[15px]">10%</span>
+                  <p className="text-[#0C1F1F40] text-[12px]">
+                    Purchase Discount
+                  </p>
+                  <span className="ms-[2rem] bg-[#C5C6CC] text-[16px] text-[#1F2024] font-black px-4 py-1 rounded-[15px]">
+                    10%
+                  </span>
                 </div>
                 <div className="col-span-2 flex gap-12">
-                  <p className="text-[#0C1F1F40] text-[12px]">Discount Quantity</p>
-                  <span className="ms-[2rem] bg-[#C5C6CC] text-[16px] text-[#1F2024] font-black px-4 py-1 rounded-[15px]">45</span>
+                  <p className="text-[#0C1F1F40] text-[12px]">
+                    Discount Quantity
+                  </p>
+                  <span className="ms-[2rem] bg-[#C5C6CC] text-[16px] text-[#1F2024] font-black px-4 py-1 rounded-[15px]">
+                    45
+                  </span>
                 </div>
                 <div>
-                  <p className="text-[#0C1F1F40] text-[12px]">Threshold Quality</p>
-                  <p className="text-[#0C1F1F] font-normal text-[12px]">43 Cartons</p>
+                  <p className="text-[#0C1F1F40] text-[12px]">
+                    Threshold Quality
+                  </p>
+                  <p className="text-[#0C1F1F] font-normal text-[12px]">
+                    43 Cartons
+                  </p>
                 </div>
                 <div>
-                  <p className="text-[#0C1F1F40] text-[12px]">Threshold Price(NGN)</p>
-                  <p className="text-[#0C1F1F] font-normal text-[12px]">1,600.00</p>
+                  <p className="text-[#0C1F1F40] text-[12px]">
+                    Threshold Price(NGN)
+                  </p>
+                  <p className="text-[#0C1F1F] font-normal text-[12px]">
+                    1,600.00
+                  </p>
                 </div>
                 <div className="col-span-2 flex gap-12">
-                  <p className="text-[#0C1F1F40] text-[12px] me-[2rem]">Total Stock</p>
-                  <span className="ms-[2rem] bg-[#006838] text-[16px] text-[#FFF] font-medium px-2 py-[6px] rounded-[15px]">43 CARTONS</span>
+                  <p className="text-[#0C1F1F40] text-[12px] me-[2rem]">
+                    Total Stock
+                  </p>
+                  <span className="ms-[2rem] bg-[#006838] text-[16px] text-[#FFF] font-medium px-2 py-[6px] rounded-[15px]">
+                    43 CARTONS
+                  </span>
                 </div>
                 <div className="col-span-2 flex gap-12">
-                  <p className="text-[#0C1F1F40] text-[12px] me-[2rem]">Price (NGN)</p>
-                  <span className="ms-[2rem] bg-[#EBEDEB] text-[16px] text-[#1F2024] font-black px-4 py-[6px] rounded-[15px]">1,800.00</span>
+                  <p className="text-[#0C1F1F40] text-[12px] me-[2rem]">
+                    Price (NGN)
+                  </p>
+                  <span className="ms-[2rem] bg-[#EBEDEB] text-[16px] text-[#1F2024] font-black px-4 py-[6px] rounded-[15px]">
+                    1,800.00
+                  </span>
                 </div>
                 <div className="col-span-2 flex gap-12">
-                  <p className="text-[#0C1F1F40] text-[12px] me-[3rem]">Stock Sold</p>
-                  <span className="ms-[2rem] bg-[#EBEDEB] text-[12px] text-[##000000] font-normal px-4 py-[6px] rounded-[15px]">0 Sold</span>
+                  <p className="text-[#0C1F1F40] text-[12px] me-[3rem]">
+                    Stock Sold
+                  </p>
+                  <span className="ms-[2rem] bg-[#EBEDEB] text-[12px] text-[##000000] font-normal px-4 py-[6px] rounded-[15px]">
+                    0 Sold
+                  </span>
                 </div>
               </div>
             </div>

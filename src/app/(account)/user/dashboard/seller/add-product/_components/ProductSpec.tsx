@@ -1,18 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import general_type from "./general.types";
-import interFont from "@/fonts/Inter";
 import openSansFont from "@/fonts/OpenSans";
-import Link from "next/link";
-import Circle from "@/components/Circle";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import poppinsFont from "@/fonts/Poppins";
 import useForm from "@/hooks/useForm";
 import Accordion from "./Accordion";
 import useToggle from "@/hooks/useToggle";
-import { ProfileInfo } from "./Main";
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
-import Image from "next/image";
 
 const mainState = [
   { item: "KILOGRAMS (KG)", state: false },
@@ -31,7 +24,6 @@ const QualityTypeState = [
   { item: "OTHER", state: false },
 ];
 
-
 const ProductSpec: FC<general_type> = ({
   handleBtnFunc,
   setCount,
@@ -44,11 +36,11 @@ const ProductSpec: FC<general_type> = ({
   const [states, setState] = useState(mainState);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value); // Convert string to number
-    setQuantity(isNaN(value) ? 0 : value);   // Handle NaN case if input is invalid
+    setQuantity(isNaN(value) ? 0 : value); // Handle NaN case if input is invalid
   };
   const handleChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value); // Convert string to number
-    setUnit(isNaN(value) ? 0 : value);   // Handle NaN case if input is invalid
+    setUnit(isNaN(value) ? 0 : value); // Handle NaN case if input is invalid
   };
   const handleStates = (a: string) => {
     setState((prev) =>
@@ -73,16 +65,26 @@ const ProductSpec: FC<general_type> = ({
 
   const [a, aFunc] = useToggle(true);
   const [b, bFunc] = useToggle(true);
+  
   const handleAPI = async () => {
-    const selectedQuantityType = qualityType.filter(({ state }) => state).map(({ item }) => item);
-    const selectedUnitType = states.filter(({ state }) => state).map(({ item }) => item);
+    const selectedQuantityType = qualityType
+      .filter(({ state }) => state)
+      .map(({ item }) => item);
+    const selectedUnitType = states
+      .filter(({ state }) => state)
+      .map(({ item }) => item);
 
     axios({
       method: "PUT",
       url: `/products/vendor/add-product-spec/${localStorage.getItem(
         "addProductActive"
       )}`,
-      data: { quantityType:selectedQuantityType[0], quantityUnit:selectedUnitType[0], unitAmount:unit, quantity},
+      data: {
+        quantityType: selectedQuantityType[0],
+        quantityUnit: selectedUnitType[0],
+        unitAmount: unit,
+        quantity,
+      },
       headers: {
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
