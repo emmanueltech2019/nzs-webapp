@@ -2,7 +2,10 @@
 import axios from 'axios';
 axios.defaults.baseURL = 'https://api.naijazoneonline.com/api';
 // axios.defaults.baseURL = 'http://localhost:4000/api';
+<<<<<<< HEAD
 
+=======
+>>>>>>> f74a745 (updates)
 
 /**
  * @author Miracle Boniface
