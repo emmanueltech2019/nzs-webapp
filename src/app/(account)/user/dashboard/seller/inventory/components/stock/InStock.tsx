@@ -29,9 +29,10 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          `https://api.naijazoneonline.com/api/products/vendor/`,
+        const response = await axios(
           {
+            url: "/products/vendor",
+            method: "GET",
             data: {
               businessId: "67173e931d6947e96ed8354a",
             },
