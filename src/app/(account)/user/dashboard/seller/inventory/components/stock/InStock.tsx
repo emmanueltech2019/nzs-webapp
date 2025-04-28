@@ -34,7 +34,7 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
             url: "/products/vendor",
             method: "GET",
             data: {
-              businessId: "67173e931d6947e96ed8354a",
+              businessId: "67ee82b16479c4778127b209",
             },
             headers: {
               Authorization: `Bearer ${userToken}`, // Ensure userToken is set

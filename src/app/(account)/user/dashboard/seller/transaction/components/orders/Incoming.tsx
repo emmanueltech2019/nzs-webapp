@@ -1,10 +1,21 @@
+
 import SellerAccordion from '../Accordion'
 import React from 'react'
+import Status from '../status/Status'
 
-const Incoming = () => {
+interface IncomingProps {
+  activeFilter: string
+}
+const Incoming: React.FC<IncomingProps> = ({activeFilter}) => {
   return (
     <div>
-      <SellerAccordion status='INCOMING' style='bg-[#20E58A]' imgRepStyle='hidden'/>
+      {
+        activeFilter === 'Status' ? (
+          <Status />
+        ) : (
+          <SellerAccordion status='INCOMING' style='bg-[#20E58A]' imgRepStyle='hidden'/>
+        )
+      }
     </div>
   )
 }

@@ -1,32 +1,31 @@
-import Link from "next/link";
-
+import React from 'react';
 
 interface Filter {
   name: string,
-  url: string,
 }
 
 interface ServiceFilterButtonsProps {
   active: string;
+  setActive: (tab: string) => void;
   filterArray: Filter[],
 }
 
 
 
-const ServiceFilterButtons: React.FC<ServiceFilterButtonsProps> = ({ active, filterArray }) => {
+const ServiceFilterButtons: React.FC<ServiceFilterButtonsProps> = ({ active, setActive, filterArray }) => {
 
 
   return (
     <div className="flex p-4 my-1 gap-2 w-full">
       {filterArray.map((filter, index) => (
-        <Link
+        <div
           key={index}
-          href={filter.url}
-          className={`px-2 py-[6px] rounded-[12px] text-[10px] leading-[13.62px] font-[550] uppercase
+          onClick={() => setActive(filter.name)}
+          className={`px-2 py-[6px] rounded-[12px] text-[10px] leading-[13.62px] font-[550] uppercase cursor-pointer
           ${filter.name === active ? "bg-[#006838] text-[#fff]" : "bg-[#EAF2FF] text-[#006838]"}`}
         > 
           {filter.name}
-        </Link>
+        </div>
       ))}
     </div>
   );
