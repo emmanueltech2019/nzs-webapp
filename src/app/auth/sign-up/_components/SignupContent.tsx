@@ -2,6 +2,7 @@
 import Image from "next/image"
 import { useEffect, useRef, useState } from 'react';
 import intlTelInput from 'intl-tel-input';
+import 'intl-tel-input/build/js/utils.js';
 import Apple from "@/assets/icons/Apple.svg"
 import Andriod from '@/assets/icons/Andriod.svg'
 import playBtn from '@/assets/icons/playBtn.svg'
