@@ -66,7 +66,11 @@ const Health = () => {
   ];
   return (
     <div>
-      <ServiceFilterButtons active='Health' filterArray={filters}/>
+      <ServiceFilterButtons 
+        active='Health' 
+        filterArray={filters} 
+        setActive={(tab: string) => console.log(`Active tab set to: ${tab}`)} 
+      />
       {/* <GridWrapper title="Near You">
       {nearYouTransactions.map((transaction, index) => (
         <Link href="./company?page=hospitality" className="md:w-[42%] flex-shrink-0">

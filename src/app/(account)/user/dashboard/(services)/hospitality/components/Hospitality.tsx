@@ -68,7 +68,11 @@ const Hospitality = () => {
 
   return (
     <div>
-      <ServiceFilterButtons active='Hospitality' filterArray={filters}/>
+      <ServiceFilterButtons 
+        active='Hospitality' 
+        filterArray={filters} 
+        setActive={(tab: string) => console.log(`Active tab set to: ${tab}`)} 
+      />
       {/* <GridWrapper title="Near You">
       {nearYouTransactions.map((transaction, index) => (
         <Link href="./company?page=hospitality" className="md:w-[35%] flex-shrink-0">

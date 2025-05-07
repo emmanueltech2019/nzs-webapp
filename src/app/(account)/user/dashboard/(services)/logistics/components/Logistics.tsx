@@ -10,7 +10,7 @@ import { filters } from '@/components/SortFilter/Filters';
 const Logistics = () => {
   return (
     <div className=''>
-       <ServiceFilterButtons active='Logistics' filterArray={filters}/>
+       <ServiceFilterButtons active='Logistics' filterArray={filters} setActive={(tab: string) => console.log(`Active tab set to: ${tab}`)} />
        <SortFilter />
       <FloatingButton color='bg-[#E09427]'/>
       <LogisticsCarousel />

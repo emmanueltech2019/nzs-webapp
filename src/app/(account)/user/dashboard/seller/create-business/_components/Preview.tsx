@@ -156,7 +156,7 @@ const Preview: FC<general_type> = ({
     <div className="py-3">
       <div className="bg-[#F8F9FE] p-4 rounded-lg">
         <div className="bg-white rounded-lg min-h-[97px] justify-center items-center flex">
-          <Circle size={48} count={uploadCount} period={100}>
+          <Circle size={48} count={uploadCount}>
             <Icon
               icon="akar-icons:arrow-up"
               className="text-xl text-[--foreground-green] font-extrabold"

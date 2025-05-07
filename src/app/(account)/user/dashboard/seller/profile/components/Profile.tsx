@@ -240,7 +240,11 @@ const Profile = () => {
               <Icon icon="mynaui:chevron-left" className={`cursor-pointer ms-2 text-[#8F9098] ${isVisible ? "rotate-180" : ""}`} width="19" height="19" onClick={() => toggleVisibility()}/>
             </div>
             <div className={`absolute overflow-x-auto whitespace-nowrap ${isVisible ? "right-[70%]" : "-right-4"} transition-all duration-500 ease-in-out`}>
-              <ServiceFilterButtons filterArray={profileFilter} active="Service"/>
+              <ServiceFilterButtons 
+                filterArray={profileFilter} 
+                active="Service" 
+                setActive={(tab: string) => console.log(`Active tab set to: ${tab}`)} 
+              />
             </div>
           </div>
 

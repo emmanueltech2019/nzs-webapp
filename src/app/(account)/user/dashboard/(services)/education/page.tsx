@@ -5,11 +5,15 @@ import Education from './components/Education'
 import { filters } from '@/components/SortFilter/Filters'
 
 const page = () => {  
-
+  const [activeTab, setActiveTab] = useState('Education');
 
   return (
     <div className="min-h-screen md:w-[61vw] ">
-      <ServiceFilterButtons active='Education' filterArray={filters}/>
+      <ServiceFilterButtons 
+        active={activeTab} 
+        setActive={setActiveTab} 
+        filterArray={filters}
+      />
       <Education />
     </div>
  )

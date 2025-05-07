@@ -44,7 +44,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               isVisible ? "right-[70%]" : "right-0"
             } transition-all duration-500 ease-in-out`}
           >
-            <ServiceFilterButtons filterArray={sellerFilter} active="Status" />
+            <ServiceFilterButtons filterArray={sellerFilter} active="Status" setActive={(tab: string) => console.log(`Active tab set to: ${tab}`)} />
           </div>
         </div>
         <SellerTransStatusTab

@@ -36,6 +36,7 @@
   "devDependencies": {
     "@iconify/react": "^5.2.1",
     "@svgr/webpack": "^8.1.0",
+    "@types/intl-tel-input": "^18.1.4",
     "@types/node": "^20",
     "@types/paystack__inline-js": "^1.0.0",
     "@types/react": "^18",
