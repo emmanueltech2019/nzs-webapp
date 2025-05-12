@@ -21,7 +21,7 @@ const similarServices = [
 
 const Profile:FC = () => {
   return (
-    <div>
+    <div className='p-3'>
         <h1 className={`text-[#1F2024] font-black text-lg pb-6 ${interFont}`}>Libmot Technologies</h1>
       <div className="flex gap-2 pb-6">
         <p className={`maternity px-3 py-2 flex gap-[6px] text-sm text-[#101010] font-medium rounded-lg bg-[#C8C8F426] ${interFont}`}>
@@ -37,7 +37,7 @@ const Profile:FC = () => {
           <span>4.5</span>
         </p>
       </div>
-      <p className="md:max-w-[327px] text-[#71727A] font-normal pb-10">The perfect T-shirt for when you want to feel comfortable but still stylish. Amazing for all occasions.
+      <p className="md:max-w-[427px] text-[#71727A] font-normal pb-10">The perfect T-shirt for when you want to feel comfortable but still stylish. Amazing for all occasions.
         Made of 100% cotton fabric in four colours. Its modern style gives a lighter look to the outfit. Perfect for the warmest days.
       </p>
       <div className="flex justify-between pb-4">

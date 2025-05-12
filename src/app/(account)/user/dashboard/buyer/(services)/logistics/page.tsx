@@ -7,7 +7,7 @@ const page = () => {
 
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen max-w-[85%] mx-auto">
         <Logistics/>
     </div>
  )
