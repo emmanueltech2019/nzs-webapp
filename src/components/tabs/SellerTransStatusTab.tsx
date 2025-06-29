@@ -16,7 +16,7 @@ const SellerTransStatusTab: FC<TabsProps> = ({ activeStatTab, setActiveStatTab, 
         <button
           key={tab}
           onClick={() => setActiveStatTab(tab)}
-          className={`py-2 md:py-3 px-3 w-full rounded-[12px] text-center text-xs ${
+          className={`py-3 md:py-3 px-3 w-full rounded-[12px] text-center text-xs ${
             activeStatTab === tab ? 'bg-white font-semibold' : 'text-[#71727A]'
           }`}
         >

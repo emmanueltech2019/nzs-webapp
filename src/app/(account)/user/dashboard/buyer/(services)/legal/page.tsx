@@ -9,7 +9,7 @@ const page = () => {
 
   return (
     <div className="min-h-screen md:w-[61vw] ">
-      <ServiceFilterButtons active='Legal' filterArray={filters}/>
+      <ServiceFilterButtons active='Legal' filterArray={filters} setActive={(tab: string) => console.log(`Active tab set to: ${tab}`)} />
     </div>
  )
 }

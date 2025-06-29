@@ -52,7 +52,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen">
       {/*  md:w-[61vw]  */}
-      <div className="">
+      <div className="md:max-w-[85%] mx-auto">
         <Header />
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         {activeTab == "products" ? (

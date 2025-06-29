@@ -14,6 +14,13 @@ export const sellerFilter = [
   { name: "Price", url: "/user/dashboard/price" },
 ]
 
+export const profileFilter = [
+  { name: "Buyer", url: "/user/dashboard/date" },
+  { name: "Seller", url: "/user/dashboard/status" },
+  { name: "Service", url: "/user/dashboard/services" },
+  { name: "Other", url: "/user/dashboard/price" },
+]
+
 export const walletFilter = [
   { name: "A - Z", url: "/user/dashboard/date" },
   { name: "Date", url: "/user/dashboard/date" },

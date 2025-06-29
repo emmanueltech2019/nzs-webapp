@@ -10,6 +10,9 @@ import Swal from "sweetalert2";
 import Link from "next/link";
 import Avatar from "@mui/material/Avatar";
 import { showToast } from "@/utils/alert";
+import ServiceFilterButtons from "@/components/SortFilter/ServiceFilterButtons";
+import { profileFilter } from "@/components/SortFilter/Filters";
+import useToggle from "@/hooks/useToggle";
 
 const roboto = Roboto({
   display: "swap",
@@ -42,6 +45,8 @@ const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [businessList, setBusinessList] = useState(true);
+  const [isVisible, toggleVisibility] = useToggle(false);
+
   const handleSwitch = (id: string) => {
     localStorage.setItem("activeBusiness", id);
     setTimeout(() => {
@@ -122,7 +127,7 @@ const Profile = () => {
               alt="alt"
               width={"100"}
               height={"100"}
-              className="rounded-full rotate-[40deg]"
+              className="rounded-full rotate-[40deg] mx-auto mt-1"
             />
           </div>
 
@@ -227,6 +232,21 @@ const Profile = () => {
           ) : (
             ""
           )}
+          
+          <div className="flex items-center gap-1 my-2 py-2 relative overflow-x-hidden">
+            <div className="flex items-center gap-1 my-2 p-2 bg-[#FFF] z-40">
+              <Icon icon="hugeicons:menu-08" className={`text-[#8F9098]`} width="15" height="15" />
+              <p className="text-[14px] font-normal text-[#1F2024] leading-4">Account</p>
+              <Icon icon="mynaui:chevron-left" className={`cursor-pointer ms-2 text-[#8F9098] ${isVisible ? "rotate-180" : ""}`} width="19" height="19" onClick={() => toggleVisibility()}/>
+            </div>
+            <div className={`absolute overflow-x-auto whitespace-nowrap ${isVisible ? "right-[70%]" : "-right-4"} transition-all duration-500 ease-in-out`}>
+              <ServiceFilterButtons 
+                filterArray={profileFilter} 
+                active="Service" 
+                setActive={(tab: string) => console.log(`Active tab set to: ${tab}`)} 
+              />
+            </div>
+          </div>
 
           <div className="grid gap-[10px] w-full">
             {profileOptions.map(({ text, path }, index) => (

@@ -69,7 +69,7 @@ const Main = () => {
                     {btnText || 'NEXT'}
                 </button>
                 <div>
-                    {displayCircle ? <Circle count={count} period={100} size={48}>
+                    {displayCircle ? <Circle count={count} size={48}>
                         <Icon icon='akar-icons:arrow-right' className='text-xl text-[--foreground-green] font-extrabold'></Icon>
                     </Circle> : ''}
                 </div>

@@ -1,6 +1,8 @@
 'use client'
 import Image from "next/image"
 import { useEffect, useRef, useState } from 'react';
+import intlTelInput from 'intl-tel-input';
+import 'intl-tel-input/build/js/utils.js';
 import Apple from "@/assets/icons/Apple.svg"
 import Andriod from '@/assets/icons/Andriod.svg'
 import playBtn from '@/assets/icons/playBtn.svg'
@@ -10,7 +12,6 @@ import useToggle from "@/hooks/useToggle"
 import useForm from "@/hooks/useForm"
 import { useRouter } from "next/navigation"
 import { showToast } from "@/utils/alert"
-import intlTelInput from 'intl-tel-input';
 import 'intl-tel-input/build/css/intlTelInput.css';
 import axios from '@/utils/axios'
 import { validateEmail, validatePassword } from "@/utils/Validator";

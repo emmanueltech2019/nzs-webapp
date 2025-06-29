@@ -92,7 +92,7 @@ const page = () => {
       </div>
       <div className="md:ms-5 flex items-center">
         <SortFilter />
-        <ServiceFilterButtons active="Status" filterArray={walletFilter} />
+        <ServiceFilterButtons active="Status" setActive={setActiveTab} filterArray={walletFilter} />
       </div>
       {activeTab === "PAYIN" && (
           <div>
