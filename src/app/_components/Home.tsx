@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar"
 import Apple from "@/assets/icons/Apple.svg"
 import Andriod from '@/assets/icons/Andriod.svg'
 import nigeria from '@/assets/images/nigeria.svg'
-import iPhone16 from '@/assets/images/iPhone16.svg'
+import iPhone16 from '@/assets/images/phone-hero.svg'
 import playBtn from '@/assets/icons/playBtn.svg'
 import dashedArrow from '@/assets/images/dashedArrow.svg'
 import GetStarted from "@/components/buttons/GetStarted"

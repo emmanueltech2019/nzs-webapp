@@ -29,17 +29,13 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          `https://api.naijazoneonline.com/api/products/vendor/`,
-          {
-            data: {
-              businessId: "67173e931d6947e96ed8354a",
-            },
+        const response = await axios({
+            url:`/products/vendor/?for=instock&page=1&limit=10&businessId=67ee82b16479c4778127b209`,
+            data: {businessId: "67ee82b16479c4778127b209"},
             headers: {
               Authorization: `Bearer ${userToken}`, // Ensure userToken is set
-            },
-          }
-        );
+            }
+        })
     
         console.log("Products Response:", response.data);
         setProducts(response.data.products || []);

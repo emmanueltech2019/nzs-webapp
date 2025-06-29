@@ -42,10 +42,9 @@ const ProductSales = () => {
                             </div>
                             <div className="content-slide-text px-[37px] lg:pl-0 md:pt-16 xl:pt-20 lg:mt-5">
                                 <div className='pb-[10px] lg:pb-[11px]'><span className='px-[17px] lg:px-[36.25px] py-[5.07px] lg:py-[10.88px] rounded-[8.45px] lg:rounded-[18.13px] opacity-60 text-[10px] lg:text-[13.05px] lg:leading-[19.58px] bg-[--foreground-light-orange2]'>For <span className='font-bold'>Vendors</span></span></div>
-                                <h1 className='text-2xl lg:text-[46.4px] leading-[36px] lg:leading-[69.6px] flex flex-col text-start font-semibold lg:mb-[13.28px]'><span>Simplified </span> <span>Product Sales</span></h1>
+                                <h1 className='text-2xl lg:text-[46.4px] leading-[36px] lg:leading-[69.6px] flex flex-col text-start font-semibold lg:mb-[13.28px]'><span>Buy in Bulk, </span> <span> Direct from the Source</span></h1>
                                 <p className='mb-10 text-base text-[--text-color-gray] lg:text-xl max-w-[501.73px]'>
-                                    Naijazone is designed to streamline every aspect of product sales, making it a breeze for merchants to manage their businesses, especially when dealing with bulk orders or high transaction volumes. Here’s how you can take full advantage of the platform:
-                                </p>
+Discover Nigerian-made goods at unbeatable bulk prices. No middlemen. No delay. Just the products you need—when and where you need them.                                    </p>
                                 <p className='flex items-center gap-3 lg:gap-5 mb-[7px] lg:mb-[15px]'>
                                     <span className='ml-[5px] w-[16.31px] h-[16.31px] bg-[--icon-light-green2] rounded-full flex items-center justify-center'><Icon icon='fa:check' className='text-white text-[9px]' /></span>
                                     <span className='text-[9px] lg:text-[14.5px] leading-[10px] lg:leading-5 font-bold text-[--text-color-gray]'>Sign Up and Set Up Your Store</span>

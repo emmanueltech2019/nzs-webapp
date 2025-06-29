@@ -20,6 +20,7 @@ const ResetFile = () => {
     const [count, setCount] = useState(60)
     const [loading, setLoading] = useState(false)
     const [enabled, setEnabled] = useState(false)
+    const [hideDetails, setHideDetails] = useState(false)
     const [sections, setSections] = useState<'first' | 'second' | 'done'>('first')
     const [emailState, setemail] = useForm('')
     const [tpswd, tpswdFunc] = useToggle(false)
@@ -61,6 +62,7 @@ const ResetFile = () => {
             }).then(res => {
                 showToast("info", res.data.message)
                 setEnabled(true)
+                setHideDetails(true)
                 // Then set count to 60 and start timer
                 setCount(60);
                 const timer = setInterval(() => {
@@ -137,7 +139,7 @@ const ResetFile = () => {
             showToast('success', response.data.message)
             localStorage.removeItem('reset_password_code')
             setSections('done')
-            router.push('/user/dashboard')
+            router.push('/auth/login')
         }).catch(err => {
             console.log(err)
             showToast('error', 'Failed to reset password')
@@ -180,7 +182,7 @@ const ResetFile = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="py-[33.4px]">
+                    {hideDetails?<div className="py-[33.4px]">
                         <h2 className='font-black text-[#1F2024] tracking-tight text-xl pb-2 text-center'>Enter confirmation code</h2>
                         <p className={`text-[#71727A] text-center ${openSansFont} pb-[30px]`}>
                             A 4-digit code was sent to<br /> {emailState || 'someone@gmail.com'}
@@ -207,7 +209,8 @@ const ResetFile = () => {
                                 />
                             ))}
                         </div>
-                    </div>
+                    </div>:''}
+                    
                     <button onClick={handleSbmit}
                         className="rounded-[12px] mt-3 py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500"
                     >

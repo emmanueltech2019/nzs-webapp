@@ -42,11 +42,13 @@ const SignupContent = () => {
   // Validate form before submission
   const validateForm = () => {
     if (!fnameState || !lnameState || !emailState || !pwdState || !phoneState) {
-      alert('Please fill in all required fields.');
+      setLoading(false)
+      showToast("warning",'Please fill in all required fields.');
       return false;
     }
     if (!validateEmail(emailState)) {
-      alert('Invalid email format.');
+      setLoading(false)
+      showToast("warning",'Invalid email format.');
       return false;
     }
     // if (!validatePhone(phoneState)) {
@@ -54,7 +56,8 @@ const SignupContent = () => {
     //   return false;
     // }
     if (!validatePassword(pwdState)) {
-      alert('Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
+      setLoading(false)
+      showToast("warning",'Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
       return false;
     }
     // if (pwdState !== confirmPwdState) {
@@ -156,7 +159,7 @@ const SignupContent = () => {
         <div className="phone flex flex-col mb-[10px]">
           <label htmlFor="phone" className='text-sm mb-1'>Phone Number</label>
           {/* <input ref={phoneRef} type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' /> */}
-          <input type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} maxLength={10} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' />
+          <input type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} maxLength={11} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' />
         </div>
 
         <div className="pswd flex flex-col mb-[10px]">

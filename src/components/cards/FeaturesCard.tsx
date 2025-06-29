@@ -9,7 +9,10 @@ import iPhone13Card from '@/assets/images/iPhone13card.svg'
 import verticalCard from '@/assets/images/VerticalCard.svg'
 import groupLayer from '@/assets/images/groupLayer.svg'
 
-import iPhone13FullControl from '@/assets/images/iPhone13-full-control.svg'
+import iPhone13FullControl from '@/assets/images/phone-slide-3.png'
+import iPhone13FullControl2 from '@/assets/images/phone-slide-2.png'
+import iPhone13FullControl3 from '@/assets/images/phone-slide-1.png'
+
 
 
 const card1Body = 'flex-1 pt-3 lg:pt-8 rounded-[18.13px]'
@@ -32,9 +35,10 @@ const FeaturesCard = ({shadow}:featuredCardType) => {
 
     return (
         <section className='content-section'>
-            <h1 className='text-2xl lg:text-[46.4px] leading-[36px] lg:leading-[69.6px] pb-5 flex flex-col text-center font-semibold'><span>Addressing Vendor and Consumer Needs</span> <span>in Nigeria</span></h1>
+            <h1 className='text-2xl lg:text-[46.4px] leading-[36px] lg:leading-[69.6px] pb-5 flex flex-col text-center font-semibold'><span>Built for Hustlers, 
+Makers & Movers</span> <span>in Nigeria</span></h1>
             <p className='px-[--padding-x] mb-10 md:px-0 text-base lg:text-lg max-w-[601.73px] mx-auto text-center'>
-                Naijazone is designed to tackle these challenges head-on, providing a seamless experience for both vendors and consumers.
+                Discover Nigerian-made goods at unbeatable bulk prices. No middlemen. No delay. Just the products you need—when and where you need them.
             </p>
 
             <div className="functionality-cards">
@@ -48,7 +52,7 @@ const FeaturesCard = ({shadow}:featuredCardType) => {
                         </div>
                         <h2 className={`card-title ${card1Title}`}>Top Searches</h2>
                         <p className={`card-text ${card1Text}`}>
-                            Are you a merchant struggling to manage product sales and delivery in Nigeria? A consumer frustrated by the lack of reliable information on essential services in your area? We tackle these challenges head-on, providing a seamless experience for both vendors and consumers.
+                            Whether you're a professional, artisan, freelancer, or contractor—put your service in front of thousands of verified institutions and business clients looking for what you do.
                         </p>
                         <div className="card-imgs flex items-end justify-between -mt-9 xl:-mt-[80.83px]">
                             <div className="img1 flex-[2]">
@@ -68,7 +72,7 @@ const FeaturesCard = ({shadow}:featuredCardType) => {
                         </div>
                         <h2 className={`card-title ${card1Title}`}>Safe Transactions</h2>
                         <p className={`card-text ${card1Text}`}>
-                            Are you a merchant struggling to manage product sales and delivery in Nigeria? A consumer frustrated by the lack of reliable information on essential services in your area? We tackle these challenges head-on, providing a seamless experience for both vendors and consumers.
+                           Do business with peace of mind. Naijazone protects every transaction with a secure payment system—keeping both buyers and service providers safe from scams and delays.
                         </p>
                         <div className="card-imgs w-full mt-4">
                             <Image src={groupLayer} alt='group Layer img' className='w-full object-cover translate-x-[35px] lg:translate-x-14' />
@@ -85,13 +89,15 @@ const FeaturesCard = ({shadow}:featuredCardType) => {
                                         <Icon icon="material-symbols:settings-remote-outline-sharp" className="text-[17.25px] lg:text-[33.35px]" />
                                     </span>
                                 </div>
-                                <h2 className={`card-title ${card1Title}`}>Full Control</h2>
+                                <h2 className={`card-title ${card1Title}`}>Take Control</h2>
                                 <p className={`card-text ${card1Text}`}>
-                                    Are you a merchant struggling to manage product sales and delivery in Nigeria?
+                                    Never lose sight of a shipment. Naijazone’s logistics system offers live tracking, delivery updates, and location monitoring so both vendors and buyers know where every package is—at all times.
+
+
                                 </p>
                                 <div className="card-imgs flex items-end justify-between">
-                                    <div className="img1 flex-[2]">
-                                        <Image src={iPhone13FullControl} alt="iPhone" className={`w-full max-w-[577.13px] object-cover`} />
+                                    <div className="img1 flex-[2] pt-10">
+                                        <Image src={iPhone13FullControl} alt="iPhone" className={`w-full w-[577.13px] object-cover`} />
                                     </div>
                                 </div>
                             </div>
@@ -105,10 +111,13 @@ const FeaturesCard = ({shadow}:featuredCardType) => {
                                 </div>
                                 <h2 className={`card-title ${card1Title}`}>Chat</h2>
                                 <p className={`card-text ${card1Text}`}>
-                                    Are you a merchant struggling to manage product sales and delivery in Nigeria?                         </p>
+                                    Never lose sight of a shipment. Naijazone’s logistics system offers live tracking, delivery updates, and location monitoring so both vendors and buyers know where every package is—at all times.
+
+                     
+                                    </p>
                                 <div className="card-imgs flex items-end justify-between">
-                                    <div className="img1 flex-[2]">
-                                        <Image src={iPhone13FullControl} alt="iPhone" className={`w-full max-w-[577.13px] object-cover`} />
+                                    <div className="img1 flex-[2] pt-10">
+                                        <Image src={iPhone13FullControl2} alt="iPhone" className={`w-full w-[577.13px] object-cover`} />
                                     </div>
                                 </div>
                             </div>
@@ -122,10 +131,10 @@ const FeaturesCard = ({shadow}:featuredCardType) => {
                                 </div>
                                 <h2 className={`card-title ${card1Title}`}>Tracking</h2>
                                 <p className={`card-text ${card1Text}`}>
-                                    Are you a merchant struggling to manage product sales and delivery in Nigeria?                         </p>
+                                   Never lose sight of a shipment. Naijazone’s logistics system offers live tracking, delivery updates, and location monitoring so both vendors and buyers know where every package is—at all times.                        </p>
                                 <div className="card-imgs flex items-end justify-between">
-                                    <div className="img1 flex-[2]">
-                                        <Image src={iPhone13FullControl} alt="iPhone" className={`w-full max-w-[577.13px] object-cover`} />
+                                    <div className="img1 flex-[2] pt-10">
+                                        <Image src={iPhone13FullControl3} alt="iPhone" className={`w-full w-[577.13px] object-cover`} />
                                     </div>
                                 </div>
                             </div>

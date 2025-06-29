@@ -6,9 +6,11 @@ import saintB from "@/assets/images/our-partners/Saint-B.svg"
 import orangeStar from "@/assets/images/our-partners/orange-star.svg"
 import ups from "@/assets/images/our-partners/ups.svg"
 import dhl from "@/assets/images/our-partners/dhl.svg"
+import gig from "@/assets/images/gig-logistics.png"
+
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-const images = [americanExpress, konga, saintB, orangeStar, ups, dhl]
+const images = [gig]
 
 const OurPartners = () => {
   return (

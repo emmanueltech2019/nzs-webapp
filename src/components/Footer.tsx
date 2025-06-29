@@ -19,41 +19,17 @@ const faqLinks = [{
 }];
 
 const resourcesLinks = [{
-    text: "Are you a merchant",
-    path: "/"
-}, {
-    text: "Are you a merchant",
-    path: "/"
-}, {
-    text: "Are you a merchant",
-    path: "/"
-}, {
-    text: "Are you a merchant",
-    path: "/"
-}, {
-    text: "Are you a merchant",
+    text: "Careers",
+    sub: "HIRING",
     path: "/"
 }];
 
 const aboutLinks = [{
-    text: "Company",
-    path: "/"
-}, {
-    text: "Careers",
-    sub: "HIRING",
-    path: "/"
-}, {
-    text: "For Sales Manager",
-    path: "/"
-}, {
-    text: "For Logistics Services",
-    path: "/"
-}, {
-    text: "Other Services",
-    path: "/"
-}, {
-    text: "Blog",
-    path: "/"
+    text: "About",
+    path: "/about"
+},{
+    text: "Contact",
+    path: "/contact"
 }];
 
 const Footer = () => {
@@ -70,24 +46,24 @@ const Footer = () => {
                         </p>
                         <Link href={`/contact`} className="border-white border-[0.73px] hover:bg-white hover:text-[--foreground-green] text-center rounded-[20px] text-[15px] lg:text-[13px] py-[15px] lg:py-[13px] px-[26px]  lg:px-[22px] mb-[63px] transition-all duration-200">Contact Us Now</Link>
                         <div className="social-links flex gap-[18px] text-lg mt-7 lg:mt-14">
-                            <Link href='/'><span><Icon icon="fe:facebook" className="hover:opacity-50 transition-all duration-200" /></span></Link>
-                            <Link href='/'><span><Icon icon="hugeicons:new-twitter" className="hover:opacity-50 transition-all duration-200" /></span></Link>
-                            <Link href='/'><span><Icon icon="icon-park-outline:instagram" className="hover:opacity-50 transition-all duration-200" /></span></Link>
-                            <Link href='/'><span><Icon icon="uit:linkedin-alt" className="hover:opacity-50 transition-all duration-200" /></span></Link>
+                            <Link href='https://www.facebook.com/Naijazone1' target="_blank"><span><Icon icon="fe:facebook" className="hover:opacity-50 transition-all duration-200" /></span></Link>
+                            <Link href='https://x.com/Naijazone_' target="_blank"><span><Icon icon="hugeicons:new-twitter" className="hover:opacity-50 transition-all duration-200" /></span></Link>
+                            <Link href='https://www.instagram.com/naijazone_/' target="_blank"><span><Icon icon="icon-park-outline:instagram" className="hover:opacity-50 transition-all duration-200" /></span></Link>
+                            <Link href='https://www.linkedin.com/company/naijazone-online-shopping-mall/' target="_blank"><span><Icon icon="uit:linkedin-alt" className="hover:opacity-50 transition-all duration-200" /></span></Link>
                         </div>
                     </div>
                     <div className="col flex-1 grid grid-cols-2 md:grid-cols-3">
-                        <ul>
+                        {/* <ul>
                             <h3 className={linkTitle}>FAQs</h3>
                             {faqLinks.map(({ text, path }, index) => (<li className={listItem} key={index + text}><Link href={path}>{text}</Link></li>))}
-                        </ul>
+                        </ul> */}
                         <ul>
                             <h3 className={linkTitle}>Resources</h3>
-                            {resourcesLinks.map(({ text, path }, index) => (<li className={listItem} key={index + text}><Link href={path}>{text}</Link></li>))}
+                            {resourcesLinks.map(({ text, path, sub }, index) => (<li className={listItem} key={index + text}><Link href={path}>{text} </Link></li>))}
                         </ul>
                         <ul className="mt-[60px] md:mt-0">
                             <h3 className={linkTitle}>About</h3>
-                            {aboutLinks.map(({ text, path, sub }, index) => (<li className={listItem} key={index + text}><Link href={path} className="flex items-center gap-2">{text} {sub && <span className="block text-[--foreground-green] font-semibold p-[4px] bg-[--foreground-orange] rounded-[5.44px]">{sub}</span>}</Link></li>))}
+                            {aboutLinks.map(({ text, path }, index) => (<li className={listItem} key={index + text}><Link href={path} className="flex items-center gap-2">{text}</Link></li>))}
                         </ul>
                     </div>
                 </div>
@@ -101,7 +77,7 @@ const Footer = () => {
                             <span>Eng</span>
                             <Icon icon={`bi:chevron-down`} className='' />
                         </button>
-                        <p className="text-[#D9D9D9] text-sm lg:text-base">Copyright 2024 Vintnercorp. All Rights Reserved.</p>
+                        <p className="text-[#D9D9D9] text-sm lg:text-base">Copyright 2025 Vintnercorp. All Rights Reserved.</p>
                     </div>
                     <div className="col flex gap-[33px]">
                         <p className="text-[#D9D9D9] flex items-center gap-1">
