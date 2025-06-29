@@ -1,8 +1,7 @@
 'use client'
 import Image from "next/image"
 import { useEffect, useRef, useState } from 'react';
-import intlTelInput from 'intl-tel-input';
-import 'intl-tel-input/build/js/utils.js';
+
 import Apple from "@/assets/icons/Apple.svg"
 import Andriod from '@/assets/icons/Andriod.svg'
 import playBtn from '@/assets/icons/playBtn.svg'
@@ -69,19 +68,29 @@ const SignupContent = () => {
   };
 
   const phoneRef = useRef<HTMLInputElement | null>(null);
-  useEffect(() => {
-    if (phoneRef.current) {
-      const iti = intlTelInput(phoneRef.current, {
-        loadUtilsOnInit: () => import('intl-tel-input/build/js/utils.js'),
-        initialCountry: 'ng', // Default country Nigeria
-        separateDialCode: true, // Show separate dial code
-      });
+useEffect(() => {
+  let iti: any;
 
-      return () => {
-        iti.destroy(); // Clean up on unmount
-      };
+  const loadIntlTelInput = async () => {
+    const intlTelInput = (await import('intl-tel-input')).default;
+    await import('intl-tel-input/build/js/utils.js');
+
+    if (phoneRef.current) {
+      iti = intlTelInput(phoneRef.current, {
+        initialCountry: 'ng',
+        separateDialCode: true,
+      });
     }
-  }, []);
+  };
+
+  loadIntlTelInput();
+
+  return () => {
+    if (iti) {
+      iti.destroy();
+    }
+  };
+}, []);
 
   const handleSubmit = async (e: eventType) => {
     e.preventDefault()
