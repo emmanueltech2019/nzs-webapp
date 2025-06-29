@@ -29,19 +29,9 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
 
     const fetchProducts = async () => {
       try {
-<<<<<<< HEAD
         const response = await axios({
             url:`/products/vendor/?for=instock&page=1&limit=10&businessId=67ee82b16479c4778127b209`,
             data: {businessId: "67ee82b16479c4778127b209"},
-=======
-        const response = await axios(
-          {
-            url: "/products/vendor",
-            method: "GET",
-            data: {
-              businessId: "67ee82b16479c4778127b209",
-            },
->>>>>>> 3083f36f74b26d4c4aa8a52295cb32bba8e46369
             headers: {
               Authorization: `Bearer ${userToken}`, // Ensure userToken is set
             }
