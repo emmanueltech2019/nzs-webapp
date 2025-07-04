@@ -82,7 +82,7 @@ const Main = () => {
 
 
           {/* <TabNavigation /> */}
-          <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full mb-4 p-1 ">
+          <div className="flex border-b bg-[#F8F9FE] mb-5 rounded-full p-1 ">
             {['Profile', 'Facilities', 'Book'].map((tab) => (
               <button
                 key={tab}

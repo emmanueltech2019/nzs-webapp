@@ -2,6 +2,7 @@
 import { filters } from '@/components/SortFilter/Filters'
 import ServiceFilterButtons from '@/components/SortFilter/ServiceFilterButtons'
 import React, { useState } from 'react'
+import Legal from "@/app/(account)/user/dashboard/buyer/(services)/legal/components/Legal"
 
 
 const page = () => {  
@@ -9,7 +10,7 @@ const page = () => {
 
   return (
     <div className="min-h-screen md:w-[61vw] ">
-      <ServiceFilterButtons active='Legal' filterArray={filters} setActive={(tab: string) => console.log(`Active tab set to: ${tab}`)} />
+      <Legal />
     </div>
  )
 }

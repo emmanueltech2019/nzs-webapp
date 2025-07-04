@@ -8,6 +8,8 @@ import { filters } from "@/components/SortFilter/Filters";
 import { div } from "framer-motion/client";
 import Logistics from "./buyer/(services)/logistics/components/Logistics";
 import Health from "./buyer/(services)/health/components/Health";
+import Hospitality from "./buyer/(services)/hospitality/components/Hospitality";
+import Legal from "@/app/(account)/user/dashboard/buyer/(services)/legal/components/Legal"
 
 const Services = () => {
   const [active, setActive] = useState("General");
@@ -165,7 +167,75 @@ const Services = () => {
       {
         active === "Health" && (
           <div className="p-2">
-            <Health />
+            <div>
+              <GridWrapper title="Near You">
+                {nearYouTransactions.map((transaction, index) => (
+                  <div className="md:w-[38%] flex-shrink-0">
+                    <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/health/${index}`} />
+                  </div>
+                ))}
+              </GridWrapper>
+              <GridWrapper title="Top Rated">
+                {topRatedTransactions.map((transaction, index) => (
+                  <div className="md:w-[39%] flex-shrink-0">
+                    <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/health/${index}`} />
+                  </div>
+                ))}
+              </GridWrapper>
+            </div>
+          </div>
+        )
+      }
+      {
+        active === "Hospitality" && (
+          <>
+            {nearYouTransactions.map((transaction, index) => (
+              <Hospitality key={index} {...transaction} />
+            ))}
+          </>
+        )
+      }
+      {
+        active === "Legal" && (
+          <div className="p-2">
+            <div>
+              <GridWrapper title="Near You">
+                {nearYouTransactions.map((transaction, index) => (
+                  <div className="md:w-[38%] flex-shrink-0">
+                    <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/legal/${index}`} />
+                  </div>
+                ))}
+              </GridWrapper>
+              <GridWrapper title="Top Rated">
+                {topRatedTransactions.map((transaction, index) => (
+                  <div className="md:w-[39%] flex-shrink-0">
+                    <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/legal/${index}`} />
+                  </div>
+                ))}
+              </GridWrapper>
+            </div>
+          </div>
+        )
+      }
+      {
+        active === "Education" && (
+          <div className="p-2">
+            <div>
+              <GridWrapper title="Near You">
+                {nearYouTransactions.map((transaction, index) => (
+                  <div className="md:w-[38%] flex-shrink-0">
+                    <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/education/${index}`} />
+                  </div>
+                ))}
+              </GridWrapper>
+              <GridWrapper title="Top Rated">
+                {topRatedTransactions.map((transaction, index) => (
+                  <div className="md:w-[39%] flex-shrink-0">
+                    <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/education/${index}`} />
+                  </div>
+                ))}
+              </GridWrapper>
+            </div>
           </div>
         )
       }
