@@ -17,7 +17,7 @@ const EducationEnroll = () => {
   const activeContainerRef1 = useRef<HTMLDivElement>(null)
   const [activeSession, setActiveSession] = useState('senior');
   const [radiusButton, setRadiusButton] = useState('visits')
-  const [activeButton1, setActiveButton1] = useState(true);
+  const [activeButton1, setActiveButton1] = useState('visit');
       const [readMore, setReadMore] = useState(false)
   const fullText = "Physically visit the lawyer's office, practice, or firm, sit face-to-face with the lawyer";
   const displayFullText = readMore ? fullText : fullText.slice(0, 50)
@@ -265,7 +265,7 @@ const EducationEnroll = () => {
                     })}
                 </div>
                 <div className="flex flex-col md:p-5 p-5 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer">
-                    <div onClick={() => setActiveButton1('visits')} className="bg-white md:py-5 py-2 px-3 rounded-xl">
+                    <div onClick={() => setActiveButton1('visit')} className="bg-white md:py-5 py-2 px-3 rounded-xl">
                         <div className="flex justify-between items-center pb-5">
                             <div className="flex items-center gap-2">
                                 <div onClick={() => setRadiusButton('visits')} className={`w-6 h-6 flex justify-center items-center rounded-full ${radiusButton === 'visits' ? 'bg-[#006838]' : 'border'}`}>
