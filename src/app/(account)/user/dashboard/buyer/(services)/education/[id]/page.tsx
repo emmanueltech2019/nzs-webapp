@@ -5,10 +5,6 @@ import { useParams } from "next/navigation"
 import { FC, useState } from "react"
 import openSansFont from "@/fonts/OpenSans"
 import { useRouter } from "next/navigation"
-import HospitalityProfile from "../components/HospitalityProfile"
-import HospitalityTabs from "@/components/tabs/HospitalityTabs"
-import HospitalityFacilities from "../components/HospitalityFacilities"
-import HospitalityBook from "../components/HospitalityBook"
 
 
 const page: FC = () => {
