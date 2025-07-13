@@ -2,9 +2,14 @@
 import { input } from 'framer-motion/client'
 import React, { useEffect, useRef, useState } from 'react'
 import { FaChevronDown, FaDownload, FaSort, FaStar } from 'react-icons/fa'
+import { Icon } from '@iconify/react/dist/iconify.js';
 
-const HospitalityBook = () => {
-  const [active, setActive] = useState('info')
+interface HospitalityBookProps {
+  activeSubTab: string;
+  setActiveSubTab: (subTabId: string) => void;
+}
+
+const HospitalityBook: React.FC<HospitalityBookProps> = ({ activeSubTab, setActiveSubTab }) => {
   const [activeAmount, setActiveAmount] = useState('elite')
   const [count, setCount] = useState(0)
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -23,7 +28,7 @@ const HospitalityBook = () => {
   }, [])
 
   const activeData = () => {
-    if(active === 'info') {
+    if(activeSubTab === 'info') {
       return <div className='flex flex-col gap-3 h-screen'>
         <label htmlFor="first-name w-full py-3 px-5">
           <input type="text" name="first-name" id="first-name" placeholder='First Name' className='outline-[0.05px] outline-[#ebedeb] focus:outline-2 focus:outline-[#006838] outline-none rounded-xl w-full py-3 px-5' />
@@ -40,7 +45,7 @@ const HospitalityBook = () => {
           </label>
         </div>
       </div>
-    } else if(active === 'select') {
+    } else if(activeSubTab === 'select') {
       return <div className="flex flex-col gap-5 h-screen overflow-y-auto mb-52">
         <div className="flex justify-between items-center">
           <div className="flex p-3 rounded-xl border items-center gap-2">
@@ -226,15 +231,15 @@ const HospitalityBook = () => {
     <div className='flex flex-col gap-5 md:p-0 p-2'>
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-3 items-center">
-            <div onClick={() => setActive('info')} className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${active === 'info' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>1</div>
+            <div className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${activeSubTab === 'info' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>1</div>
             <p className="font-bold">Your Info</p>
         </div>
         <div className="flex flex-col gap-3 items-center">
-            <div onClick={() => setActive('select')} className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${active === 'select' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>2</div>
+            <div className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${activeSubTab === 'select' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>2</div>
             <p className="font-bold">Select</p>
         </div>
         <div className="flex flex-col gap-3 items-center">
-            <div onClick={() => setActive('check')} className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${active === 'check' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>3</div>
+            <div className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${activeSubTab === 'check' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>3</div>
             <p className="font-bold">Check-in</p>
         </div>
       </div>

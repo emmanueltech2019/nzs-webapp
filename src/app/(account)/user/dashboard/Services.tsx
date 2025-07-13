@@ -149,7 +149,7 @@ const Services = () => {
           </GridWrapper>
           <GridWrapper title="Top Rated">
             {topRatedTransactions.map((transaction, index) => (
-              <div className="md:w-[39%] flex-shrink-0">
+              <div className="md:w-[38%] flex-shrink-0">
                 <ServicesCard key={index} {...transaction} />
               </div>
             ))}
@@ -160,7 +160,22 @@ const Services = () => {
       {
         active === "Logistics" && (
           <div className="p-2">
-            <Logistics />
+            <div>
+              <GridWrapper title="Near You">
+                {nearYouTransactions.map((transaction, index) => (
+                  <div className="md:w-[38%] flex-shrink-0">
+                    <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/logistics/${index}`} />
+                  </div>
+                ))}
+              </GridWrapper>
+              <GridWrapper title="Top Rated">
+                {topRatedTransactions.map((transaction, index) => (
+                  <div className="md:w-[38%] flex-shrink-0">
+                    <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/logistics/${index}`} />
+                  </div>
+                ))}
+              </GridWrapper>
+            </div>
           </div>
         )
       }
@@ -177,7 +192,7 @@ const Services = () => {
               </GridWrapper>
               <GridWrapper title="Top Rated">
                 {topRatedTransactions.map((transaction, index) => (
-                  <div className="md:w-[39%] flex-shrink-0">
+                  <div className="md:w-[38%] flex-shrink-0">
                     <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/health/${index}`} />
                   </div>
                 ))}
@@ -188,11 +203,24 @@ const Services = () => {
       }
       {
         active === "Hospitality" && (
-          <>
-            {nearYouTransactions.map((transaction, index) => (
-              <Hospitality key={index} {...transaction} />
-            ))}
-          </>
+          <div className="p-2">
+            <div>
+              <GridWrapper title="Near You">
+                {nearYouTransactions.map((transaction, index) => (
+                  <div className="md:w-[38%] flex-shrink-0">
+                    <ServicesCard profileLink={`/user/dashboard/buyer/hospitality/${index}`} key={index} {...transaction} />
+                  </div>
+                ))}
+              </GridWrapper>
+              <GridWrapper title="Top Rated">
+                {topRatedTransactions.map((transaction, index) => (
+                  <div className="md:w-[38%] flex-shrink-0">
+                    <ServicesCard profileLink={`/user/dashboard/buyer/hospitality/${index}`} key={index} {...transaction} />
+                  </div>
+                ))}
+              </GridWrapper>
+            </div>
+          </div>
         )
       }
       {
@@ -208,7 +236,7 @@ const Services = () => {
               </GridWrapper>
               <GridWrapper title="Top Rated">
                 {topRatedTransactions.map((transaction, index) => (
-                  <div className="md:w-[39%] flex-shrink-0">
+                  <div className="md:w-[38%] flex-shrink-0">
                     <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/legal/${index}`} />
                   </div>
                 ))}
@@ -230,7 +258,7 @@ const Services = () => {
               </GridWrapper>
               <GridWrapper title="Top Rated">
                 {topRatedTransactions.map((transaction, index) => (
-                  <div className="md:w-[39%] flex-shrink-0">
+                  <div className="md:w-[38%] flex-shrink-0">
                     <ServicesCard key={index} {...transaction} profileLink={`/user/dashboard/buyer/education/${index}`} />
                   </div>
                 ))}

@@ -3,8 +3,12 @@ import { input } from 'framer-motion/client'
 import React, { useEffect, useRef, useState } from 'react'
 import { FaChevronDown, FaDownload, FaSearch, FaSort, FaStar } from 'react-icons/fa'
 
-const EducationEnroll = () => {
-  const [active, setActive] = useState('student')
+interface EducationEnrollProps {
+  activeSubTab: string;
+  setActiveSubTab: (subTabId: string) => void;
+}
+
+const EducationEnroll: React.FC<EducationEnrollProps> = ({ activeSubTab, setActiveSubTab }) => {
   const [activeAmount, setActiveAmount] = useState('elite')
   const [count, setCount] = useState(0)
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -18,7 +22,7 @@ const EducationEnroll = () => {
   const [activeSession, setActiveSession] = useState('senior');
   const [radiusButton, setRadiusButton] = useState('visits')
   const [activeButton1, setActiveButton1] = useState('visit');
-      const [readMore, setReadMore] = useState(false)
+  const [readMore, setReadMore] = useState(false)
   const fullText = "Physically visit the lawyer's office, practice, or firm, sit face-to-face with the lawyer";
   const displayFullText = readMore ? fullText : fullText.slice(0, 50)
 
@@ -31,15 +35,15 @@ const EducationEnroll = () => {
   }, [])
 
   useEffect(() => {
-    if(active === 'parent') {
+    if(activeSubTab === 'parent') {
         setActiveSession('umuahia');
     } else{
         setActiveSession('senior')
     }
-  }, [active])
+  }, [activeSubTab])
 
   const activeData = () => {
-    if(active === 'student') {
+    if(activeSubTab === 'student') {
       return <div className='flex flex-col gap-3 h-screen'>
         <label htmlFor="first-name">
           <input type="text" name="first-name" id="first-name" placeholder='First Name' className='outline-[0.05px] outline-[#ebedeb] focus:outline-2 focus:outline-[#006838] outline-none rounded-xl w-full py-3 px-5' />
@@ -89,7 +93,7 @@ const EducationEnroll = () => {
           </label>
         </div>
       </div>
-    } else if(active === 'parent') {
+    } else if(activeSubTab === 'parent') {
        return <div className='flex flex-col gap-3 h-screen'>
         <label htmlFor="first-name">
           <input type="text" name="first-name" id="first-name" placeholder='First Name' className='outline-[0.05px] outline-[#ebedeb] focus:outline-2 focus:outline-[#006838] outline-none rounded-xl w-full py-3 px-5' />
@@ -148,7 +152,7 @@ const EducationEnroll = () => {
           </label>
         </div>
       </div>
-    } else if(active === 'enroll') {
+    } else if(activeSubTab === 'enroll') {
         return <div className="flex flex-col gap-5 h-screen overflow-y-auto mb-52">
                 <div className="flex justify-between items-center">
                   <div className="flex p-3 rounded-xl border items-center gap-2">
@@ -407,19 +411,19 @@ const EducationEnroll = () => {
     <div className='flex flex-col gap-5 md:p-0 p-2 mb-40'>
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-3 items-center">
-            <div onClick={() => setActive('student')} className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${active === 'student' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>1</div>
+            <div className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${activeSubTab === 'student' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>1</div>
             <p className="font-bold">Student Info</p>
         </div>
         <div className="flex flex-col gap-3 items-center">
-            <div onClick={() => setActive('parent')} className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${active === 'parent' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>2</div>
+            <div className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${activeSubTab === 'parent' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>2</div>
             <p className="font-bold">Parent Info</p>
         </div>
         <div className="flex flex-col gap-3 items-center">
-            <div onClick={() => setActive('enroll')} className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${active === 'enroll' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>3</div>
+            <div className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${activeSubTab === 'enroll' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>3</div>
             <p className="font-bold">Enroll</p>
         </div>
         <div className="flex flex-col gap-3 items-center">
-            <div onClick={() => setActive('book')} className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${active === 'book' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>4</div>
+            <div className={`flex justify-center items-center text-white text-sm rounded-full w-8 h-8 ${activeSubTab === 'book' ? 'bg-[#006838]' : 'bg-[#00683736]'}`}>4</div>
             <p className="font-bold">Book</p>
         </div>
       </div>

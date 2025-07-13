@@ -9,6 +9,7 @@ type ServicesCardProps = {
   distance?: string;
   imageUrl: string;
   isOpen: boolean;
+  select: boolean;
   logo?: string;
   profileLink?: string;
   onClick?: () => void;
@@ -21,6 +22,7 @@ const ServicesCard: React.FC<ServicesCardProps> = ({
   distance,
   imageUrl,
   isOpen,
+  select,
   logo,
   profileLink,
   onClick,
@@ -66,7 +68,7 @@ const ServicesCard: React.FC<ServicesCardProps> = ({
                 : "text-gray-400 border border-gray-300"
             }`}
           >
-            {isOpen ? "Open" : "Closed"}
+            {isOpen ? "Open" : select ? 'Select' : "Closed"}
           </button>
         </Link>
       </div>

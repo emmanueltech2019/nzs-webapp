@@ -124,22 +124,23 @@ const Hospitality = () => {
     },
   ];
   return (
-    <div>
-      <GridWrapper title="Near You">
-      {nearYouTransactions.map((transaction, index) => (
-        <Link href="./company?page=hospitality" className="md:w-[35%] flex-shrink-0">
-            <ServicesCard profileLink={`/user/dashboard/buyer/hospitality/${index}`} key={index} {...transaction} />
-        </Link>
-        ))}
-      </GridWrapper>
-      <GridWrapper title="Top Rated">
-      {topRatedTransactions.map((transaction, index) => (
-        <Link href="./company?page=hospitality" className="md:w-[35%] flex-shrink-0">
-            <ServicesCard profileLink={`/user/dashboard/buyer/hospitality/${index}`} key={index} {...transaction} />
-        </Link>
-        ))}
-      </GridWrapper>
-    </div>
+          <></>
+    // <div>
+    //   <GridWrapper title="Near You">
+    //   {nearYouTransactions.map((transaction, index) => (
+    //     <Link href="./company?page=hospitality" className="md:w-[38%] flex-shrink-0">
+    //         <ServicesCard profileLink={`/user/dashboard/buyer/hospitality/${index}`} key={index} {...transaction} />
+    //     </Link>
+    //     ))}
+    //   </GridWrapper>
+    //   <GridWrapper title="Top Rated">
+    //   {topRatedTransactions.map((transaction, index) => (
+    //     <Link href="./company?page=hospitality" className="md:w-[38%] flex-shrink-0">
+    //         <ServicesCard profileLink={`/user/dashboard/buyer/hospitality/${index}`} key={index} {...transaction} />
+    //     </Link>
+    //     ))}
+    //   </GridWrapper>
+    // </div>
   )
 }
 

@@ -14,10 +14,10 @@ const GridWrapper: FC<GridWrapperProps> = ({ title, children }) => {
       </div>
 
       {/* Horizontal Scrollable Container */}
-      <div className="flex space-x-4 mt-4 overflow-x-auto scrollbar-hide">
+      <div className="flex mt-4 overflow-x-auto scrollbar-hide">
         <div className="flex-shrink-0 flex">
           {/* Container for Product Cards, showing 3 cards at a time */}
-          <div className="flex space-x-3" style={{ minWidth: 'calc(60vw - 72px)', width: '10px' }}>
+          <div className="flex gap-10" style={{ minWidth: 'calc(60vw - 72px)', width: '10px' }}>
             {children}
           </div>
         </div>

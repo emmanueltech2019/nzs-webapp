@@ -1,8 +1,9 @@
 'use client'
 import EducationTab from '@/components/tabs/EducationTab'
 import { LayoutProps } from 'framer-motion'
-import React, { useRef, useState } from 'react'
-import { FaChevronDown } from 'react-icons/fa'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
+import { FaChevronDown, FaArrowRight } from 'react-icons/fa'
+import { CircularProgress, Box } from '@mui/material'
 import EducationFacilities from "@/app/(account)/user/dashboard/buyer/(services)/education/components/EducationalFacilities"
 import EducationProfile from "@/app/(account)/user/dashboard/buyer/(services)/education/components/EducationProfile"
 import EducationStudy from "@/app/(account)/user/dashboard/buyer/(services)/education/components/EducationStudy"
@@ -10,8 +11,97 @@ import EducationEnroll from "@/app/(account)/user/dashboard/buyer/(services)/edu
 
 const layout:React.FC<React.PropsWithChildren<LayoutProps>> = ({children}) => {
     const [active, setActive] = useState('profile')
-    const activeContainerRef = useRef<HTMLDivElement>(null)
-    const [activeButton, setActiveButton] = useState(false)
+    const [overallProgress, setOverallProgress] = useState(0);
+        const activeContainerRef = useRef<HTMLDivElement>(null);
+        const [activeButton, setActiveButton] = useState(false);
+        const [activeBookSubTab, setActiveBookSubTab] = useState('parent');
+    
+        const mainTabOrder = ['profile', 'facilities', 'study', 'enroll'];
+        const bookSubTabOrder = ['student', 'parent', 'enroll', 'book'];
+    
+        // Let's refine allProgressPoints to represent the progress *achieved upon landing on a step*
+        const allStepsAsProgressPoints = [
+            'profile',      // 0% - Start
+            'facilities',   // 25% - Landed on facilities
+            'study',    // 50% - Landed on book-info
+            'enroll-student',    // 50% - Landed on book-info
+            'enroll-parent',  // 75% - Landed on book-select
+            'enroll-enroll',    // 100% - Landed on book-check
+            'enroll-book'    // 100% - Landed on book-check
+        ];
+    
+        const calculateProgress = useCallback((mainTab: string, subTab: string | null = null) => {
+            let currentStepIdentifier: string;
+    
+            if (mainTab === 'profile') {
+                currentStepIdentifier = 'profile';
+            } else if (mainTab === 'facilities') {
+                currentStepIdentifier = 'facilities';
+            } else if (mainTab === 'study') {
+                currentStepIdentifier = 'study';
+            } else if (mainTab === 'enroll') {
+                currentStepIdentifier = `enroll-${subTab || 'enroll-student'}`;
+            } else {
+                currentStepIdentifier = 'profile'; // Fallback
+            }
+    
+            const currentStepIndex = allStepsAsProgressPoints.indexOf(currentStepIdentifier);
+    
+            if (currentStepIndex !== -1) {
+                // Calculate progress: (current index / (total progress points - 1)) * 100
+                // The -1 is because the first point is 0%, and the last is 100%.
+                // If there are 5 points (0, 1, 2, 3, 4), the divisor is 4.
+                const totalProgressPoints = allStepsAsProgressPoints.length; // This is 5
+                const progress = (currentStepIndex / (totalProgressPoints - 1)) * 100;
+                setOverallProgress(Math.min(100, Math.round(progress)));
+            } else {
+                setOverallProgress(0); // Should ideally not happen if state is always within defined steps
+            }
+        }, [allStepsAsProgressPoints]);
+    
+        useEffect(() => {
+            calculateProgress(active, activeBookSubTab);
+        }, [active, activeBookSubTab, calculateProgress]);
+    
+        const handleNext = () => {
+            if (active === 'enroll') {
+                const currentSubTabIndex = bookSubTabOrder.indexOf(activeBookSubTab);
+                if (currentSubTabIndex < bookSubTabOrder.length - 1) {
+                    // Advance sub-tab within 'book'
+                    setActiveBookSubTab(bookSubTabOrder[currentSubTabIndex + 1]);
+                } else {
+                    // If it's the last sub-tab in 'book' ('check'), and there are no more main tabs to go to,
+                    // then the form is conceptually complete.
+                    // We've already handled setting progress to 100% in calculateProgress
+                    // when activeBookSubTab becomes 'check'.
+                    const currentMainTabIndex = mainTabOrder.indexOf(active);
+                    if (currentMainTabIndex < mainTabOrder.length - 1) {
+                        // This part would be for if there were MORE main tabs after 'book'.
+                        // For this specific scenario, 'book' is the last main tab,
+                        // so clicking NEXT from 'book-check' means completion.
+                        setActive(mainTabOrder[currentMainTabIndex + 1]); // This line would move to a non-existent tab unless you have a "confirmation" tab
+                        setActiveBookSubTab('student'); // Reset for next main tab (if there was one)
+                    }
+                    console.log('Form submission completed!');
+                    // You might want to trigger form submission or navigation here
+                    // As the progress bar should already be 100% at this point.
+                }
+            } else {
+                // Not in 'book' tab, advance main tab
+                const currentMainTabIndex = mainTabOrder.indexOf(active);
+                if (currentMainTabIndex < mainTabOrder.length - 1) {
+                    setActive(mainTabOrder[currentMainTabIndex + 1]);
+                    // If moving to 'book', reset its sub-tab to 'info'
+                    if (mainTabOrder[currentMainTabIndex + 1] === 'enroll') {
+                        setActiveBookSubTab('student');
+                    }
+                } else {
+                    // This else block indicates we've tried to advance beyond the last main tab
+                    console.log('Attempted to go beyond final main tab. Form should be considered complete.');
+                    // The progress should already be 100% if the last visible step is 'book-check'
+                }
+            }
+        };
   return (
     <div>
         {children}
@@ -22,7 +112,7 @@ const layout:React.FC<React.PropsWithChildren<LayoutProps>> = ({children}) => {
             {active == 'profile' && <EducationProfile />}
             {active == 'facilities' && <EducationFacilities />}
             {active == 'study' && <EducationStudy />}
-            {active == 'enroll' && <EducationEnroll />}
+            {active == 'enroll' && (<EducationEnroll activeSubTab={activeBookSubTab} setActiveSubTab={setActiveBookSubTab} />)}
             <div className={`flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white ${active === 'profile' ? 'hidden' : 'flex'}`}>
                 <div onClick={() => setActiveButton(!activeButton)} className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer">
                     <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
@@ -100,9 +190,15 @@ const layout:React.FC<React.PropsWithChildren<LayoutProps>> = ({children}) => {
                         </div>
                     </div>
                 </div>
-                <button className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95">
-                    CONFIRM
-                </button>
+                <div className={`w-full gap-2 flex items-center`}>
+                    <button onClick={handleNext} className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95">
+                        NEXT
+                    </button>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+                        <CircularProgress size={60} sx={{ color: '#006838' }} variant='determinate' value={overallProgress} />
+                        <FaArrowRight className='absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]' />
+                    </Box>
+                </div>
             </div>
         </div>
     </div>

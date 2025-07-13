@@ -8,12 +8,12 @@ interface TabsProps {
 
 const tabs = [
     { title: 'Profile', tab: 'profile' },
-    { title: 'Facilities', tab: 'facilities' },
-    { title: 'Study', tab: 'study' },
-    { title: 'Enroll', tab: 'enroll' },
+    { title: 'Routes', tab: 'routes' },
+    { title: 'Load Info', tab: 'load-info' },
+    { title: 'Carrier', tab: 'carrier' },
 ]
 
-const EducationTab: FC<TabsProps> = ({ activeTab, setActiveTab }) => {
+const LogisticsTab: FC<TabsProps> = ({ activeTab, setActiveTab }) => {
 
     return (
         <div className='flex px-2 py-1 mb-5 rounded-full bg-[#f8f9fe] items-center text-xs md:text-sm font-bold'>
@@ -29,4 +29,4 @@ const EducationTab: FC<TabsProps> = ({ activeTab, setActiveTab }) => {
     );
 };
 
-export default EducationTab;
+export default LogisticsTab;
