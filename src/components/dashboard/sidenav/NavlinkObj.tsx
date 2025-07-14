@@ -9,7 +9,7 @@ export const links = [
 ]
 
 export const linksSeller = [
-  {text: 'Inventory', icon: 'mdi:cart-variant', link: '/user/dashboard/seller/inventory'},
+  {text: 'Bookings', icon: 'mdi:cart-variant', link: '/user/dashboard/seller/bookings/health'},
   {text: 'Transaction', icon: 'ep:menu', link: '/user/dashboard/seller/transaction'},
   // {text: 'settings', icon: 'ri:settings-5-fill', link: '/user/settings'},
 ]
