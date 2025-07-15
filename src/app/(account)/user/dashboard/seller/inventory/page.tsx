@@ -377,6 +377,7 @@ const Page: React.FC = () => {
         </div>
       )}
 
+
       {/* Products or Filters View */}
       <div className="mt-6">
         {/* Seller/Logistics product list */}
