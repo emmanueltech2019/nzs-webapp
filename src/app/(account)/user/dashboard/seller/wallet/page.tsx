@@ -28,6 +28,8 @@ const page = () => {
   const [activeTab, setActiveTab] = useState("PAYIN");
   const [balance, setBalance] = useState(0);
   const [wallet, setWallet] = useState<Wallet | null>(null);
+  const [activeFilterTabProp, setActiveFilterTabProp] = useState('popular');
+  const data = ['popular', 'not popular', 'location'];
   const totalBalance = 9000
   useEffect(() => {
     if (!localStorage.getItem("userToken")) {
@@ -91,7 +93,7 @@ const page = () => {
         )}
       </div>
       <div className="md:ms-5 flex items-center">
-        <SortFilter />
+        <SortFilter activeTab={activeFilterTabProp} setActiveTab={setActiveFilterTabProp} sortFilterArray={data} />
         <ServiceFilterButtons active="Status" setActive={setActiveTab} filterArray={walletFilter} />
       </div>
       {activeTab === "PAYIN" && (

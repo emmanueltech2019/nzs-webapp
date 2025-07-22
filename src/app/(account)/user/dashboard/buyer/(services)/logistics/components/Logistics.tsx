@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import LogisticsCarousel from "@/components/carousel/LogisticsCarousel";
 import { topRated } from "./TopRatedObj";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -6,9 +6,11 @@ import FloatingButton from "@/components/buttons/FloatingButton";
 import SortFilter from "@/components/SortFilter/SortFilter";
 
 const Logistics = () => {
+  const [activeFilterTabProp, setActiveFilterTabProp] = useState('popular');
+  const data = ['popular', 'not popular', 'location'];
   return (
     <div className="">
-      <SortFilter />
+      <SortFilter activeTab={activeFilterTabProp} setActiveTab={setActiveFilterTabProp} sortFilterArray={data} />
       <FloatingButton color="bg-[#E09427]" />
       <LogisticsCarousel />
 
