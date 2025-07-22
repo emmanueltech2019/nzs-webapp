@@ -1,13 +1,9 @@
 'use client'
 import React, { FC, useState } from 'react'
 
-interface LocationFilterProps {
-  activeSelection: string;
-  setActiveSelection: (value: string) => void;
-}
-
-const LocationFilter: FC<LocationFilterProps> = ({ activeSelection, setActiveSelection }) => {
+const LocationFilter = () => {
   const locations = ['Lagos', 'Abuja', 'Port Harcourt', 'Enugu', 'Kano']
+  const [activeSelection, setActiveSelection] = useState('')
 
   return (
     <div className="mt-6">

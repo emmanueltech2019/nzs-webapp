@@ -7,9 +7,10 @@ import { FaChevronRight } from 'react-icons/fa';
 interface SortFilter {
   activeTab: string,
   setActiveTab:(tabId: string) => void,
+  sortFilterArray: string[]
 }
 
-const SortFilter: FC<SortFilter> = ({ activeTab, setActiveTab }) => {
+const SortFilter: FC<SortFilter> = ({ activeTab, setActiveTab, sortFilterArray }) => {
   const [toggleFilter, setToggleFilter] = useState(false);
   return (
     <div className="flex py-2 overflow-x-hidden">
@@ -26,18 +27,11 @@ const SortFilter: FC<SortFilter> = ({ activeTab, setActiveTab }) => {
         {/* <span className="ml-2 bg-[#006838] text-white text-[8px] px-2 py-1 rounded-full">2</span> */}
       </button>
       <div className={`flex gap-3 items-center transition-transform duration-200 ease-in-out overflow-x-auto ${toggleFilter ? '-translate-x-[100%]' : 'translate-x-0'}`}>
-        <div onClick={() => setActiveTab('a-z')} className={`flex flex-shrink-0 rounded-2xl py-1 cursor-pointer items-center text-[12px] px-4 ${activeTab === 'a-z' ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'}`}>
-          A-Z
-        </div>
-        <div onClick={() => setActiveTab('providers')} className={`flex flex-shrink-0 rounded-2xl py-1 cursor-pointer items-center text-[12px] ${activeTab === 'providers' ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'} px-4`}>
-          PROVIDERS
-        </div>
-        <div onClick={() => setActiveTab('caretype')} className={`flex flex-shrink-0 rounded-2xl py-1 cursor-pointer items-center text-[12px] ${activeTab === 'caretype' ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'} px-4`}>
-          CARE TYPE
-        </div>
-        <div onClick={() => setActiveTab('services')} className={`flex flex-shrink-0 rounded-2xl py-1 cursor-pointer items-center text-[12px] ${activeTab === 'services' ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'} px-4`}>
-          SERVICES
-        </div>
+        {sortFilterArray.map((filter, index) => (
+          <div key={index} onClick={() => setActiveTab(filter)} className={`flex flex-shrink-0 rounded-2xl py-1 cursor-pointer items-center text-[12px] px-4 ${activeTab === filter ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'}`}>
+            {filter.toLocaleUpperCase()}
+          </div>
+        ))}
       </div>
     </div>
   );
