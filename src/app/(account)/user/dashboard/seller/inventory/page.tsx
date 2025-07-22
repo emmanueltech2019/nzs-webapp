@@ -334,6 +334,12 @@ const Page: React.FC = () => {
       },
     })
       .then((res) => {
+        axios.get("/businesses", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Full Data", res.data.businesses[0]._id);
         setUser(res.data.user);
         setBusiness(res.data.business);
         localStorage.setItem("activeBusiness", res.data.businesses[0]._id);
