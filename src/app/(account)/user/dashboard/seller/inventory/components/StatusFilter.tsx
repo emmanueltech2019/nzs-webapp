@@ -2,14 +2,12 @@
 import React, { FC, useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
 
-interface StatusFilterProps {
-  activeSelection: string;
-  setActiveSelection: (value: string) => void;
-}
 
-const StatusFilter: FC<StatusFilterProps> = ({ activeSelection, setActiveSelection }) => {
+
+const StatusFilter = () => {
   const [dropdown, setDropdown] = useState(false)
   const statusOptions = ['Pending', 'Processing', 'Completed', 'Cancelled']
+  const [activeSelection, setActiveSelection] = useState('')
 
   return (
     <div className="mt-6">

@@ -9,13 +9,15 @@ interface CareTypeProp {
   tab: string[],
   setActiveArrayTab: (arrayId: string) => void,
   activeArrayTab: string,
+  activeRoute: string,
+  setActiveRoute: (routeId: string) => void,
+  addProduct: boolean,
+  setAddProduct: (productId: boolean) => void,
 }
 
-const CareType: FC<CareTypeProp> = ({activeSelection, setActiveSelection, tab, setActiveArrayTab, activeArrayTab}) => {
+const CareType: FC<CareTypeProp> = ({activeSelection, setActiveSelection, tab, setActiveArrayTab, activeArrayTab, activeRoute, setActiveRoute, addProduct, setAddProduct}) => {
   const [activeSelectionToggle, setActiveSelectionToggle] = useState('cardiology');
   const cardiologyRef = useRef<HTMLDivElement>(null)
-  const [addProduct, setAddProduct] = useState(false);
-  const [activeRoute, setActiveRoute] = useState('specialty')
   const [procedureType, setProcedureType] = useState('In-Patient');
   const [value, setValue] = useState(1)
   const [activeValueState, setActiveValueState] = useState('1')
@@ -46,19 +48,19 @@ const CareType: FC<CareTypeProp> = ({activeSelection, setActiveSelection, tab, s
       {addProduct ? (
         <div>
             <div className="flex justify-between items-start">
-                <div onClick={() => setActiveRoute('specialty')} className={`flex flex-col gap-2 items-center rounded-full ${activeRoute === 'specialty' ? 'opacity-100' : 'opacity-50'}`}>
+                <div className={`flex flex-col gap-2 items-center rounded-full ${activeRoute === 'specialty' ? 'opacity-100' : 'opacity-50'}`}>
                     <div className={`md:w-8 md:h-8 w-6 h-6 rounded-full flex justify-center items-center md:text-md text-[12px] ${activeRoute === 'specialty' ? 'bg-[#006838] text-white' : 'bg-[#e6dae5]'}`}>1</div>
                     <p className="text-center font-bold md:text-sm text-[12px]">Specialty <br /> Info </p>
                 </div>
-                <div onClick={() => setActiveRoute('provider')} className={`flex flex-col gap-2 items-center rounded-full ${activeRoute === 'provider' ? 'opacity-100' : 'opacity-50'}`}>
+                <div className={`flex flex-col gap-2 items-center rounded-full ${activeRoute === 'provider' ? 'opacity-100' : 'opacity-50'}`}>
                     <div className={`md:w-8 md:h-8 w-6 h-6 rounded-full flex justify-center items-center md:text-md text-[12px] ${activeRoute === 'provider' ? 'bg-[#006838] text-white' : 'bg-[#e6dae5]'}`}>2</div>
                     <p className="text-center font-bold md:text-sm text-[12px]">Provider <br /> Info </p>
                 </div>
-                <div onClick={() => setActiveRoute('booking')} className={`flex flex-col gap-2 items-center rounded-full ${activeRoute === 'booking' ? 'opacity-100' : 'opacity-50'}`}>
+                <div className={`flex flex-col gap-2 items-center rounded-full ${activeRoute === 'booking' ? 'opacity-100' : 'opacity-50'}`}>
                     <div className={`md:w-8 md:h-8 w-6 h-6 rounded-full flex justify-center items-center md:text-md text-[12px] ${activeRoute === 'booking' ? 'bg-[#006838] text-white' : 'bg-[#e6dae5]'}`}>3</div>
                     <p className="text-center font-bold md:text-sm text-[12px]">Booking <br /> Info </p>
                 </div>
-                <div onClick={() => setActiveRoute('preview')} className={`flex flex-col gap-2 items-center rounded-full ${activeRoute === 'preview' ? 'opacity-100' : 'opacity-50'}`}>
+                <div className={`flex flex-col gap-2 items-center rounded-full ${activeRoute === 'preview' ? 'opacity-100' : 'opacity-50'}`}>
                     <div className={`md:w-8 md:h-8 w-6 h-6 rounded-full flex justify-center items-center md:text-md text-[12px] ${activeRoute === 'preview' ? 'bg-[#006838] text-white' : 'bg-[#e6dae5]'}`}>4</div>
                     <p className="text-center font-bold md:text-sm text-[12px]">Preview </p>
                 </div>

@@ -48,6 +48,8 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(main || "products");
   const imagesL = [Banner1, Banner2, Banner3, Banner4]
   const imageSrcArray = imagesL.map((image) => image.src);
+  const [activeRouteProp, setActiveRouteProp] = useState('a-z');
+  const data = ['popular', 'cost effective', 'location'];
 
   return (
     <div className="min-h-screen">
@@ -57,7 +59,7 @@ const Dashboard = () => {
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         {activeTab == "products" ? (
           <div className="mb-24 md:mb-0">
-            <SortFilter />
+            <SortFilter sortFilterArray={data} activeTab={activeRouteProp} setActiveTab={setActiveRouteProp} />
             <FloatingButton
               color="bg-[#006838]"
               onClick={() => {
