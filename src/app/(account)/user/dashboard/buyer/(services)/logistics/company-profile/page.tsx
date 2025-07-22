@@ -12,6 +12,7 @@ import Routes from "./components/Routes"
 
 const page: FC = () => {
   const [active, setActive] = useState('profile')
+  const [activeTabProp, setActiveTabProp] = useState('pickup')
   const router = useRouter()
   return (
     <div className={`${openSansFont} md:max-w-[80%] mx-auto`}>
@@ -25,7 +26,7 @@ const page: FC = () => {
         <ProductProfileTab activeTab={active} setActiveTab={setActive} />
       </div>
       {active == 'profile' && <Profile />}
-      {active == 'routes' && <Routes />}
+      {active == 'routes' && <Routes activeTab={activeTabProp} setActiveTab={setActiveTabProp} />}
     </div>
   )
 }

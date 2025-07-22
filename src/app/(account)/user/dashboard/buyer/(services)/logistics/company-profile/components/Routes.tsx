@@ -18,7 +18,7 @@ interface RoutesProps {
   setActiveTab: (subTabId: string) => void;
 }
 
-const Pickup = () => {
+const Pickup: FC = () => {
   const [count, setCount] = useState(1);
   return(
   <div className='mb-60'>
@@ -83,7 +83,7 @@ const Pickup = () => {
   )
 }
 
-const Dropoff = () => {
+const Dropoff: FC = () => {
   const [count, setCount] = useState(1)
   const [activeDropdown, setActiveDropdown] = useState(false)
   const [dropdownContent, setDropdownContent] = useState('Multiple')
