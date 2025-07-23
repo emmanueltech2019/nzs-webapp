@@ -14,7 +14,10 @@ interface ShippingOption {
 
 const ShippingOptions: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [activeFilterTabProp, setActiveFilterTabProp] = useState('popular');
 
+  const data = ['popular', 'not popular', 'location'];
+ 
   // Shipping options data
   const shippingOptions: ShippingOption[] = [
     // { id: 1, name: 'GIG Logistics', rating: 4.8, price: 5.0 },
@@ -39,7 +42,7 @@ const ShippingOptions: React.FC = () => {
     <div className="p-4 mb-20">
         <TagHeader title='Shipping Options'/>
       {/* Filter & Sort Options */}
-      <SortFilter/>
+      <SortFilter activeTab={activeFilterTabProp} setActiveTab={setActiveFilterTabProp} sortFilterArray={data} />
     <ShippingRates/>
       {/* Shipping Options */}
       <ul className="space-y-4 h-[57vh] overflow-y-scroll scrollbar-hide pt-10">
