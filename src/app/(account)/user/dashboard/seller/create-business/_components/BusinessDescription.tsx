@@ -156,11 +156,11 @@ import general_type from './general.types';
 
 const sector = [
     { item: 'E-Commerce', state: false },
-    { item: 'Health', state: false },
-    { item: 'Hospitality', state: false },
-    { item: 'Education', state: false },
-    { item: 'Legal', state: false },
-    { item: 'Logistics', state: false },
+    { item: 'health', state: false },
+    { item: 'hospitality', state: false },
+    { item: 'education', state: false },
+    { item: 'legal', state: false },
+    { item: 'logistics', state: false },
     { item: 'Real Estate', state: false },
 ];
 const category = [

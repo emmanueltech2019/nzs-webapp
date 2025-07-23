@@ -64,20 +64,20 @@ const LoginContent = () => {
         }
       }
     } catch (error) {
-      console.error(error);
-      setLoading(false);
+        console.error(error);
+        setLoading(false);
 
-      if (
-        typeof error === "object" &&
-        error !== null &&
-        "response" in error &&
-        typeof (error as any).response?.data?.message === "string"
-      ) {
-        showToast("error", (error as any).response.data.message);
-      } else {
-        showToast("error", "An unexpected error occurred");
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "response" in error &&
+          typeof (error as any).response?.data?.message === "string"
+        ) {
+          showToast("error", (error as any).response.data.message);
+        } else {
+          showToast("error", (error as any).response.data.message);
+        }
       }
-    }
   };
   return (
     <section className="px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]">

@@ -1,10 +1,10 @@
 export const filters = [
-  { name: "General", url: "/user/dashboard?main=services" },
-  { name: "Logistics", url: "/user/dashboard/logistics" },
-  { name: "Health", url: "/user/dashboard/health" },
-  { name: "Hospitality", url: "/user/dashboard/hospitality" },
-  { name: "Legal", url: "/user/dashboard/legal" },
-  { name: "Education", url: "/user/dashboard/education" },
+  { name: "general", url: "/user/dashboard?main=services" },
+  { name: "logistics", url: "/user/dashboard/logistics" },
+  { name: "health", url: "/user/dashboard/health" },
+  { name: "hospitality", url: "/user/dashboard/hospitality" },
+  { name: "legal", url: "/user/dashboard/legal" },
+  { name: "education", url: "/user/dashboard/education" },
 ];
 
 export const sellerFilter = [

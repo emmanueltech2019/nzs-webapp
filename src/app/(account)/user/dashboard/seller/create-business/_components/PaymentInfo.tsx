@@ -77,7 +77,7 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
                 </h1>
 
                 <div className='pb-3'>
-                    <input type="text" id='businessName' onChange={e => setAccountNumber(e)} value={accountNumber} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Bank Account Number' />
+                    <input type="text" id='businessName' onChange={e => setAccountNumber(e)} value={accountNumber} maxLength={10} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Bank Account Number' />
                     <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/10</p>
                 </div>
                 <input type="text" id='businessName' onChange={e => setAccountName(e)} value={accountName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Account Name' />

@@ -294,7 +294,7 @@ interface User {
   firstname: string;
   lastname: string;
   email: string;
-  accountType: "buyer" | "seller" | "healthcare" | "logistics" | "education" | "legal" | "hospitality";
+  accountType: "buyer" | "seller" | "health" | "logistics" | "education" | "legal" | "hospitality";
 }
 
 interface Business {
@@ -323,13 +323,13 @@ const Page: React.FC = () => {
   const filterTabMap: Record<User["accountType"], string[]> = {
     seller: ["date", "status", "location", "price"],
     logistics: ["date", "status", "location", "price"],
-    healthcare: ["a-z", "providers", "caretype", "services"],
+    health: ["a-z", "providers", "caretype", "services"],
     legal: ["a-z", "providers", "caretype", "services"],
     education: ["a-z", "class/courses", "facilities"],
     hospitality: ["date", "facilities", "services"],
     buyer: []
   };
-  
+  const [sector, setSector] = useState("");
   const relevantFilterTypes = ['specialty', 'provider', 'booking', 'preview'];
   const relevantFilterTypes1 = ['facility', 'add-media', 'booking', 'preview'];
   const relevantFilterTypes2 = ['specialty', 'facility', 'preview'];
@@ -414,11 +414,15 @@ const Page: React.FC = () => {
       },
     })
       .then((res) => {
-        axios.get("/businesses", {
+        axios.get("/business/get/business", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
+        }).then((businessRes) => {
+          setSector(businessRes.data.business.sectors);
+          console.log("Sector Data", businessRes.data.business);
+          setBusiness(businessRes.data.business);
+        })
         console.log("Full Data", res.data.businesses[0]._id);
         setUser(res.data.user);
         setBusiness(res.data.business);
@@ -433,7 +437,7 @@ const Page: React.FC = () => {
       <Header />
 
       {/* Show Seller Order Tab and Sort Filter if applicable */}
-      {(user?.accountType === "seller" || user?.accountType === "logistics") && (
+      {(sector === "seller" || sector === "logistics") && (
         <>
           <SellerTransStatusTab
             activeStatTab={activeOrderTab}
@@ -443,10 +447,10 @@ const Page: React.FC = () => {
         </>
       )}
 
-      {user?.accountType === "healthcare" && (
-        <SortFilter activeTab={activeFilterTab} setActiveTab={setactiveFilterTab} sortFilterArray={filterTabMap.healthcare} />
+      {sector === "health" && (
+        <SortFilter activeTab={activeFilterTab} setActiveTab={setactiveFilterTab} sortFilterArray={filterTabMap.health} />
       )}
-      {user?.accountType === "hospitality" && (
+      {sector === "hospitality" && (
         <SortFilter activeTab={hospitalityActiveFilterTab} setActiveTab={setHospitalityActiveFilterTab} sortFilterArray={filterTabMap.hospitality} />
       )}
 
@@ -456,7 +460,7 @@ const Page: React.FC = () => {
       {/* Products or Filters View */}
       <div className="mt-6">
         {/* Seller/Logistics product list */}
-        {(user?.accountType === "seller" || user?.accountType === "logistics") && (
+        {(sector === "seller" || sector === "logistics") && (
           <>
             {activeOrderTab === "IN-STOCK" && <InStock products={products || []} />}
             {activeOrderTab === "OUT OF STOCK" && <OutOfStock products={products || []} />}
@@ -469,7 +473,7 @@ const Page: React.FC = () => {
         )}
 
         {/* Healthcare / Legal */}
-        {(user?.accountType === "healthcare" || user?.accountType === "legal") && (
+        {(sector === "health" || sector === "legal") && (
           <>
             {activeFilterTab === "a-z" && <Atoz setActiveSelection={setActiveSelection} activeSelection={activeSelection} />
             }
@@ -492,14 +496,14 @@ const Page: React.FC = () => {
         )}
 
         {/* Education */}
-        {user?.accountType === "education" && (
+        {sector === "education" && (
           <>
             {activeFilterTab === "a-z" && <Atoz setActiveSelection={setActiveSelection} activeSelection={activeSelection} />}
             {activeFilterTab === "class/courses" && <ClassCoursesFilter setActiveSelection={setActiveSelection} activeSelection={activeSelection} />}
             {activeFilterTab === "facilities" && <FacilitiesFilter setActiveSelection={setActiveSelection} activeSelection={activeSelection} />}
           </>
         )}
-        {user?.accountType === "hospitality" && (
+        {sector === "hospitality" && (
           <>
             {hospitalityActiveFilterTab === "date" && <DateTab />}
             {hospitalityActiveFilterTab === "facilities" && <HealthFacility setActiveSelection={setActiveSelection} activeSelection={activeSelection} activeRoute={activeRouteProp1} setActiveRoute={setActiveRouteProp1} addProduct={addProductProp} setAddProduct={setAddProductProp} />}

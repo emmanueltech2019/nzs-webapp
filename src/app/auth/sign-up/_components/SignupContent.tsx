@@ -127,11 +127,20 @@ useEffect(() => {
         alert('Signup failed. Please try again.');
       }
     } catch (error) {
-      setLoading(false)
-      console.error('Error during signup:', error);
-      const errorMessage = handleApiError(error, 'There was an error processing your signup.');
-      showToast("error", handleApiError(errorMessage));
-    }
+        console.error(error);
+        setLoading(false);
+
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "response" in error &&
+          typeof (error as any).response?.data?.message === "string"
+        ) {
+          showToast("error", (error as any).response.data.message);
+        } else {
+          showToast("error", (error as any).response.data.message);
+        }
+      }
   }
   return (
     <section className='px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]'>
