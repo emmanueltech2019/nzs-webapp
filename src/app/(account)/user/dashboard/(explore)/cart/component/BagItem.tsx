@@ -122,14 +122,14 @@ const BagItem: FC<BagProps> = ({ item }) => {
           {/* <h3 className="font-semibold">{item.productId.name}</h3> */}
           <div className="flex items-center rounded-full">
             <button
-              // onClick={() => updateCart(item.productId._id, "minus")}
+              onClick={() => updateCart(item.productId._id, "minus")}
               className="py-1 text-gray-600"
             >
               <span className='px-2 py-[1px] border bg-[#EAF2FF] text-[#006838] rounded-full'>-</span>
             </button>
             <span className="px-3">{item.quantity}</span>
             <button
-              // onClick={() => updateCart(item.productId._id, "plus")}
+              onClick={() => updateCart(item.productId._id, "plus")}
               className="py-1 text-gray-600"
             >
               <span className='px-2 py-[2px] border bg-[#EAF2FF] text-[#006838] rounded-full'>+</span>

@@ -44,6 +44,20 @@ const ProductScreen: FC = () => {
     })
       .then((res) => {
         showToast("success", "Item added to basket");
+        // Fetch updated cart length after adding to cart
+        axios({
+          method: "GET",
+          url: "cart",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        })
+          .then((cartRes) => {
+            setCartLength(cartRes.data.cart.items.length);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         console.log(error);
