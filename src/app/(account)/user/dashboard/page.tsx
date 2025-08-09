@@ -16,6 +16,14 @@ import Banner2 from '../../../../assets/images/banner-img/banner-img-2.jpg'
 import Banner3 from '../../../../assets/images/banner-img/banner-img-3.jpg'
 import Banner4 from '../../../../assets/images/banner-img/banner-img-4.jpg'
 
+const compareDate = (newProducts: string) => {
+  const DIFFERENCE_IN_DAYS = 7;
+  const today = new Date();
+  const productDate = new Date(newProducts);
+  const diffTime = Math.round((today.getTime() - productDate.getTime()) / (1000 * 60 * 60 * 24));
+  return diffTime <= DIFFERENCE_IN_DAYS;
+}
+
 const Dashboard = () => {
   const [products, setProducts] = useState<ProductT[]>([]); // useState expects an array of Product
 
@@ -31,7 +39,7 @@ const Dashboard = () => {
       },
     })
       .then((res) => {
-        console.log(res);
+        console.log("res gtff", res);
         setProducts(res.data);  // Set the products once
       })
       .catch((error) => {
@@ -41,6 +49,7 @@ const Dashboard = () => {
     // Add an empty dependency array to ensure the effect only runs once
   }, []);  // No products dependency here
   
+  const newArrivals = products.filter(products => compareDate(products.createdAt))
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -67,8 +76,22 @@ const Dashboard = () => {
               }}
             />
             <Carousel images={['https://res.cloudinary.com/wise-solution-inc/image/upload/v1734092703/NZS_Web_banner_bsqgqg.jpg','https://res.cloudinary.com/wise-solution-inc/image/upload/v1734092703/NZS_Web_banner_bsqgqg.jpg']}/>
-            <ProductGrid title="Perfect for you" products={products} />
-            <ProductGrid title="For this summer" products={products} />
+            {newArrivals.length > 0 ? (
+              <ProductGrid title="New Arrivals" products={newArrivals} />
+            ) : (
+              <div className="p-4 flex flex-col gap-3">
+                <h2 className="text-xl font-semibold">New Arrivals</h2>
+                <p className="text-center">No new arrivals</p>
+              </div>
+            )}
+            {products.length > 0 ? (
+              <ProductGrid title="All Products" products={products} />
+            ) : (
+              <div className="p-4 flex flex-col gap-3">
+                <h2 className="text-xl font-semibold">Available Products</h2>
+                <p className="text-center">No products available</p>
+              </div>
+            )}
           </div>
         ) : (
           <>

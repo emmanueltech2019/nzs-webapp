@@ -291,6 +291,11 @@ import HospitalityServices from "./components/HospitalityServices";
 import HealthFacility from "./components/HealthFacility";
 import ClassCourse from "./components/ClassCourse";
 import EducationFacilities from "./components/EducationFacilities";
+import LegalDate from "./components/LegalDate";
+import LegalProviders from "./components/LegalProviders";
+import LegalAtoz from "@/app/(account)/user/dashboard/seller/inventory/components/LegalAtoz";
+import LegalServices from "@/app/(account)/user/dashboard/seller/inventory/components/LegalServices";
+import LogisticsLocation from "./components/LogisticsLocation";
 
 interface User {
   firstname: string;
@@ -313,14 +318,19 @@ const Page: React.FC = () => {
   const [activeRouteProp2, setActiveRouteProp2] = useState('specialty')
   const [activeRouteProp3, setActiveRouteProp3] = useState('course')
   const [activeRouteProp4, setActiveRouteProp4] = useState('facility')
+  const [activeRouteProp5, setActiveRouteProp5] = useState('specialty')
   const [addProductProp, setAddProductProp] = useState(false)
   const [activeOrderTab, setActiveOrderTab] = useState("IN-STOCK");
   const [activeSortFilter, setActiveSortFilter] = useState("date");
   const [activeFilterTab, setactiveFilterTab] = useState("a-z");
   const [hospitalityActiveFilterTab, setHospitalityActiveFilterTab] = useState("date");
   const [educationActiveFilterTab, setEducationActiveFilterTab] = useState("class/courses");
+  const [legalActiveFilterTab, setLegalActiveFilterTab] = useState("a-z");
+  const [logisticsActiveFilterTab, setLogisticsActiveFilterTab] = useState("unit");
   const [activeSelection, setActiveSelection] = useState("fine dining");
   const [activeSelection1, setActiveSelection1] = useState("SENIOR SECONDARY");
+  const [activeSelection2, setActiveSelection2] = useState("UMUAHIA");
+  const [activeRouteProp6, setActiveRouteProp6] = useState("route-info");
   const [activeArrayTab, setActiveArrayTab] = useState("IN-PATIENT");
   const [activeButton, setActiveButton] = useState(false);
   const activeContainerRef = useRef<HTMLDivElement>(null);
@@ -328,13 +338,16 @@ const Page: React.FC = () => {
   // Filter tab groups by account type
   const filterTabMap: Record<User["accountType"], string[]> = {
     seller: ["date", "status", "location", "price"],
-    logistics: ["date", "status", "location", "price"],
+    logistics: ["unit", "location", "category", "price"],
     health: ["a-z", "providers", "caretype", "services"],
     legal: ["a-z", "date", "providers", "services"],
     education: ["class/courses", "facilities"],
     hospitality: ["date", "facilities", "services"],
     buyer: []
   };
+
+  const data = ["consultation", "presentation", "advice"];
+  const legalData = ["asma'u musa", "esther pepple", "naomi ojo", "joseph bankole", "daniel orji", "simon anozie"]
   
   const [sector, setSector] = useState("");
   const relevantFilterTypes = ['specialty', 'provider', 'booking', 'preview'];
@@ -342,11 +355,15 @@ const Page: React.FC = () => {
   const relevantFilterTypes2 = ['specialty', 'facility', 'preview'];
   const relevantFilterTypes3 = ['course', 'provider', 'booking', 'preview'];
   const relevantFilterTypes4 = ['facility', 'add-media', 'preview'];
+  const relevantFilterTypes5 = ['specialty', 'provider', 'booking', 'preview'];
+  const relevantFilterTypes6 = ['route-info', 'pricing', 'preview'];
   const [overallProgress, setOverallProgress] = useState(0);
   const [overallProgress1, setOverallProgress1] = useState(0);
   const [overallProgress2, setOverallProgress2] = useState(0);
   const [overallProgress3, setOverallProgress3] = useState(0);
   const [overallProgress4, setOverallProgress4] = useState(0);
+  const [overallProgress5, setOverallProgress5] = useState(0);
+  const [overallProgress6, setOverallProgress6] = useState(0);
 
   useEffect(() => {
     const currentIndex = relevantFilterTypes.indexOf(activeRouteProp);
@@ -367,7 +384,7 @@ const Page: React.FC = () => {
       console.log("All filter categories have been visited!");
     }
   }, [activeRouteProp, relevantFilterTypes]);
-
+  
   useEffect(() => {
     const currentIndex = relevantFilterTypes1.indexOf(activeRouteProp1);
     const totalRelevantFilterTypes = relevantFilterTypes1.length;
@@ -453,9 +470,55 @@ const Page: React.FC = () => {
       console.log("All filter categories have been visited!");
     }
   }, [activeRouteProp4, relevantFilterTypes4]);
-
+  
   const lastHospitalityFilter3 = activeRouteProp4 === relevantFilterTypes4[relevantFilterTypes4.length - 1];
   
+  useEffect(() => {
+    const currentIndex = relevantFilterTypes5.indexOf(activeRouteProp5);
+    const totalRelevantFilterTypes = relevantFilterTypes5.length;
+    if(currentIndex !== -1 && totalRelevantFilterTypes > 0) {
+      const calculatedProgress = ((currentIndex + 1) / totalRelevantFilterTypes) * 100;
+      setOverallProgress5(Math.min(100, Math.round(calculatedProgress)));
+    }else{
+      setOverallProgress5(0)
+    }
+  }, [activeRouteProp5, relevantFilterTypes5]);
+
+  const handleNextFilterCategory5 = useCallback(() => {
+    const currentIndex = relevantFilterTypes5.indexOf(activeRouteProp5);
+    if(currentIndex !== -1 && currentIndex < relevantFilterTypes5.length - 1) {
+      setActiveRouteProp5(relevantFilterTypes5[currentIndex + 1]);
+    } else if(currentIndex === relevantFilterTypes5.length - 1) {
+      console.log("All filter categories have been visited!");
+    }
+  }, [activeRouteProp5, relevantFilterTypes5]);
+  
+  
+  const lastHospitalityFilter4 = activeRouteProp5 === relevantFilterTypes5[relevantFilterTypes5.length - 1];
+
+  useEffect(() => {
+    const currentIndex = relevantFilterTypes6.indexOf(activeRouteProp6);
+    const totalRelevantFilterTypes = relevantFilterTypes6.length;
+    if(currentIndex !== -1 && totalRelevantFilterTypes > 0) {
+      const calculatedProgress = ((currentIndex + 1) / totalRelevantFilterTypes) * 100;
+      setOverallProgress6(Math.min(100, Math.round(calculatedProgress)));
+    }else{
+      setOverallProgress6(0)
+    }
+  }, [activeRouteProp6, relevantFilterTypes6]);
+
+  const handleNextFilterCategory6 = useCallback(() => {
+    const currentIndex = relevantFilterTypes6.indexOf(activeRouteProp6);
+    if(currentIndex !== -1 && currentIndex < relevantFilterTypes6.length - 1) {
+      setActiveRouteProp6(relevantFilterTypes6[currentIndex + 1]);
+    } else if(currentIndex === relevantFilterTypes6.length - 1) {
+      console.log("All filter categories have been visited!");
+    }
+  }, [activeRouteProp6, relevantFilterTypes6]);
+
+
+  const lastHospitalityFilter5 = activeRouteProp6 === relevantFilterTypes6[relevantFilterTypes6.length - 1];
+
   // Dynamic tab options based on user type
   const userFilterTabs = user ? filterTabMap[user.accountType] || [] : [];
   
@@ -512,7 +575,10 @@ const Page: React.FC = () => {
         <SortFilter activeTab={educationActiveFilterTab} setActiveTab={setEducationActiveFilterTab} sortFilterArray={filterTabMap.education} />
       )}
       {sector === "legal" && (
-        <SortFilter activeTab={activeFilterTab} setActiveTab={setactiveFilterTab} sortFilterArray={filterTabMap.legal} />
+        <SortFilter activeTab={legalActiveFilterTab} setActiveTab={setLegalActiveFilterTab} sortFilterArray={filterTabMap.legal} />
+      )}
+      {sector === "logistics" && (
+        <SortFilter activeTab={logisticsActiveFilterTab} setActiveTab={setLogisticsActiveFilterTab} sortFilterArray={filterTabMap.logistics} />
       )}
 
       {/* Filter Tabs */}
@@ -520,8 +586,8 @@ const Page: React.FC = () => {
 
       {/* Products or Filters View */}
       <div className="mt-6">
-        {/* Seller/Logistics product list */}
-        {(sector === "seller" || sector === "logistics") && (
+        {/* Seller product list */}
+        {sector === "seller" && (
           <>
             {activeOrderTab === "IN-STOCK" && <InStock products={products || []} />}
             {activeOrderTab === "OUT OF STOCK" && <OutOfStock products={products || []} />}
@@ -529,12 +595,12 @@ const Page: React.FC = () => {
             {activeFilterTab === "date" && <DateFilter />}
             {activeFilterTab === "status" && <StatusFilter />}
             {activeFilterTab === "location" && <LocationFilter />}
-            {activeFilterTab === "price" && <PriceFilter />}
+            {activeFilterTab === "price" && <PriceFilter />} 
           </>
         )}
 
         {/* Healthcare / Legal */}
-        {(sector === "health" || sector === "legal") && (
+        {(sector === "health") && (
           <>
             {activeFilterTab === "a-z" && <Atoz setActiveSelection={setActiveSelection} activeSelection={activeSelection} />
             }
@@ -553,7 +619,24 @@ const Page: React.FC = () => {
               />
             )}
             {activeFilterTab === "services" && <Services setActiveSelection={setActiveSelection} activeSelection={activeSelection} />}
+            {activeFilterTab === 'date' && <LegalDate tab={data} activeSelection={activeSelection} setActiveSelection={setActiveSelection} />}
           </>
+        )}
+
+        {(sector === "legal") && (
+          <>
+            {legalActiveFilterTab === "a-z" && <LegalAtoz setActiveSelection={setActiveSelection} activeSelection={activeSelection} />
+            }
+            {legalActiveFilterTab === "providers" && <LegalProviders setActiveArrayTab={setActiveArrayTab} activeArrayTab={activeArrayTab} activeRoute={activeRouteProp5} setActiveRoute={setActiveRouteProp5} tab={legalData} addProduct={addProductProp} setAddProduct={setAddProductProp} setActiveSelection={setActiveSelection} activeSelection={activeSelection} />}
+            {legalActiveFilterTab === "services" && <LegalServices setActiveSelection={setActiveSelection} activeSelection={activeSelection} />}
+            {legalActiveFilterTab === 'date' && <LegalDate tab={data} activeSelection={activeSelection} setActiveSelection={setActiveSelection} />}
+          </>
+        )}
+
+        {(sector === "logistics") && (
+          <>
+            {logisticsActiveFilterTab === "location" && <LogisticsLocation setAddProduct={setAddProductProp} addProduct={addProductProp} activeRoute={activeRouteProp6} setActiveRoute={setActiveRouteProp6} activeSelection={activeSelection2} setActiveSelection={setActiveSelection2} />}
+            </>
         )}
 
         {/* Education */}
@@ -761,6 +844,86 @@ const Page: React.FC = () => {
                 </button>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
                   <CircularProgress size={60} sx={{ color: '#006838' }} variant="determinate" value={overallProgress4} />
+                  <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
+                </Box>
+              </div>
+            )}
+        </div>
+      )}
+      {legalActiveFilterTab === 'providers' && addProductProp && (
+        <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
+          <div
+            onClick={() => setActiveButton(!activeButton)}
+            className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
+          >
+            <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
+              <p className="font-semibold text-black text-sm">ROUTE DETAILS</p>
+              <div className="flex gap-3 items-center">
+                <div className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${activeButton ? 'bg-[#006838] text-white' : 'bg-gray-300'}`}>Ready</div>
+                <FaChevronDown className={`text-sm transition-transform duration-200 ease-in-out text-black ${activeButton ? 'rotate-180' : ''}`} />
+              </div>
+            </div>
+            <div
+              ref={activeContainerRef}
+              className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
+              style={{ height: activeButton ? `${activeContainerRef.current?.scrollHeight}px` : '0px' }}
+            >
+              {/* Booking content placeholder */}
+              <div className="text-gray-500 text-sm">Booking content goes here.</div>
+            </div>
+          </div>
+
+            {addProductProp && lastHospitalityFilter4 ? (
+              <button onClick={() => setAddProductProp(false)} className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95">
+                CONFIRM
+              </button>
+            ) : (
+              <div className={`w-full gap-2 flex items-center`}>
+                <button onClick={handleNextFilterCategory5} className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95">
+                  NEXT
+                </button>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+                  <CircularProgress size={60} sx={{ color: '#006838' }} variant="determinate" value={overallProgress5} />
+                  <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
+                </Box>
+              </div>
+            )}
+        </div>
+      )}
+      {logisticsActiveFilterTab === 'location' && addProductProp && (
+        <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
+          <div
+            onClick={() => setActiveButton(!activeButton)}
+            className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
+          >
+            <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
+              <p className="font-semibold text-black text-sm">ROUTE DETAILS</p>
+              <div className="flex gap-3 items-center">
+                <div className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${activeButton ? 'bg-[#006838] text-white' : 'bg-gray-300'}`}>Ready</div>
+                <FaChevronDown className={`text-sm transition-transform duration-200 ease-in-out text-black ${activeButton ? 'rotate-180' : ''}`} />
+              </div>
+            </div>
+            <div
+              ref={activeContainerRef}
+              className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
+              style={{ height: activeButton ? `${activeContainerRef.current?.scrollHeight}px` : '0px' }}
+            >
+              {/* Booking content placeholder */}
+              <div className="text-gray-500 text-sm">Booking content goes here.</div>
+            </div>
+          </div>
+
+            {addProductProp && lastHospitalityFilter5 ? (
+              <button onClick={() => setAddProductProp(false)} className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95">
+                CONFIRM
+              </button>
+            ) : (
+              <div className={`w-full gap-2 flex items-center`}>
+                <button onClick={handleNextFilterCategory6} className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95">
+                  NEXT
+                </button>
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+                  <CircularProgress size={60} sx={{ color: '#006838' }} variant="determinate" value={overallProgress6} />
                   <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
                 </Box>
               </div>
