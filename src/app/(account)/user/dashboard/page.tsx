@@ -85,7 +85,7 @@ const Dashboard = () => {
               </div>
             )}
             {products.length > 0 ? (
-              <ProductGrid title="All Products" products={products} />
+              <ProductGrid title="Available Products" products={products} />
             ) : (
               <div className="p-4 flex flex-col gap-3">
                 <h2 className="text-xl font-semibold">Available Products</h2>

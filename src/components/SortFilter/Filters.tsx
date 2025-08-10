@@ -17,8 +17,6 @@ export const sellerFilter = [
 export const profileFilter = [
   { name: "Buyer", url: "/user/dashboard/date" },
   { name: "Seller", url: "/user/dashboard/status" },
-  { name: "Service", url: "/user/dashboard/services" },
-  { name: "Other", url: "/user/dashboard/price" },
 ]
 
 export const walletFilter = [

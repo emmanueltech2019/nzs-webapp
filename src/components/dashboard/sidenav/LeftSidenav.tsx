@@ -92,21 +92,27 @@ const LeftSidenav = () => {
                 </Link>
               </li>
               <li className="cursor-pointer text-[#D4D6DD]">
-                <Link href="#">
+                <Link href={`/user/dashboard/search-product`}>
                   <div
                     className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
-                      pathname.endsWith("#") ? "lg:border-[#D4D6DD]" : ""
+                      pathname.endsWith("/user/dashboard/search-product")
+                        ? "lg:border-[#D4D6DD]"
+                        : ""
                     }`}
                   >
                     <Icon
                       icon="ep:search"
                       className={`text-[25px] md:text-[30px] ${
-                        pathname.endsWith("#") ? "text-[#D4D6DD]" : ""
+                        pathname.endsWith("/user/dashboard/search-product")
+                          ? "text-[#D4D6DD]"
+                          : ""
                       }`}
                     ></Icon>
                     <p
                       className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
-                        pathname.endsWith("#") ? "text-[#D4D6DD]" : ""
+                        pathname.endsWith("/user/dashboard/search-product")
+                          ? "text-[#D4D6DD]"
+                          : ""
                       }`}
                     >
                       Search

@@ -239,10 +239,10 @@ const Profile = () => {
               <p className="text-[14px] font-normal text-[#1F2024] leading-4">Account</p>
               <Icon icon="mynaui:chevron-left" className={`cursor-pointer ms-2 text-[#8F9098] ${isVisible ? "rotate-180" : ""}`} width="19" height="19" onClick={() => toggleVisibility()}/>
             </div>
-            <div className={`absolute overflow-x-auto whitespace-nowrap ${isVisible ? "right-[70%]" : "-right-4"} transition-all duration-500 ease-in-out`}>
+            <div className={`absolute overflow-x-auto whitespace-nowrap ${isVisible ? "right-[50%]" : "right-0"} transition-all duration-500 ease-in-out`}>
               <ServiceFilterButtons 
                 filterArray={profileFilter} 
-                active="Service" 
+                active={user?.accountType === "buyer" ? "Buyer" : "Seller"} 
                 setActive={(tab: string) => console.log(`Active tab set to: ${tab}`)} 
               />
             </div>
