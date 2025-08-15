@@ -44,13 +44,14 @@ const Home = () => {
                     </div>
 
                     <div>
-                        <h1 className="text-black text-[35px] lg:text-[58px] leading-[52.5px] lg:leading-[87px] font-semibold mb-5">
-                            <div>Simplify <span className="text-[--foreground-orange]">All </span></div>
-                            <div>Your Bulk Sales</div>
-                            <div>& Purchases</div>
+                        <h1 className="text-black text-[32px] lg:text-[45px] leading-[52.5px] lg:leading-[65px] font-semibold mb-5">
+                            <div>Redefining<br/> <span className="text-[--foreground-orange]">Access to Nigerian</span></div>
+                            {/* <div></div> */}
+                            <div>Goods & Services </div>
                         </h1>
 
-                        <p className="text-base lg:text-lg mb-8 max-w-[475.62px]">Are you a merchant struggling to manage product sales and delivery in Nigeria? A consumer frustrated by the lack of reliable information on essential services in your area? We tackle these challenges head-on, providing a seamless experience for both vendors and consumers.</p>
+                        <p className="text-base lg:text-lg mb-8 max-w-[475.62px]">Naijazone isn’t just another marketplace — it’s a movement to transform how Nigerians buy, sell, and connect. We’ve reimagined commerce with cutting-edge technology and a mission to empower local creators, innovators, and service providers.
+</p>
 
                         <GetStarted url="/auth/login" />
                     </div>

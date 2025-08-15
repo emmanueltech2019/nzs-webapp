@@ -14,6 +14,7 @@ import { showToast } from '@/utils/alert';
 const ShoppingBag = () => {
   const [quantities, setQuantities] = useState([1, 1, 1, 1]);
   const router = useRouter();
+  const [balance, setBalance] = useState("");
 
   const [cartItems, setCartItems] = useState<CartT | null>(null);  // The state should match the CartT interface
   const [total, setTotal] = useState(0)
@@ -47,6 +48,18 @@ const ShoppingBag = () => {
         console.log(res.data.cart);
         setTotal(res.data.total)
         setCartItems(res.data.cart); 
+        const token = localStorage.getItem("userToken");
+    if (!token) return;
+    
+    axios.get("/users/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        setBalance(res.data.wallet.balance);
+      })
+      .catch(console.error);
       })
       .catch((error) => {
         console.log(error);
@@ -72,7 +85,7 @@ const ShoppingBag = () => {
   return (
     <div className="w-screen md:mx-1 bg-white md:p-4 pr-6 pl-2   md:w-[53vw]">
       {/* Header */}
-      <TagHeader title='Your bag'/>
+      <TagHeader title='Your Basket' rightData={`₦ ${balance}`}/>
 
 
       {/* Bag Items */}

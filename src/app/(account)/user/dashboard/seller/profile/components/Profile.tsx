@@ -13,7 +13,8 @@ import { showToast } from "@/utils/alert";
 import ServiceFilterButtons from "@/components/SortFilter/ServiceFilterButtons";
 import { profileFilter } from "@/components/SortFilter/Filters";
 import useToggle from "@/hooks/useToggle";
-
+import FreeImg from "@/assets/images/free-plan.png";
+import { Button } from "@mui/material";
 const roboto = Roboto({
   display: "swap",
   subsets: ["latin"],
@@ -26,6 +27,7 @@ interface User {
   lastname: string;
   email: string;
   accountType: "buyer" | "seller";
+  level: "free" | "gold" | "platinum"; // Added level property
 }
 // const userToken = localStorage.getItem("userToken") || "";
 // const tr = JSON.parse(userToken);
@@ -75,42 +77,108 @@ const Profile = () => {
       }
     });
   };
-  useEffect(() => {
-    if (!localStorage.getItem("userToken")) {
-      console.error("User token is missing.");
-      return;
-    }
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+const [uploading, setUploading] = useState(false);
+const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-    axios({
-      method: "GET",
-      url: "/users/profile",
+const handleImageClick = () => {
+  fileInputRef.current?.click();
+};
+
+const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  // Show preview immediately
+  const localPreview = URL.createObjectURL(file);
+  setPreviewImage(localPreview);
+
+  // Upload
+  const formData = new FormData();
+  formData.append("picture", file);
+
+  try {
+    setUploading(true);
+    const res = await axios.post("/users/upload-picture", formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        "Content-Type": "multipart/form-data",
       },
-    })
-      .then((res) => {
-        console.log("All Businesses", res.data.businesses);
-        setBusinesses(res.data.businesses);
-        // console.log(res.data.business);
-        setUser(res.data.user);
-      })
-      .catch((error) => {
-        console.error("Error fetching profile:", error);
-      });
-  }, []);
+    });
+    // Assuming response returns { imageUrl: 'https://...' }
+    setPreviewImage(res.data.profilePicture);
+    showToast("success", "Profile picture updated!");
+  } catch (error) {
+    showToast("error", "Failed to upload image");
+    console.error(error);
+  } finally {
+    setUploading(false);
+  }
+};
 
+  // useEffect(() => {
+  //   if (!localStorage.getItem("userToken")) {
+  //     console.error("User token is missing.");
+  //     return;
+  //   }
+
+  //   axios({
+  //     method: "GET",
+  //     url: "/users/profile",
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log("All Businesses", res.data.businesses);
+  //       console.log("User Data", res.data.user);
+  //       setBusinesses(res.data.businesses);
+  //       // console.log(res.data.business);
+  //       setUser(res.data.user);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching profile:", error);
+  //     });
+  // }, []);
+useEffect(() => {
+  if (!localStorage.getItem("userToken")) {
+    console.error("User token is missing.");
+    return;
+  }
+
+  axios.get("/users/profile", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+    },
+  })
+    .then((res) => {
+      console.log("All Businesses", res.data.businesses);
+      console.log("User Data", res.data.user);
+      
+      setBusinesses(res.data.businesses);
+      setUser(res.data.user);
+
+      // If profilePicture exists and is not empty, use it
+      if (res.data.user?.profilePicture && res.data.user.profilePicture.trim() !== "") {
+        setPreviewImage(res.data.user.profilePicture);
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching profile:", error);
+    });
+}, []);
   return (
     <div>
-      <div className="pb-40">
+      <div className="pb-10">
         <header>
-          <h1 className="font-sans text-2xl font-extrabold text-center py-[19.5px]">
+          <h1 className="font-sans text-2xl font-extrabold text-center ">
             Profile
           </h1>
         </header>
 
         <div>
           {/* profile picture */}
-          <div className="relative mt-[59px] border-2 border-s-[#006838] border-b-[#006838] border-t-[#006838] p-2 rounded-full w-[130px] h-[130px] m-auto -rotate-[40deg]">
+          {/* <div className="relative mt-[59px] border-2 border-s-[#006838] border-b-[#006838] border-t-[#006838] p-2 rounded-full w-[130px] h-[130px] m-auto -rotate-[40deg]">
             <div className="absolute z-20 right-1 bottom-1 h-[30px] w-[30px] bg-[#006838] rotate-[40deg] rounded-full">
               <p
                 className={`text-xs text-[#ffffff] ${roboto.className} antialiased font-[900] mt-2 mx-3`}
@@ -129,23 +197,64 @@ const Profile = () => {
               height={"100"}
               className="rounded-full rotate-[40deg] mx-auto mt-1"
             />
-          </div>
+          </div> */}
+<div className="relative mt-[59px] border-2 border-s-[#006838] border-b-[#006838] border-t-[#006838] p-2 rounded-full w-[130px] h-[130px] m-auto -rotate-[40deg]">
+  <div className="absolute z-20 right-1 bottom-1 h-[30px] w-[30px] bg-[#006838] rotate-[40deg] rounded-full">
+    <p className={`text-xs text-[#ffffff] ${roboto.className} antialiased font-[900] mt-2 mx-2`}>🤍</p>
+  </div>
 
-          {/* profile details */}
-          <div
+  <Image
+    src={
+      previewImage ||
+      (user?.accountType == "buyer"
+        ? "https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906737/Asset_490_dzaqyl.png"
+        : "https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906736/Asset_390_y9mpv3.png")
+    }
+    alt="Profile"
+    fill
+    className="rounded-full rotate-[40deg] mx-auto mt-1 cursor-pointer object-cover rounded-full"
+    onClick={handleImageClick}
+  />
+
+  {uploading && (
+    <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-full rotate-[40deg]">
+      <span className="text-white text-xs">Uploading...</span>
+    </div>
+  )}
+
+  <input
+    type="file"
+    accept="image/*"
+    ref={fileInputRef}
+    onChange={handleFileChange}
+    className="hidden h-full w-full"
+    style={{width:"100", height:"100"}}
+  />
+</div>
+         <div
             className={`${roboto.className} antialiased font-bold text-center`}
           >
-            {/* name */}
             <div className="mt-[31px] mb-1">
               <h2 className="text-[#6B7A99] text-base leading-[30px]">
                 Hello {user?.lastname} {user?.firstname}
               </h2>
             </div>
-            {/* email */}
             <div>
               <p className="text-[#ADB8CC] text-sm leading-[30px]">
                 {" "}
                 {user?.email}
+               
+              </p>
+            </div>
+            <div>
+              <p className="text-[#ADB8CC] text-sm leading-[30px] flex items-center justify-center space-x-3 py-5">
+                {" "}
+                {user?.level === "free" && (
+                  <span className="text-[#FF0000] text-xs ml-2">
+                    <Image src={FreeImg} alt="Free Plan" width={50} height={50} />
+                  </span>
+                )}
+                <Button variant="outlined" color="inherit">Upgrade</Button>
               </p>
             </div>
           </div>

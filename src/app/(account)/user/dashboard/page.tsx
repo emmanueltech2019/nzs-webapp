@@ -75,7 +75,7 @@ const Dashboard = () => {
                 router.push("./dashboard/add-item");
               }}
             />
-            <Carousel images={['https://res.cloudinary.com/wise-solution-inc/image/upload/v1734092703/NZS_Web_banner_bsqgqg.jpg','https://res.cloudinary.com/wise-solution-inc/image/upload/v1734092703/NZS_Web_banner_bsqgqg.jpg']}/>
+            <Carousel images={['https://res.cloudinary.com/wise-solution-inc/image/upload/v1755239366/NZS_WEB_Banner_gh7lnp.png','https://res.cloudinary.com/wise-solution-inc/image/upload/v1755239366/NZS_WEB_Banner_gh7lnp.png']}/>
             {newArrivals.length > 0 ? (
               <ProductGrid title="New Arrivals" products={newArrivals} />
             ) : (
