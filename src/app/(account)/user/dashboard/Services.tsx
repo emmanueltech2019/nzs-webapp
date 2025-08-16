@@ -12,7 +12,7 @@ import Hospitality from "./buyer/(services)/hospitality/components/Hospitality";
 import Legal from "@/app/(account)/user/dashboard/buyer/(services)/legal/components/Legal"
 
 const Services = () => {
-  const [active, setActive] = useState("General");
+  const [active, setActive] = useState("general");
   const nearYouTransactions = [
     {
       title: "GilChrist Health",
@@ -138,7 +138,7 @@ const Services = () => {
           setActive={setActive}
         />
       </div>
-      {active === "General" && (
+      {active === "general" && (
         <div>
           <GridWrapper title="Near You">
             {nearYouTransactions.map((transaction, index) => (
@@ -158,7 +158,7 @@ const Services = () => {
       )}
 
       {
-        active === "Logistics" && (
+        active === "logistics" && (
           <div className="p-2">
             <div>
               <GridWrapper title="Near You">
@@ -180,7 +180,7 @@ const Services = () => {
         )
       }
       {
-        active === "Health" && (
+        active === "health" && (
           <div className="p-2">
             <div>
               <GridWrapper title="Near You">
@@ -202,7 +202,7 @@ const Services = () => {
         )
       }
       {
-        active === "Hospitality" && (
+        active === "hospitality" && (
           <div className="p-2">
             <div>
               <GridWrapper title="Near You">
@@ -224,7 +224,7 @@ const Services = () => {
         )
       }
       {
-        active === "Legal" && (
+        active === "legal" && (
           <div className="p-2">
             <div>
               <GridWrapper title="Near You">
@@ -246,7 +246,7 @@ const Services = () => {
         )
       }
       {
-        active === "Education" && (
+        active === "education" && (
           <div className="p-2">
             <div>
               <GridWrapper title="Near You">
