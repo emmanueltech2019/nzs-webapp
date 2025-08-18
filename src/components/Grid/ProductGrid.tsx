@@ -3,13 +3,17 @@ import Card from '../cards/ProductCard';
 import productMockup from "../../assets/images/productMockup.png"
 import { ProductT } from '@/types/Product.types';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-const ProductGrid: FC<{ title: string; products: ProductT[] }> = ({ title, products }) => {
+const ProductGrid: FC<{ title: string; products: ProductT[]; link: string }> = ({ title, products, link }) => {
+  const pathname = usePathname();
   return (
     <div className="px-4 py-6">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">{title}</h2>
-        <button className="text-[#006838]">See more</button>
+        <Link href={`./dashboard/${link}`}>
+          <button className="text-[#006838]">See more</button>
+        </Link>
       </div>
 
       {/* Horizontal Scrollable Container */}
@@ -32,3 +36,17 @@ const ProductGrid: FC<{ title: string; products: ProductT[] }> = ({ title, produ
 };
 
 export default ProductGrid;
+
+export const ProductsPageGrid: FC<{products: ProductT[]}> = ({ products }) => {
+  return (
+    <div className="grid md:grid-cols-3 grid-cols-2 gap-2">
+        {products.map((product, index) => (
+          <div key={index}>
+            <Link href={`../dashboard/Product?id=${product._id}`}>
+            <Card  title={product.name} price={product.price} image={product?.images[0]}/>
+          </Link>
+          </div>
+        ))}
+    </div>
+  )
+}

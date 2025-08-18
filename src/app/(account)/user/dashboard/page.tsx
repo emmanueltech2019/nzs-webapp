@@ -40,7 +40,8 @@ const Dashboard = () => {
     })
       .then((res) => {
         console.log("res gtff", res);
-        setProducts(res.data);  // Set the products once
+        const slicedProducts = res.data.slice(0, 3)
+        setProducts(slicedProducts);  // Set the products once
       })
       .catch((error) => {
         console.log(error);
@@ -77,7 +78,7 @@ const Dashboard = () => {
             />
             <Carousel images={['https://res.cloudinary.com/wise-solution-inc/image/upload/v1755239366/NZS_WEB_Banner_gh7lnp.png','https://res.cloudinary.com/wise-solution-inc/image/upload/v1755239366/NZS_WEB_Banner_gh7lnp.png']}/>
             {newArrivals.length > 0 ? (
-              <ProductGrid title="New Arrivals" products={newArrivals} />
+              <ProductGrid link="new-arrivals" title="New Arrivals" products={newArrivals} />
             ) : (
               <div className="p-4 flex flex-col gap-3">
                 <h2 className="text-xl font-semibold">New Arrivals</h2>
@@ -85,7 +86,7 @@ const Dashboard = () => {
               </div>
             )}
             {products.length > 0 ? (
-              <ProductGrid title="Available Products" products={products} />
+              <ProductGrid link="available-products" title="Available Products" products={products} />
             ) : (
               <div className="p-4 flex flex-col gap-3">
                 <h2 className="text-xl font-semibold">Available Products</h2>

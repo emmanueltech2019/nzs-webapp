@@ -95,24 +95,24 @@ const LeftSidenav = () => {
                 <Link href={`/user/dashboard/search-product`}>
                   <div
                     className={`flex md:flex-row flex-col items-center gap-[10px] pr-4 lg:border-transparent ${
-                      pathname.endsWith("/user/dashboard/search-product")
-                        ? "lg:border-[#D4D6DD]"
-                        : ""
+                      !pathname.endsWith("/user/dashboard/search-product")
+                        ? "text-[#D4D6DD]"
+                        : "text-[#FFBB5B]"
                     }`}
                   >
                     <Icon
                       icon="ep:search"
                       className={`text-[25px] md:text-[30px] ${
-                        pathname.endsWith("/user/dashboard/search-product")
+                        !pathname.endsWith("/user/dashboard/search-product")
                           ? "text-[#D4D6DD]"
-                          : ""
+                          : "text-[#FFBB5B]"
                       }`}
                     ></Icon>
                     <p
                       className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
-                        pathname.endsWith("/user/dashboard/search-product")
+                        !pathname.endsWith("/user/dashboard/search-product")
                           ? "text-[#D4D6DD]"
-                          : ""
+                          : "text-[#FFBB5B]"
                       }`}
                     >
                       Search
@@ -184,10 +184,18 @@ const LeftSidenav = () => {
                     className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}
                   >
                     <AccountBalanceWalletOutlinedIcon
-                      className={`text-[25px] md:text-[30px]`}
+                      className={`text-[25px] md:text-[30px] ${
+                        !pathname.endsWith("/user/dashboard/wallet")
+                          ? "text-[#D4D6DD]"
+                          : "text-[#FFBB5B]"
+                      }`}
                     />
                     <p
-                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}
+                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
+                        !pathname.endsWith("/user/dashboard/wallet")
+                          ? "text-[#D4D6DD]"
+                          : "text-[#FFBB5B]"
+                      }`}
                     >
                       Wallet
                     </p>
@@ -204,20 +212,20 @@ const LeftSidenav = () => {
                     <Link href={link}>
                       <div
                         className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  ${
-                          activeLink
-                            ? "lg:border-[#D4D6DD]"
-                            : "lg:border-transparent"
+                          !activeLink
+                            ? "text-[#D4D6DD]"
+                            : "text-[#FFBB5B]"
                         }`}
                       >
                         <Icon
                           icon={icon}
                           className={`text-[25px] md:text-[30px] ${
-                            activeLink ? "text-[#D4D6DD]" : "text-[#D4D6DD]"
+                            !activeLink ? "text-[#D4D6DD]" : "text-[#FFBB5B]"
                           }`}
                         ></Icon>
                         <p
                           className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
-                            activeLink ? "text-[#D4D6DD]" : "text-inherit"
+                            !activeLink ? "text-[#D4D6DD]" : "text-[#FFBB5B]"
                           }`}
                         >
                           {text}
@@ -249,12 +257,14 @@ const LeftSidenav = () => {
                     className={`flex md:flex-row flex-col items-center gap-[10px] pr-4  `}
                   >
                     <AccountBalanceWalletOutlinedIcon
-                      className={`text-[25px] md:text-[30px]`}
+                      className={`text-[25px] md:text-[30px] ${!pathname.endsWith("/user/dashboard/seller/wallet") ? "text-[#D4D6DD]" : "text-[#FFBB5B]"}`}
                     />
                     <p
-                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] `}
+                      className={`text-[12px] md:text-[14px] leading-[22.99px] lg:block font-[400] ${
+                        !pathname.endsWith("/user/dashboard/seller/wallet") ? "text-[#D4D6DD]" : "text-[#FFBB5B]"
+                      }`}
                     >
-                      Wallet
+                        Wallet
                     </p>
                   </div>
                 </Link>
