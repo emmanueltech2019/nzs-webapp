@@ -549,7 +549,7 @@ const Page: React.FC = () => {
       })
       .catch(console.error);
   }, []);
-
+  console.log(sector, "Sector");
   return (
     <div className="p-4 md:w-[85%] m-auto mb-80">
       <Header />
