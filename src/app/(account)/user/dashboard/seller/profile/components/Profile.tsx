@@ -51,10 +51,10 @@ const Profile = () => {
 
   const handleSwitch = (id: string) => {
     localStorage.setItem("activeBusiness", id);
-    setTimeout(() => {
-      showToast("success", "Business switched successfully");
-      window.location.replace("./inventory");
-    }, 2000);
+    // setTimeout(() => {
+    //   showToast("success", "Business switched successfully")
+    //   window.location.reload();
+    // }, 2000);
   };
   const LogOut = () => {
     Swal.fire({
@@ -318,13 +318,20 @@ useEffect(() => {
                       </div>
                     ))}
 
-                    <Link
+                    {/* <Link
                       href="./create-business"
                       className="flex items-center justify-center mt-4 text-gray-500 text-lg font-semibold"
                     >
                       <span>Add Business</span>
                       <span className="text-2xl ml-2">+</span>
-                    </Link>
+                    </Link> */}
+                      <Link
+                        href="/user/dashboard/seller/create-business"
+                        className="flex items-center justify-center mt-4 text-gray-500 text-lg font-semibold"
+                      >
+                        <span>Add Business</span>
+                        <span className="text-2xl ml-2">+</span>
+                      </Link>
                   </div>
                 </>
               )}

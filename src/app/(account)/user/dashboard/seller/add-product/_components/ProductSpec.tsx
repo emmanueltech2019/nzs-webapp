@@ -31,17 +31,24 @@ const ProductSpec: FC<general_type> = ({
 }) => {
   const [uploadCount, setuploadCount] = useState(0);
   const [file, setFile] = useState<File | null>(null);
-  const [unit, setUnit] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [unit, setUnit] = useState<string>(""); 
+  const [quantity, setQuantity] = useState<string>("");
   const [states, setState] = useState(mainState);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value); // Convert string to number
-    setQuantity(isNaN(value) ? 0 : value); // Handle NaN case if input is invalid
+  setQuantity(e.target.value);
   };
+
   const handleChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value); // Convert string to number
-    setUnit(isNaN(value) ? 0 : value); // Handle NaN case if input is invalid
+    setUnit(e.target.value);
   };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = parseFloat(e.target.value); // Convert string to number
+  //   setQuantity(isNaN(value) ? 0 : value); // Handle NaN case if input is invalid
+  // };
+  // const handleChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = parseFloat(e.target.value); // Convert string to number
+  //   setUnit(isNaN(value) ? 0 : value); // Handle NaN case if input is invalid
+  // };
   const handleStates = (a: string) => {
     setState((prev) =>
       prev.map(({ item, state }, i) => ({
@@ -82,8 +89,8 @@ const ProductSpec: FC<general_type> = ({
       data: {
         quantityType: selectedQuantityType[0],
         quantityUnit: selectedUnitType[0],
-        unitAmount: unit,
-        quantity,
+         unitAmount: parseFloat(unit),
+      quantity: parseFloat(quantity),
       },
       headers: {
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -91,7 +98,13 @@ const ProductSpec: FC<general_type> = ({
     })
       .then((res) => {
         showToast("success", res.data.message);
-        setSection(3);
+        console.log({
+        quantityType: selectedQuantityType[0],
+        quantityUnit: selectedUnitType[0],
+        unitAmount: unit,
+        quantity,
+      })
+        // setSection(3);
         // window.location.replace("/user/dashboard/seller/inventory")
       })
       .catch((err) => {
@@ -210,15 +223,6 @@ const ProductSpec: FC<general_type> = ({
           </div>
         </div>
 
-        {/* <Accordion title='State' subTitle='Available in Nigeria' batch={9} state={a} onClick={aFunc} border={false}>
-                    {<div className='flex gap-2 flex-wrap'>
-                        {states.map(({ item, state }) => (
-                            <button key={item} className={`px-4 py-[6px] text-3 rounded-2xl uppercase ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`} onClick={() => handleStates(item)}>{item}</button>
-                        ))}
-                    </div>}
-                </Accordion> */}
-
-        {/* <ProfileInfo /> */}
       </div>
     </div>
   );

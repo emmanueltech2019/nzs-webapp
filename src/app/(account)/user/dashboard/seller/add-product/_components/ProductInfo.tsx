@@ -12,7 +12,7 @@ import Circle from "@/components/Circle";
 
 const OPTIONS = {
   sector: ["Health", "Hospitality", "Education", "Legal", "Logistics"],
-  productType: ["Edible", "Wears", "Equipment", "Stationaries"],
+  productType: ["Edible", "Wears", "Equipment", "Stationaries", "Automobiles", "Gadgets", "Books", "Furniture", "Cosmetics", "Toys", "Art"],
   color: [
     "WHITE",
     "BLACK",
@@ -243,15 +243,15 @@ const BusinessDescription: FC<general_type> = ({
       </div>
 
       <div className="pb-3">
-        <input
-          type="text"
+        <textarea
           id="productDescription"
           value={productDescription}
           onChange={(e) => setProductDescription(e.target.value)}
           required
           className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
           placeholder="Description"
-        />
+          rows={4}
+        ></textarea>
       </div>
 
       <Accordion
