@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { showToast } from "@/utils/alert";
 import Image from "next/image";
 import seller_product_img from './sell-products.jpeg'
+import offerservices from '@/app/(account)/user/(registration-process)/(subscription)/seller-role/_components/offerservices.jpg'
 
 type eventType = React.ChangeEvent<HTMLInputElement>;
 
@@ -115,7 +116,7 @@ const Seller_Role = () => {
               </div>
             </label>
             <div className={`offer_services overflow-hidden transition-all duration-300 ${role == 'Offer Services'?'max-h-[1000px]':'max-h-[0px]'}`}>
-              <Image src={seller_product_img} alt="offer_services" className="object-cover w-full rounded-lg" />
+              <Image src={offerservices} alt="offer_services" className="object-cover w-full rounded-lg" />
             </div>
           </div>
         </div>

@@ -7,10 +7,12 @@ import { FaChevronRight } from 'react-icons/fa';
 interface SortFilter {
   activeTab: string,
   setActiveTab:(tabId: string) => void,
-  sortFilterArray: string[]
+  sortFilterArray: string[],
+  addProduct?: boolean,
+  setAddProduct?: (product: boolean) => void
 }
 
-const SortFilter: FC<SortFilter> = ({ activeTab, setActiveTab, sortFilterArray }) => {
+const SortFilter: FC<SortFilter> = ({ activeTab, setActiveTab, sortFilterArray, addProduct, setAddProduct }) => {
   const [toggleFilter, setToggleFilter] = useState(false);
   return (
     <div className="flex py-2 overflow-x-hidden">
@@ -28,7 +30,7 @@ const SortFilter: FC<SortFilter> = ({ activeTab, setActiveTab, sortFilterArray }
       </button>
       <div className={`flex gap-3 items-center transition-transform duration-200 ease-in-out overflow-x-auto ${toggleFilter ? '-translate-x-[100%]' : 'translate-x-0'}`}>
         {sortFilterArray.map((filter, index) => (
-          <div key={index} onClick={() => setActiveTab(filter)} className={`flex flex-shrink-0 rounded-2xl py-1 cursor-pointer items-center text-[12px] px-4 ${activeTab === filter ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'}`}>
+          <div key={index} onClick={() => {setActiveTab(filter); setAddProduct && setAddProduct(false)}} className={`flex flex-shrink-0 rounded-2xl py-1 cursor-pointer items-center text-[12px] px-4 ${activeTab === filter ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'}`}>
             {filter.toLocaleUpperCase()}
           </div>
         ))}
