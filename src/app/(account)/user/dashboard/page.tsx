@@ -15,19 +15,32 @@ import Banner1 from '../../../../assets/images/banner-img/banner-img-1.jpg'
 import Banner2 from '../../../../assets/images/banner-img/banner-img-2.jpg'
 import Banner3 from '../../../../assets/images/banner-img/banner-img-3.jpg'
 import Banner4 from '../../../../assets/images/banner-img/banner-img-4.jpg'
+import Swal from "sweetalert2";
+import CircleLoader from "@/components/loader/loader";
 
-const compareDate = (newProducts: string) => {
+// const compareDate = (newProducts: string) => {
+//   const DIFFERENCE_IN_DAYS = 7;
+//   const today = new Date();
+//   const productDate = new Date(newProducts);
+//   const diffTime = Math.round((today.getTime() - productDate.getTime()) / (1000 * 60 * 60 * 24));
+//   return diffTime <= DIFFERENCE_IN_DAYS;
+// }
+const compareDate = (dateString?: string) => {
+  if (!dateString) return false; // skip if no date
   const DIFFERENCE_IN_DAYS = 7;
   const today = new Date();
-  const productDate = new Date(newProducts);
-  const diffTime = Math.round((today.getTime() - productDate.getTime()) / (1000 * 60 * 60 * 24));
-  return diffTime <= DIFFERENCE_IN_DAYS;
-}
+  const productDate = new Date(dateString);
 
+  if (isNaN(productDate.getTime())) return false; // invalid date
+  const diffTime = Math.floor((today.getTime() - productDate.getTime()) / (1000 * 60 * 60 * 24));
+  return diffTime <= DIFFERENCE_IN_DAYS;
+};
 const Dashboard = () => {
   const [products, setProducts] = useState<ProductT[]>([]); // useState expects an array of Product
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true)
     // const userToken = localStorage.getItem("userToken") || "";
     // const tr = JSON.parse(userToken);
     
@@ -40,17 +53,31 @@ const Dashboard = () => {
     })
       .then((res) => {
         console.log("res gtff", res);
-        const slicedProducts = res.data.slice(0, 3)
-        setProducts(slicedProducts);  // Set the products once
+        const slicedProducts = res.data.slice(0, 5)
+        setProducts(res.data);  // Set the products once
+        setLoading(false)
       })
       .catch((error) => {
+        if(error.response.data.message==="Unauthorized access"){
+          Swal.fire({
+            title: "Session Expired",
+            text: "Your session has expired. Please log in again.",
+            icon: "warning",
+            confirmButtonText: "OK",
+          }).then(() => {
+            localStorage.clear();
+            window.location.replace("/auth/login");
+          });
+          return;
+        }
         console.log(error);
       });
     
     // Add an empty dependency array to ensure the effect only runs once
   }, []);  // No products dependency here
   
-  const newArrivals = products.filter(products => compareDate(products.createdAt))
+  // const newArrivals = products.filter(products => compareDate(products.createdAt))
+const newArrivals = products.filter(p => compareDate(p.createdAt)).slice(0, 3);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -64,7 +91,8 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen">
       {/*  md:w-[61vw]  */}
-      <div className="md:max-w-[85%] mx-auto">
+      {
+        loading ? <CircleLoader isVisible={loading} />:<div className="md:max-w-[85%] mx-auto">
         <Header />
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         {activeTab == "products" ? (
@@ -101,13 +129,9 @@ const Dashboard = () => {
           </>
         )}
 
-        {/* search component */}
-        {/* <div className="grid grid-cols-2 py-10 sm:grid-cols-2 lg:grid-cols-2 gap-6 overflow-y-scroll	">
-        {products.map((product, index) => (
-          <Card key={index} title={product.title} price={product.price} />
-        ))}
-      </div> */}
       </div>
+      }
+      
     </div>
   );
 };

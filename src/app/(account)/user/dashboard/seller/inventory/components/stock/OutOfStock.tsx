@@ -4,6 +4,7 @@ import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import ProductDetail from './ProductDetails';
 import { ProductT } from '@/types/Product.types';
 import axios from "@/utils/axios";
+import Swal from 'sweetalert2';
 
 interface InStockProps {
   products: ProductT[];
@@ -39,6 +40,18 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
         }
       })
       .catch((error) => {
+         if(error.response.data.message==="Unauthorized access"){
+                          Swal.fire({
+                            title: "Session Expired",
+                            text: "Your session has expired. Please log in again.",
+                            icon: "warning",
+                            confirmButtonText: "OK",
+                          }).then(() => {
+                            localStorage.clear();
+                            window.location.replace("/auth/login");
+                          });
+                          return;
+                        }
         console.error("Error fetching profile:", error);
       });
   }, []);

@@ -8,6 +8,8 @@ import axios from "@/utils/axios";
 import { ProductT } from "@/types/Product.types";
 import { showToast } from "@/utils/alert";
 import Image from "next/image";
+import Swal from "sweetalert2";
+import CircleLoader from "@/components/loader/loader";
 // import { useRouter } from 'next/router';
 
 const ProductScreen: FC = () => {
@@ -15,9 +17,11 @@ const ProductScreen: FC = () => {
   const [selectedSize, setSelectedSize] = useState("S");
   const [selectedColor, setSelectedColor] = useState("green");
   const [cartLength, setCartLength] = useState(0);
-
-  const sizes = ["XS", "S", "M", "L", "XL"];
-  const colors = ["black", "gray", "darkGray", "lightGray", "white"];
+  const [colors, setColors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  // const sizes = ["XS", "S", "M", "L", "XL"];
+  // const colors = ["black", "gray", "darkGray", "lightGray", "white"];
 
   const router = useRouter();
   const handleGoBack = () => {
@@ -26,7 +30,7 @@ const ProductScreen: FC = () => {
 
   // const userToken = localStorage.getItem("userToken") || "";
   // const tr = JSON.parse(userToken);
-  var id:string|null
+  var id: string | null;
   if (typeof window !== "undefined") {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -56,14 +60,39 @@ const ProductScreen: FC = () => {
             setCartLength(cartRes.data.cart.items.length);
           })
           .catch((error) => {
+            if (error.response.data.message === "Unauthorized access") {
+              Swal.fire({
+                title: "Session Expired",
+                text: "Your session has expired. Please log in again.",
+                icon: "warning",
+                confirmButtonText: "OK",
+              }).then(() => {
+                localStorage.clear();
+                window.location.replace("/auth/login");
+              });
+              return;
+            }
             console.log(error);
           });
       })
       .catch((error) => {
+        if (error.response.data.message === "Unauthorized access") {
+          Swal.fire({
+            title: "Session Expired",
+            text: "Your session has expired. Please log in again.",
+            icon: "warning",
+            confirmButtonText: "OK",
+          }).then(() => {
+            localStorage.clear();
+            window.location.replace("/auth/login");
+          });
+          return;
+        }
         console.log(error);
       });
   };
   useEffect(() => {
+    setLoading(true)
     //   const userToken = localStorage.getItem("userToken") || "";
     // const tr = JSON.parse(userToken);
     axios({
@@ -77,6 +106,18 @@ const ProductScreen: FC = () => {
         setCartLength(res.data.cart.items.length);
       })
       .catch((error) => {
+        if (error.response.data.message === "Unauthorized access") {
+          Swal.fire({
+            title: "Session Expired",
+            text: "Your session has expired. Please log in again.",
+            icon: "warning",
+            confirmButtonText: "OK",
+          }).then(() => {
+            localStorage.clear();
+            window.location.replace("/auth/login");
+          });
+          return;
+        }
         console.log(error);
       });
     if (typeof window !== "undefined") {
@@ -91,16 +132,31 @@ const ProductScreen: FC = () => {
         },
       })
         .then((res) => {
+          setLoading(false)
+          console.log("New res",res.data)
+          setColors(res.data.color || []);
           setProduct(res.data);
         })
         .catch((error) => {
+          if (error.response.data.message === "Unauthorized access") {
+            Swal.fire({
+              title: "Session Expired",
+              text: "Your session has expired. Please log in again.",
+              icon: "warning",
+              confirmButtonText: "OK",
+            }).then(() => {
+              localStorage.clear();
+              window.location.replace("/auth/login");
+            });
+            return;
+          }
           console.log(error);
         });
     }
   }, []);
 
   return (
-    <div className=" p-4  mx-auto bg-white rounded-lg mb-20 md:mb-0">
+    <>{loading?<CircleLoader isVisible={loading} />:<div className=" p-4  mx-auto bg-white rounded-lg mb-20 md:mb-0">
       {/* Close button */}
       {/* <button className="top-4 left-4 text-2xl z-10 text-[60px]">&times;</button> */}
       <div className="flex justify-between">
@@ -108,15 +164,23 @@ const ProductScreen: FC = () => {
           className=" text-3xl z-10  py-1 text-gray-500 my-1 "
           onClick={handleGoBack}
         >
-          <ArrowBackOutlinedIcon fontSize={'large'} />
+          <ArrowBackOutlinedIcon fontSize={"large"} />
         </button>
         <Link href={"./cart"}>
-        <div className="relative">
-          <Image src={'https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png'} alt='cart icon' height={100} width={40} className="text-2xl" />
-          <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
-            {cartLength}
-          </span>
-        </div>
+          <div className="relative">
+            <Image
+              src={
+                "https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png"
+              }
+              alt="cart icon"
+              height={100}
+              width={40}
+              className="text-2xl"
+            />
+            <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
+              {cartLength}
+            </span>
+          </div>
         </Link>
       </div>
 
@@ -127,7 +191,7 @@ const ProductScreen: FC = () => {
       {/* Product Info */}
       <div className="mt-4">
         <span className="inline-block py-2 px-4 bg-[#EAF2FF] text-black rounded-lg mb-4 mt-2">
-          Outgoing
+          Available
         </span>
         <h2 className="text-2xl font-bold">{product?.name}</h2>
         <p className="text-xl text-gray-700">₦ {product?.price}</p>
@@ -135,7 +199,7 @@ const ProductScreen: FC = () => {
       </div>
 
       {/* Size Selector */}
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <h3 className="font-semibold mb-2">Size</h3>
         <div className="flex space-x-2">
           {sizes.map((size) => (
@@ -152,7 +216,7 @@ const ProductScreen: FC = () => {
             </button>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Color Selector */}
       <div className="mt-4">
@@ -179,7 +243,9 @@ const ProductScreen: FC = () => {
       >
         + Add to Basket
       </button>
-    </div>
+    </div>}
+    </>
+    
   );
 };
 

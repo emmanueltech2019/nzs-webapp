@@ -3,6 +3,11 @@ import React, {useState, useEffect} from 'react'
 import ProductGrid, { ProductsPageGrid } from '@/components/Grid/ProductGrid';
 import { ProductT } from '@/types/Product.types';
 import axios from "@/utils/axios";
+import Swal from 'sweetalert2';
+import Header from '@/components/header/ProductHeader';
+import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
+import CircleLoader from '@/components/loader/loader';
+import { useRouter } from "next/navigation";
 
 const compareDate = (newProducts: string) => {
     const DIFFERENCE_IN_DAYS = 7;
@@ -14,11 +19,13 @@ const compareDate = (newProducts: string) => {
 
 const page = () => {
     const [products, setProducts] = useState<ProductT[]>([]); // useState expects an array of Product
-    
+    const [loading, setLoading] = useState(true);
+      const router = useRouter();
+
       useEffect(() => {
         // const userToken = localStorage.getItem("userToken") || "";
         // const tr = JSON.parse(userToken);
-        
+        setLoading(true)
         axios({
           method: "GET",
           url: "products",
@@ -28,9 +35,22 @@ const page = () => {
         })
           .then((res) => {
             console.log("res gtff", res);
+            setLoading(false)
             setProducts(res.data);  // Set the products once
           })
           .catch((error) => {
+             if(error.response.data.message==="Unauthorized access"){
+                Swal.fire({
+                  title: "Session Expired",
+                  text: "Your session has expired. Please log in again.",
+                  icon: "warning",
+                  confirmButtonText: "OK",
+                }).then(() => {
+                  localStorage.clear();
+                  window.location.replace("/auth/login");
+                });
+                return;
+              }
             console.log(error);
           });
         
@@ -39,15 +59,28 @@ const page = () => {
       
       const newArrivals = products.filter(products => compareDate(products.createdAt))
   return (
-    <div>
-      {newArrivals.length > 0 ? (
+    <div className='px-5'>
+      <Header/>
+      <div className="flex items-center justify-between relative py-5">
+  {/* Back Arrow (left) */}
+  <button 
+    onClick={() => router.back()} 
+    className="absolute left-0 p-2"
+  >
+    <ArrowBackIosNewOutlinedIcon />
+  </button>
+
+  {/* Title (centered) */}
+  <h2 className="text-xl font-semibold mx-auto">New Arrivals</h2>
+</div>
+      {loading ? <CircleLoader isVisible={loading} /> : <> {newArrivals.length > 0 ? (
             <ProductsPageGrid products={newArrivals} />
         ) : (
             <div className="p-4 flex flex-col gap-3">
-                <h2 className="text-xl font-semibold">New Arrivals</h2>
                 <p className="text-center">No new arrivals</p>
             </div>
-        )}
+        )}</> }
+     
     </div>
   )
 }

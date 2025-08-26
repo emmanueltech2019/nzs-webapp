@@ -33,6 +33,8 @@ import LegalProviders from "./components/LegalProviders";
 import LegalAtoz from "@/app/(account)/user/dashboard/seller/inventory/components/LegalAtoz";
 import LegalServices from "@/app/(account)/user/dashboard/seller/inventory/components/LegalServices";
 import LogisticsLocation from "./components/LogisticsLocation";
+import { error } from "console";
+import Swal from "sweetalert2";
 
 interface User {
   firstname: string;
@@ -328,7 +330,21 @@ const Page: React.FC = () => {
         }
         // setProducts(res.data.products);
       })
-      .catch(console.error);
+      .catch((error)=> {
+        if(error.response.data.message==="Unauthorized access"){
+                  Swal.fire({
+                    title: "Session Expired",
+                    text: "Your session has expired. Please log in again.",
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                  }).then(() => {
+                    localStorage.clear();
+                    window.location.replace("/auth/login");
+                  });
+                  return;
+                }
+        console.log(error);
+      });
   }, []);
   return (
     <div className="p-4 md:w-[85%] m-auto mb-80">

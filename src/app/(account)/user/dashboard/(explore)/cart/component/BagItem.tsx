@@ -79,6 +79,7 @@ import { CartItemT } from '@/types/Product.types';
 import axios from "@/utils/axios";
 import { showToast } from '@/utils/alert';
 import Image from 'next/image';
+import Swal from 'sweetalert2';
 
 interface BagProps {
     item: CartItemT;
@@ -102,6 +103,18 @@ const BagItem: FC<BagProps> = ({ item }) => {
         showToast("success", "Item updated");
       })
       .catch((error) => {
+         if(error.response.data.message==="Unauthorized access"){
+                          Swal.fire({
+                            title: "Session Expired",
+                            text: "Your session has expired. Please log in again.",
+                            icon: "warning",
+                            confirmButtonText: "OK",
+                          }).then(() => {
+                            localStorage.clear();
+                            window.location.replace("/auth/login");
+                          });
+                          return;
+                        }
         console.error(error);
       });
   };

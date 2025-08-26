@@ -340,6 +340,7 @@ import PaymentOptions from "../../../../../../../../assets/images/payment-option
 import Image from "next/image";
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
+import Swal from "sweetalert2";
 
 interface User {
   firstname: string;
@@ -408,6 +409,18 @@ const PaymentComponent = () => {
                     }
                   })
                   .catch((error) => {
+                     if(error.response.data.message==="Unauthorized access"){
+                                      Swal.fire({
+                                        title: "Session Expired",
+                                        text: "Your session has expired. Please log in again.",
+                                        icon: "warning",
+                                        confirmButtonText: "OK",
+                                      }).then(() => {
+                                        localStorage.clear();
+                                        window.location.replace("/auth/login");
+                                      });
+                                      return;
+                                    }
                     console.error(error);
                     showToast("error", "Error verifying payment");
                   });
@@ -437,6 +450,18 @@ const PaymentComponent = () => {
         setUser(res.data.user);
       })
       .catch((error) => {
+         if(error.response.data.message==="Unauthorized access"){
+                          Swal.fire({
+                            title: "Session Expired",
+                            text: "Your session has expired. Please log in again.",
+                            icon: "warning",
+                            confirmButtonText: "OK",
+                          }).then(() => {
+                            localStorage.clear();
+                            window.location.replace("/auth/login");
+                          });
+                          return;
+                        }
         console.error("Error fetching profile:", error);
       });
 
@@ -451,6 +476,18 @@ const PaymentComponent = () => {
         setTotal(res.data.total);
       })
       .catch((error) => {
+         if(error.response.data.message==="Unauthorized access"){
+                          Swal.fire({
+                            title: "Session Expired",
+                            text: "Your session has expired. Please log in again.",
+                            icon: "warning",
+                            confirmButtonText: "OK",
+                          }).then(() => {
+                            localStorage.clear();
+                            window.location.replace("/auth/login");
+                          });
+                          return;
+                        }
         console.error(error);
       });
   }, []);

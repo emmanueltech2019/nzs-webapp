@@ -8,6 +8,7 @@ import TagHeader from '@/components/header/TagHeader';
 import axios from "@/utils/axios";
 import { CartItemT, CartT } from '@/types/Product.types';
 import { showToast } from '@/utils/alert';
+import Swal from 'sweetalert2';
 
 
 
@@ -62,6 +63,18 @@ const ShoppingBag = () => {
       .catch(console.error);
       })
       .catch((error) => {
+         if(error.response.data.message==="Unauthorized access"){
+                          Swal.fire({
+                            title: "Session Expired",
+                            text: "Your session has expired. Please log in again.",
+                            icon: "warning",
+                            confirmButtonText: "OK",
+                          }).then(() => {
+                            localStorage.clear();
+                            window.location.replace("/auth/login");
+                          });
+                          return;
+                        }
         console.log(error);
       });
     

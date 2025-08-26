@@ -18,9 +18,9 @@ const Pricing: FC<general_type> = ({
   const [price, setPrice] = useForm(0);
   const [discount, setDiscount] = useForm(0);
 
-  const handleConfirm = () => {
-    window.location.replace("./inventory/");
-  };
+  // const handleConfirm = () => {
+  //   window.location.replace("./inventory/");
+  // };
   // const [accountType, setAccountType] = useState([
   //     { item: 'Savings', state: false },
   //     { item: 'Current', state: false },
@@ -45,7 +45,8 @@ const Pricing: FC<general_type> = ({
       .then((res) => {
         console.log(res);
         showToast("success", res.data.message);
-        setSection(3);
+        // setSection(4);
+        window.location.replace("./inventory/");
       })
       .catch((err) => {
         console.error(err);
@@ -55,7 +56,7 @@ const Pricing: FC<general_type> = ({
 
   useEffect(() => {
     setCount(75);
-    handleBtnFunc(handleConfirm);
+    handleBtnFunc(handleAPI);
     if (setDisplayCircle) setDisplayCircle(false);
     if (setBtnText) setBtnText("CONFIRM");
     return () => {
