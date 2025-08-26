@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import openSansFont from '@/fonts/OpenSans';
 import axios from "@/utils/axios";
 import { AxiosResponse } from 'axios';
+import Swal from 'sweetalert2';
 
 interface Notification {
   _id: string; // Assuming each notification has an id; adjust as needed
@@ -62,6 +63,18 @@ const Notifications = () => {
       setReadNotifications(notifications.filter(notification => notification.isRead));
       setUnreadNotifications(notifications.filter(notification => !notification.isRead));
     }).catch((error) => {
+       if(error.response.data.message==="Unauthorized access"){
+                        Swal.fire({
+                          title: "Session Expired",
+                          text: "Your session has expired. Please log in again.",
+                          icon: "warning",
+                          confirmButtonText: "OK",
+                        }).then(() => {
+                          localStorage.clear();
+                          window.location.replace("/auth/login");
+                        });
+                        return;
+                      }
       console.error("Error fetching notifications:", error);
     });
   }, []);

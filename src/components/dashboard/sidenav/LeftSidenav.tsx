@@ -11,6 +11,7 @@ import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalance
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import Image from "next/image";
 import cartIcon from "../../../assets/icons/cart.png"
+import Swal from "sweetalert2";
 interface User {
   firstname: string;
   lastname: string;
@@ -41,6 +42,18 @@ const LeftSidenav = () => {
         setUser(res.data.user);
       })
       .catch((error) => {
+         if(error.response.data.message==="Unauthorized access"){
+                          Swal.fire({
+                            title: "Session Expired",
+                            text: "Your session has expired. Please log in again.",
+                            icon: "warning",
+                            confirmButtonText: "OK",
+                          }).then(() => {
+                            localStorage.clear();
+                            window.location.replace("/auth/login");
+                          });
+                          return;
+                        }
         console.error("Error fetching profile:", error);
       });
   }, []);

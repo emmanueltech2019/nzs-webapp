@@ -4,6 +4,7 @@ import WalletTab from "./components/WalletTab";
 import AccountBalanceCard from "@/components/cards/AccountBalanceCard";
 import WalletInfo from "./components/WalletInfo";
 import axios from "@/utils/axios";
+import Swal from "sweetalert2";
 
 interface Transaction {
   date: string;
@@ -54,6 +55,18 @@ const page = () => {
         setBalance(wallet.balance);
       })
       .catch((error) => {
+         if(error.response.data.message==="Unauthorized access"){
+                          Swal.fire({
+                            title: "Session Expired",
+                            text: "Your session has expired. Please log in again.",
+                            icon: "warning",
+                            confirmButtonText: "OK",
+                          }).then(() => {
+                            localStorage.clear();
+                            window.location.replace("/auth/login");
+                          });
+                          return;
+                        }
         console.error("Error fetching profile:", error);
       });
   }, []);

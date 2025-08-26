@@ -47,8 +47,10 @@ const BusinessDescription: FC<general_type> = ({
     OPTIONS.productType.map((item) => ({ item, state: false }))
   );
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  // const [imageFile, setImageFile] = useState<File | null>(null);
+  // const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   const [colorState, setColorState] = useState(
     OPTIONS.color.map((item) => ({ item, state: false }))
@@ -58,37 +60,62 @@ const BusinessDescription: FC<general_type> = ({
     OPTIONS.handlingType.map((item) => ({ item, state: false }))
   );
 
-  const handleSelection = (
-    state: { item: string; state: boolean }[],
-    setState: React.Dispatch<
-      React.SetStateAction<{ item: string; state: boolean }[]>
-    >,
-    selectedItem: string
-  ) => {
-    setState((prev) =>
-      prev.map(({ item, state }) => ({
-        item,
-        state: item === selectedItem ? !state : state,
-      }))
-    );
-  };
+  // const handleSelection = (
+  //   state: { item: string; state: boolean }[],
+  //   setState: React.Dispatch<
+  //     React.SetStateAction<{ item: string; state: boolean }[]>
+  //   >,
+  //   selectedItem: string
+  // ) => {
+  //   setState((prev) =>
+  //     prev.map(({ item, state }) => ({
+  //       item,
+  //       state: item === selectedItem ? !state : state,
+  //     }))
+  //   );
+  // };
+ const handleSelection = (
+  state: { item: string; state: boolean }[],
+  setState: React.Dispatch<
+    React.SetStateAction<{ item: string; state: boolean }[]>
+  >,
+  selectedItem: string
+) => {
+  setState((prev) =>
+    prev.map(({ item, state }) =>
+      item === selectedItem ? { item, state: !state } : { item, state }
+    )
+  );
+};
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (!file) return;
 
-    setImageFile(file);
+  //   setImageFile(file);
 
-    // Clean up the previous preview URL
-    if (imagePreview) {
-      URL.revokeObjectURL(imagePreview);
-    }
+  //   // Clean up the previous preview URL
+  //   if (imagePreview) {
+  //     URL.revokeObjectURL(imagePreview);
+  //   }
 
-    // Generate new preview URL
-    const previewUrl = URL.createObjectURL(file);
-    setImagePreview(previewUrl);
-  };
+  //   // Generate new preview URL
+  //   const previewUrl = URL.createObjectURL(file);
+  //   setImagePreview(previewUrl);
+  // };
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const files = e.target.files ? Array.from(e.target.files) : [];
+  if (!files.length) return;
 
+  setImageFiles(files);
+
+  // cleanup old previews
+  imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+
+  // new previews
+  const previews = files.map((file) => URL.createObjectURL(file));
+  setImagePreviews(previews);
+};
   const handleImageUpload = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -105,6 +132,7 @@ const BusinessDescription: FC<general_type> = ({
       );
 
       const data = await response.json();
+      console.log(data)
       return data.secure_url; // Get the image URL
     } catch (error) {
       console.error("Image upload failed:", error);
@@ -112,76 +140,136 @@ const BusinessDescription: FC<general_type> = ({
     }
   };
 
-  const handleAPI = async () => {
-    const userToken = localStorage.getItem("userToken");
-    if (!userToken) {
-      showToast("error", "User token not found");
-      return;
-    }
+  // const handleAPI = async () => {
+  //   const userToken = localStorage.getItem("userToken");
+  //   if (!userToken) {
+  //     showToast("error", "User token not found");
+  //     return;
+  //   }
 
-    const selectedProductTypes = productTypeState
-      .filter(({ state }) => state)
-      .map(({ item }) => item);
-    const selectedColors = colorState
-      .filter(({ state }) => state)
-      .map(({ item }) => item);
-    const selectedHandlingTypes = handlingTypeState
-      .filter(({ state }) => state)
-      .map(({ item }) => item);
+  //   const selectedProductTypes = productTypeState
+  //     .filter(({ state }) => state)
+  //     .map(({ item }) => item);
+  //   const selectedColors = colorState
+  //     .filter(({ state }) => state)
+  //     .map(({ item }) => item);
+  //   const selectedHandlingTypes = handlingTypeState
+  //     .filter(({ state }) => state)
+  //     .map(({ item }) => item);
 
-    if (!selectedProductTypes.length || !selectedColors.length) {
-      showToast("error", "Please select both product types and colors");
-      return;
-    }
+  //   if (!selectedProductTypes.length || !selectedColors.length) {
+  //     showToast("error", "Please select both product types and colors");
+  //     return;
+  //   }
 
-    if (!imageFile) {
-      alert("Please select an image.");
-      return;
-    }
+  //   if (!imageFile) {
+  //     alert("Please select an image.");
+  //     return;
+  //   }
 
-    const uploadedImageUrl = await handleImageUpload(imageFile);
-    if (!uploadedImageUrl) {
-      alert("Image upload failed.");
-      return;
-    }
+  //   const uploadedImageUrl = await handleImageUpload(imageFile);
+  //   if (!uploadedImageUrl) {
+  //     alert("Image upload failed.");
+  //     return;
+  //   }
 
-    const payload = {
-      productName,
-      description: productDescription,
-      category: selectedProductTypes,
-      color: selectedColors,
-      specialHandling: selectedHandlingTypes,
-      businessId: localStorage.getItem("activeBusiness"),
-      image: uploadedImageUrl,
-    };
+  //   const payload = {
+  //     productName,
+  //     description: productDescription,
+  //     category: selectedProductTypes,
+  //     color: selectedColors,
+  //     specialHandling: selectedHandlingTypes,
+  //     businessId: localStorage.getItem("activeBusiness"),
+  //     image: uploadedImageUrl,
+  //   };
 
-    try {
-      console.log(payload);
-      // Uncomment when the API is ready
-      const response = await axios.post("/products/vendor/create", payload, {
-        headers: { Authorization: `Bearer ${userToken}` },
-      });
-      localStorage.setItem("addProductActive", response.data.productId);
-      showToast("success", response.data.message);
-      setSection(2);
-    } catch (error) {
-      console.error(error);
-      const errorMessage = handleApiError(error, "An error occurred");
-      showToast("error", errorMessage);
-    }
-  };
+  //   try {
+  //     // console.log(payload);
+  //     // Uncomment when the API is ready
+  //     const response = await axios.post("/products/vendor/create", payload, {
+  //       headers: { Authorization: `Bearer ${userToken}` },
+  //     });
+  //     localStorage.setItem("addProductActive", response.data.productId);
+  //     showToast("success", response.data.message);
+  //     // setSection(2);
+  //   } catch (error) {
+  //     console.error(error);
+  //     const errorMessage = handleApiError(error, "An error occurred");
+  //     showToast("error", errorMessage);
+  //   }
+  // };
+
+const handleAPI = async () => {
+  const userToken = localStorage.getItem("userToken");
+  if (!userToken) {
+    showToast("error", "User token not found");
+    return;
+  }
+
+  const selectedProductTypes = productTypeState
+    .filter(({ state }) => state)
+    .map(({ item }) => item);
+  const selectedColors = colorState
+    .filter(({ state }) => state)
+    .map(({ item }) => item);
+  const selectedHandlingTypes = handlingTypeState
+    .filter(({ state }) => state)
+    .map(({ item }) => item);
+
+  if (!selectedProductTypes.length || !selectedColors.length) {
+    showToast("error", "Please select both product types and colors");
+    return;
+  }
+
+  if (!imageFiles.length) {
+    alert("Please select at least one image.");
+    return;
+  }
+
+  // ---- Prepare FormData ----
+  const formData = new FormData();
+  formData.append("productName", productName);
+  formData.append("description", productDescription);
+  formData.append("category", JSON.stringify(selectedProductTypes));
+  formData.append("color", JSON.stringify(selectedColors));
+  selectedHandlingTypes.forEach((handling) => {
+  formData.append("specialHandling[]", handling);
+});
+  formData.append("businessId", localStorage.getItem("activeBusiness") || "");
+
+  imageFiles.forEach((file) => {
+    formData.append("images", file); // "images" must match backend multer field
+  });
+
+  try {
+    const response = await axios.post("/products/vendor/create", formData, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    localStorage.setItem("addProductActive", response.data.productId);
+    showToast("success", response.data.message);
+    setSection(2);
+  } catch (error) {
+    console.error(error);
+    const errorMessage = handleApiError(error, "An error occurred");
+    showToast("error", errorMessage);
+  }
+};
 
   useEffect(() => {
     setCount(25);
     handleBtnFunc(handleAPI);
     return () => handleBtnFunc(() => console.log("default"));
-  }, [productTypeState, colorState]);
+  }, [productTypeState, colorState, handlingTypeState]);
 
   return (
     <div className="py-3 pb-5">
       <div className="bg-[#F8F9FE] p-4 rounded-lg my-[2rem]">
         <div className="bg-[#FFFFFF] p-4 flex justify-center">
-          {imageFile ? (
+          {/* {imageFile ? (
             // Display the uploaded image preview
             <div className=" transition-all duration-300 ease-in-ou">
               <img
@@ -205,7 +293,28 @@ const BusinessDescription: FC<general_type> = ({
                 />
               </Circle>
             </div>
-          )}
+          )} */}
+          {imagePreviews.length > 0 ? (
+    imagePreviews.map((preview, index) => (
+      <img
+        key={index}
+        src={preview}
+        alt="Preview"
+        className="w-24 h-24 object-cover rounded-lg"
+      />
+    ))
+  ) : (
+    <div className="-rotate-90 py-4">
+      <Circle count={uploadCount}>
+        <Icon
+          icon="ri:arrow-right-line"
+          className="text-[#006838]"
+          width="32"
+          height="32"
+        />
+      </Circle>
+    </div>
+  )}
         </div>
 
         <div className="pb-3 mt-2 flex items-center justify-center">
@@ -214,18 +323,19 @@ const BusinessDescription: FC<general_type> = ({
             id="file"
             onChange={handleFileChange}// Handle file selection
             accept="image/*"
+            multiple
             className="w-full px-4 py-2 rounded-xl outline-none placeholder:text-[#8F9098] text-[12px] hidden"
             placeholder="Upload Image"
           />
           <label
             htmlFor="file"
             className="w-full text-[12px] px-4 py-3 rounded-xl bg-[#EAF2FF] flex items-center justify-center cursor-pointer"
-          >
-            {imageFile ? (
-              <span>{imageFile.name}</span> // Display the file name once uploaded
+          >Upload Images
+            {/* {imageFiles ? (
+              <span>{imageFiles.name}</span>
             ) : (
-              <span>Product Image</span> // Default text before selection
-            )}
+              <span>Product Image</span> 
+            )} */}
           </label>
         </div>
       </div>

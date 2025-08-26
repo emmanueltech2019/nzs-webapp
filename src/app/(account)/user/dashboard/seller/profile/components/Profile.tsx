@@ -164,6 +164,18 @@ useEffect(() => {
       }
     })
     .catch((error) => {
+       if(error.response.data.message==="Unauthorized access"){
+                        Swal.fire({
+                          title: "Session Expired",
+                          text: "Your session has expired. Please log in again.",
+                          icon: "warning",
+                          confirmButtonText: "OK",
+                        }).then(() => {
+                          localStorage.clear();
+                          window.location.replace("/auth/login");
+                        });
+                        return;
+                      }
       console.error("Error fetching profile:", error);
     });
 }, []);
@@ -246,7 +258,7 @@ useEffect(() => {
                
               </p>
             </div>
-            <div>
+            {user?.accountType == "seller" ?<div>
               <p className="text-[#ADB8CC] text-sm leading-[30px] flex items-center justify-center space-x-3 py-5">
                 {" "}
                 {user?.level === "free" && (
@@ -256,7 +268,8 @@ useEffect(() => {
                 )}
                 <Button variant="outlined" color="inherit">Upgrade</Button>
               </p>
-            </div>
+            </div>:null}
+            
           </div>
         </div>
 

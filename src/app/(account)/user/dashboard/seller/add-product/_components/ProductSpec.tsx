@@ -104,7 +104,7 @@ const ProductSpec: FC<general_type> = ({
         unitAmount: unit,
         quantity,
       })
-        // setSection(3);
+        setSection(3);
         // window.location.replace("/user/dashboard/seller/inventory")
       })
       .catch((err) => {
@@ -118,7 +118,7 @@ const ProductSpec: FC<general_type> = ({
     return () => {
       handleBtnFunc(() => console.log("default"));
     };
-  }, [uploadCount, states, registeredBusinessName, description]);
+  }, [uploadCount, states, registeredBusinessName, description, unit, quantity]);
   return (
     <div className="py-3">
       <div className="py-5 w-full">

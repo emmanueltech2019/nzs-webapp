@@ -12,6 +12,7 @@ import FuncRouteBtn from "@/components/buttons/FuncRouteBtn";
 import Box from "@/components/Box";
 import axios from "@/utils/axios";
 import CircleLoader from "@/components/loader/loader";
+import Swal from "sweetalert2";
 
 const chart = "mage:chart-fill";
 const delivery = "solar:delivery-bold";
@@ -77,6 +78,18 @@ const Onboarding = () => {
       console.log(res);
     })
     .catch((error) => {
+       if(error.response.data.message==="Unauthorized access"){
+                        Swal.fire({
+                          title: "Session Expired",
+                          text: "Your session has expired. Please log in again.",
+                          icon: "warning",
+                          confirmButtonText: "OK",
+                        }).then(() => {
+                          localStorage.clear();
+                          window.location.replace("/auth/login");
+                        });
+                        return;
+                      }
       setLoading(false)
       console.error('Error fetching data:', error);
     });
