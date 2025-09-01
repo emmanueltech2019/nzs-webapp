@@ -89,6 +89,7 @@ const newArrivals = products.filter(p => compareDate(p.createdAt)).slice(0, 3);
   const data = ['popular', 'cost effective', 'location'];
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen">
       {/*  md:w-[61vw]  */}
       {
@@ -133,6 +134,7 @@ const newArrivals = products.filter(p => compareDate(p.createdAt)).slice(0, 3);
       }
       
     </div>
+    </Suspense>
   );
 };
 
