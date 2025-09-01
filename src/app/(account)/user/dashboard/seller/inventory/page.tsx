@@ -85,13 +85,24 @@ const Page: React.FC = () => {
   const [activeArrayTab, setActiveArrayTab] = useState("IN-PATIENT");
   const [activeButton, setActiveButton] = useState(false);
   const activeContainerRef = useRef<HTMLDivElement>(null);
+  const [isAvailable, setIsAvailable] = useState('available');
+  const [legalServicesTabSpecialInfoProp, setLegalServicesTabSpecialInfoProp] = useState('CRIMINAL LAW')
+  const [legalServicesTabSpecialInfoProp1, setLegalServicesTabSpecialInfoProp1] = useState('CONSULTATION')
+  const [legalServicesTabSpecialInfoProp2, setLegalServicesTabSpecialInfoProp2] = useState('PARTNER')
+  const [legalServicesTabSpecialInfoProp3, setLegalServicesTabSpecialInfoProp3] = useState('PARTNER')
+  const [legalServicesTabSpecialInfoProp4, setLegalServicesTabSpecialInfoProp4] = useState('PARTNER')
+  const [legalServicesTabSpecialInfoProp5, setLegalServicesTabSpecialInfoProp5] = useState('PARTNER')
+  const [legalServicesTabInput1Prop1, setLegalServicesTabInput1Prop11] = useState('')
+  const [legalServicesTabInput1Prop2, setLegalServicesTabInput1Prop2] = useState('')
+  const [legalServicesTabInput1Prop3, setLegalServicesTabInput1Prop3] = useState('')
+  const [countProp, setCountProp] = useState(1);
 
   // Filter tab groups by account type
   const filterTabMap: Record<User["accountType"], string[]> = {
     seller: ["date", "status", "location", "price"],
     logistics: ["unit", "location", "category", "price"],
     health: ["a-z", "providers", "caretype", "services"],
-    legal: ["a-z", "date", "providers", "services"],
+    legal: ["a-z", "date", "services"],
     education: ["class/courses", "facilities"],
     hospitality: ["date", "facilities", "services"],
     buyer: [],
@@ -469,9 +480,18 @@ const fetchUserDataAndBusiness = async () => {
   return (
     <div className="p-4 md:w-[85%] m-auto mb-80">
       <Header />
+      <div className="flex items-center w-full">
+        <div onClick={() => setIsAvailable('available')} className={`flex justify-center items-center py-3 flex-grow cursor-pointer ${isAvailable === 'available' ? 'border-b-4 border-[#006838]' : 'border-b'}`}>
+          AVAILABLE
+        </div>
+        <div onClick={() => setIsAvailable('not available')} className={`flex justify-center items-center py-3 flex-grow cursor-pointer ${isAvailable === 'not available' ? 'border-b-4 border-[#006838]' : 'border-b'}`}>
+          NOT AVAILABLE
+        </div>
+      </div>
 
-      {/* Show Seller Order Tab and Sort Filter if applicable */}
-      {(sector === "E-Commerce" || sector === "logistics") && (
+      {isAvailable === 'available' ? (
+        <>
+          {(sector === "E-Commerce" || sector === "logistics") && (
         <>
           <SellerTransStatusTab
             activeStatTab={activeOrderTab}
@@ -483,6 +503,8 @@ const fetchUserDataAndBusiness = async () => {
 
       {sector === "health" && (
         <SortFilter
+          addProduct={addProductProp}
+          setAddProduct={setAddProductProp}
           activeTab={activeFilterTab}
           setActiveTab={setactiveFilterTab}
           sortFilterArray={filterTabMap.health}
@@ -490,6 +512,8 @@ const fetchUserDataAndBusiness = async () => {
       )}
       {sector === "hospitality" && (
         <SortFilter
+          addProduct={addProductProp}
+          setAddProduct={setAddProductProp}
           activeTab={hospitalityActiveFilterTab}
           setActiveTab={setHospitalityActiveFilterTab}
           sortFilterArray={filterTabMap.hospitality}
@@ -497,6 +521,8 @@ const fetchUserDataAndBusiness = async () => {
       )}
       {sector === "education" && (
         <SortFilter
+          addProduct={addProductProp}
+          setAddProduct={setAddProductProp}
           activeTab={educationActiveFilterTab}
           setActiveTab={setEducationActiveFilterTab}
           sortFilterArray={filterTabMap.education}
@@ -504,6 +530,8 @@ const fetchUserDataAndBusiness = async () => {
       )}
       {sector === "legal" && (
         <SortFilter
+          addProduct={addProductProp}
+          setAddProduct={setAddProductProp}
           activeTab={legalActiveFilterTab}
           setActiveTab={setLegalActiveFilterTab}
           sortFilterArray={filterTabMap.legal}
@@ -511,6 +539,8 @@ const fetchUserDataAndBusiness = async () => {
       )}
       {sector === "logistics" && (
         <SortFilter
+          addProduct={addProductProp}
+          setAddProduct={setAddProductProp}
           activeTab={logisticsActiveFilterTab}
           setActiveTab={setLogisticsActiveFilterTab}
           sortFilterArray={filterTabMap.logistics}
@@ -591,7 +621,7 @@ const fetchUserDataAndBusiness = async () => {
                 activeSelection={activeSelection}
               />
             )}
-            {legalActiveFilterTab === "providers" && (
+            {/* {legalActiveFilterTab === "providers" && (
               <LegalProviders
                 setActiveArrayTab={setActiveArrayTab}
                 activeArrayTab={activeArrayTab}
@@ -603,11 +633,36 @@ const fetchUserDataAndBusiness = async () => {
                 setActiveSelection={setActiveSelection}
                 activeSelection={activeSelection}
               />
-            )}
+            )} */}
             {legalActiveFilterTab === "services" && (
               <LegalServices
-                setActiveSelection={setActiveSelection}
-                activeSelection={activeSelection}
+                setActiveArrayTab={setActiveArrayTab}
+                activeArrayTab={activeArrayTab}
+                activeRoute={activeRouteProp5}
+                setActiveRoute={setActiveRouteProp5}
+                addProduct={addProductProp}
+                setAddProduct={setAddProductProp}
+                setLegalServicesTabSpecialInfo={setLegalServicesTabSpecialInfoProp}
+                legalServicesTabSpecialInfo={legalServicesTabSpecialInfoProp}
+                setLegalServicesTabSpecialInfo1={setLegalServicesTabSpecialInfoProp1}
+                legalServicesTabSpecialInfo1={legalServicesTabSpecialInfoProp1}
+                setLegalServicesTabSpecialInfo2={setLegalServicesTabSpecialInfoProp2}
+                legalServicesTabSpecialInfo2={legalServicesTabSpecialInfoProp2}
+                setLegalServicesTabSpecialInfo3={setLegalServicesTabSpecialInfoProp3}
+                legalServicesTabSpecialInfo3={legalServicesTabSpecialInfoProp3}
+                setLegalServicesTabSpecialInfo4={setLegalServicesTabSpecialInfoProp4}
+                legalServicesTabSpecialInfo4={legalServicesTabSpecialInfoProp4}
+                setLegalServicesTabSpecialInfo5={setLegalServicesTabSpecialInfoProp5}
+                legalServicesTabSpecialInfo5={legalServicesTabSpecialInfoProp5}
+                legalServicesTabInput1={legalServicesTabInput1Prop1}
+                setLegalServicesTabInput1={setLegalServicesTabInput1Prop11}
+                legalServicesTabInput2={legalServicesTabInput1Prop2}
+                setLegalServicesTabInput2={setLegalServicesTabInput1Prop2}
+                legalServicesTabInput3={legalServicesTabInput1Prop3}
+                setLegalServicesTabInput3={setLegalServicesTabInput1Prop3}
+                countValue={countProp}
+                setCountValue={setCountProp}
+
               />
             )}
             {legalActiveFilterTab === "date" && (
@@ -1047,7 +1102,7 @@ const fetchUserDataAndBusiness = async () => {
           )}
         </div>
       )}
-      {legalActiveFilterTab === "providers" && addProductProp && (
+      {legalActiveFilterTab === "services" && addProductProp ? (
         <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
           <div
             onClick={() => setActiveButton(!activeButton)}
@@ -1080,8 +1135,61 @@ const fetchUserDataAndBusiness = async () => {
               }}
             >
               {/* Booking content placeholder */}
-              <div className="text-gray-500 text-sm">
-                Booking content goes here.
+              <div className="text-gray-500 text-sm flex flex-col gap-5">
+                <div className="border-b border-gray-500 py-3 font-bold">
+                  Specialty Info
+                </div>
+                <div className="flex justify-between items-center">
+                  <p>Specialty Title:</p>
+                  {legalServicesTabInput1Prop1}
+                </div>
+                <div className="flex justify-between items-center">
+                  <p>Description:</p>
+                  {legalServicesTabInput1Prop2}
+                </div>
+                <div className="flex justify-between items-center">
+                  <p>Similar Specialties:</p>
+                  {legalServicesTabSpecialInfoProp}
+                </div>
+                <div className="flex justify-between items-center">
+                  <p>Services Available:</p>
+                  {legalServicesTabSpecialInfoProp1}
+                </div>
+                <div className="flex justify-between items-center">
+                  <p>Procedure Type:</p>
+                  {legalServicesTabInput1Prop3}
+                </div>
+                <div className="border-b border-gray-500 py-3 font-bold">
+                  Provider Info
+                </div>
+                <div className="flex justify-between items-center">
+                  <p>ProviderType:</p>
+                  <div className="flex flex-col gap-2">
+                    {countProp === 1 ? (
+                      <>
+                        {legalServicesTabSpecialInfoProp2}
+                      </>
+                    ) : countProp === 2 ? (
+                      <>
+                        {legalServicesTabSpecialInfoProp2}
+                        {legalServicesTabSpecialInfoProp3}
+                      </>
+                    ) : countProp === 3 ? (
+                      <>
+                        {legalServicesTabSpecialInfoProp2}
+                        {legalServicesTabSpecialInfoProp3}
+                        {legalServicesTabSpecialInfoProp4}
+                      </>
+                    ) : countProp === 4 && (
+                      <>
+                        {legalServicesTabSpecialInfoProp2}
+                        {legalServicesTabSpecialInfoProp3}
+                        {legalServicesTabSpecialInfoProp4}
+                        {legalServicesTabSpecialInfoProp5}
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1120,6 +1228,8 @@ const fetchUserDataAndBusiness = async () => {
             </div>
           )}
         </div>
+      ) : (
+        null
       )}
       {logisticsActiveFilterTab === "location" && addProductProp && (
         <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
@@ -1195,6 +1305,11 @@ const fetchUserDataAndBusiness = async () => {
           )}
         </div>
       )}
+        </>
+      ) : (
+        <></>
+      )}
+
     </div>
   );
 };
