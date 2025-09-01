@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const GIG_API = axios.create({
-//   baseURL: "https://dev-thirdpartynode.theagilitysystems.com", // switch to prod later
-baseURL: "https://thirdpartynode.theagilitysystems.com/",
+  baseURL: "https://dev-thirdpartynode.theagilitysystems.com", // switch to prod later
+// baseURL: "https://thirdpartynode.theagilitysystems.com/",
 });
 
 // Login to get token

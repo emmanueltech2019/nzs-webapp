@@ -22,6 +22,7 @@ export interface ProductT {
   discount: number;
   type: string;
   createdAt: string;
+  completedStatus: boolean;
   // stockSold:number
 }
 

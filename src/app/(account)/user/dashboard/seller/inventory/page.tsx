@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "@/utils/axios";
 import { ProductT } from "@/types/Product.types";
+import { isAxiosError } from "axios"; // Import AxiosError
 
 import InStock from "./components/stock/InStock";
 import OutOfStock from "./components/stock/OutOfStock";
@@ -33,7 +34,7 @@ import LegalProviders from "./components/LegalProviders";
 import LegalAtoz from "@/app/(account)/user/dashboard/seller/inventory/components/LegalAtoz";
 import LegalServices from "@/app/(account)/user/dashboard/seller/inventory/components/LegalServices";
 import LogisticsLocation from "./components/LogisticsLocation";
-import { error } from "console";
+// import { error } from "console";
 import Swal from "sweetalert2";
 
 interface User {
@@ -291,50 +292,180 @@ const Page: React.FC = () => {
   // Dynamic tab options based on user type
   const userFilterTabs = user ? filterTabMap[user.accountType] || [] : [];
 
-  useEffect(() => {
-    const token = localStorage.getItem("userToken");
-    if (!token) return;
-    // alert(localStorage.getItem("activeBusiness"))
-    axios
-      .get(`/users/profile/${localStorage.getItem("activeBusiness")}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        axios
-          .get("/business/get/business", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then((businessRes) => {
-            setSector(businessRes.data.business.sectors);
-            setBusiness(businessRes.data.business);
-          });
-        setUser(res.data.user);
-        setBusiness(res.data.business);
-        if (!localStorage.getItem("activeBusiness")) {
-          localStorage.setItem("activeBusiness", res.data.businesses[0]._id);
-        }
-        // setProducts(res.data.products);
-      })
-      .catch((error)=> {
-        if(error.response.data.message==="Unauthorized access"){
-                  Swal.fire({
-                    title: "Session Expired",
-                    text: "Your session has expired. Please log in again.",
-                    icon: "warning",
-                    confirmButtonText: "OK",
-                  }).then(() => {
-                    localStorage.clear();
-                    window.location.replace("/auth/login");
-                  });
-                  return;
-                }
-        console.log(error);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("userToken");
+  //   if (!token) return;
+  //   // alert(localStorage.getItem("activeBusiness"))
+  //   axios
+  //     .get(`/users/profile/${localStorage.getItem("activeBusiness")}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       axios
+  //         .get("/business/get/business", {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         })
+  //         .then((businessRes) => {
+  //           alert("no active business, setting one");
+  //           setSector(businessRes.data.business.sectors);
+  //           setBusiness(businessRes.data.business);
+  //         });
+  //       setUser(res.data.user);
+  //       setBusiness(res.data.business);
+  //       if (!localStorage.getItem("activeBusiness")) {
+  //         localStorage.setItem("activeBusiness", res.data.businesses[0]._id);
+  //       }
+  //       // setProducts(res.data.products);
+  //     })
+  //     .catch((error)=> {
+  //       if(error.response.data.message==="Unauthorized access"){
+  //                 Swal.fire({
+  //                   title: "Session Expired",
+  //                   text: "Your session has expired. Please log in again.",
+  //                   icon: "warning",
+  //                   confirmButtonText: "OK",
+  //                 }).then(() => {
+  //                   localStorage.clear();
+  //                   window.location.replace("/auth/login");
+  //                 });
+  //                 return;
+  //               }
+  //       console.log(error);
+  //     });
+  // }, []);
+
+useEffect(() => {
+  const token = localStorage.getItem("userToken");
+  
+  if (!token) {
+    // Redirect to login if no token exists
+    Swal.fire({
+      title: "Session Expired",
+      text: "Your session has expired. Please log in again.",
+      icon: "warning",
+      confirmButtonText: "OK",
+    }).then(() => {
+      localStorage.clear();
+      window.location.replace("/auth/login");
+    });
+    return;
+  }
+
+  // const fetchUserDataAndBusiness = async () => {
+  //   let businessId = localStorage.getItem("activeBusiness");
+
+  //   // First API call to get user profile and business list
+  //   try {
+  //     const userRes = await axios.get("/users/profile", {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+
+  //     const { user, businesses } = userRes.data;
+  //     setUser(user);
+  //     // setBusinesses(businesses);
+  //     // If no active business is set, set the first one from the list
+  //     if (!businessId && businesses && businesses.length > 0) {
+  //       businessId = businesses[0]._id;
+  //       localStorage.setItem("activeBusiness", businessId);
+  //     }
+
+  //     // Check if a businessId is now available to make the next call
+  //     if (businessId) {
+  //       // Second API call to get specific business details using the ID
+  //       const businessRes = await axios.get(`/business/${businessId}`, {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       });
+  //       const businessData = businessRes.data.business;
+  //       setBusiness(businessData);
+  //       setSector(businessData.sectors);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to fetch data:", error);
+  //     // Handle session expiration and other errors
+  //     if (error.response?.data?.message === "Unauthorized access") {
+  //       Swal.fire({
+  //         title: "Session Expired",
+  //         text: "Your session has expired. Please log in again.",
+  //         icon: "warning",
+  //         confirmButtonText: "OK",
+  //       }).then(() => {
+  //         localStorage.clear();
+  //         window.location.replace("/auth/login");
+  //       });
+  //     }
+  //   }
+  // };
+const fetchUserDataAndBusiness = async () => {
+  let businessId = localStorage.getItem("activeBusiness");
+
+  // First API call to get user profile and business list
+  try {
+    const userRes = await axios.get("/users/profile", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const { user, businesses } = userRes.data;
+    setUser(user);
+    // setBusinesses(businesses);
+    // If no active business is set, set the first one from the list
+    if (!businessId && businesses && businesses.length > 0) {
+      businessId = businesses[0]?._id;
+      localStorage.setItem("activeBusiness", businesses[0]?._id);
+    }
+
+    // Check if a businessId is now available to make the next call
+    if (businessId) { // This check correctly handles the `null` case
+      // Second API call to get specific business details using the ID
+      const businessRes = await axios.get(`/business/get/business/`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
-  }, []);
+      const businessData = businessRes.data.business;
+      setBusiness(businessData);
+      setSector(businessData.sectors);
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+    // Now TypeScript knows that `error` is an AxiosError.
+    // We can safely check for the `response` property.
+    if (error.response?.data?.message === "Unauthorized access") {
+      Swal.fire({
+        title: "Session Expired",
+        text: "Your session has expired. Please log in again.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      }).then(() => {
+        localStorage.clear();
+        window.location.replace("/auth/login");
+      });
+      return;
+    }
+  }
+  // This part handles all other errors, including non-Axios errors
+  // or Axios errors without a response.
+  console.error("An unexpected error occurred:", error);
+
+
+    // console.error("Failed to fetch data:", error);
+    // // Handle session expiration and other errors
+    // if (error.response?.data?.message === "Unauthorized access") {
+    //   Swal.fire({
+    //     title: "Session Expired",
+    //     text: "Your session has expired. Please log in again.",
+    //     icon: "warning",
+    //     confirmButtonText: "OK",
+    //   }).then(() => {
+    //     localStorage.clear();
+    //     window.location.replace("/auth/login");
+    //   });
+    // }
+  }
+};
+  fetchUserDataAndBusiness();
+}, []);
   return (
     <div className="p-4 md:w-[85%] m-auto mb-80">
       <Header />

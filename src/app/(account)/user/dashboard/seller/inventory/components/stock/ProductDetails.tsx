@@ -32,9 +32,9 @@ const ProductDetail: React.FC<ProductT> = ({
           />}
         
         <div className="absolute top-4 right-4">
-          <Button variant="contained" color="success" size="small">
+          {/* <Button variant="contained" color="success" size="small">
             Edit Product
-          </Button>
+          </Button> */}
         </div>
       </div>
       <div className="px-2 py-2 space-y-2">
