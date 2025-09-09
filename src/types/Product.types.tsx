@@ -22,9 +22,16 @@ export interface ProductT {
   discount: number;
   type: string;
   createdAt: string;
+  quantityInfo: quantityInfo
   // stockSold:number
 }
 
+export interface quantityInfo {
+  quantity: number;
+  quantityType: string;
+  quantityUnit: string
+
+}
 export interface CartItemT {
     productId: ProductT;
     quantity: number;

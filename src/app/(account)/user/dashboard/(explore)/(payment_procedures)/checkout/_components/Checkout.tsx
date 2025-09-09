@@ -114,7 +114,7 @@ const CheckoutShipping: React.FC = () => {
           return;
         }
       });
-  }, []);
+  }, [showModal]);
   return (
     <>
       {showModal && <AddressModal onClose={() => setShowModal(false)} />}
