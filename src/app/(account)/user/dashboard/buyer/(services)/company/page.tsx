@@ -76,7 +76,7 @@ const Main = () => {
   console.log(pageValue)
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       {pageValue == "hospitality" ? <>
         <div className="w-full">
 
@@ -476,7 +476,7 @@ const Main = () => {
 
       }
 
-    </>
+    </Suspense>
   );
 };
 const FacilityPage = () => (

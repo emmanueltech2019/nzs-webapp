@@ -17,12 +17,12 @@ const CircleLoader: React.FC<CircleLoaderProps> = ({ isVisible }) => {
         left: 0,
         width: '100vw',
         height: '100vh',
-        backgroundColor: 'rgba(0, 0, 0, 0.1)', // Semi-transparent overlay
+        backgroundColor: 'rgba(0, 0, 0, 0.3)', // Semi-transparent overlay
         backdropFilter: 'blur(10px)', // Blur effect
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        opacity: 0.2,
+        opacity: 0.3,
         zIndex: 1000000000, // Ensure it appears above other content
       }}
     >

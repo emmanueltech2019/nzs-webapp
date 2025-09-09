@@ -78,43 +78,43 @@ const Profile = () => {
     });
   };
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-const [uploading, setUploading] = useState(false);
-const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-const handleImageClick = () => {
-  fileInputRef.current?.click();
-};
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
 
-const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-  // Show preview immediately
-  const localPreview = URL.createObjectURL(file);
-  setPreviewImage(localPreview);
+    // Show preview immediately
+    const localPreview = URL.createObjectURL(file);
+    setPreviewImage(localPreview);
 
-  // Upload
-  const formData = new FormData();
-  formData.append("picture", file);
+    // Upload
+    const formData = new FormData();
+    formData.append("picture", file);
 
-  try {
-    setUploading(true);
-    const res = await axios.post("/users/upload-picture", formData, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    // Assuming response returns { imageUrl: 'https://...' }
-    setPreviewImage(res.data.profilePicture);
-    showToast("success", "Profile picture updated!");
-  } catch (error) {
-    showToast("error", "Failed to upload image");
-    console.error(error);
-  } finally {
-    setUploading(false);
-  }
-};
+    try {
+      setUploading(true);
+      const res = await axios.post("/users/upload-picture", formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      // Assuming response returns { imageUrl: 'https://...' }
+      setPreviewImage(res.data.profilePicture);
+      showToast("success", "Profile picture updated!");
+    } catch (error) {
+      showToast("error", "Failed to upload image");
+      console.error(error);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   // useEffect(() => {
   //   if (!localStorage.getItem("userToken")) {
@@ -140,45 +140,49 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   //       console.error("Error fetching profile:", error);
   //     });
   // }, []);
-useEffect(() => {
-  if (!localStorage.getItem("userToken")) {
-    console.error("User token is missing.");
-    return;
-  }
+  useEffect(() => {
+    if (!localStorage.getItem("userToken")) {
+      console.error("User token is missing.");
+      return;
+    }
 
-  axios.get("/users/profile", {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-    },
-  })
-    .then((res) => {
-      console.log("All Businesses", res.data.businesses);
-      console.log("User Data", res.data.user);
-      
-      setBusinesses(res.data.businesses);
-      setUser(res.data.user);
+    axios
+      .get("/users/profile", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      })
+      .then((res) => {
+        console.log("All Businesses", res.data.businesses);
+        console.log("User Data", res.data.user);
 
-      // If profilePicture exists and is not empty, use it
-      if (res.data.user?.profilePicture && res.data.user.profilePicture.trim() !== "") {
-        setPreviewImage(res.data.user.profilePicture);
-      }
-    })
-    .catch((error) => {
-       if(error.response.data.message==="Unauthorized access"){
-                        Swal.fire({
-                          title: "Session Expired",
-                          text: "Your session has expired. Please log in again.",
-                          icon: "warning",
-                          confirmButtonText: "OK",
-                        }).then(() => {
-                          localStorage.clear();
-                          window.location.replace("/auth/login");
-                        });
-                        return;
-                      }
-      console.error("Error fetching profile:", error);
-    });
-}, []);
+        setBusinesses(res.data.businesses);
+        setUser(res.data.user);
+
+        // If profilePicture exists and is not empty, use it
+        if (
+          res.data.user?.profilePicture &&
+          res.data.user.profilePicture.trim() !== ""
+        ) {
+          setPreviewImage(res.data.user.profilePicture);
+        }
+      })
+      .catch((error) => {
+        if (error.response.data.message === "Unauthorized access") {
+          Swal.fire({
+            title: "Session Expired",
+            text: "Your session has expired. Please log in again.",
+            icon: "warning",
+            confirmButtonText: "OK",
+          }).then(() => {
+            localStorage.clear();
+            window.location.replace("/auth/login");
+          });
+          return;
+        }
+        console.error("Error fetching profile:", error);
+      });
+  }, []);
   return (
     <div>
       <div className="pb-10">
@@ -210,40 +214,44 @@ useEffect(() => {
               className="rounded-full rotate-[40deg] mx-auto mt-1"
             />
           </div> */}
-<div className="relative mt-[59px] border-2 border-s-[#006838] border-b-[#006838] border-t-[#006838] p-2 rounded-full w-[130px] h-[130px] m-auto -rotate-[40deg]">
-  <div className="absolute z-20 right-1 bottom-1 h-[30px] w-[30px] bg-[#006838] rotate-[40deg] rounded-full">
-    <p className={`text-xs text-[#ffffff] ${roboto.className} antialiased font-[900] mt-2 mx-2`}>🤍</p>
-  </div>
+          <div className="relative mt-[59px] border-2 border-s-[#006838] border-b-[#006838] border-t-[#006838] p-2 rounded-full w-[130px] h-[130px] m-auto -rotate-[40deg]">
+            <div className="absolute z-20 right-1 bottom-1 h-[30px] w-[30px] bg-[#006838] rotate-[40deg] rounded-full">
+              <p
+                className={`text-xs text-[#ffffff] ${roboto.className} antialiased font-[900] mt-2 mx-2`}
+              >
+                🤍
+              </p>
+            </div>
 
-  <Image
-    src={
-      previewImage ||
-      (user?.accountType == "buyer"
-        ? "https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906737/Asset_490_dzaqyl.png"
-        : "https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906736/Asset_390_y9mpv3.png")
-    }
-    alt="Profile"
-    fill
-    className="rounded-full rotate-[40deg] mx-auto mt-1 cursor-pointer object-cover rounded-full"
-    onClick={handleImageClick}
-  />
+            <Image
+              src={
+                previewImage ||
+                (user?.accountType == "buyer"
+                  ? "https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906737/Asset_490_dzaqyl.png"
+                  : "https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906736/Asset_390_y9mpv3.png")
+              }
+              alt="Profile"
+              fill
+              className="rounded-full rotate-[40deg] mx-auto mt-1 cursor-pointer object-cover rounded-full"
+              onClick={handleImageClick}
+            />
 
-  {uploading && (
-    <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-full rotate-[40deg]">
-      <span className="text-white text-xs">Uploading...</span>
-    </div>
-  )}
+            {uploading && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-full rotate-[40deg]">
+                <span className="text-white text-xs">Uploading...</span>
+              </div>
+            )}
 
-  <input
-    type="file"
-    accept="image/*"
-    ref={fileInputRef}
-    onChange={handleFileChange}
-    className="hidden h-full w-full"
-    style={{width:"100", height:"100"}}
-  />
-</div>
-         <div
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              className="hidden h-full w-full"
+              style={{ width: "100", height: "100" }}
+            />
+          </div>
+          <div
             className={`${roboto.className} antialiased font-bold text-center`}
           >
             <div className="mt-[31px] mb-1">
@@ -255,21 +263,28 @@ useEffect(() => {
               <p className="text-[#ADB8CC] text-sm leading-[30px]">
                 {" "}
                 {user?.email}
-               
               </p>
             </div>
-            {user?.accountType == "seller" ?<div>
-              <p className="text-[#ADB8CC] text-sm leading-[30px] flex items-center justify-center space-x-3 py-5">
-                {" "}
-                {user?.level === "free" && (
-                  <span className="text-[#FF0000] text-xs ml-2">
-                    <Image src={FreeImg} alt="Free Plan" width={50} height={50} />
-                  </span>
-                )}
-                <Button variant="outlined" color="inherit">Upgrade</Button>
-              </p>
-            </div>:null}
-            
+            {user?.accountType == "seller" ? (
+              <div>
+                <p className="text-[#ADB8CC] text-sm leading-[30px] flex items-center justify-center space-x-3 py-5">
+                  {" "}
+                  {user?.level === "free" && (
+                    <span className="text-[#FF0000] text-xs ml-2">
+                      <Image
+                        src={FreeImg}
+                        alt="Free Plan"
+                        width={50}
+                        height={50}
+                      />
+                    </span>
+                  )}
+                  <Button variant="outlined" color="inherit">
+                    Upgrade
+                  </Button>
+                </p>
+              </div>
+            ) : null}
           </div>
         </div>
 
@@ -338,13 +353,13 @@ useEffect(() => {
                       <span>Add Business</span>
                       <span className="text-2xl ml-2">+</span>
                     </Link> */}
-                      <Link
-                        href="/user/dashboard/seller/create-business"
-                        className="flex items-center justify-center mt-4 text-gray-500 text-lg font-semibold"
-                      >
-                        <span>Add Business</span>
-                        <span className="text-2xl ml-2">+</span>
-                      </Link>
+                    <Link
+                      href="/user/dashboard/seller/create-business"
+                      className="flex items-center justify-center mt-4 text-gray-500 text-lg font-semibold"
+                    >
+                      <span>Add Business</span>
+                      <span className="text-2xl ml-2">+</span>
+                    </Link>
                   </div>
                 </>
               )}
@@ -361,18 +376,39 @@ useEffect(() => {
           ) : (
             ""
           )}
-          
+
           <div className="flex items-center gap-1 my-2 py-2 relative overflow-x-hidden">
             <div className="flex items-center gap-1 my-2 p-2 bg-[#FFF] z-40">
-              <Icon icon="hugeicons:menu-08" className={`text-[#8F9098]`} width="15" height="15" />
-              <p className="text-[14px] font-normal text-[#1F2024] leading-4">Account</p>
-              <Icon icon="mynaui:chevron-left" className={`cursor-pointer ms-2 text-[#8F9098] ${isVisible ? "rotate-180" : ""}`} width="19" height="19" onClick={() => toggleVisibility()}/>
+              <Icon
+                icon="hugeicons:menu-08"
+                className={`text-[#8F9098]`}
+                width="15"
+                height="15"
+              />
+              <p className="text-[14px] font-normal text-[#1F2024] leading-4">
+                Account
+              </p>
+              <Icon
+                icon="mynaui:chevron-left"
+                className={`cursor-pointer ms-2 text-[#8F9098] ${
+                  isVisible ? "rotate-180" : ""
+                }`}
+                width="19"
+                height="19"
+                onClick={() => toggleVisibility()}
+              />
             </div>
-            <div className={`absolute overflow-x-auto whitespace-nowrap ${isVisible ? "right-[50%]" : "right-0"} transition-all duration-500 ease-in-out`}>
-              <ServiceFilterButtons 
-                filterArray={profileFilter} 
-                active={user?.accountType === "buyer" ? "Buyer" : "Seller"} 
-                setActive={(tab: string) => console.log(`Active tab set to: ${tab}`)} 
+            <div
+              className={`absolute overflow-x-auto whitespace-nowrap ${
+                isVisible ? "right-[50%]" : "right-0"
+              } transition-all duration-500 ease-in-out`}
+            >
+              <ServiceFilterButtons
+                filterArray={profileFilter}
+                active={user?.accountType === "buyer" ? "Buyer" : "Seller"}
+                setActive={(tab: string) =>
+                  console.log(`Active tab set to: ${tab}`)
+                }
               />
             </div>
           </div>
