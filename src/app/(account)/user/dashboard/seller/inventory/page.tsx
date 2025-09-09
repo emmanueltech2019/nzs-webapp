@@ -2,11 +2,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "@/utils/axios";
 import { ProductT } from "@/types/Product.types";
-<<<<<<< HEAD
 import { Icon } from '@iconify/react'
-=======
 import { isAxiosError } from "axios"; // Import AxiosError
->>>>>>> da91199712ecd3746200414ab5aabcc78cafba4a
 
 import InStock from "./components/stock/InStock";
 import OutOfStock from "./components/stock/OutOfStock";
@@ -38,12 +35,9 @@ import LegalProviders from "./components/LegalProviders";
 import LegalAtoz from "@/app/(account)/user/dashboard/seller/inventory/components/LegalAtoz";
 import LegalServices, { AddSpecialty } from "@/app/(account)/user/dashboard/seller/inventory/components/LegalServices";
 import LogisticsLocation from "./components/LogisticsLocation";
-<<<<<<< HEAD
 import { describe } from "node:test";
-=======
 // import { error } from "console";
 import Swal from "sweetalert2";
->>>>>>> da91199712ecd3746200414ab5aabcc78cafba4a
 
 interface User {
   firstname: string;
