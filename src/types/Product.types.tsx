@@ -22,10 +22,20 @@ export interface ProductT {
   discount: number;
   type: string;
   createdAt: string;
+<<<<<<< HEAD
+  quantityInfo: quantityInfo
+=======
   completedStatus: boolean;
+>>>>>>> da91199712ecd3746200414ab5aabcc78cafba4a
   // stockSold:number
 }
 
+export interface quantityInfo {
+  quantity: number;
+  quantityType: string;
+  quantityUnit: string
+
+}
 export interface CartItemT {
     productId: ProductT;
     quantity: number;

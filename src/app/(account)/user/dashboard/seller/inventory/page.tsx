@@ -2,7 +2,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "@/utils/axios";
 import { ProductT } from "@/types/Product.types";
+<<<<<<< HEAD
+import { Icon } from '@iconify/react'
+=======
 import { isAxiosError } from "axios"; // Import AxiosError
+>>>>>>> da91199712ecd3746200414ab5aabcc78cafba4a
 
 import InStock from "./components/stock/InStock";
 import OutOfStock from "./components/stock/OutOfStock";
@@ -32,10 +36,14 @@ import EducationFacilities from "./components/EducationFacilities";
 import LegalDate from "./components/LegalDate";
 import LegalProviders from "./components/LegalProviders";
 import LegalAtoz from "@/app/(account)/user/dashboard/seller/inventory/components/LegalAtoz";
-import LegalServices from "@/app/(account)/user/dashboard/seller/inventory/components/LegalServices";
+import LegalServices, { AddSpecialty } from "@/app/(account)/user/dashboard/seller/inventory/components/LegalServices";
 import LogisticsLocation from "./components/LogisticsLocation";
+<<<<<<< HEAD
+import { describe } from "node:test";
+=======
 // import { error } from "console";
 import Swal from "sweetalert2";
+>>>>>>> da91199712ecd3746200414ab5aabcc78cafba4a
 
 interface User {
   firstname: string;
@@ -68,6 +76,7 @@ const Page: React.FC = () => {
   const [activeRouteProp4, setActiveRouteProp4] = useState("facility");
   const [activeRouteProp5, setActiveRouteProp5] = useState("specialty");
   const [addProductProp, setAddProductProp] = useState(false);
+  const [addProductProp1, setAddProductProp1] = useState(false);
   const [activeOrderTab, setActiveOrderTab] = useState("IN-STOCK");
   const [activeSortFilter, setActiveSortFilter] = useState("date");
   const [activeFilterTab, setactiveFilterTab] = useState("a-z");
@@ -85,17 +94,139 @@ const Page: React.FC = () => {
   const [activeArrayTab, setActiveArrayTab] = useState("IN-PATIENT");
   const [activeButton, setActiveButton] = useState(false);
   const activeContainerRef = useRef<HTMLDivElement>(null);
+  // Legal service states
   const [isAvailable, setIsAvailable] = useState('available');
-  const [legalServicesTabSpecialInfoProp, setLegalServicesTabSpecialInfoProp] = useState('CRIMINAL LAW')
-  const [legalServicesTabSpecialInfoProp1, setLegalServicesTabSpecialInfoProp1] = useState('CONSULTATION')
-  const [legalServicesTabSpecialInfoProp2, setLegalServicesTabSpecialInfoProp2] = useState('PARTNER')
-  const [legalServicesTabSpecialInfoProp3, setLegalServicesTabSpecialInfoProp3] = useState('PARTNER')
-  const [legalServicesTabSpecialInfoProp4, setLegalServicesTabSpecialInfoProp4] = useState('PARTNER')
-  const [legalServicesTabSpecialInfoProp5, setLegalServicesTabSpecialInfoProp5] = useState('PARTNER')
-  const [legalServicesTabInput1Prop1, setLegalServicesTabInput1Prop11] = useState('')
-  const [legalServicesTabInput1Prop2, setLegalServicesTabInput1Prop2] = useState('')
-  const [legalServicesTabInput1Prop3, setLegalServicesTabInput1Prop3] = useState('')
-  const [countProp, setCountProp] = useState(1);
+  const [specialtyTitle, setSpecialTitle] = useState('');
+  const [specialtyDescription, setSpecialDescription] = useState('');
+  const [similarSpecialty, setSimilarSpecialty] = useState('CRIMINAL LAW');
+  const [servicesAvailable, setServicesAvailable] = useState('CONSULTATION');
+  const [procedureType, setProcedureType] = useState('');
+  const [providerName1, setProviderName1] = useState('');
+  const [providerName2, setProviderName2] = useState('');
+  const [providerName3, setProviderName3] = useState('');
+  const [providerName4, setProviderName4] = useState('');
+  const [providerCategory1, setProviderCategory1] = useState('');
+  const [providerCategory2, setProviderCategory2] = useState('');
+  const [providerCategory3, setProviderCategory3] = useState('');
+  const [providerCategory4, setProviderCategory4] = useState('');
+  const [profileUrl1, setProfileUrl1] = useState('');
+  const [profileUrl2, setProfileUrl2] = useState('');
+  const [profileUrl3, setProfileUrl3] = useState('');
+  const [profileUrl4, setProfileUrl4] = useState('');
+  const [bookingTitle1, setBookingTitle1] = useState('');
+  const [bookingTitle2, setBookingTitle2] = useState('');
+  const [bookingTitle3, setBookingTitle3] = useState('');
+  const [bookingTitle4, setBookingTitle4] = useState('');
+  const [bookingDay1, setBookingDay1] = useState('');
+  const [bookingDay2, setBookingDay2] = useState('');
+  const [bookingDay3, setBookingDay3] = useState('');
+  const [bookingDay4, setBookingDay4] = useState('');
+  const [bookingDate1, setBookingDate1] = useState<number>(0);
+  const [bookingDate2, setBookingDate2] = useState<number>(0);
+  const [bookingDate3, setBookingDate3] = useState<number>(0);
+  const [bookingDate4, setBookingDate4] = useState<number>(0);
+  const [bookingMonth1, setBookingMonth1] = useState('');
+  const [bookingMonth2, setBookingMonth2] = useState('');
+  const [bookingMonth3, setBookingMonth3] = useState('');
+  const [bookingMonth4, setBookingMonth4] = useState('');
+  const [bookingYear1, setBookingYear1] = useState<number>(0);
+  const [bookingYear2, setBookingYear2] = useState<number>(0);
+  const [bookingYear3, setBookingYear3] = useState<number>(0);
+  const [bookingYear4, setBookingYear4] = useState<number>(0);
+  const [bookingHours1, setBookingHours1] = useState('00');
+  const [bookingHours2, setBookingHours2] = useState('00');
+  const [bookingHours3, setBookingHours3] = useState('00');
+  const [bookingHours4, setBookingHours4] = useState('00');
+  const [bookingMinutes1, setBookingMinutes1] = useState('00');
+  const [bookingMinutes2, setBookingMinutes2] = useState('00');
+  const [bookingMinutes3, setBookingMinutes3] = useState('00');
+  const [bookingMinutes4, setBookingMinutes4] = useState('00');
+  const [bookingAmOrPm1, setBookingAmOrPm1] = useState('AM');
+  const [bookingAmOrPm2, setBookingAmOrPm2] = useState('AM');
+  const [bookingAmOrPm3, setBookingAmOrPm3] = useState('AM');
+  const [bookingAmOrPm4, setBookingAmOrPm4] = useState('AM');
+  const [specialtyActiveSelection1, setSpecialtyActiveSelection1] = useState('');
+  const [specialtyActiveSelection2, setSpecialtyActiveSelection2] = useState('');
+  const [providerActiveSelection1, setProviderActiveSelection1] = useState('');
+  const [providerActiveSelection2, setProviderActiveSelection2] = useState('');
+  const [providerActiveSelection3, setProviderActiveSelection3] = useState('');
+  const [providerActiveSelection4, setProviderActiveSelection4] = useState('');
+  const [servicesSelection1, setServicesSelection1] = useState('consultation');
+  const [servicesSelection2, setServicesSelection2] = useState('consultation');
+  const [legalAtozSelection1, setLegalAtozSelection1] = useState('consultation');
+  const [legalAtozSelection2, setLegalAtozSelection2] = useState('consultation');
+  const [collectValue1, setCollectValue1] = useState(1)
+  const [collectValue2, setCollectValue2] = useState(1)
+  const [allLegalServicesObject, setAllLegalServicesObject] = useState<any[]>(() => {
+    try {
+      const storedItem = window.localStorage.getItem('legalServices');
+      return storedItem ? JSON.parse(storedItem) : [];
+    } catch (error) {
+      console.error("Failed to parse localStorage data.");
+      return [];
+    }
+  });
+
+  const legalServicesObject = {
+      title: specialtyTitle,
+      description: specialtyDescription,
+      similarSpecialty: similarSpecialty,
+      servicesAvailable: servicesAvailable,
+      procedureType: procedureType,
+      providerDetails: [
+        {
+          providerType: [
+            {
+              name: providerCategory1
+            }, {
+              name: providerCategory2
+            }, {
+              name: providerCategory3
+            }, {
+              name: providerCategory4
+            }
+          ],
+          providerName: [
+            {
+              name: providerName1,
+              profileUrl: profileUrl1,
+              date: `${bookingDate1} / ${bookingMonth1} / ${bookingYear1}`,
+              time: `${bookingHours1} : ${bookingMinutes1} ${bookingAmOrPm1}`,
+              title: bookingTitle1
+            }, {
+              name: providerName2,
+              profileUrl: profileUrl2,
+              date: `${bookingDate2} / ${bookingMonth2} / ${bookingYear2}`,
+              time: `${bookingHours2} : ${bookingMinutes2} ${bookingAmOrPm2}`,
+              title: bookingTitle2
+            }, {
+              name: providerName3,
+              profileUrl: profileUrl3,
+              date: `${bookingDate3} / ${bookingMonth3} / ${bookingYear3}`,
+              time: `${bookingHours3} : ${bookingMinutes3} ${bookingAmOrPm3}`,
+              title: bookingTitle3
+            }, {
+              name: providerName4,
+              profileUrl: profileUrl4,
+              date: `${bookingDate4} / ${bookingMonth4} / ${bookingYear4}`,
+              time: `${bookingHours4} : ${bookingMinutes4} ${bookingAmOrPm4}`,
+              title: bookingTitle4
+            }],
+        }
+      ],
+    }
+
+   useEffect(() => {
+    try {
+      window.localStorage.setItem('legalServices', JSON.stringify(allLegalServicesObject));
+    } catch (error) {
+      console.error("Failed to save data to localStorage.");
+    }
+  }, [allLegalServicesObject]);
+  
+    const handleRemoveService = (index: number) => {
+      setAllLegalServicesObject((prevServices) => prevServices.filter((_, i) => i !== index))
+    }
 
   // Filter tab groups by account type
   const filterTabMap: Record<User["accountType"], string[]> = {
@@ -303,6 +434,38 @@ const Page: React.FC = () => {
   // Dynamic tab options based on user type
   const userFilterTabs = user ? filterTabMap[user.accountType] || [] : [];
 
+<<<<<<< HEAD
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    if (!token) return;
+    // alert(localStorage.getItem("activeBusiness"))
+    axios
+      .get(`/users/profile/${localStorage.getItem("activeBusiness")}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        axios
+          .get("/business/get/business", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((businessRes) => {
+            setSector(businessRes.data.business.sectors);
+            setBusiness(businessRes.data.business);
+          });
+        setUser(res.data.user);
+        setBusiness(res.data.business);
+        if (!localStorage.getItem("activeBusiness")) {
+          localStorage.setItem("activeBusiness", res.data.businesses[0]._id);
+        }
+        // setProducts(res.data.products);
+      })
+      .catch(console.error);
+  }, []);
+=======
   // useEffect(() => {
   //   const token = localStorage.getItem("userToken");
   //   if (!token) return;
@@ -477,6 +640,7 @@ const fetchUserDataAndBusiness = async () => {
 };
   fetchUserDataAndBusiness();
 }, []);
+>>>>>>> da91199712ecd3746200414ab5aabcc78cafba4a
   return (
     <div className="p-4 md:w-[85%] m-auto mb-80">
       <Header />
@@ -615,63 +779,189 @@ const fetchUserDataAndBusiness = async () => {
 
         {sector === "legal" && (
           <>
-            {legalActiveFilterTab === "a-z" && (
-              <LegalAtoz
-                setActiveSelection={setActiveSelection}
-                activeSelection={activeSelection}
-              />
-            )}
-            {/* {legalActiveFilterTab === "providers" && (
-              <LegalProviders
-                setActiveArrayTab={setActiveArrayTab}
-                activeArrayTab={activeArrayTab}
-                activeRoute={activeRouteProp5}
-                setActiveRoute={setActiveRouteProp5}
-                tab={legalData}
-                addProduct={addProductProp}
-                setAddProduct={setAddProductProp}
-                setActiveSelection={setActiveSelection}
-                activeSelection={activeSelection}
-              />
-            )} */}
-            {legalActiveFilterTab === "services" && (
-              <LegalServices
-                setActiveArrayTab={setActiveArrayTab}
-                activeArrayTab={activeArrayTab}
-                activeRoute={activeRouteProp5}
-                setActiveRoute={setActiveRouteProp5}
-                addProduct={addProductProp}
-                setAddProduct={setAddProductProp}
-                setLegalServicesTabSpecialInfo={setLegalServicesTabSpecialInfoProp}
-                legalServicesTabSpecialInfo={legalServicesTabSpecialInfoProp}
-                setLegalServicesTabSpecialInfo1={setLegalServicesTabSpecialInfoProp1}
-                legalServicesTabSpecialInfo1={legalServicesTabSpecialInfoProp1}
-                setLegalServicesTabSpecialInfo2={setLegalServicesTabSpecialInfoProp2}
-                legalServicesTabSpecialInfo2={legalServicesTabSpecialInfoProp2}
-                setLegalServicesTabSpecialInfo3={setLegalServicesTabSpecialInfoProp3}
-                legalServicesTabSpecialInfo3={legalServicesTabSpecialInfoProp3}
-                setLegalServicesTabSpecialInfo4={setLegalServicesTabSpecialInfoProp4}
-                legalServicesTabSpecialInfo4={legalServicesTabSpecialInfoProp4}
-                setLegalServicesTabSpecialInfo5={setLegalServicesTabSpecialInfoProp5}
-                legalServicesTabSpecialInfo5={legalServicesTabSpecialInfoProp5}
-                legalServicesTabInput1={legalServicesTabInput1Prop1}
-                setLegalServicesTabInput1={setLegalServicesTabInput1Prop11}
-                legalServicesTabInput2={legalServicesTabInput1Prop2}
-                setLegalServicesTabInput2={setLegalServicesTabInput1Prop2}
-                legalServicesTabInput3={legalServicesTabInput1Prop3}
-                setLegalServicesTabInput3={setLegalServicesTabInput1Prop3}
-                countValue={countProp}
-                setCountValue={setCountProp}
-
-              />
-            )}
-            {legalActiveFilterTab === "date" && (
-              <LegalDate
-                tab={data}
-                activeSelection={activeSelection}
-                setActiveSelection={setActiveSelection}
-              />
-            )}
+             <div className="flex justify-between items-center py-3 bg-[#f8f9fe]">
+                  <div className="flex gap-4 items-center border-s-4 border-[#29cc39] ps-5 py-2">
+                  <p className="font-bold text-[#4d5e80]">NEW SPECIALTY</p>
+                  </div>
+                  <div onClick={() => {setAddProductProp1(true); console.log(addProductProp1)}} className="flex items-center mx-5 p-2 rounded-full bg-white justify-center">
+                  <Icon icon={'mdi:plus'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
+                  </div>
+              </div>
+              {addProductProp1 ? (
+                <AddSpecialty
+                  setSpecialtyActiveSelection1={setSpecialtyActiveSelection1}
+                  specialtyActiveSelection1={specialtyActiveSelection1}
+                  setSpecialtyActiveSelection2={setSpecialtyActiveSelection2}
+                  specialtyActiveSelection2={specialtyActiveSelection2}
+                  setProviderActiveSelection1={setProviderActiveSelection1}
+                  providerActiveSelection1={providerActiveSelection1}
+                  setProviderActiveSelection2={setProviderActiveSelection2}
+                  providerActiveSelection2={providerActiveSelection2}
+                  setProviderActiveSelection3={setProviderActiveSelection3}
+                  providerActiveSelection3={providerActiveSelection3}
+                  setProviderActiveSelection4={setProviderActiveSelection4}
+                  providerActiveSelection4={providerActiveSelection4}
+                  setServicesSelection1={setServicesSelection1}
+                  servicesSelection1={servicesSelection1}
+                  setServicesSelection2={setServicesSelection2}
+                  servicesSelection2={servicesSelection2}
+                  activeRoute={activeRouteProp5}
+                  setActiveRoute={setActiveRouteProp5}
+                  addProduct={addProductProp1}
+                  setAddProduct={setAddProductProp1}
+                  specialtyTitle={specialtyTitle}
+                  setSpecialTitle={setSpecialTitle}
+                  specialtyDescription={specialtyDescription}
+                  setSpecialDescription={setSpecialDescription}
+                  similarSpecialty={similarSpecialty}
+                  setSimilarSpecialty={setSimilarSpecialty}
+                  servicesAvailable={servicesAvailable}
+                  setServicesAvailable={setServicesAvailable}
+                  procedureType={procedureType}
+                  setProcedureType={setProcedureType}
+                  providerName1={providerName1}
+                  setProviderName1={setProviderName1}
+                  providerName2={providerName2}
+                  setProviderName2={setProviderName2}
+                  providerName3={providerName3}
+                  setProviderName3={setProviderName3}
+                  providerName4={providerName4}
+                  setProviderName4={setProviderName4}
+                  profileUrl1={profileUrl1}
+                  setProfileUrl1={setProfileUrl1}
+                  profileUrl2={profileUrl2}
+                  setProfileUrl2={setProfileUrl2}
+                  profileUrl3={profileUrl3}
+                  setProfileUrl3={setProfileUrl3}
+                  profileUrl4={profileUrl4}
+                  setProfileUrl4={setProfileUrl4}
+                  providerCategory1={providerCategory1}
+                  setProviderCategory1={setProviderCategory1}
+                  providerCategory2={providerCategory2}
+                  setProviderCategory2={setProviderCategory2}
+                  providerCategory3={providerCategory3}
+                  setProviderCategory3={setProviderCategory3}
+                  providerCategory4={providerCategory4}
+                  setProviderCategory4={setProviderCategory4}
+                  bookingTitle1={bookingTitle1}
+                  setBookingTitle1={setBookingTitle1}
+                  bookingTitle2={bookingTitle2}
+                  setBookingTitle2={setBookingTitle2}
+                  bookingTitle3={bookingTitle3}
+                  setBookingTitle3={setBookingTitle3}
+                  bookingTitle4={bookingTitle4}
+                  setBookingTitle4={setBookingTitle4}
+                  bookingDay1={bookingDay1}
+                  setBookingDay1={setBookingDay1}
+                  bookingDay2={bookingDay2}
+                  setBookingDay2={setBookingDay2}
+                  bookingDay3={bookingDay3}
+                  setBookingDay3={setBookingDay3}
+                  bookingDay4={bookingDay4}
+                  setBookingDay4={setBookingDay4}
+                  bookingDate1={bookingDate1}
+                  setBookingDate1={setBookingDate1}
+                  bookingDate2={bookingDate2}
+                  setBookingDate2={setBookingDate2}
+                  bookingDate3={bookingDate3}
+                  setBookingDate3={setBookingDate3}
+                  bookingDate4={bookingDate4}
+                  setBookingDate4={setBookingDate4}
+                  bookingMonth1={bookingMonth1}
+                  setBookingMonth1={setBookingMonth1}
+                  bookingMonth2={bookingMonth2}
+                  setBookingMonth2={setBookingMonth2}
+                  bookingMonth3={bookingMonth3}
+                  setBookingMonth3={setBookingMonth3}
+                  bookingMonth4={bookingMonth4}
+                  setBookingMonth4={setBookingMonth4}
+                  bookingYear1={bookingYear1}
+                  setBookingYear1={setBookingYear1}
+                  bookingYear2={bookingYear2}
+                  setBookingYear2={setBookingYear2}
+                  bookingYear3={bookingYear3}
+                  setBookingYear3={setBookingYear3}
+                  bookingYear4={bookingYear4}
+                  setBookingYear4={setBookingYear4}
+                  bookingHours1={bookingHours1}
+                  setBookingHours1={setBookingHours1}
+                  bookingHours2={bookingHours2}
+                  setBookingHours2={setBookingHours2}
+                  bookingHours3={bookingHours3}
+                  setBookingHours3={setBookingHours3}
+                  bookingHours4={bookingHours4}
+                  setBookingHours4={setBookingHours4}
+                  bookingMinutes1={bookingMinutes1}
+                  setBookingMinutes1={setBookingMinutes1}
+                  bookingMinutes2={bookingMinutes2}
+                  setBookingMinutes2={setBookingMinutes2}
+                  bookingMinutes3={bookingMinutes3}
+                  setBookingMinutes3={setBookingMinutes3}
+                  bookingMinutes4={bookingMinutes4}
+                  setBookingMinutes4={setBookingMinutes4}
+                  bookingAmOrPm1={bookingAmOrPm1}
+                  setBookingAmOrPm1={setBookingAmOrPm1}
+                  bookingAmOrPm2={bookingAmOrPm2}
+                  setBookingAmOrPm2={setBookingAmOrPm2}
+                  bookingAmOrPm3={bookingAmOrPm3}
+                  setBookingAmOrPm3={setBookingAmOrPm3}
+                  bookingAmOrPm4={bookingAmOrPm4}
+                  setBookingAmOrPm4={setBookingAmOrPm4}
+                  collectValue1={collectValue1}
+                  setCollectValue1={setCollectValue1}
+                  collectValue2={collectValue2}
+                  setCollectValue2={setCollectValue2}
+                />
+              ) : (
+                <>
+                  {legalActiveFilterTab === "a-z" && (
+                    <LegalAtoz
+                      tab={data}
+                      value={collectValue1}
+                      setServicesSelection1={setLegalAtozSelection1}
+                      servicesSelection1={legalAtozSelection1}
+                      setServicesSelection2={setLegalAtozSelection2}
+                      servicesSelection2={legalAtozSelection2}
+                      allLegalServicesObject={allLegalServicesObject}
+                      setAllLegalServicesObject={setAllLegalServicesObject}
+                      handleRemoveServices={handleRemoveService}
+                    />
+                  )}
+                  {legalActiveFilterTab === "services" && (
+                    <LegalServices
+                      tab={data}
+                      value={collectValue1}
+                      setServicesSelection1={setServicesSelection1}
+                      servicesSelection1={servicesSelection1}
+                      setServicesSelection2={setServicesSelection2}
+                      servicesSelection2={servicesSelection2}
+                      allLegalServicesObject={allLegalServicesObject}
+                      setAllLegalServicesObject={setAllLegalServicesObject}
+                      handleRemoveServices={handleRemoveService}
+                    />
+                  )}
+                   {/* {legalActiveFilterTab === "providers" && (
+                    <LegalProviders
+                    setActiveArrayTab={setActiveArrayTab}
+                    activeArrayTab={activeArrayTab}
+                    activeRoute={activeRouteProp5}
+                      setActiveRoute={setActiveRouteProp5}
+                      tab={legalData}
+                      addProduct={addProductProp}
+                      setAddProduct={setAddProductProp}
+                      setActiveSelection={setActiveSelection}
+                      activeSelection={activeSelection}
+                      />
+                      )} */}
+                  {legalActiveFilterTab === "date" && (
+                    <LegalDate
+                      tab={data}
+                      activeSelection={activeSelection}
+                      setActiveSelection={setActiveSelection}
+                    />
+                  )}
+                </>
+              )}
           </>
         )}
 
@@ -1102,7 +1392,7 @@ const fetchUserDataAndBusiness = async () => {
           )}
         </div>
       )}
-      {legalActiveFilterTab === "services" && addProductProp ? (
+      {addProductProp1 ? (
         <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
           <div
             onClick={() => setActiveButton(!activeButton)}
@@ -1135,68 +1425,22 @@ const fetchUserDataAndBusiness = async () => {
               }}
             >
               {/* Booking content placeholder */}
-              <div className="text-gray-500 text-sm flex flex-col gap-5">
-                <div className="border-b border-gray-500 py-3 font-bold">
-                  Specialty Info
-                </div>
-                <div className="flex justify-between items-center">
-                  <p>Specialty Title:</p>
-                  {legalServicesTabInput1Prop1}
-                </div>
-                <div className="flex justify-between items-center">
-                  <p>Description:</p>
-                  {legalServicesTabInput1Prop2}
-                </div>
-                <div className="flex justify-between items-center">
-                  <p>Similar Specialties:</p>
-                  {legalServicesTabSpecialInfoProp}
-                </div>
-                <div className="flex justify-between items-center">
-                  <p>Services Available:</p>
-                  {legalServicesTabSpecialInfoProp1}
-                </div>
-                <div className="flex justify-between items-center">
-                  <p>Procedure Type:</p>
-                  {legalServicesTabInput1Prop3}
-                </div>
-                <div className="border-b border-gray-500 py-3 font-bold">
-                  Provider Info
-                </div>
-                <div className="flex justify-between items-center">
-                  <p>ProviderType:</p>
-                  <div className="flex flex-col gap-2">
-                    {countProp === 1 ? (
-                      <>
-                        {legalServicesTabSpecialInfoProp2}
-                      </>
-                    ) : countProp === 2 ? (
-                      <>
-                        {legalServicesTabSpecialInfoProp2}
-                        {legalServicesTabSpecialInfoProp3}
-                      </>
-                    ) : countProp === 3 ? (
-                      <>
-                        {legalServicesTabSpecialInfoProp2}
-                        {legalServicesTabSpecialInfoProp3}
-                        {legalServicesTabSpecialInfoProp4}
-                      </>
-                    ) : countProp === 4 && (
-                      <>
-                        {legalServicesTabSpecialInfoProp2}
-                        {legalServicesTabSpecialInfoProp3}
-                        {legalServicesTabSpecialInfoProp4}
-                        {legalServicesTabSpecialInfoProp5}
-                      </>
-                    )}
+              <div className="text-gray-500 text-sm">
+                <div className="flex flex-col gap-3">
+                  <div className="w-full p-2 border-b border-gray-500">
+                    Specialty Info
+                  </div>
+                  <div className="flex justify-between items-center">
+                    {/* Booking content placeholder */}
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {addProductProp && lastHospitalityFilter4 ? (
+          {addProductProp1 && lastHospitalityFilter4 ? (
             <button
-              onClick={() => setAddProductProp(false)}
+              onClick={() => {setAddProductProp1(false); setAllLegalServicesObject((prev) => [...prev, legalServicesObject]); setActiveRouteProp5('specialty'); setLegalActiveFilterTab('services')}}
               className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
             >
               CONFIRM
