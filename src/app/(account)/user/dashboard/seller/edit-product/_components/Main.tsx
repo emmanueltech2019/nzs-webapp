@@ -3,7 +3,7 @@ import TagHeader from "@/components/header/TagHeader";
 import openSansFont from "@/fonts/OpenSans";
 import useToggle from "@/hooks/useToggle";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Circle from "@/components/Circle";
 import ProductInfo from "./ProductInfo";
 import ProductSpec from "./ProductSpec";
@@ -173,4 +173,10 @@ const Main = () => {
   );
 };
 
-export default Main;
+const page = () => (
+  <Suspense fallback={<div>loading...</div>}>
+    <Main />
+  </Suspense>
+)
+
+export default page;
