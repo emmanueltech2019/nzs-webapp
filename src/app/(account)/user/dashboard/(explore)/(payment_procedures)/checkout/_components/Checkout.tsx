@@ -32,7 +32,6 @@ const CheckoutShipping: React.FC = () => {
   setSelectedShipping("gig");
 
   try {
-    // 1. Authenticate (you may store this in backend to avoid exposing email/pass)
     const token = await gigLogin("naijazoneonline@gmail.com", "MDQwNT-5");
 
     // 2. Get price
@@ -140,12 +139,6 @@ const CheckoutShipping: React.FC = () => {
             </div>
             <p className="text-sm font-bold py-2">Payment</p>
           </div>
-          {/* <div className="flex flex-col items-center text-gray-400 mr-auto">
-          <div className="w-8 h-8 rounded-full bg-[#F8F9FE] flex items-center justify-center">
-            4
-          </div>
-          <p className="text-sm font-bold py-2">Review</p>
-        </div> */}
         </div>
 
         {/* Address Section */}

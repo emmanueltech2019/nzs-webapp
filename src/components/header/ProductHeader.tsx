@@ -111,7 +111,7 @@ const Header: FC = () => {
             </div>
           </Link>
         ) : (
-          <Link href="/dashboard/cart">
+          <Link href="/user/dashboard/cart">
             <div className="relative">
               <Image
                 src="https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png"

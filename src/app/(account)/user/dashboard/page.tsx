@@ -105,7 +105,7 @@ const newArrivals = products.filter(p => compareDate(p.createdAt)).slice(0, 3);
                 router.push("./dashboard/add-item");
               }}
             />
-            <Carousel images={['https://res.cloudinary.com/wise-solution-inc/image/upload/v1755239366/NZS_WEB_Banner_gh7lnp.png','https://res.cloudinary.com/wise-solution-inc/image/upload/v1755239366/NZS_WEB_Banner_gh7lnp.png']}/>
+            <Carousel images={['https://res.cloudinary.com/wise-solution-inc/image/upload/v1755239366/NZS_WEB_Banner_gh7lnp.png','https://res.cloudinary.com/wise-solution-inc/image/upload/v1757339938/WhatsApp_Image_2025-08-26_at_12.39.18_AM_s7elct.jpg', 'https://res.cloudinary.com/wise-solution-inc/image/upload/v1757339938/WhatsApp_Image_2025-08-26_at_12.39.19_AM_skokdz.jpg']}/>
             {newArrivals.length > 0 ? (
               <ProductGrid link="new-arrivals" title="New Arrivals" products={newArrivals} />
             ) : (
