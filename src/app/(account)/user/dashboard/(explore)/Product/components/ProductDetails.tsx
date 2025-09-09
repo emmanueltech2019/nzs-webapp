@@ -194,7 +194,7 @@ const ProductScreen: FC = () => {
           Available
         </span>
         <h2 className="text-2xl font-bold">{product?.name}</h2>
-        <p className="text-xl text-gray-700">₦ {product?.price} / {product?.quantityInfo.quantity} {product?.quantityInfo.quantityUnit} - {product?.price * product?.quantityInfo.quantity}</p>
+        <p className="text-xl text-gray-700">₦ {product?.price} / {product?.quantityInfo.quantity} {product?.quantityInfo.quantityUnit} - {product?.price} * {product?.quantityInfo.quantity}</p>
         <p className="mt-2 text-gray-500">{product?.description}</p>
       </div>
 
