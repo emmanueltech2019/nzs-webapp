@@ -308,6 +308,7 @@ const OutOfStock: React.FC<OutOfStockProps> = () => {
                   price={product?.price ?? 0}
                   discount={product?.discount ?? 0}
                   completedStatus={product?.completedStatus ?? false}
+                  quantityInfo={product?.quantityInfo ?? {quantity:0, quantityType:"", quantityUnit:""}}
                 />
               </div>
             )}
