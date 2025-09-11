@@ -15,6 +15,7 @@ import { profileFilter } from "@/components/SortFilter/Filters";
 import useToggle from "@/hooks/useToggle";
 import FreeImg from "@/assets/images/free-plan.png";
 import { Button } from "@mui/material";
+
 const roboto = Roboto({
   display: "swap",
   subsets: ["latin"],
@@ -51,10 +52,10 @@ const Profile = () => {
 
   const handleSwitch = (id: string) => {
     localStorage.setItem("activeBusiness", id);
-    // setTimeout(() => {
-    //   showToast("success", "Business switched successfully")
-    //   window.location.reload();
-    // }, 2000);
+    setTimeout(() => {
+      showToast("success", "Business switched successfully")
+      window.location.reload();
+    }, 2000);
   };
   const LogOut = () => {
     Swal.fire({

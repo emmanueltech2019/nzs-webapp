@@ -428,7 +428,8 @@ const Page: React.FC = () => {
   // Dynamic tab options based on user type
   const userFilterTabs = user ? filterTabMap[user.accountType] || [] : [];
 
-  useEffect(() => {
+
+  const getActiveBusiness = () => {
     const token = localStorage.getItem("userToken");
     if (!token) return;
     // alert(localStorage.getItem("activeBusiness"))
@@ -440,13 +441,14 @@ const Page: React.FC = () => {
       })
       .then((res) => {
         axios
-          .get("/business/get/business", {
+          .get(`/business/${localStorage.getItem("activeBusiness")}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           })
           .then((businessRes) => {
             setSector(businessRes.data.business.sectors);
+            console.log("businessRes", businessRes)
             setBusiness(businessRes.data.business);
           });
         setUser(res.data.user);
@@ -457,6 +459,11 @@ const Page: React.FC = () => {
         // setProducts(res.data.products);
       })
       .catch(console.error);
+  }
+  useEffect(() => {
+    setInterval(() => {
+      getActiveBusiness();
+    }, 5000);
   }, []);
   return (
     <div className="p-4 md:w-[85%] m-auto mb-80">
