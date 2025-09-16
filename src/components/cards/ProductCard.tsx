@@ -15,7 +15,7 @@ interface CardProps {
           </div>
           <div className="text-left mt-4 p-4">
             <h3 className="font-normal text-xs text-[#71727A]">{title}</h3>
-            <p className="font-extrabold font-sans text-sm text-[#1F2024]">{price}</p>
+            <p className="font-extrabold font-sans text-sm text-[#1F2024]">{price} </p>
           </div>
         </div>
     );

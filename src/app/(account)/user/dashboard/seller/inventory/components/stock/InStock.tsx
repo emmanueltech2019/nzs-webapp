@@ -123,8 +123,8 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
                   <div className="text-gray-900 font-medium text-[20px] min-w-[100px]">
                     <p>
                       {product?.name
-                        ? product.name.length > 6
-                          ? product.name.substring(0, 5) + "..."
+                        ? product.name.length > 10
+                          ? product.name.substring(0, 10) + "..."
                           : product.name
                         : "Unnamed"}
                     </p>

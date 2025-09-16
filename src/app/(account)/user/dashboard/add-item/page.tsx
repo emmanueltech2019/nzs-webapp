@@ -37,7 +37,7 @@ const page = () => {
     }
     return (
         <div className={`max-w-3xl mx-auto mb-[2.5rem] px-4 py-6 ${openSansFont}`}>
-            <TagHeader title='Add item' />
+            <TagHeader title='Request Order' />
             <div className="image">
                 <Image src={placeholder} alt='placeholder' className='w-full' />
             </div>

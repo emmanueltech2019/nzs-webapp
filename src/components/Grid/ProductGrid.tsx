@@ -24,7 +24,7 @@ const ProductGrid: FC<{ title: string; products: ProductT[]; link: string }> = (
             {products.map((product, index) => (
               <div className="md:w-[26%] flex-shrink-0" key={index}>
                 <Link href={`./dashboard/Product?id=${product._id}`}>
-                <Card  title={product.name} price={product.price} image={product?.images[0]}/>
+                <Card  title={product.name} price={product.price * product.quantityInfo.quantity} image={product?.images[0]}/>
               </Link>
               </div>
             ))}
@@ -38,12 +38,13 @@ const ProductGrid: FC<{ title: string; products: ProductT[]; link: string }> = (
 export default ProductGrid;
 
 export const ProductsPageGrid: FC<{products: ProductT[]}> = ({ products }) => {
+  console.log("products in grid", products);
   return (
     <div className="grid md:grid-cols-3 grid-cols-2 gap-2">
         {products.map((product, index) => (
           <div key={index}>
             <Link href={`../dashboard/Product?id=${product._id}`}>
-            <Card  title={product.name} price={product.price} image={product?.images[0]}/>
+            <Card  title={product.name} price={product.price * product.quantityInfo.quantity} image={product?.images[0]}/>
           </Link>
           </div>
         ))}

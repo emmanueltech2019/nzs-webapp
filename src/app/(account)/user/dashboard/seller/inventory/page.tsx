@@ -468,14 +468,15 @@ const Page: React.FC = () => {
   return (
     <div className="p-4 md:w-[85%] m-auto mb-80">
       <Header />
-      <div className="flex items-center w-full">
+      {sector === "legal"?<div className="flex items-center w-full">
         <div onClick={() => setIsAvailable('available')} className={`flex justify-center items-center py-3 flex-grow cursor-pointer ${isAvailable === 'available' ? 'border-b-4 border-[#006838]' : 'border-b'}`}>
           AVAILABLE
         </div>
         <div onClick={() => setIsAvailable('not available')} className={`flex justify-center items-center py-3 flex-grow cursor-pointer ${isAvailable === 'not available' ? 'border-b-4 border-[#006838]' : 'border-b'}`}>
           NOT AVAILABLE
         </div>
-      </div>
+      </div>:''}
+      
 
       {isAvailable === 'available' ? (
         <>
