@@ -24,7 +24,7 @@ const ProductGrid: FC<{ title: string; products: ProductT[]; link: string }> = (
             {products.map((product, index) => (
               <div className="md:w-[26%] flex-shrink-0" key={index}>
                 <Link href={`./dashboard/Product?id=${product._id}`}>
-                <Card  title={product.name} price={product.price * product.quantityInfo.quantity} image={product?.images[0]}/>
+                <Card  title={product.name}   price={(Number(product?.price) || 0) * (Number(product?.quantityInfo?.quantity) || 0)} image={product?.images[0]}/>
               </Link>
               </div>
             ))}

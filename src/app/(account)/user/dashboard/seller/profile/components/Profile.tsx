@@ -19,7 +19,6 @@ import { Button } from "@mui/material";
 const roboto = Roboto({
   display: "swap",
   subsets: ["latin"],
-  // variable: '--font-poppins',
   weight: ["100", "300", "400", "500", "700", "900"],
 });
 
@@ -30,8 +29,7 @@ interface User {
   accountType: "buyer" | "seller";
   level: "free" | "gold" | "platinum"; // Added level property
 }
-// const userToken = localStorage.getItem("userToken") || "";
-// const tr = JSON.parse(userToken);
+
 
 type Business = {
   _id: string;
@@ -39,11 +37,6 @@ type Business = {
   logoUrl: string;
 };
 
-// const businesses: Business[] = [
-//   { id: '1', name: "Mira's Fashion", image: 'https://via.placeholder.com/150' },
-//   { id: '2', name: 'Bags and Boots', image: 'https://via.placeholder.com/150' },
-//   { id: '3', name: 'Bags and Boots', image: 'https://via.placeholder.com/150' },
-// ];
 const Profile = () => {
   const [user, setUser] = useState<User | null>(null);
   const [businesses, setBusinesses] = useState<Business[]>([]);
@@ -106,7 +99,6 @@ const Profile = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      // Assuming response returns { imageUrl: 'https://...' }
       setPreviewImage(res.data.profilePicture);
       showToast("success", "Profile picture updated!");
     } catch (error) {
@@ -117,30 +109,7 @@ const Profile = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (!localStorage.getItem("userToken")) {
-  //     console.error("User token is missing.");
-  //     return;
-  //   }
 
-  //   axios({
-  //     method: "GET",
-  //     url: "/users/profile",
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-  //     },
-  //   })
-  //     .then((res) => {
-  //       console.log("All Businesses", res.data.businesses);
-  //       console.log("User Data", res.data.user);
-  //       setBusinesses(res.data.businesses);
-  //       // console.log(res.data.business);
-  //       setUser(res.data.user);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching profile:", error);
-  //     });
-  // }, []);
   useEffect(() => {
     if (!localStorage.getItem("userToken")) {
       console.error("User token is missing.");
@@ -160,7 +129,6 @@ const Profile = () => {
         setBusinesses(res.data.businesses);
         setUser(res.data.user);
 
-        // If profilePicture exists and is not empty, use it
         if (
           res.data.user?.profilePicture &&
           res.data.user.profilePicture.trim() !== ""
@@ -194,27 +162,7 @@ const Profile = () => {
         </header>
 
         <div>
-          {/* profile picture */}
-          {/* <div className="relative mt-[59px] border-2 border-s-[#006838] border-b-[#006838] border-t-[#006838] p-2 rounded-full w-[130px] h-[130px] m-auto -rotate-[40deg]">
-            <div className="absolute z-20 right-1 bottom-1 h-[30px] w-[30px] bg-[#006838] rotate-[40deg] rounded-full">
-              <p
-                className={`text-xs text-[#ffffff] ${roboto.className} antialiased font-[900] mt-2 mx-3`}
-              >
-                9
-              </p>
-            </div>
-            <Image
-              src={
-                user?.accountType == "buyer"
-                  ? "https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906737/Asset_490_dzaqyl.png"
-                  : "https://res.cloudinary.com/wise-solution-inc/image/upload/v1729906736/Asset_390_y9mpv3.png"
-              }
-              alt="alt"
-              width={"100"}
-              height={"100"}
-              className="rounded-full rotate-[40deg] mx-auto mt-1"
-            />
-          </div> */}
+         
           <div className="relative mt-[59px] border-2 border-s-[#006838] border-b-[#006838] border-t-[#006838] p-2 rounded-full w-[130px] h-[130px] m-auto -rotate-[40deg]">
             <div className="absolute z-20 right-1 bottom-1 h-[30px] w-[30px] bg-[#006838] rotate-[40deg] rounded-full">
               <p
@@ -347,13 +295,7 @@ const Profile = () => {
                       </div>
                     ))}
 
-                    {/* <Link
-                      href="./create-business"
-                      className="flex items-center justify-center mt-4 text-gray-500 text-lg font-semibold"
-                    >
-                      <span>Add Business</span>
-                      <span className="text-2xl ml-2">+</span>
-                    </Link> */}
+ 
                     <Link
                       href="/user/dashboard/seller/create-business"
                       className="flex items-center justify-center mt-4 text-gray-500 text-lg font-semibold"
@@ -364,15 +306,7 @@ const Profile = () => {
                   </div>
                 </>
               )}
-              {/* <div className="border-t-[0.5px] border-[#D4D6DD] cursor-pointer p-4 flex justify-between w-full">
-                <span className="flex items-center justify-between w-full font-sans">
-                  <p className="text-[#1F2024] text-sm">Inventory</p>
-                  <Icon
-                    icon="formkit:right"
-                    className="text-[20px] text-[#8F9098]"
-                  ></Icon>
-                </span>
-              </div> */}
+
             </>
           ) : (
             ""

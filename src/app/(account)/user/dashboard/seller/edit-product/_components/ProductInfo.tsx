@@ -142,7 +142,7 @@ const BusinessDescription: FC<general_type> = ({
 
     try {
       const url = productId
-        ? `/products/vendor/update/${productId}`
+        ? `/products/vendor/${productId}`
         : "/products/vendor/create";
       const method = productId ? "put" : "post";
 

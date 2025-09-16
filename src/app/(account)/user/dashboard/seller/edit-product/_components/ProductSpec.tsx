@@ -7,7 +7,8 @@ import Accordion from "./Accordion";
 import useToggle from "@/hooks/useToggle";
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
-
+import { useSearchParams } from "next/navigation";
+  
 // 🔹 Mapping QuantityType -> Top 5 Units
 const quantityUnitsMap: Record<string, string[]> = {
   WEIGHT: ["KILOGRAMS (KG)", "GRAMS (G)", "TONNES (T)", "POUNDS (LBS)", "OUNCES (OZ)"],
@@ -31,7 +32,8 @@ const QualityTypeState = [
 
 const ProductSpec: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) => {
   const [quantity, setQuantity] = useState<string>("");
-
+const searchParams = useSearchParams();
+  const productId = searchParams.get("id");
   const [states, setState] = useState<{ item: string; state: boolean }[]>([]);
   const [qualityType, setQualityType] = useState(QualityTypeState);
 
@@ -77,7 +79,7 @@ const ProductSpec: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) 
 
     axios({
       method: "PUT",
-      url: `/products/vendor/add-product-spec/${localStorage.getItem("addProductActive")}`,
+      url: `/products/vendor/add-product-spec/${productId}`,
       data: {
         quantityType: selectedQuantityType[0],
         quantityUnit: selectedUnitType[0],

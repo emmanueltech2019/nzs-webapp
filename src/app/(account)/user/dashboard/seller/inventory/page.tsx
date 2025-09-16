@@ -429,37 +429,101 @@ const Page: React.FC = () => {
   const userFilterTabs = user ? filterTabMap[user.accountType] || [] : [];
 
 
+  // const getActiveBusiness = () => {
+  //   const token = localStorage.getItem("userToken");
+  //   if (!token) return;
+  //   axios
+  //     .get(`/users/profile/${localStorage.getItem("activeBusiness")}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       axios
+  //         .get(`/business/${localStorage.getItem("activeBusiness")}`, {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         })
+  //         .then((businessRes) => {
+  //           setSector(businessRes.data.business.sectors);
+  //           console.log("businessRes", businessRes)
+  //           setBusiness(businessRes.data.business);
+  //         });
+  //       setUser(res.data.user);
+  //       setBusiness(res.data.business);
+  //       if (!localStorage.getItem("activeBusiness")) {
+  //         localStorage.setItem("activeBusiness", res.data.businesses[0]._id);
+  //       }
+  //       // setProducts(res.data.products);
+  //     })
+  //     .catch(console.error);
+  // }
   const getActiveBusiness = () => {
-    const token = localStorage.getItem("userToken");
-    if (!token) return;
-    // alert(localStorage.getItem("activeBusiness"))
+  const token = localStorage.getItem("userToken");
+  if (!token) return;
+
+  // Check for active business in localStorage
+  let activeBusinessId = localStorage.getItem("activeBusiness");
+
+  if (!activeBusinessId) {
+    // No active business → fetch all businesses
     axios
-      .get(`/users/profile/${localStorage.getItem("activeBusiness")}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      .get(`/users/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
+        setUser(res.data.user);
+
+        if (res.data.businesses?.length > 0) {
+          const firstBusinessId = res.data.businesses[0]._id;
+          localStorage.setItem("activeBusiness", firstBusinessId);
+          activeBusinessId = firstBusinessId;
+
+          // Fetch that business details
+          axios
+            .get(`/business/${firstBusinessId}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((businessRes) => {
+              setSector(businessRes.data.business.sectors);
+              setBusiness(businessRes.data.business);
+              console.log("businessRes", businessRes);
+            });
+        }else {
+          Swal.fire({
+            icon: 'error',
+            title: 'No Business Found',
+            text: 'Please create a business to continue.',
+          }).then(() => {
+            window.location.href = '/account/user/dashboard/seller/create-business';
+           })
+        }
+      })
+      .catch(console.error);
+  } else {
+    // Active business already exists → fetch directly
+    axios
+      .get(`/users/profile/${activeBusinessId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setUser(res.data.user);
+
         axios
-          .get(`/business/${localStorage.getItem("activeBusiness")}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+          .get(`/business/${activeBusinessId}`, {
+            headers: { Authorization: `Bearer ${token}` },
           })
           .then((businessRes) => {
             setSector(businessRes.data.business.sectors);
-            console.log("businessRes", businessRes)
             setBusiness(businessRes.data.business);
+            console.log("businessRes", businessRes);
           });
-        setUser(res.data.user);
-        setBusiness(res.data.business);
-        if (!localStorage.getItem("activeBusiness")) {
-          localStorage.setItem("activeBusiness", res.data.businesses[0]._id);
-        }
-        // setProducts(res.data.products);
       })
       .catch(console.error);
   }
+};
+
   useEffect(() => {
     setInterval(() => {
       getActiveBusiness();

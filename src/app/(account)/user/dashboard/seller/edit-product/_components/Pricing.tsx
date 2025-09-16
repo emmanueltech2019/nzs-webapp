@@ -7,6 +7,7 @@ import useForm from "@/hooks/useForm";
 // import { ProfileInfo } from './Main'
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
+import { useSearchParams } from "next/navigation";
 
 const Pricing: FC<general_type> = ({
   setCount,
@@ -17,7 +18,8 @@ const Pricing: FC<general_type> = ({
 }) => {
   const [price, setPrice] = useForm(0);
   const [discount, setDiscount] = useForm(0);
-
+const searchParams = useSearchParams();
+  const productId = searchParams.get("id");
   // const handleConfirm = () => {
   //   window.location.replace("./inventory/");
   // };
@@ -31,9 +33,7 @@ const Pricing: FC<general_type> = ({
     // setSection(4);
     axios({
       method: "PUT",
-      url: `/products/vendor/add-price-info/${localStorage.getItem(
-        "addProductActive"
-      )}`,
+      url: `/products/vendor/add-price-info/${productId}`,
       data: {
         price,
         discount,
