@@ -74,7 +74,7 @@ const Pricing: FC<general_type> = ({
             </div>  */}
       <div className="pb-3">
         <input
-          type="text"
+          type="number"
           id="businessName"
           onChange={(e) => setPrice(e)}
           value={price}

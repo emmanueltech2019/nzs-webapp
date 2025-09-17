@@ -278,9 +278,11 @@ const OutOfStock: React.FC<OutOfStockProps> = () => {
                     Edit Product
                   </Button>
                 ) : (
+                  <Link href={`./edit-product/?id=${product?._id}`}> 
                   <button className="bg-[#FFEFC5] text-black py-1 rounded-[4px] font-medium text-[10px] py-[5px] px-[4px]">
                     COMPLETE PRODUCT
                   </button>
+                  </Link>
                 )}
 
                 <Icon

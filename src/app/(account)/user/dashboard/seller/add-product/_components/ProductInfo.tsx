@@ -322,7 +322,7 @@ const handleAPI = async () => {
             type="file"
             id="file"
             onChange={handleFileChange}// Handle file selection
-            accept="image/*"
+            accept=".jpg,.jpeg,.png"
             multiple
             className="w-full px-4 py-2 rounded-xl outline-none placeholder:text-[#8F9098] text-[12px] hidden"
             placeholder="Upload Image"
