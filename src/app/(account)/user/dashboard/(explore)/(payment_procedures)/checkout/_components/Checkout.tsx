@@ -10,6 +10,8 @@ import Image from "next/image";
 import DHLLOGO from "@/assets/images/dhl-express-logo-black.png";
 import FEDEXLOGO from "@/assets/images/fedex-logo.png";
 import GIGLOGO from "@/assets/images/gig-logo.png";
+import REDSTAR from "@/assets/images/redstar.png";
+
 import Swal from "sweetalert2";
 import { gigGetPrice, gigLogin } from "@/utils/gigApi";
 
@@ -19,15 +21,27 @@ interface User {
   email: string;
   accountType: "buyer" | "seller";
   street: string;
+  address: {
+    town: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
 }
 
 const CheckoutShipping: React.FC = () => {
-  const [selectedShipping, setSelectedShipping] = useState("gig");
+  const [selectedShipping, setSelectedShipping] = useState("redstar");
   const [address, setAddress] = useState(""); // Saved Address
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+  const [town, setTown] = useState("");
   const [shippingMethod, setShippingMethod] = useState("third-party");
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-
+  const [pickupTypes, setPickupTypes] = useState<{ PickupTypeId: number; PickupType: string }[]>([]);
+  const [selectedPickupType, setSelectedPickupType] = useState<number | null>(null);
+  const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
   const handleSelectGig = async () => {
   setSelectedShipping("gig");
 
@@ -79,7 +93,56 @@ const CheckoutShipping: React.FC = () => {
     Swal.fire("Error", "Failed to fetch GIG shipping price", "error");
   }
 };
+const handleSelectRedStar = async () => {
+  setSelectedShipping("redstar");
 
+  try {
+    // Fetch Pickup Types
+    const res = await axios.get(
+      "http://redspeedopenapi.redstarplc.com/api/Operations/PickupTypes",
+      {
+        headers: {
+          "X-API-KEY": "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
+        },
+      }
+    );
+
+    setPickupTypes(res.data); // save pickup types to state
+  } catch (error) {
+    console.error("Error fetching RedStar Pickup Types:", error);
+    Swal.fire("Error", "Failed to fetch RedStar Pickup Types", "error");
+  }
+};
+useEffect(() => {
+  const getDeliveryFee = async () => {
+    if (!selectedPickupType) return;
+
+    try {
+      const res = await axios.post(
+        "http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryFee",
+        {
+          senderCity: city, // your sender city
+          recipientCity: city, // you may change to recipient city if different
+          senderTownID: 0, // update with actual sender town id
+          recipientTownID: 0, // update with actual recipient town id
+          pickupType: selectedPickupType,
+          weight: 1, // replace with actual weight
+        },
+        {
+          headers: {
+            "X-API-KEY": "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setDeliveryFee(res.data.TotalAmount); // save delivery fee
+    } catch (err) {
+      console.error("Error fetching RedStar delivery fee:", err);
+    }
+  };
+  getDeliveryFee();
+}, [selectedPickupType, city]);
   useEffect(() => {
     if (!localStorage.getItem("userToken")) {
       console.error("User token is missing.");
@@ -97,6 +160,10 @@ const CheckoutShipping: React.FC = () => {
         console.log(res.data.user);
         setUser(res.data.user);
         setAddress(res.data.user.addresses.street);
+        setCity(res.data.user.addresses.city);
+        setState(res.data.user.addresses.state);
+        setZip(res.data.user.addresses.zip);
+        setTown(res.data.user.addresses.town);
       })
       .catch((error) => {
         console.error("Error fetching profile:", error);
@@ -151,7 +218,10 @@ const CheckoutShipping: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold mb-1">Saved Address</h3>
-                  <p className="text-gray-500">{address}</p>
+                  <p className="text-gray-500">Address: {address} </p>
+                  <p className="text-gray-500">City: {city} </p>
+                  <p className="text-gray-500">State: {state} </p>
+                  <p className="text-gray-500">Town: {town} </p>
                 </div>
               </div>
               <div className="text-[#006838] my-auto">
@@ -170,8 +240,21 @@ const CheckoutShipping: React.FC = () => {
         </div>
 
         {/* Shipping Method */}
-        <div className="mb-4">
+        <div className="mb-4 ">
           <h3 className="text-lg font-semibold mb-4">Pick Shipping Option</h3>
+          <div
+              className={`p-4 mb-2 rounded-lg border  h-20 text-black ${
+                selectedShipping === "redstar"
+                  ? "border bg-blue-50 text-black"
+                  : "border-gray-300"
+              }`}
+              onClick={handleSelectRedStar}
+            >
+              <div className="flex justify-between items-center">
+                <Image src={REDSTAR} alt="" width={120} height={20} />
+                <p>Red Star Logistics</p>
+              </div>
+            </div>
             <div
               className={`p-4 mb-2 rounded-lg border ${
                 selectedShipping === "gig"
@@ -209,7 +292,7 @@ const CheckoutShipping: React.FC = () => {
             onClick={() => setSelectedShipping("fedex")}
           >
             <div className="flex justify-between items-center">
-              <Image src={FEDEXLOGO} alt="" width={100} height={20} />
+              <Image src={FEDEXLOGO} alt="" width={150} height={120} />
               <p>FEDEX</p>
             </div>
             {/* <p className="text-gray-500 text-sm">1 - 2 days</p> */}
@@ -218,9 +301,42 @@ const CheckoutShipping: React.FC = () => {
 
           </div>
         </div>
+{selectedShipping === "redstar" && (
+  <div className="mb-4">
+    <label className="block text-sm font-medium mb-1">Pickup Type</label>
+    <select
+      value={selectedPickupType ?? ""}
+      onChange={(e) => setSelectedPickupType(Number(e.target.value))}
+      className="w-full p-2 border border-gray-300 rounded"
+    >
+      <option value="">Select Pickup Type</option>
+      {pickupTypes.map((pt) => (
+        <option key={pt.PickupTypeId} value={pt.PickupTypeId}>
+          {pt.PickupType}
+        </option>
+      ))}
+    </select>
+
+    <p className="mt-2 font-semibold">
+      Delivery Fee: {deliveryFee !== null ? `₦${deliveryFee}` : "Select pickup type"}
+              <div className="mb-4 border border-gray-300 rounded-lg p-4 text-center align-center">
+              Shipping Fee:{" "}
+              {selectedShipping === "redstar"
+                ? `${deliveryFee !== null ? `₦${deliveryFee}` : "Select pickup type"}`
+                : selectedShipping === "gig"
+                ? "₦3,000"
+                : selectedShipping === "dhl"
+                ? "₦5,000"
+                : selectedShipping === "fedex"
+                ? "₦7,000"
+                : "Select a shipping method"}
+        </div>
+    </p>
+  </div>
+)}
 
         {/* Private Shipping */}
-        <div className="mb-8">
+        {/* <div className="mb-8">
           <h3 className="text-lg font-semibold mb-4">Private Shipping</h3>
           <div
             className={`p-4 rounded-lg border ${
@@ -240,7 +356,7 @@ const CheckoutShipping: React.FC = () => {
               <p>Private Shipping</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Continue Button */}
         <Link href={"./shipping-options"}>

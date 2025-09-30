@@ -73,7 +73,7 @@ const Verification = () => {
     }).catch(err => {
       console.error(err);
       setLoading(false)
-      showToast('error', err.message)
+      showToast('error', err.response.data.message || err.message || 'An error occurred')
     })
 
     // TODO: clear VCode state

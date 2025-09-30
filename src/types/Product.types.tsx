@@ -24,6 +24,8 @@ export interface ProductT {
   createdAt: string;
   quantityInfo: quantityInfo;
   completedStatus: boolean;
+  totalStock:number;
+  stockSold?:number;
   // stockSold:number
 }
 

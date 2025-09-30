@@ -15,6 +15,7 @@ import { profileFilter } from "@/components/SortFilter/Filters";
 import useToggle from "@/hooks/useToggle";
 import FreeImg from "@/assets/images/free-plan.png";
 import { Button } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 const roboto = Roboto({
   display: "swap",
@@ -42,7 +43,13 @@ const Profile = () => {
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [businessList, setBusinessList] = useState(true);
   const [isVisible, toggleVisibility] = useToggle(false);
+const router = useRouter();
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault(); // stop the default link navigation first
+    localStorage.removeItem("addNewBusiness"); // clear storage
+    router.push("/user/dashboard/seller/create-business"); // then navigate
+  };
   const handleSwitch = (id: string) => {
     localStorage.setItem("activeBusiness", id);
     setTimeout(() => {
@@ -296,13 +303,21 @@ const Profile = () => {
                     ))}
 
  
-                    <Link
+                    {/* <Link
                       href="/user/dashboard/seller/create-business"
                       className="flex items-center justify-center mt-4 text-gray-500 text-lg font-semibold"
                     >
                       <span>Add Business</span>
                       <span className="text-2xl ml-2">+</span>
-                    </Link>
+                    </Link> */}
+                     <Link
+                        href="/user/dashboard/seller/create-business"
+                        onClick={handleClick}
+                        className="flex items-center justify-center mt-4 text-gray-500 text-lg font-semibold"
+                      >
+                        <span>Add Business</span>
+                        <span className="text-2xl ml-2">+</span>
+                      </Link>
                   </div>
                 </>
               )}

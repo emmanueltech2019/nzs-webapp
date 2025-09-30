@@ -86,6 +86,7 @@ const Pricing: FC<general_type> = ({
           Product Price
         </p>
       </div>
+      
       <div className="border-[0.5px] border-[#D4D6DD] rounded-2xl p-4 mt-3">
         <h1 className="flex gap-2 items-center pb-6">
           <span className="flex items-center justify-center rounded-full w-4 h-4 bg-[--foreground-green]">

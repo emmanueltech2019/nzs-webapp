@@ -11,7 +11,7 @@ import useToggle from "@/hooks/useToggle"
 import useForm from "@/hooks/useForm"
 import { useRouter } from "next/navigation"
 import { showToast } from "@/utils/alert"
-import 'intl-tel-input/build/css/intlTelInput.css';
+// import 'intl-tel-input/build/css/intlTelInput.css';
 import axios from '@/utils/axios'
 import { validateEmail, validatePassword } from "@/utils/Validator";
 import CircleLoader from "@/components/loader/loader";
@@ -196,8 +196,8 @@ useEffect(() => {
         <div className="agree-1 flex my-6 gap-1 items-start">
           <input id="agree-1" type="checkbox" className="accent-[--icon-light-green] mt-1 outline-none" onChange={(e: any) => setTermsConsent(e.target.checked)} checked={termsConsent} required />
           <label htmlFor="agree-1" className="text-sm lg:text-base">
-            By creating an account, I agree to our Terms of use
-            and Privacy Policy
+            By creating an account, I agree to our <Link href={'/terms-and-conditions'} className="text-green-700">Terms of use </Link>
+            and <Link href={'/privacy-policy'} className="text-green-700">Privacy Policy</Link>
           </label>
         </div>
         <div className="agree-2 flex my-6 gap-1 items-start">

@@ -3,172 +3,417 @@
 // import { showToast } from "@/utils/alert";
 // import useToggle from '@/hooks/useToggle'
 // import Accordion from './Accordion'
-// import {ProfileInfo} from './Main'
+// import { ProfileInfo } from './Main'
 // import interFont from '@/fonts/Inter'
 // import openSansFont from '@/fonts/OpenSans'
 // import { useRouter } from "next/navigation";
 // import general_type from './general.types';
 
-
-
 // const sector = [
-//     { item: 'Health', state: false },
-//     { item: 'Hospitality', state: false },
-//     { item: 'Education', state: false },
-//     { item: 'Legal', state: false },
-//     { item: 'Logistics', state: false },
-// ]
+//     { item: 'E-Commerce', state: false },
+//     { item: 'health', state: false },
+//     { item: 'hospitality', state: false },
+//     { item: 'education', state: false },
+//     { item: 'legal', state: false },
+//     { item: 'logistics', state: false },
+//     { item: 'Utility', state: false },
+// ];
 // const category = [
 //     { item: 'Clothing & Footwear', state: false },
 //     { item: 'Tailoring & Custom Designs', state: false },
 //     { item: 'Textile Materials', state: false },
 //     { item: 'Fashion Accessories & Jewelry', state: false },
-// ]
+// ];
+// const sectorCategories: Record<string, { item: string; state: boolean }[]> = {
+//   "E-Commerce": [
+//     { item: 'Fashion & Apparel', state: false },
+//     { item: 'Electronics & Gadgets', state: false },
+//     { item: 'Beauty & Personal Care', state: false },
+//     { item: 'Home & Kitchen', state: false },
+//     { item: 'Groceries & Foodstuff', state: false },
+//     { item: 'Sports & Fitness', state: false },
+//     { item: 'Books & Stationery', state: false },
+//     { item: 'Automotive Accessories', state: false },
+//     { item: 'Kids & Baby Products', state: false },
+//     { item: 'Miscellaneous / General Store', state: false },
+//   ],
+//   "health": [
+//     { item: 'Pharmacies', state: false },
+//     { item: 'Clinics & Medical Centers', state: false },
+//     { item: 'Laboratories & Diagnostics', state: false },
+//     { item: 'Mental Health Services', state: false },
+//     { item: 'Dental Care', state: false },
+//     { item: 'Physiotherapy & Rehabilitation', state: false },
+//     { item: 'Eye Care & Optometry', state: false },
+//     { item: 'Alternative Medicine', state: false },
+//     { item: 'Health Equipment & Supplies', state: false },
+//   ],
+//   "hospitality": [
+//     { item: 'Hotels & Resorts', state: false },
+//     { item: 'Restaurants & Cafés', state: false },
+//     { item: 'Event Venues', state: false },
+//     { item: 'Travel & Tours', state: false },
+//     { item: 'Bars & Lounges', state: false },
+//     { item: 'Catering Services', state: false },
+//     { item: 'Short-let Apartments', state: false },
+//     { item: 'Conference & Meeting Facilities', state: false },
+//   ],
+//   "education": [
+//     { item: 'Schools', state: false },
+//     { item: 'Universities & Colleges', state: false },
+//     { item: 'Online Learning', state: false },
+//     { item: 'Vocational Training', state: false },
+//     { item: 'Language Schools', state: false },
+//     { item: 'Professional Certification Bodies', state: false },
+//     { item: 'Libraries & Study Centers', state: false },
+//     { item: 'Educational Supplies & Bookstores', state: false },
+//   ],
+//   "legal": [
+//     { item: 'Law Firms', state: false },
+//     { item: 'Notary Services', state: false },
+//     { item: 'Corporate & Business Law', state: false },
+//     { item: 'Family Law', state: false },
+//     { item: 'Criminal Defense', state: false },
+//     { item: 'Immigration Services', state: false },
+//     { item: 'Intellectual Property & Trademark', state: false },
+//     { item: 'Legal Aid & Advocacy', state: false },
+//   ],
+//   "logistics": [
+//     { item: 'Courier & Delivery', state: false },
+//     { item: 'Warehousing & Storage', state: false },
+//     { item: 'Freight Forwarding', state: false },
+//     { item: 'Moving & Relocation', state: false },
+//     { item: 'Vehicle Hire & Transport', state: false },
+//     { item: 'Supply Chain Management', state: false },
+//     { item: 'Cold Chain Logistics', state: false },
+//     { item: 'E-commerce Fulfillment Centers', state: false },
+//   ],
+//   "Utility": [
+//     { item: 'Electricity Services', state: false },
+//     { item: 'Water Supply & Treatment', state: false },
+//     { item: 'Waste Management & Recycling', state: false },
+//     { item: 'Internet Providers', state: false },
+//     { item: 'Gas Supply & Installation', state: false },
+//     { item: 'Renewable Energy Solutions (Solar, Wind)', state: false },
+//     { item: 'Home Repair & Maintenance Services', state: false },
+//     { item: 'Security & Surveillance Systems', state: false },
+//   ],
+// };
 
+// const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) => {
+//   const [a, aFunc] = useToggle(true);
+//   const [b, bFunc] = useToggle(true);
 
-// const BusinessDescription:FC<general_type> = ({handleBtnFunc, setCount, setSection}) => {
-//     const [a, aFunc] = useToggle(true)
-//     const [b, bFunc] = useToggle(true)
+//   const [sectorState, setSectorState] = useState(sector);
+//   const [categoryState, setCategoryState] = useState<{ item: string; state: boolean }[]>([]);
 
-//     const [sectorState, setSectorState] = useState(sector)
-//     const handleSector = (a: string) => {
-//         setSectorState(prev => prev.map(({ item, state }, i) => ({ item, state: item == a ? !state : state })))
+//   const handleSector = (selectedItem: string) => {
+//     setSectorState(prev =>
+//       prev.map(({ item }) => ({
+//         item,
+//         state: item === selectedItem,
+//       }))
+//     );
+
+//     setCategoryState(sectorCategories[selectedItem] || []);
+//   };
+
+//   const handleCategory = (selectedItem: string) => {
+//     setCategoryState(prev =>
+//       prev.map(({ item, state }) => ({
+//         item,
+//         state: item === selectedItem ? !state : state,
+//       }))
+//     );
+//   };
+
+//   const handleAPI = async () => {
+//     const userToken = localStorage.getItem("userToken");
+//     if (!userToken) {
+//       showToast('error', 'User token not found');
+//       return;
 //     }
 
-//     const [categoryState, setCategoryState] = useState(category)
-//     const handleCategory = (a: string) => {
-//         setCategoryState(prev => prev.map(({ item, state }, i) => ({ item, state: item == a ? !state : state })))
-//     }
+//     const selectedSector = sectorState.find(s => s.state)?.item || "";
+//     const categories = categoryState.filter(c => c.state).map(({ item }) => item);
 
-//     const handleAPI = async () => {
-//         const userToken = localStorage.getItem("userToken");
-//         if (!userToken) {
-//             showToast('error', 'User token not found');
-//             return;
-//         }
-    
-//         let sectors = sectorState.filter(s => s.state).map(({ item }) => item);
-//         let categories = categoryState.filter(c => c.state).map(({ item }) => item);
-    
-//         if (sectors.length && categories.length) { // Both need to be non-empty
-//             try {
-//                 const res = await axios({
-//                     method: "PUT",
-//                     url: "/business/select-sectors-categories",
-//                     data: { sectors, categories },
-//                     headers: {
-//                         Authorization: `Bearer ${userToken}`,
-//                     },
-//                 });
-//                 console.log(res.data);
-//                 showToast('success', res.data.message);
-//                 setSection(2);
-//             } catch (err) {
-//                 console.error(err);
-//                 // showToast('error', err.message || 'An error occurred');
-//             }
-//         } else {
-//             showToast('error', 'Please select both sectors and categories');
-//         }
+//     if (selectedSector && categories.length) {
+//       try {
+//         // Uncomment and modify the following code as needed for your API call
+//         const res = await axios({
+//           method: "PUT",
+//           url: "/business/select-sectors-categories",
+//           data: {
+//             sectors: selectedSector,
+//             categories,
+//             businessId: localStorage.getItem('addNewBusiness'),
+//             state:'a', city:'a', street:'a', zip:'0', town:'a',address:'a'
+//           },
+//           headers: {
+//             Authorization: `Bearer ${userToken}`,
+//           },
+//         });
+//         localStorage.setItem('addNewBusiness', res.data.profile._id);
+//         showToast('success', res.data.message)
+//         setTimeout(() => {
+//           setSection(2);
+//         }, 3000);
+//       } catch (err) {
+//         console.error(err);
+//         showToast('error', 'An error occurred');
+//       }
+//     } else {
+//       showToast('error', 'Please select both a sector and categories');
+//     }
+//   };
+
+//   useEffect(() => {
+//     setCount(25);
+//     handleBtnFunc(handleAPI);
+//     return () => {
+//       handleBtnFunc(() => console.log('default'));
 //     };
-    
-//     // const handleAPI = async () => {
-//     //     // const userToken = localStorage.getItem("userToken") || ''
-//     //     // const tr = JSON.parse(userToken)
+//   }, [sectorState, categoryState]);
 
-//     //     let sectors = sectorState.filter(s => s.state).map(({ item }) => item)
-//     //     let categories = categoryState.filter(c => c.state).map(({ item }) => item)
-//     //     // (sectorState.filter(s => s.state).length == 0 || categoryState.filter(c => c.state).length == 0)
-//     //     if (sectors.length || categories.length) {
-//     //         axios({
-//     //             method: "PUT",
-//     //             url: "/business/select-sectors-categories",
-//     //             data: {
-//     //                 sectors: sectors,
-//     //                 categories: categories,
-//     //             },
-//     //             headers: {
-//     //                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-//     //             },
-//     //         }).then(res => {
-//     //             console.log(res.data)
-//     //             showToast('success', res.data.message)
-//     //             setSection(2)
-//     //         }).catch(err => {
-//     //             console.log(err)
-//     //             showToast('error', err.message)
-//     //         })
-//     //     } else {
-//     //         showToast('error', 'Please select sectors and categories')
-//     //         return
-//     //     }
-//     // }
-//     useEffect(() => {
-//         setCount(25);
-//         handleBtnFunc(handleAPI)
-//         return () => {
-//             handleBtnFunc(() => console.log('default'))
-//         }
-//     },[sectorState, categoryState])
-//     return (
-//         <div className='py-3'>
-//             <div className="py-5">
-//                 <h2 className={`font-black text-[#1F2024] text-xl pb-2 ${interFont}`}>Select the right profile for your business.</h2>
-//                 <p className={`text-[#71727A] ${openSansFont}`}>
-//                     We provide multiple options so feel free to get
-//                     super-specific!
-//                 </p>
-//             </div>
+//   return (
+//     <div className='py-3'>
+//       <div className="py-5">
+//         <h2 className={`font-black text-[#1F2024] text-xl pb-2 ${interFont}`}>
+//           Select the right profile for your business.
+//         </h2>
+//         <p className={`text-[#71727A] ${openSansFont}`}>
+//           We provide multiple options so feel free to get super-specific!
+//         </p>
+//       </div>
 
-//             <Accordion title='Sector' subTitle='Select up to 2 options' onClick={aFunc} state={a} batch={11}>
-//                 <div className='flex gap-2 flex-wrap'>
-//                     {sectorState.map(({ item, state }) => (
-//                         <button key={item} className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`} onClick={() => handleSector(item)}>{item}</button>
-//                     ))}
-//                 </div>
-//             </Accordion>
-//             <Accordion title='Category' subTitle='Select up up to' onClick={bFunc} state={b} batch={10}>
-//                 <div className='flex gap-3 flex-wrap'>
-//                     {categoryState.map(({ item, state }) => (
-//                         <button key={item} className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`} onClick={() => handleCategory(item)}>{item}</button>
-//                     ))}
-//                 </div>
-//             </Accordion>
-//             <ProfileInfo />
+//       <Accordion title='Sector' subTitle='Select one option' onClick={aFunc} state={a} batch={sectorState.length}>
+//         <div className='flex gap-2 flex-wrap'>
+//           {sectorState.map(({ item, state }) => (
+//             <button
+//               key={item}
+//               className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`}
+//               onClick={() => handleSector(item)}
+//             >
+//               {item}
+//             </button>
+//           ))}
 //         </div>
-//     )
+//       </Accordion>
+
+//       {categoryState.length > 0 && (
+//         <Accordion title='Category' subTitle='Select multiple options' onClick={bFunc} state={b} batch={categoryState.length}>
+//           <div className='flex gap-3 flex-wrap'>
+//             {categoryState.map(({ item, state }) => (
+//               <button
+//                 key={item}
+//                 className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`}
+//                 onClick={() => handleCategory(item)}
+//               >
+//                 {item}
+//               </button>
+//             ))}
+//           </div>
+//         </Accordion>
+//       )}
+
+//       {/* <ProfileInfo /> */}
+//     </div>
+//   );
+// };
+
+// export default BusinessDescription;
+
+// import { useEffect, useState, FC } from 'react'
+// import axios from "@/utils/axios";
+// import { showToast } from "@/utils/alert";
+// import useToggle from '@/hooks/useToggle'
+// import Accordion from './Accordion'
+// import { ProfileInfo } from './Main'
+// import interFont from '@/fonts/Inter'
+// import openSansFont from '@/fonts/OpenSans'
+// import { useRouter } from "next/navigation";
+// import general_type from './general.types';
+
+// const sectorList = [
+//   { item: 'E-Commerce', state: false },
+//   { item: 'health', state: false },
+//   { item: 'hospitality', state: false },
+//   { item: 'education', state: false },
+//   { item: 'legal', state: false },
+//   { item: 'logistics', state: false },
+//   { item: 'Utility', state: false },
+// ];
+
+// const sectorCategories: Record<string, { item: string; state: boolean }[]> = {
+//   "E-Commerce": [
+//     { item: 'Fashion & Apparel', state: false },
+//     { item: 'Electronics & Gadgets', state: false },
+//     { item: 'Beauty & Personal Care', state: false },
+//     { item: 'Home & Kitchen', state: false },
+//     { item: 'Groceries & Foodstuff', state: false },
+//     { item: 'Sports & Fitness', state: false },
+//     { item: 'Books & Stationery', state: false },
+//     { item: 'Automotive Accessories', state: false },
+//     { item: 'Kids & Baby Products', state: false },
+//     { item: 'Miscellaneous / General Store', state: false },
+//   ],
+//   // ... rest of the categories
+// };
+
+// interface BusinessDescriptionProps extends general_type {
+//   sector?: string; // ✅ optional prop
 // }
 
-// export default BusinessDescription
+// const BusinessDescription: FC<BusinessDescriptionProps> = ({ handleBtnFunc, setCount, setSection, sector }) => {
+//   const [a, aFunc] = useToggle(true);
+//   const [b, bFunc] = useToggle(true);
 
+//   const [sectorState, setSectorState] = useState(sectorList);
+//   const [categoryState, setCategoryState] = useState<{ item: string; state: boolean }[]>([]);
 
+//   // ✅ handle selecting a sector
+//   const handleSector = (selectedItem: string) => {
+//     setSectorState(prev =>
+//       prev.map(({ item }) => ({
+//         item,
+//         state: item === selectedItem,
+//       }))
+//     );
+//     setCategoryState(sectorCategories[selectedItem] || []);
+//   };
 
-import { useEffect, useState, FC } from 'react'
+//   // ✅ handle selecting categories
+//   const handleCategory = (selectedItem: string) => {
+//     setCategoryState(prev =>
+//       prev.map(({ item, state }) => ({
+//         item,
+//         state: item === selectedItem ? !state : state,
+//       }))
+//     );
+//   };
+
+//   // ✅ handle API call
+//   const handleAPI = async () => {
+//     const userToken = localStorage.getItem("userToken");
+//     if (!userToken) {
+//       showToast('error', 'User token not found');
+//       return;
+//     }
+
+//     const selectedSector = sectorState.find(s => s.state)?.item || "";
+//     const categories = categoryState.filter(c => c.state).map(({ item }) => item);
+
+//     if (selectedSector && categories.length) {
+//       try {
+//         const res = await axios({
+//           method: "PUT",
+//           url: "/business/select-sectors-categories",
+//           data: {
+//             sectors: selectedSector,
+//             categories,
+//             businessId: localStorage.getItem('addNewBusiness'),
+//             state: 'a', city: 'a', street: 'a', zip: '0', town: 'a', address: 'a'
+//           },
+//           headers: {
+//             Authorization: `Bearer ${userToken}`,
+//           },
+//         });
+//         localStorage.setItem('addNewBusiness', res.data.profile._id);
+//         showToast('success', res.data.message);
+//         setTimeout(() => setSection(2), 3000);
+//       } catch (err) {
+//         console.error(err);
+//         showToast('error', 'An error occurred');
+//       }
+//     } else {
+//       showToast('error', 'Please select both a sector and categories');
+//     }
+//   };
+
+//   // ✅ Auto-select E-Commerce when passed as param
+//   useEffect(() => {
+//     if (sector && sector === "E-Commerce") {
+//       // Auto-select and show only E-Commerce
+//       setSectorState([{ item: "E-Commerce", state: true }]);
+//       setCategoryState(sectorCategories["E-Commerce"]);
+//     } else if (sector) {
+//       // (optional) handle other sectors if passed
+//       handleSector(sector);
+//     }
+//   }, [sector]);
+
+//   // ✅ Register button action and count
+//   useEffect(() => {
+//     setCount(25);
+//     handleBtnFunc(handleAPI);
+//     return () => handleBtnFunc(() => console.log('default'));
+//   }, [sectorState, categoryState]);
+
+//   return (
+//     <div className='py-3'>
+//       <div className="py-5">
+//         <h2 className={`font-black text-[#1F2024] text-xl pb-2 ${interFont}`}>
+//           Select the right profile for your business.
+//         </h2>
+//         <p className={`text-[#71727A] ${openSansFont}`}>
+//           We provide multiple options so feel free to get super-specific!
+//         </p>
+//       </div>
+
+//       <Accordion title='Sector' subTitle='Select one option' onClick={aFunc} state={a} batch={sectorState.length}>
+//         <div className='flex gap-2 flex-wrap'>
+//           {sectorState.map(({ item, state }) => (
+//             <button
+//               key={item}
+//               className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`}
+//               onClick={() => handleSector(item)}
+//             >
+//               {item}
+//             </button>
+//           ))}
+//         </div>
+//       </Accordion>
+
+//       {categoryState.length > 0 && (
+//         <Accordion title='Category' subTitle='Select multiple options' onClick={bFunc} state={b} batch={categoryState.length}>
+//           <div className='flex gap-3 flex-wrap'>
+//             {categoryState.map(({ item, state }) => (
+//               <button
+//                 key={item}
+//                 className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`}
+//                 onClick={() => handleCategory(item)}
+//               >
+//                 {item}
+//               </button>
+//             ))}
+//           </div>
+//         </Accordion>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default BusinessDescription;
+import { useEffect, useState, FC } from 'react';
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
-import useToggle from '@/hooks/useToggle'
-import Accordion from './Accordion'
-import { ProfileInfo } from './Main'
-import interFont from '@/fonts/Inter'
-import openSansFont from '@/fonts/OpenSans'
-import { useRouter } from "next/navigation";
+import useToggle from '@/hooks/useToggle';
+import Accordion from './Accordion';
+import interFont from '@/fonts/Inter';
+import openSansFont from '@/fonts/OpenSans';
+import { useSearchParams } from "next/navigation";
 import general_type from './general.types';
 
-const sector = [
-    { item: 'E-Commerce', state: false },
-    { item: 'health', state: false },
-    { item: 'hospitality', state: false },
-    { item: 'education', state: false },
-    { item: 'legal', state: false },
-    { item: 'logistics', state: false },
-    { item: 'Utility', state: false },
+const sectorList = [
+  { item: 'E-Commerce', state: false },
+  { item: 'health', state: false },
+  { item: 'hospitality', state: false },
+  { item: 'education', state: false },
+  { item: 'legal', state: false },
+  { item: 'logistics', state: false },
+  { item: 'Utility', state: false },
 ];
-const category = [
-    { item: 'Clothing & Footwear', state: false },
-    { item: 'Tailoring & Custom Designs', state: false },
-    { item: 'Textile Materials', state: false },
-    { item: 'Fashion Accessories & Jewelry', state: false },
-];
+
 const sectorCategories: Record<string, { item: string; state: boolean }[]> = {
   "E-Commerce": [
     { item: 'Fashion & Apparel', state: false },
@@ -182,76 +427,20 @@ const sectorCategories: Record<string, { item: string; state: boolean }[]> = {
     { item: 'Kids & Baby Products', state: false },
     { item: 'Miscellaneous / General Store', state: false },
   ],
-  "health": [
-    { item: 'Pharmacies', state: false },
-    { item: 'Clinics & Medical Centers', state: false },
-    { item: 'Laboratories & Diagnostics', state: false },
-    { item: 'Mental Health Services', state: false },
-    { item: 'Dental Care', state: false },
-    { item: 'Physiotherapy & Rehabilitation', state: false },
-    { item: 'Eye Care & Optometry', state: false },
-    { item: 'Alternative Medicine', state: false },
-    { item: 'Health Equipment & Supplies', state: false },
-  ],
-  "hospitality": [
-    { item: 'Hotels & Resorts', state: false },
-    { item: 'Restaurants & Cafés', state: false },
-    { item: 'Event Venues', state: false },
-    { item: 'Travel & Tours', state: false },
-    { item: 'Bars & Lounges', state: false },
-    { item: 'Catering Services', state: false },
-    { item: 'Short-let Apartments', state: false },
-    { item: 'Conference & Meeting Facilities', state: false },
-  ],
-  "education": [
-    { item: 'Schools', state: false },
-    { item: 'Universities & Colleges', state: false },
-    { item: 'Online Learning', state: false },
-    { item: 'Vocational Training', state: false },
-    { item: 'Language Schools', state: false },
-    { item: 'Professional Certification Bodies', state: false },
-    { item: 'Libraries & Study Centers', state: false },
-    { item: 'Educational Supplies & Bookstores', state: false },
-  ],
-  "legal": [
-    { item: 'Law Firms', state: false },
-    { item: 'Notary Services', state: false },
-    { item: 'Corporate & Business Law', state: false },
-    { item: 'Family Law', state: false },
-    { item: 'Criminal Defense', state: false },
-    { item: 'Immigration Services', state: false },
-    { item: 'Intellectual Property & Trademark', state: false },
-    { item: 'Legal Aid & Advocacy', state: false },
-  ],
-  "logistics": [
-    { item: 'Courier & Delivery', state: false },
-    { item: 'Warehousing & Storage', state: false },
-    { item: 'Freight Forwarding', state: false },
-    { item: 'Moving & Relocation', state: false },
-    { item: 'Vehicle Hire & Transport', state: false },
-    { item: 'Supply Chain Management', state: false },
-    { item: 'Cold Chain Logistics', state: false },
-    { item: 'E-commerce Fulfillment Centers', state: false },
-  ],
-  "Utility": [
-    { item: 'Electricity Services', state: false },
-    { item: 'Water Supply & Treatment', state: false },
-    { item: 'Waste Management & Recycling', state: false },
-    { item: 'Internet Providers', state: false },
-    { item: 'Gas Supply & Installation', state: false },
-    { item: 'Renewable Energy Solutions (Solar, Wind)', state: false },
-    { item: 'Home Repair & Maintenance Services', state: false },
-    { item: 'Security & Surveillance Systems', state: false },
-  ],
+  // Add other sector categories as needed...
 };
 
 const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) => {
+  const searchParams = useSearchParams();
+  const sectorParam = searchParams.get("sector");
+
   const [a, aFunc] = useToggle(true);
   const [b, bFunc] = useToggle(true);
 
-  const [sectorState, setSectorState] = useState(sector);
+  const [sectorState, setSectorState] = useState(sectorList);
   const [categoryState, setCategoryState] = useState<{ item: string; state: boolean }[]>([]);
 
+  // ✅ Handle selecting a sector
   const handleSector = (selectedItem: string) => {
     setSectorState(prev =>
       prev.map(({ item }) => ({
@@ -259,10 +448,10 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
         state: item === selectedItem,
       }))
     );
-
     setCategoryState(sectorCategories[selectedItem] || []);
   };
 
+  // ✅ Handle selecting a category
   const handleCategory = (selectedItem: string) => {
     setCategoryState(prev =>
       prev.map(({ item, state }) => ({
@@ -272,6 +461,7 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
     );
   };
 
+  // ✅ Handle API submission
   const handleAPI = async () => {
     const userToken = localStorage.getItem("userToken");
     if (!userToken) {
@@ -290,15 +480,17 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
           data: {
             sectors: selectedSector,
             categories,
-            businessId: localStorage.getItem('addNewBusiness')
+            businessId: localStorage.getItem('addNewBusiness'),
+            state: 'a', city: 'a', street: 'a', zip: '0', town: 'a', address: 'a'
           },
           headers: {
             Authorization: `Bearer ${userToken}`,
           },
         });
+
         localStorage.setItem('addNewBusiness', res.data.profile._id);
         showToast('success', res.data.message);
-        setSection(2);
+        setTimeout(() => setSection(2), 3000);
       } catch (err) {
         console.error(err);
         showToast('error', 'An error occurred');
@@ -308,12 +500,29 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
     }
   };
 
+  // ✅ Auto-select based on URL param
+  useEffect(() => {
+    if (!sectorParam) return;
+
+    // ✅ Map the query param to actual sector name
+    let mappedSector = sectorParam.trim();
+
+    if (mappedSector === "Sell Products") {
+      mappedSector = "E-Commerce";
+    }
+
+    if (sectorCategories[mappedSector]) {
+      // If it's a recognized sector, auto-select and show only that one
+      setSectorState([{ item: mappedSector, state: true }]);
+      setCategoryState(sectorCategories[mappedSector]);
+    }
+  }, [sectorParam]);
+
+  // ✅ Register handler & progress
   useEffect(() => {
     setCount(25);
     handleBtnFunc(handleAPI);
-    return () => {
-      handleBtnFunc(() => console.log('default'));
-    };
+    return () => handleBtnFunc(() => console.log('default'));
   }, [sectorState, categoryState]);
 
   return (
@@ -327,12 +536,21 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
         </p>
       </div>
 
-      <Accordion title='Sector' subTitle='Select one option' onClick={aFunc} state={a} batch={sectorState.length}>
+      {/* ✅ Sector Section */}
+      <Accordion
+        title='Sector'
+        subTitle='Select one option'
+        onClick={aFunc}
+        state={a}
+        batch={sectorState.length}
+      >
         <div className='flex gap-2 flex-wrap'>
           {sectorState.map(({ item, state }) => (
             <button
               key={item}
-              className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`}
+              className={`px-4 py-[6px] text-3 rounded-2xl transition-all duration-200 ${
+                state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'
+              }`}
               onClick={() => handleSector(item)}
             >
               {item}
@@ -341,13 +559,22 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
         </div>
       </Accordion>
 
+      {/* ✅ Category Section */}
       {categoryState.length > 0 && (
-        <Accordion title='Category' subTitle='Select multiple options' onClick={bFunc} state={b} batch={categoryState.length}>
+        <Accordion
+          title='Category'
+          subTitle='Select multiple options'
+          onClick={bFunc}
+          state={b}
+          batch={categoryState.length}
+        >
           <div className='flex gap-3 flex-wrap'>
             {categoryState.map(({ item, state }) => (
               <button
                 key={item}
-                className={`px-4 py-[6px] text-3 rounded-2xl ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`}
+                className={`px-4 py-[6px] text-3 rounded-2xl transition-all duration-200 ${
+                  state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'
+                }`}
                 onClick={() => handleCategory(item)}
               >
                 {item}
@@ -356,8 +583,6 @@ const BusinessDescription: FC<general_type> = ({ handleBtnFunc, setCount, setSec
           </div>
         </Accordion>
       )}
-
-      <ProfileInfo />
     </div>
   );
 };

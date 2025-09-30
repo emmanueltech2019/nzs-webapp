@@ -1,6 +1,8 @@
 // WalletInfo.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import AutorenewOutlinedIcon from '@mui/icons-material/AutorenewOutlined';
+import FundWalletModal from '../../../wallet/components/FundWalletModal';
+// import FundWalletModal from '../../../wallet/components/FundWalletModal';
 interface Transaction {
   date: string;
   description: string;
@@ -14,9 +16,11 @@ interface WalletInfoProps {
 }
 
 const WalletInfo: React.FC<WalletInfoProps> = ({ totalBalance, transactions, color }) => {
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
+      {showModal && <FundWalletModal onClose={() => setShowModal(false)} />}
     <div className="p-6 bg-white rounded-lg h-[44vh] overflow-auto">
       {/* Wallet Info Header */}
       <div className="flex justify-between items-center mb-4">
@@ -63,6 +67,12 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ totalBalance, transactions, col
 
       {/* Withdraw Button */}
     </div>
+    <button
+        className="w-full bg-green-800 text-white py-3 rounded-full font-semibold mt-4 mb-2"
+        onClick={() => setShowModal(!showModal)}
+      >
+        ADD TO WALLET
+      </button>
       <button className="w-full bg-green-800 text-white py-3 rounded-full font-semibold mt-4 mb-10">
         WITHDRAW FROM WALLET
       </button>

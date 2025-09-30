@@ -28,7 +28,7 @@ export const cardContent: CardItemtype[] = [
       <>Streaming Your <br /> Business Sales and <br /> Purchases</>
     ),
     paragraph:
-      "Enjoy these pre-made components and worry only about creating the best products ever.",
+      "Manage every transaction seamlessly — track, record, and analyze your sales and purchases all in one place without the usual stress.",
   },
   {
     icon: delivery,
@@ -36,7 +36,7 @@ export const cardContent: CardItemtype[] = [
       <>Quotes, Orders and <br /> Delivery. All Simplified <br /> for you!</>
     ),
     paragraph:
-      "Enjoy these pre-made components and worry only about creating the best products ever.",
+      "From sending quotes to fulfilling orders and tracking deliveries, our system automates your workflow so you can focus on growing your business.",
   },
   {
     icon: verified_user,
@@ -44,7 +44,7 @@ export const cardContent: CardItemtype[] = [
       <>Welcome to Efficiency... <br /> Create a Profile and get <br /> verified quickly</>
     ),
     paragraph:
-      "Enjoy these pre-made components and worry only about creating the best products ever.",
+      "Get started in minutes — set up your account, verify your details, and access powerful tools built to make your operations smarter and faster.",
   },
 ];
 

@@ -242,6 +242,7 @@ const ProductSpec: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) 
 
   const [states, setState] = useState<{ item: string; state: boolean }[]>([]);
   const [qualityType, setQualityType] = useState(QualityTypeState);
+  const [totalStock, setTotalStock] = useState(1);
 
   const [registeredBusinessName, setRegisteredBusinessName] = useForm("");
   const [description, setDescription] = useForm("");
@@ -290,6 +291,7 @@ const ProductSpec: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) 
         quantityType: selectedQuantityType[0],
         quantityUnit: selectedUnitType[0],
         quantity: parseFloat(quantity),
+        totalStock: parseInt(totalStock.toString(), 10),
       },
       headers: {
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -311,7 +313,7 @@ const ProductSpec: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) 
     return () => {
       handleBtnFunc(() => console.log("default"));
     };
-  }, [states, registeredBusinessName, description, quantity]);
+  }, [states, registeredBusinessName, description, quantity, totalStock]);
 
   const selectedQuantityType = qualityType.find((q) => q.state);
   const selectedUnit = states.find((s) => s.state);
@@ -373,6 +375,21 @@ const ProductSpec: FC<general_type> = ({ handleBtnFunc, setCount, setSection }) 
             </p>
           </div>
         )}
+        <div className="pb-3">
+        <input
+          type="number"
+          id="totalStock"
+          onChange={(e) => setTotalStock(Number(e.target.value))}
+          value={totalStock}
+          required
+          min={1}
+          className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+          placeholder="NGN 0.00"
+        />
+        <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>
+          Total in stock
+        </p>
+      </div>
       </div>
     </div>
   );

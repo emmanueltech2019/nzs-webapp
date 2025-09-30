@@ -134,9 +134,9 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
                   </div>
                   <div className="flex flex-col ms-2 min-w-[100px]">
                     <span className="text-gray-500 text-xs">
-                      {product?.quantity ?? 0}/{product?.quantity ?? 0}
+                      Available {product?.totalStock}/{product?.stockSold ?? 0} Sold
                     </span>
-                    <span className="text-gray-500 text-xs">Cartons</span>
+                    {/* <span className="text-gray-500 text-xs">Cartons</span> */}
                   </div>
                 </div>
               </div>
@@ -186,6 +186,8 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
                   discount={product?.discount ?? 0}
                   completedStatus={product?.completedStatus ?? false}
                   quantityInfo={product?.quantityInfo ?? {quantity:0, quantityType:"", quantityUnit:""}}
+                  totalStock={product?.totalStock ?? 0}
+                  stockSold={product?.stockSold ?? 0}
                 />
               </div>
             )}

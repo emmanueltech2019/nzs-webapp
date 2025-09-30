@@ -87,7 +87,7 @@ const Role = () => {
             />
             <label htmlFor="buyer">
               <div className={`buy p-4 flex justify-between rounded-[12px] border-[#C5C6CC] border-[0.5px] cursor-pointer ${role == 'buyer' ? 'bg-[#EAF2FF]' : 'bg-white'}`}>
-                <p className="text-[14px] text-[#1F2024] select-none">Buy</p>
+                <p className="text-[14px] text-[#1F2024] select-none">Buy / Request Services</p>
                 <div className={`checkbox h-6 w-6 border-[#C5C6CC] border-[1.5px] rounded-md flex items-center justify-center cursor-pointer`}>
                   <Icon
                     icon="iconamoon:check-duotone"
@@ -108,7 +108,7 @@ const Role = () => {
             />
             <label htmlFor="seller">
               <div className={`sell p-4 flex justify-between rounded-[12px] border-[#C5C6CC] border-[0.5px] cursor-pointer ${role == 'seller' ? 'bg-[#EAF2FF]' : 'bg-white'}`}>
-                <p className="text-[14px] text-[#1F2024] select-none">Sell</p>
+                <p className="text-[14px] text-[#1F2024] select-none">Sell / Offer Service</p>
                 <div className="checkbox h-6 w-6 border-[#C5C6CC] border-[1.5px] rounded-md flex items-center justify-center cursor-pointer">
                   <Icon
                     icon="iconamoon:check-duotone"

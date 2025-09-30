@@ -2,6 +2,7 @@ import { showToast } from "@/utils/alert";
 import { address } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 import axios from "@/utils/axios";
+import CircleLoader from "@/components/loader/loader";
 
 
 interface FormData {
@@ -13,6 +14,7 @@ interface FundWalletModalProps {
 type eventType = React.MouseEvent<HTMLInputElement, MouseEvent>
 
 const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     amount:""
   });
@@ -59,8 +61,8 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
         },
       })
         .then((res) => {
-          const { access_code, authorization_url, reference } = res.data.data;
-
+          // const { access_code, authorization_url, reference } = res.data.data;
+          setLoading(false);
           // Ensure window and PaystackPop are defined
           if (typeof window !== "undefined" && window.PaystackPop) {
             const handler = window.PaystackPop.setup({
@@ -108,6 +110,7 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
 
   return (
     <div className="fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <CircleLoader isVisible={loading} />
       <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[400px]">
         <h2 className="text-lg font-bold mb-4 text-gray-800">
           Fund Wallet

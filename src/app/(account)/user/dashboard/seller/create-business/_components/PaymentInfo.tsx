@@ -12,6 +12,7 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
     
     const [accountNumber, setAccountNumber] = useForm('')
     const [accountName, setAccountName] = useForm('')
+    const [bankName, setBankName] = useForm('')
     const [accountType, setAccountType] = useState([
         { item: 'Savings', state: false },
         { item: 'Current', state: false },
@@ -35,6 +36,7 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
                 businessId: localStorage.getItem('addNewBusiness'),
                 accountNumber: accountNumber,
                 accountName: accountName,
+                bankName: bankName,
                 accountType: selectedAccountType, // Send only the selected item
             },
             headers: {
@@ -77,10 +79,12 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
                 </h1>
 
                 <div className='pb-3'>
-                    <input type="text" id='businessName' onChange={e => setAccountNumber(e)} value={accountNumber} maxLength={10} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Bank Account Number' />
+                    <input type="number" id='AccountNumber' onChange={e => setAccountNumber(e)} value={accountNumber} maxLength={10} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Bank Account Number' />
                     <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/10</p>
                 </div>
-                <input type="text" id='businessName' onChange={e => setAccountName(e)} value={accountName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Account Name' />
+                <input type="text" id='AccountName' onChange={e => setAccountName(e)} value={accountName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Account Name' />
+                <input type="text" id='bankName' onChange={e => setBankName(e)} value={bankName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Bank Name' />
+
                 <div className='flex flex-col gap-3 py-3'>
                     {accountType.map(({ item, state }, i) => (
                         <div
@@ -102,7 +106,7 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
                     ))}
                 </div>
             </div>
-            <ProfileInfo />
+            {/* <ProfileInfo /> */}
         </div>
     )
 }

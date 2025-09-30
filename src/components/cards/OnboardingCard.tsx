@@ -31,21 +31,21 @@ const cardContent: CardItem[] = [
     // icon: StatsIcon, // Use the component function, not JSX
     headText: "Streaming Your Business Sales and Purchases",
     paragraph:
-      "Enjoy these pre-made components and worry only about creating the best products ever.",
+      "Manage every transaction seamlessly — track, record, and analyze your sales and purchases all in one place without the usual stress.",
   },
   {
     index: 2,
     // icon: CartIcon,
     headText: "Quotes, Orders and Delivery. All Simplified for you!",
     paragraph:
-      "Enjoy these pre-made components and worry only about creating the best products ever.",
+      "From sending quotes to fulfilling orders and tracking deliveries, our system automates your workflow so you can focus on growing your business.",
   },
   {
     index: 3,
     // icon: ShieldIcon,
     headText: "Welcome to Efficiency... Create a Profile and get verified quickly",
     paragraph:
-      "Enjoy these pre-made components and worry only about creating the best products ever.",
+      "Get started in minutes — set up your account, verify your details, and access powerful tools built to make your operations smarter and faster.",
   },
 ];
 

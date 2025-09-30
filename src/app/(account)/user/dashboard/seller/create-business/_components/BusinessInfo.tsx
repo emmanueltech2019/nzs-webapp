@@ -13,6 +13,7 @@ import { ProfileInfo } from "./Main";
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
 import Image from "next/image";
+import { form } from "framer-motion/client";
 
 const initialState = [
   { item: "Health Regulation", state: false },
@@ -20,6 +21,332 @@ const initialState = [
   { item: "Safety Regulation", state: false },
 ];
 
+const cities = [
+  {
+    id: 4,
+    abbr: "ABA",
+    name: "ABA",
+  },
+  {
+    id: 8,
+    abbr: "AKK",
+    name: "ABAKALIKI",
+  },
+  {
+    id: 5,
+    abbr: "ABK",
+    name: "ABEOKUTA",
+  },
+  {
+    id: 6,
+    abbr: "ABV",
+    name: "ABUJA",
+  },
+  {
+    id: 7,
+    abbr: "ADK",
+    name: "ADO EKITI",
+  },
+  {
+    id: 9,
+    abbr: "AKR",
+    name: "AKURE",
+  },
+  {
+    id: 10,
+    abbr: "ASB",
+    name: "ASABA",
+  },
+  {
+    id: 11,
+    abbr: "AWK",
+    name: "AWKA",
+  },
+  {
+    id: 12,
+    abbr: "BAU",
+    name: "BAUCHI",
+  },
+  {
+    id: 14,
+    abbr: "BNI",
+    name: "BENIN",
+  },
+  {
+    id: 13,
+    abbr: "BRK",
+    name: "BIRNIN- KEBBI",
+  },
+  {
+    id: 15,
+    abbr: "BNY",
+    name: "BONNY ISLAND",
+  },
+  {
+    id: 16,
+    abbr: "CBQ",
+    name: "CALABAR",
+  },
+  {
+    id: 17,
+    abbr: "DAM",
+    name: "DAMATURU",
+  },
+  {
+    id: 18,
+    abbr: "DUT",
+    name: "DUTSE",
+  },
+  {
+    id: 19,
+    abbr: "EKT",
+    name: "EKET",
+  },
+  {
+    id: 20,
+    abbr: "ENU",
+    name: "ENUGU",
+  },
+  {
+    id: 21,
+    abbr: "GOM",
+    name: "GOMBE",
+  },
+  {
+    id: 22,
+    abbr: "GUS",
+    name: "GUSAU",
+  },
+  {
+    id: 3,
+    abbr: "IBA",
+    name: "IBADAN",
+  },
+  {
+    id: 24,
+    abbr: "IJB",
+    name: "IJEBU",
+  },
+  {
+    id: 25,
+    abbr: "IKP",
+    name: "IKOT EKPENE",
+  },
+  {
+    id: 23,
+    abbr: "IFE",
+    name: "ILE-IFE",
+  },
+  {
+    id: 65,
+    abbr: "Ile",
+    name: "Ilesha",
+  },
+  {
+    id: 26,
+    abbr: "ILR",
+    name: "ILORIN",
+  },
+  {
+    id: 27,
+    abbr: "JAL",
+    name: "JALINGO",
+  },
+  {
+    id: 28,
+    abbr: "JOS",
+    name: "JOS",
+  },
+  {
+    id: 29,
+    abbr: "KAD",
+    name: "KADUNA",
+  },
+  {
+    id: 30,
+    abbr: "KAN",
+    name: "KANO",
+  },
+  {
+    id: 31,
+    abbr: "KAS",
+    name: "KASTINA",
+  },
+  {
+    id: 32,
+    abbr: "LAF",
+    name: "LAFIA",
+  },
+  {
+    id: 56,
+    abbr: "ISL",
+    name: "LAGOS ISLAND",
+  },
+  {
+    id: 2,
+    abbr: "MLD",
+    name: "LAGOS MAINLAND",
+  },
+  {
+    id: 33,
+    abbr: "LKJ",
+    name: "LOKOJA",
+  },
+  {
+    id: 35,
+    abbr: "MIU",
+    name: "MAIDUGURI",
+  },
+  {
+    id: 34,
+    abbr: "MDI",
+    name: "MAKURDI",
+  },
+  {
+    id: 36,
+    abbr: "MNA",
+    name: "MINNA",
+  },
+  {
+    id: 37,
+    abbr: "NNI",
+    name: "NNEWI",
+  },
+  {
+    id: 38,
+    abbr: "NSK",
+    name: "NSUKKA",
+  },
+  {
+    id: 39,
+    abbr: "OFA",
+    name: "OFA",
+  },
+  {
+    id: 60,
+    abbr: "OGB",
+    name: "OGBOMOSO",
+  },
+  {
+    id: 40,
+    abbr: "ONA",
+    name: "ONITSHA",
+  },
+  {
+    id: 42,
+    abbr: "OSG",
+    name: "OSHOGBO",
+  },
+  {
+    id: 43,
+    abbr: "OTA",
+    name: "OTA",
+  },
+  {
+    id: 41,
+    abbr: "ORI",
+    name: "OWERRI",
+  },
+  {
+    id: 61,
+    abbr: "OYO",
+    name: "OYO",
+  },
+  {
+    id: 44,
+    abbr: "PHC",
+    name: "PORT-HARCOURT",
+  },
+  {
+    id: 46,
+    abbr: "SAG",
+    name: "SAGAMU",
+  },
+  {
+    id: 45,
+    abbr: "SAE",
+    name: "SAPELE",
+  },
+  {
+    id: 47,
+    abbr: "SKO",
+    name: "SOKOTO",
+  },
+  {
+    id: 48,
+    abbr: "SUL",
+    name: "SULEJA",
+  },
+  {
+    id: 49,
+    abbr: "UHA",
+    name: "UMUAHIA",
+  },
+  {
+    id: 50,
+    abbr: "UYO",
+    name: "UYO",
+  },
+  {
+    id: 51,
+    abbr: "WRI",
+    name: "WARRI",
+  },
+  {
+    id: 52,
+    abbr: "YEN",
+    name: "YENAGOA",
+  },
+  {
+    id: 53,
+    abbr: "YOL",
+    name: "YOLA",
+  },
+  {
+    id: 54,
+    abbr: "ZRI",
+    name: "ZARIA",
+  },
+];
+const statesAndCapitals = [
+  { state: "Abia", capital: "Umuahia" },
+  { state: "Adamawa", capital: "Yola" },
+  { state: "Akwa Ibom", capital: "Uyo" },
+  { state: "Anambra", capital: "Awka" },
+  { state: "Bauchi", capital: "Bauchi" },
+  { state: "Bayelsa", capital: "Yenagoa" },
+  { state: "Benue", capital: "Makurdi" },
+  { state: "Borno", capital: "Maiduguri" },
+  { state: "Cross River", capital: "Calabar" },
+  { state: "Delta", capital: "Asaba" },
+  { state: "Ebonyi", capital: "Abakaliki" },
+  { state: "Edo", capital: "Benin City" },
+  { state: "Ekiti", capital: "Ado-Ekiti" },
+  { state: "Enugu", capital: "Enugu" },
+  { state: "Gombe", capital: "Gombe" },
+  { state: "Imo", capital: "Owerri" },
+  { state: "Jigawa", capital: "Dutse" },
+  { state: "Kaduna", capital: "Kaduna" },
+  { state: "Kano", capital: "Kano" },
+  { state: "Katsina", capital: "Katsina" },
+  { state: "Kebbi", capital: "Birnin Kebbi" },
+  { state: "Kogi", capital: "Lokoja" },
+  { state: "Kwara", capital: "Ilorin" },
+  { state: "Lagos", capital: "Ikeja" },
+  { state: "Nasarawa", capital: "Lafia" },
+  { state: "Niger", capital: "Minna" },
+  { state: "Ogun", capital: "Abeokuta" },
+  { state: "Ondo", capital: "Akure" },
+  { state: "Osun", capital: "Osogbo" },
+  { state: "Oyo", capital: "Ibadan" },
+  { state: "Plateau", capital: "Jos" },
+  { state: "Rivers", capital: "Port Harcourt" },
+  { state: "Sokoto", capital: "Sokoto" },
+  { state: "Taraba", capital: "Jalingo" },
+  { state: "Yobe", capital: "Damaturu" },
+  { state: "Zamfara", capital: "Gusau" },
+  { state: "FCT", capital: "Abuja" },
+];
 const mainState = [
   { item: "umuahia", state: false },
   { item: "jos", state: false },
@@ -55,6 +382,9 @@ const BusinessInfo: FC<general_type> = ({
   setSection,
 }) => {
   const [uploadCount, setuploadCount] = useState(0);
+  const [streetAddress, setStreetAddress] = useForm("");
+  const [zipCode, setZipCode] = useForm("");
+  const [town, setTown] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [states, setState] = useState(mainState);
   const handleStates = (a: string) => {
@@ -68,7 +398,6 @@ const BusinessInfo: FC<general_type> = ({
 
   const [registeredBusinessName, setRegisteredBusinessName] = useForm("");
   const [description, setDescription] = useForm("");
-  const [city, setCity] = useForm("");
   const [stateOfOrigin, setStateOfOrigin] = useForm("");
   const [CAC, setCAC] = useForm("" as any);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +407,45 @@ const BusinessInfo: FC<general_type> = ({
       setuploadCount(uploadCount + 1); // Optionally update upload count
     }
   };
+  const [selectedCity, setSelectedCity] = useState<{
+    id: number;
+    abbr: string;
+    name: string;
+  } | null>(null);
+  const [selectedState, setSelectedState] = useState<
+    | {
+        state: string;
+        capital: string;
+      }
+    | null
+  >(null); 
 
+  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const value = e.target.value;
+  const mockEvent = {
+  target: { value: value }
+} as React.ChangeEvent<HTMLInputElement>;
+  setStateOfOrigin(mockEvent); 
+
+  const stateObj = statesAndCapitals.find((s) => s.state === value);
+  if (stateObj) {
+    setSelectedState(stateObj);
+  } else {
+    setSelectedState(null);
+  }
+};
+
+  const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const cityObj = cities.find((c) => c.name === value);
+    if (cityObj) {
+      setSelectedCity(cityObj);
+    } else {
+      // Fallback for custom entries, or if it's meant to be a controlled input with datalist
+      setSelectedCity({ id: 0, abbr: "", name: value });
+    }
+  };
+  
   const [regulations, setRegulations] = useState(initialState);
   const handleClick = (a: any) =>
     setRegulations((prev) =>
@@ -90,52 +457,50 @@ const BusinessInfo: FC<general_type> = ({
   const [a, aFunc] = useToggle(true);
   const [b, bFunc] = useToggle(true);
   const handleAPI = async () => {
-    const formData = new FormData();
-    formData.append("businessName", registeredBusinessName);
-    formData.append("description", description);
-    formData.append("registrationNumber", CAC);
-    formData.append(
-      "regulations",
-      JSON.stringify(
-        regulations.filter(({ state }) => state).map(({ item }) => item)
-      )
-    );
-    // formData.append('state', JSON.stringify(states.filter(({ state }) => state).map(({ item }) => item)));
-    formData.append("state", stateOfOrigin);
-    formData.append("city", city);
-    formData.append("streetInfo", "Test Street");
-    formData.append("businessId", `${localStorage.getItem("addNewBusiness")}`);
-    axios({
+    console.log("Submitting business with data:", {
+      businessName: registeredBusinessName,
+      description,
+      registrationNumber: CAC,
+      regulations: regulations.filter(({ state }) => state).map(({ item }) => item),
+      state: stateOfOrigin,
+      city: selectedCity?.name,
+      street: streetAddress,
+      zip: zipCode,
+      town: town,
+    });
+
+
+  try {
+    let addNewBusiness = localStorage.getItem("addNewBusiness");
+    const res = await axios({
       method: "PUT",
       url: "/business/add-business-info",
-      data: formData,
+      data: {
+        businessName: registeredBusinessName,
+        description,
+        registrationNumber: CAC,
+        regulations: regulations.filter(({ state }) => state).map(({ item }) => item),
+        state: stateOfOrigin,
+        city: selectedCity?.name,
+        street: streetAddress,
+        zip: zipCode,
+        town: town,
+        businessId: addNewBusiness
+      },
       headers: {
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
-    })
-      .then((res) => {
-        console.log(res);
-        console.log({
-          businessName: registeredBusinessName,
-          description,
-          registrationNumber: CAC,
-          regulations: regulations
-            .filter(({ state }) => state)
-            .map(({ item }) => item),
-          state: states.filter(({ state }) => state).map(({ item }) => item),
-          city: "Test City",
-          streetInfo: "Test Street",
-          logo: file,
-        });
-        showToast("success", res.data.message);
-        setSection(3);
-      })
-      .catch((err) => {
-        console.error(err);
-        showToast("error", err.message);
-      });
-  };
-  useEffect(() => {
+    });
+
+    showToast("success", res.data.message);
+    setSection(3);
+  } catch (err: any) {
+    console.error("Error submitting business:", err.response?.data || err.message);
+    showToast("error", err.message);
+  }
+};
+
+useEffect(() => {
     setCount(50);
     handleBtnFunc(handleAPI);
     return () => {
@@ -148,6 +513,12 @@ const BusinessInfo: FC<general_type> = ({
     registeredBusinessName,
     description,
     CAC,
+    // ✅ Add all form values you want to be current when handleAPI is called:
+    streetAddress,
+    zipCode,
+    town,
+    stateOfOrigin,
+    // town (this is an unused state, should probably be removed or replaced with townName)
   ]);
   return (
     <div className="py-3">
@@ -225,41 +596,76 @@ const BusinessInfo: FC<general_type> = ({
             ))}
           </div>
         </div>
-
-        {/* <Accordion title='State' subTitle='Available in Nigeria' batch={9} state={a} onClick={aFunc} border={false}> */}
-        {/* {<div className='flex gap-2 flex-wrap'>
-                            {states.map(({ item, state }) => (
-                                <button key={item} className={`px-4 py-[6px] text-3 rounded-2xl uppercase ${state ? 'bg-[--foreground-green] text-white' : 'bg-[#EAF2FF] text-[--foreground-green]'}`} onClick={() => handleStates(item)}>{item}</button>
-                            ))}
-                        </div>} */}
+          <div>
+    <input
+      type="text"
+      id="street"
+      onChange={(e) => setStreetAddress(e)}
+      value={streetAddress}
+      required
+      className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+      placeholder="Street Address / Street Info"
+    />
+  </div>
+  <div>
+  <input
+    type="text"
+    id="town"
+    onChange={(e) => setTown(e.target.value)}
+    value={town}
+    required
+    className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+    placeholder="Town/Area"
+  />
+</div>
+  <div>
+    <input
+      type="text"
+      id="zip"
+      onChange={(e) => setZipCode(e)}
+      value={zipCode}
+      required
+      className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+      placeholder="Zip Code / Postal Code"
+    />
+  </div>
         <div className="py-5 flex flex-col gap-4">
-          <input
-            type="text"
+          <select
             id="state"
-            onChange={(e) => setStateOfOrigin(e)}
-            value={stateOfOrigin}
+            onChange={handleStateChange} // This is the fixed handler
+            value={stateOfOrigin} // Now controlled by stateOfOrigin, which is updated in the handler
             required
             className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
-            placeholder="State"
-          />
+          >
+            <option value="">Select State</option>
+            {statesAndCapitals.map((item) => (
+              <option key={item.state} value={item.state}>
+                {item.state} — {item.capital}
+              </option>
+            ))}
+          </select>
           <div className="w-full">
-            {/* <GoogleMapEmbed /> */}
             <input
               type="text"
               id="city"
-              onChange={(e) => setCity(e)}
-              value={city}
+              list="city-options"
+              onChange={handleCityChange}
+              value={selectedCity?.name ?? ""}
               required
               className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
               placeholder="City"
             />
+            <datalist id="city-options">
+              {cities.map((c) => (
+                <option key={c.id} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
+            </datalist>
           </div>
         </div>
-        {/* </Accordion> */}
-        {/* <Accordion title='City' subTitle='Available in Nigeria' state={b} onClick={bFunc} border={false} durations={500}> */}
-        {/* </Accordion> */}
 
-        <ProfileInfo />
+        {/* <ProfileInfo /> */}
       </div>
     </div>
   );

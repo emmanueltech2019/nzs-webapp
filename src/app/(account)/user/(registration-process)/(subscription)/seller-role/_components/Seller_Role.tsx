@@ -26,7 +26,7 @@ const Seller_Role = () => {
         method: "PUT",
         url: "/business/select-role",
         data: {
-          role
+          role,state:'a', city:'a', street:'a', zip:'0', town:'a',address:'a'
         },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -36,7 +36,7 @@ const Seller_Role = () => {
         localStorage.setItem('addNewBusiness', res.data.profile._id)
         // console.log(res)
         showToast("success", "Sellers Role updated successfully");
-        router.push("./dashboard/seller/create-business")
+        router.push(`./dashboard/seller/create-business?sector=${role}`)
       }).catch(err => {
         console.error(err);
         showToast("error", "Failed to update Sellers Role");

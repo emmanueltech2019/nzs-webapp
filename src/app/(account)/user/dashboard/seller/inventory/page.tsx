@@ -2,8 +2,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "@/utils/axios";
 import { ProductT } from "@/types/Product.types";
-import { Icon } from '@iconify/react'
-import { isAxiosError } from "axios"; // Import AxiosError
+import { Icon } from "@iconify/react";
+import { isAxiosError } from "axios";
 
 import InStock from "./components/stock/InStock";
 import OutOfStock from "./components/stock/OutOfStock";
@@ -11,7 +11,6 @@ import Header from "@/components/header/ProductHeader";
 import SellerTransStatusTab from "@/components/tabs/SellerTransStatusTab";
 import SortFilter from "@/components/SortFilter/SortFilter";
 
-// Filter components
 import Atoz from "./components/Atoz";
 import Providers from "./components/Providers";
 import CareType from "./components/CareType";
@@ -20,8 +19,6 @@ import StatusFilter from "./components/StatusFilter";
 import DateFilter from "./components/DateFilter";
 import LocationFilter from "./components/LocationFilter";
 import PriceFilter from "./components/PriceFilter";
-import ClassCoursesFilter from "./components/ClassCoursesFilter";
-import FacilitiesFilter from "./components/FacilitiesFilter";
 
 import { FaArrowRight, FaChevronDown } from "react-icons/fa";
 import { Box, CircularProgress } from "@mui/material";
@@ -31,14 +28,13 @@ import HealthFacility from "./components/HealthFacility";
 import ClassCourse from "./components/ClassCourse";
 import EducationFacilities from "./components/EducationFacilities";
 import LegalDate from "./components/LegalDate";
-import LegalProviders from "./components/LegalProviders";
 import LegalAtoz from "@/app/(account)/user/dashboard/seller/inventory/components/LegalAtoz";
-import LegalServices, { AddSpecialty } from "@/app/(account)/user/dashboard/seller/inventory/components/LegalServices";
+import LegalServices, {
+  AddSpecialty,
+} from "@/app/(account)/user/dashboard/seller/inventory/components/LegalServices";
 import LogisticsLocation from "./components/LogisticsLocation";
-import { describe } from "node:test";
-// import { error } from "console";
 import Swal from "sweetalert2";
-
+import VerificationModal from "@/components/modals/verificationModal";
 interface User {
   firstname: string;
   lastname: string;
@@ -59,6 +55,10 @@ interface Business {
 }
 
 const Page: React.FC = () => {
+  const [businessVerified, setBusinessVerified] = useState(false);
+  const [adminVerified, setAdminVerified] = useState(false);
+  const [walletBalance, setWalletBalance] = useState(0);
+  const [PayForVerificationModal, setPayForVerificationModal] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [business, setBusiness] = useState<Business | null>(null);
   const [products, setProducts] = useState<ProductT[] | null>(null);
@@ -89,138 +89,156 @@ const Page: React.FC = () => {
   const [activeButton, setActiveButton] = useState(false);
   const activeContainerRef = useRef<HTMLDivElement>(null);
   // Legal service states
-  const [isAvailable, setIsAvailable] = useState('available');
-  const [specialtyTitle, setSpecialTitle] = useState('');
-  const [specialtyDescription, setSpecialDescription] = useState('');
-  const [similarSpecialty, setSimilarSpecialty] = useState('CRIMINAL LAW');
-  const [servicesAvailable, setServicesAvailable] = useState('CONSULTATION');
-  const [procedureType, setProcedureType] = useState('');
-  const [providerName1, setProviderName1] = useState('');
-  const [providerName2, setProviderName2] = useState('');
-  const [providerName3, setProviderName3] = useState('');
-  const [providerName4, setProviderName4] = useState('');
-  const [providerCategory1, setProviderCategory1] = useState('');
-  const [providerCategory2, setProviderCategory2] = useState('');
-  const [providerCategory3, setProviderCategory3] = useState('');
-  const [providerCategory4, setProviderCategory4] = useState('');
-  const [profileUrl1, setProfileUrl1] = useState('');
-  const [profileUrl2, setProfileUrl2] = useState('');
-  const [profileUrl3, setProfileUrl3] = useState('');
-  const [profileUrl4, setProfileUrl4] = useState('');
-  const [bookingTitle1, setBookingTitle1] = useState('');
-  const [bookingTitle2, setBookingTitle2] = useState('');
-  const [bookingTitle3, setBookingTitle3] = useState('');
-  const [bookingTitle4, setBookingTitle4] = useState('');
-  const [bookingDay1, setBookingDay1] = useState('');
-  const [bookingDay2, setBookingDay2] = useState('');
-  const [bookingDay3, setBookingDay3] = useState('');
-  const [bookingDay4, setBookingDay4] = useState('');
+  const [isAvailable, setIsAvailable] = useState("available");
+  const [specialtyTitle, setSpecialTitle] = useState("");
+  const [specialtyDescription, setSpecialDescription] = useState("");
+  const [similarSpecialty, setSimilarSpecialty] = useState("CRIMINAL LAW");
+  const [servicesAvailable, setServicesAvailable] = useState("CONSULTATION");
+  const [procedureType, setProcedureType] = useState("");
+  const [providerName1, setProviderName1] = useState("");
+  const [providerName2, setProviderName2] = useState("");
+  const [providerName3, setProviderName3] = useState("");
+  const [providerName4, setProviderName4] = useState("");
+  const [providerCategory1, setProviderCategory1] = useState("");
+  const [providerCategory2, setProviderCategory2] = useState("");
+  const [providerCategory3, setProviderCategory3] = useState("");
+  const [providerCategory4, setProviderCategory4] = useState("");
+  const [profileUrl1, setProfileUrl1] = useState("");
+  const [profileUrl2, setProfileUrl2] = useState("");
+  const [profileUrl3, setProfileUrl3] = useState("");
+  const [profileUrl4, setProfileUrl4] = useState("");
+  const [bookingTitle1, setBookingTitle1] = useState("");
+  const [bookingTitle2, setBookingTitle2] = useState("");
+  const [bookingTitle3, setBookingTitle3] = useState("");
+  const [bookingTitle4, setBookingTitle4] = useState("");
+  const [bookingDay1, setBookingDay1] = useState("");
+  const [bookingDay2, setBookingDay2] = useState("");
+  const [bookingDay3, setBookingDay3] = useState("");
+  const [bookingDay4, setBookingDay4] = useState("");
   const [bookingDate1, setBookingDate1] = useState<number>(0);
   const [bookingDate2, setBookingDate2] = useState<number>(0);
   const [bookingDate3, setBookingDate3] = useState<number>(0);
   const [bookingDate4, setBookingDate4] = useState<number>(0);
-  const [bookingMonth1, setBookingMonth1] = useState('');
-  const [bookingMonth2, setBookingMonth2] = useState('');
-  const [bookingMonth3, setBookingMonth3] = useState('');
-  const [bookingMonth4, setBookingMonth4] = useState('');
+  const [bookingMonth1, setBookingMonth1] = useState("");
+  const [bookingMonth2, setBookingMonth2] = useState("");
+  const [bookingMonth3, setBookingMonth3] = useState("");
+  const [bookingMonth4, setBookingMonth4] = useState("");
   const [bookingYear1, setBookingYear1] = useState<number>(0);
   const [bookingYear2, setBookingYear2] = useState<number>(0);
   const [bookingYear3, setBookingYear3] = useState<number>(0);
   const [bookingYear4, setBookingYear4] = useState<number>(0);
-  const [bookingHours1, setBookingHours1] = useState('00');
-  const [bookingHours2, setBookingHours2] = useState('00');
-  const [bookingHours3, setBookingHours3] = useState('00');
-  const [bookingHours4, setBookingHours4] = useState('00');
-  const [bookingMinutes1, setBookingMinutes1] = useState('00');
-  const [bookingMinutes2, setBookingMinutes2] = useState('00');
-  const [bookingMinutes3, setBookingMinutes3] = useState('00');
-  const [bookingMinutes4, setBookingMinutes4] = useState('00');
-  const [bookingAmOrPm1, setBookingAmOrPm1] = useState('AM');
-  const [bookingAmOrPm2, setBookingAmOrPm2] = useState('AM');
-  const [bookingAmOrPm3, setBookingAmOrPm3] = useState('AM');
-  const [bookingAmOrPm4, setBookingAmOrPm4] = useState('AM');
-  const [specialtyActiveSelection1, setSpecialtyActiveSelection1] = useState('');
-  const [specialtyActiveSelection2, setSpecialtyActiveSelection2] = useState('');
-  const [providerActiveSelection1, setProviderActiveSelection1] = useState('');
-  const [providerActiveSelection2, setProviderActiveSelection2] = useState('');
-  const [providerActiveSelection3, setProviderActiveSelection3] = useState('');
-  const [providerActiveSelection4, setProviderActiveSelection4] = useState('');
-  const [servicesSelection1, setServicesSelection1] = useState('consultation');
-  const [servicesSelection2, setServicesSelection2] = useState('consultation');
-  const [legalAtozSelection1, setLegalAtozSelection1] = useState('consultation');
-  const [legalAtozSelection2, setLegalAtozSelection2] = useState('consultation');
-  const [collectValue1, setCollectValue1] = useState(1)
-  const [collectValue2, setCollectValue2] = useState(1)
-  const [allLegalServicesObject, setAllLegalServicesObject] = useState<any[]>(() => {
-    try {
-      const storedItem = window.localStorage.getItem('legalServices');
-      return storedItem ? JSON.parse(storedItem) : [];
-    } catch (error) {
-      console.error("Failed to parse localStorage data.");
-      return [];
+  const [bookingHours1, setBookingHours1] = useState("00");
+  const [bookingHours2, setBookingHours2] = useState("00");
+  const [bookingHours3, setBookingHours3] = useState("00");
+  const [bookingHours4, setBookingHours4] = useState("00");
+  const [bookingMinutes1, setBookingMinutes1] = useState("00");
+  const [bookingMinutes2, setBookingMinutes2] = useState("00");
+  const [bookingMinutes3, setBookingMinutes3] = useState("00");
+  const [bookingMinutes4, setBookingMinutes4] = useState("00");
+  const [bookingAmOrPm1, setBookingAmOrPm1] = useState("AM");
+  const [bookingAmOrPm2, setBookingAmOrPm2] = useState("AM");
+  const [bookingAmOrPm3, setBookingAmOrPm3] = useState("AM");
+  const [bookingAmOrPm4, setBookingAmOrPm4] = useState("AM");
+  const [specialtyActiveSelection1, setSpecialtyActiveSelection1] =
+    useState("");
+  const [specialtyActiveSelection2, setSpecialtyActiveSelection2] =
+    useState("");
+  const [providerActiveSelection1, setProviderActiveSelection1] = useState("");
+  const [providerActiveSelection2, setProviderActiveSelection2] = useState("");
+  const [providerActiveSelection3, setProviderActiveSelection3] = useState("");
+  const [providerActiveSelection4, setProviderActiveSelection4] = useState("");
+  const [servicesSelection1, setServicesSelection1] = useState("consultation");
+  const [servicesSelection2, setServicesSelection2] = useState("consultation");
+  const [legalAtozSelection1, setLegalAtozSelection1] =
+    useState("consultation");
+  const [legalAtozSelection2, setLegalAtozSelection2] =
+    useState("consultation");
+  const [collectValue1, setCollectValue1] = useState(1);
+  const [collectValue2, setCollectValue2] = useState(1);
+  const [allLegalServicesObject, setAllLegalServicesObject] = useState<any[]>(
+    () => {
+      try {
+        const storedItem = window.localStorage.getItem("legalServices");
+        return storedItem ? JSON.parse(storedItem) : [];
+      } catch (error) {
+        console.error("Failed to parse localStorage data.");
+        return [];
+      }
     }
-  });
+  );
 
   const legalServicesObject = {
-      title: specialtyTitle,
-      description: specialtyDescription,
-      similarSpecialty: similarSpecialty,
-      servicesAvailable: servicesAvailable,
-      procedureType: procedureType,
-      providerDetails: [
-        {
-          providerType: [
-            {
-              name: providerCategory1
-            }, {
-              name: providerCategory2
-            }, {
-              name: providerCategory3
-            }, {
-              name: providerCategory4
-            }
-          ],
-          providerName: [
-            {
-              name: providerName1,
-              profileUrl: profileUrl1,
-              date: `${bookingDate1} / ${bookingMonth1} / ${bookingYear1}`,
-              time: `${bookingHours1} : ${bookingMinutes1} ${bookingAmOrPm1}`,
-              title: bookingTitle1
-            }, {
-              name: providerName2,
-              profileUrl: profileUrl2,
-              date: `${bookingDate2} / ${bookingMonth2} / ${bookingYear2}`,
-              time: `${bookingHours2} : ${bookingMinutes2} ${bookingAmOrPm2}`,
-              title: bookingTitle2
-            }, {
-              name: providerName3,
-              profileUrl: profileUrl3,
-              date: `${bookingDate3} / ${bookingMonth3} / ${bookingYear3}`,
-              time: `${bookingHours3} : ${bookingMinutes3} ${bookingAmOrPm3}`,
-              title: bookingTitle3
-            }, {
-              name: providerName4,
-              profileUrl: profileUrl4,
-              date: `${bookingDate4} / ${bookingMonth4} / ${bookingYear4}`,
-              time: `${bookingHours4} : ${bookingMinutes4} ${bookingAmOrPm4}`,
-              title: bookingTitle4
-            }],
-        }
-      ],
-    }
+    title: specialtyTitle,
+    description: specialtyDescription,
+    similarSpecialty: similarSpecialty,
+    servicesAvailable: servicesAvailable,
+    procedureType: procedureType,
+    providerDetails: [
+      {
+        providerType: [
+          {
+            name: providerCategory1,
+          },
+          {
+            name: providerCategory2,
+          },
+          {
+            name: providerCategory3,
+          },
+          {
+            name: providerCategory4,
+          },
+        ],
+        providerName: [
+          {
+            name: providerName1,
+            profileUrl: profileUrl1,
+            date: `${bookingDate1} / ${bookingMonth1} / ${bookingYear1}`,
+            time: `${bookingHours1} : ${bookingMinutes1} ${bookingAmOrPm1}`,
+            title: bookingTitle1,
+          },
+          {
+            name: providerName2,
+            profileUrl: profileUrl2,
+            date: `${bookingDate2} / ${bookingMonth2} / ${bookingYear2}`,
+            time: `${bookingHours2} : ${bookingMinutes2} ${bookingAmOrPm2}`,
+            title: bookingTitle2,
+          },
+          {
+            name: providerName3,
+            profileUrl: profileUrl3,
+            date: `${bookingDate3} / ${bookingMonth3} / ${bookingYear3}`,
+            time: `${bookingHours3} : ${bookingMinutes3} ${bookingAmOrPm3}`,
+            title: bookingTitle3,
+          },
+          {
+            name: providerName4,
+            profileUrl: profileUrl4,
+            date: `${bookingDate4} / ${bookingMonth4} / ${bookingYear4}`,
+            time: `${bookingHours4} : ${bookingMinutes4} ${bookingAmOrPm4}`,
+            title: bookingTitle4,
+          },
+        ],
+      },
+    ],
+  };
 
-   useEffect(() => {
+  useEffect(() => {
     try {
-      window.localStorage.setItem('legalServices', JSON.stringify(allLegalServicesObject));
+      window.localStorage.setItem(
+        "legalServices",
+        JSON.stringify(allLegalServicesObject)
+      );
     } catch (error) {
       console.error("Failed to save data to localStorage.");
     }
   }, [allLegalServicesObject]);
-  
-    const handleRemoveService = (index: number) => {
-      setAllLegalServicesObject((prevServices) => prevServices.filter((_, i) => i !== index))
-    }
+
+  const handleRemoveService = (index: number) => {
+    setAllLegalServicesObject((prevServices) =>
+      prevServices.filter((_, i) => i !== index)
+    );
+  };
 
   // Filter tab groups by account type
   const filterTabMap: Record<User["accountType"], string[]> = {
@@ -428,7 +446,6 @@ const Page: React.FC = () => {
   // Dynamic tab options based on user type
   const userFilterTabs = user ? filterTabMap[user.accountType] || [] : [];
 
-
   // const getActiveBusiness = () => {
   //   const token = localStorage.getItem("userToken");
   //   if (!token) return;
@@ -460,989 +477,1159 @@ const Page: React.FC = () => {
   //     .catch(console.error);
   // }
   const getActiveBusiness = () => {
-  const token = localStorage.getItem("userToken");
-  if (!token) return;
+    const token = localStorage.getItem("userToken");
+    if (!token) return;
 
-  // Check for active business in localStorage
-  let activeBusinessId = localStorage.getItem("activeBusiness");
+    // Check for active business in localStorage
+    let activeBusinessId = localStorage.getItem("activeBusiness");
 
-  if (!activeBusinessId) {
-    // No active business → fetch all businesses
-    axios
-      .get(`/users/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        setUser(res.data.user);
+    if (!activeBusinessId) {
+      // No active business → fetch all businesses
+      axios
+        .get(`/users/profile`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          console.log("res111", res);
+          setUser(res.data.user);
 
-        if (res.data.businesses?.length > 0) {
-          const firstBusinessId = res.data.businesses[0]._id;
-          localStorage.setItem("activeBusiness", firstBusinessId);
-          activeBusinessId = firstBusinessId;
+          if (res.data.businesses?.length > 0) {
+            const firstBusinessId = res.data.businesses[0]._id;
+            localStorage.setItem("activeBusiness", firstBusinessId);
+            activeBusinessId = firstBusinessId;
 
-          // Fetch that business details
+            // Fetch that business details
+            axios
+              .get(`/business/${firstBusinessId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+              })
+              .then((businessRes) => {
+                setSector(businessRes.data.business.sectors);
+                setBusiness(businessRes.data.business);
+                // console.log("businessRes", businessRes);
+              });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "No Business Found",
+              text: "Please create a business to continue.",
+            }).then(() => {
+              window.location.href =
+                "/account/user/dashboard/seller/create-business";
+            });
+          }
+        })
+        .catch(console.error);
+    } else {
+      axios
+        .get(`/users/profile/${activeBusinessId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          setWalletBalance(res.data.wallet.balance);
+          setUser(res.data.user);
           axios
-            .get(`/business/${firstBusinessId}`, {
+            .get(`/business/${activeBusinessId}`, {
               headers: { Authorization: `Bearer ${token}` },
             })
             .then((businessRes) => {
               setSector(businessRes.data.business.sectors);
               setBusiness(businessRes.data.business);
-              console.log("businessRes", businessRes);
+              setBusinessVerified(businessRes.data.business.paidVerification);
+              setAdminVerified(businessRes.data.business.approved);
             });
-        }else {
+        })
+        .catch(console.error);
+    }
+  };
+
+  const handlePayForVerification = () => {
+    setPayForVerificationModal(true);
+  };
+  const onClose = () => {
+    setPayForVerificationModal(false);
+  }
+  const onPayForVerification = () => {
+    setPayForVerificationModal(true);
+    axios({
+      url: `/business/seller-verification/${localStorage.getItem("activeBusiness")}`,
+      method: "POST", 
+      data :{},
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    })
+      .then((res) => {
+        console.log("res", res);
+        if (res.data.status === "success") {
           Swal.fire({
-            icon: 'error',
-            title: 'No Business Found',
-            text: 'Please create a business to continue.',
+            icon: "success",
+            title: "Payment Successful",
+            text: "Your business is now verified.",
           }).then(() => {
-            window.location.href = '/account/user/dashboard/seller/create-business';
-           })
+            // setBusinessVerified(true);
+            setPayForVerificationModal(false);
+            getActiveBusiness();
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Payment Failed",
+            text: res.data.message || "Please try again.",
+          });
         }
       })
-      .catch(console.error);
-  } else {
-    // Active business already exists → fetch directly
-    axios
-      .get(`/users/profile/${activeBusinessId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
-        setUser(res.data.user);
-
-        axios
-          .get(`/business/${activeBusinessId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-          .then((businessRes) => {
-            setSector(businessRes.data.business.sectors);
-            setBusiness(businessRes.data.business);
-            console.log("businessRes", businessRes);
+      .catch((error) => {
+        if (isAxiosError(error)) {
+          Swal.fire({
+            icon: "error",
+            title: "Payment Error",
+            text:
+              error.response?.data?.message ||
+              "An error occurred during payment. Please try again.",
           });
-      })
-      .catch(console.error);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Payment Error",
+            text: "An unexpected error occurred. Please try again.",
+          });
+        } 
+    })
   }
-};
 
   useEffect(() => {
     setInterval(() => {
       getActiveBusiness();
-    }, 5000);
+      console.log(sector)
+      console.log("businessVerified : ", businessVerified, "adminVerified : " , adminVerified)
+    }, 3000);
   }, []);
   return (
     <div className="p-4 md:w-[85%] m-auto mb-80">
+        <VerificationModal isVisible={PayForVerificationModal} walletBalance={walletBalance} onClose={onClose} onPayForVerification={onPayForVerification} />
+     {!businessVerified ? (
+  // ❌ Business not verified — Ask to pay
+  <div
+    className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 shadow-md flex items-center justify-between rounded-lg mx-auto max-w-4xl"
+    role="alert"
+  >
+    <div className="flex items-center space-x-3">
+      <svg
+        className="w-6 h-6 text-yellow-600"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.332 16c-.77 1.333.192 3 1.732 3z"
+        ></path>
+      </svg>
+      <p className="font-medium text-sm md:text-base">
+        Your profile is not verified. Please complete payment to unlock full features.
+      </p>
+    </div>
+
+    <button
+      onClick={handlePayForVerification}
+      className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-semibold rounded-md transition duration-150 ease-in-out shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+    >
+      Pay Now
+    </button>
+  </div>
+) : adminVerified ? (
+  // ✅ Fully verified
+  <div
+    className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 shadow-md flex items-center justify-between rounded-lg mx-auto max-w-4xl"
+    role="alert"
+  >
+    <div className="flex items-center space-x-3">
+      <svg
+        className="w-6 h-6 text-green-600"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M5 13l4 4L19 7"
+        ></path>
+      </svg>
+      <p className="font-medium text-sm md:text-base">
+        🎉 You are fully verified and ready to access all features!
+      </p>
+    </div>
+  </div>
+) : (
+  // ⏳ Admin verification pending
+  <div
+    className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 shadow-md flex items-center justify-between rounded-lg mx-auto max-w-4xl"
+    role="alert"
+  >
+    <div className="flex items-center space-x-3">
+      <svg
+        className="w-6 h-6 text-yellow-600"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.332 16c-.77 1.333.192 3 1.732 3z"
+        ></path>
+      </svg>
+      <p className="font-medium text-sm md:text-base">
+        Admins are working on verifying your business profile. You will be notified once the process is complete.
+      </p>
+    </div>
+  </div>
+)}
       <Header />
-      {sector === "legal"?<div className="flex items-center w-full">
-        <div onClick={() => setIsAvailable('available')} className={`flex justify-center items-center py-3 flex-grow cursor-pointer ${isAvailable === 'available' ? 'border-b-4 border-[#006838]' : 'border-b'}`}>
-          AVAILABLE
-        </div>
-        <div onClick={() => setIsAvailable('not available')} className={`flex justify-center items-center py-3 flex-grow cursor-pointer ${isAvailable === 'not available' ? 'border-b-4 border-[#006838]' : 'border-b'}`}>
-          NOT AVAILABLE
-        </div>
-      </div>:''}
-      
-
-      {isAvailable === 'available' ? (
-        <>
-          {(sector === "E-Commerce" || sector === "logistics") && (
-        <>
-          <SellerTransStatusTab
-            activeStatTab={activeOrderTab}
-            setActiveStatTab={setActiveOrderTab}
-            tabs={["IN-STOCK", "OUT OF STOCK"]}
-          />
-        </>
-      )}
-
-      {sector === "health" && (
-        <SortFilter
-          addProduct={addProductProp}
-          setAddProduct={setAddProductProp}
-          activeTab={activeFilterTab}
-          setActiveTab={setactiveFilterTab}
-          sortFilterArray={filterTabMap.health}
-        />
-      )}
-      {sector === "hospitality" && (
-        <SortFilter
-          addProduct={addProductProp}
-          setAddProduct={setAddProductProp}
-          activeTab={hospitalityActiveFilterTab}
-          setActiveTab={setHospitalityActiveFilterTab}
-          sortFilterArray={filterTabMap.hospitality}
-        />
-      )}
-      {sector === "education" && (
-        <SortFilter
-          addProduct={addProductProp}
-          setAddProduct={setAddProductProp}
-          activeTab={educationActiveFilterTab}
-          setActiveTab={setEducationActiveFilterTab}
-          sortFilterArray={filterTabMap.education}
-        />
-      )}
-      {sector === "legal" && (
-        <SortFilter
-          addProduct={addProductProp}
-          setAddProduct={setAddProductProp}
-          activeTab={legalActiveFilterTab}
-          setActiveTab={setLegalActiveFilterTab}
-          sortFilterArray={filterTabMap.legal}
-        />
-      )}
-      {sector === "logistics" && (
-        <SortFilter
-          addProduct={addProductProp}
-          setAddProduct={setAddProductProp}
-          activeTab={logisticsActiveFilterTab}
-          setActiveTab={setLogisticsActiveFilterTab}
-          sortFilterArray={filterTabMap.logistics}
-        />
-      )}
-
-      {/* Filter Tabs */}
-
-      {/* Products or Filters View */}
-      <div className="mt-6">
-        {/* Seller product list */}
-        {sector === "E-Commerce" && (
-          <>
-            {activeOrderTab === "IN-STOCK" && (
-              <InStock products={products || []} />
-              // <></>
-            )}
-            {activeOrderTab === "OUT OF STOCK" && (
-              <OutOfStock products={products || []} />
-            )}
-
-            {activeFilterTab === "date" && <DateFilter />}
-            {activeFilterTab === "status" && <StatusFilter />}
-            {activeFilterTab === "location" && <LocationFilter />}
-            {activeFilterTab === "price" && <PriceFilter />}
-          </>
-        )}
-
-        {/* Healthcare / Legal */}
-        {sector === "health" && (
-          <>
-            {activeFilterTab === "a-z" && (
-              <Atoz
-                setActiveSelection={setActiveSelection}
-                activeSelection={activeSelection}
-              />
-            )}
-            {activeFilterTab === "providers" && (
-              <Providers
-                setActiveSelection={setActiveSelection}
-                activeSelection={activeSelection}
-              />
-            )}
-            {activeFilterTab === "caretype" && (
-              <CareType
-                setActiveSelection={setActiveSelection}
-                activeSelection={activeSelection}
-                tab={["IN-PATIENT", "OUT-PATIENT"]}
-                setActiveArrayTab={setActiveArrayTab}
-                activeArrayTab={activeArrayTab}
-                activeRoute={activeRouteProp}
-                setActiveRoute={setActiveRouteProp}
-                addProduct={addProductProp}
-                setAddProduct={setAddProductProp}
-              />
-            )}
-            {activeFilterTab === "services" && (
-              <Services
-                setActiveSelection={setActiveSelection}
-                activeSelection={activeSelection}
-              />
-            )}
-            {activeFilterTab === "date" && (
-              <LegalDate
-                tab={data}
-                activeSelection={activeSelection}
-                setActiveSelection={setActiveSelection}
-              />
-            )}
-          </>
-        )}
-
-        {sector === "legal" && (
-          <>
-             <div className="flex justify-between items-center py-3 bg-[#f8f9fe]">
-                  <div className="flex gap-4 items-center border-s-4 border-[#29cc39] ps-5 py-2">
-                  <p className="font-bold text-[#4d5e80]">NEW SPECIALTY</p>
-                  </div>
-                  <div onClick={() => {setAddProductProp1(true); console.log(addProductProp1)}} className="flex items-center mx-5 p-2 rounded-full bg-white justify-center">
-                  <Icon icon={'mdi:plus'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-                  </div>
-              </div>
-              {addProductProp1 ? (
-                <AddSpecialty
-                  setSpecialtyActiveSelection1={setSpecialtyActiveSelection1}
-                  specialtyActiveSelection1={specialtyActiveSelection1}
-                  setSpecialtyActiveSelection2={setSpecialtyActiveSelection2}
-                  specialtyActiveSelection2={specialtyActiveSelection2}
-                  setProviderActiveSelection1={setProviderActiveSelection1}
-                  providerActiveSelection1={providerActiveSelection1}
-                  setProviderActiveSelection2={setProviderActiveSelection2}
-                  providerActiveSelection2={providerActiveSelection2}
-                  setProviderActiveSelection3={setProviderActiveSelection3}
-                  providerActiveSelection3={providerActiveSelection3}
-                  setProviderActiveSelection4={setProviderActiveSelection4}
-                  providerActiveSelection4={providerActiveSelection4}
-                  setServicesSelection1={setServicesSelection1}
-                  servicesSelection1={servicesSelection1}
-                  setServicesSelection2={setServicesSelection2}
-                  servicesSelection2={servicesSelection2}
-                  activeRoute={activeRouteProp5}
-                  setActiveRoute={setActiveRouteProp5}
-                  addProduct={addProductProp1}
-                  setAddProduct={setAddProductProp1}
-                  specialtyTitle={specialtyTitle}
-                  setSpecialTitle={setSpecialTitle}
-                  specialtyDescription={specialtyDescription}
-                  setSpecialDescription={setSpecialDescription}
-                  similarSpecialty={similarSpecialty}
-                  setSimilarSpecialty={setSimilarSpecialty}
-                  servicesAvailable={servicesAvailable}
-                  setServicesAvailable={setServicesAvailable}
-                  procedureType={procedureType}
-                  setProcedureType={setProcedureType}
-                  providerName1={providerName1}
-                  setProviderName1={setProviderName1}
-                  providerName2={providerName2}
-                  setProviderName2={setProviderName2}
-                  providerName3={providerName3}
-                  setProviderName3={setProviderName3}
-                  providerName4={providerName4}
-                  setProviderName4={setProviderName4}
-                  profileUrl1={profileUrl1}
-                  setProfileUrl1={setProfileUrl1}
-                  profileUrl2={profileUrl2}
-                  setProfileUrl2={setProfileUrl2}
-                  profileUrl3={profileUrl3}
-                  setProfileUrl3={setProfileUrl3}
-                  profileUrl4={profileUrl4}
-                  setProfileUrl4={setProfileUrl4}
-                  providerCategory1={providerCategory1}
-                  setProviderCategory1={setProviderCategory1}
-                  providerCategory2={providerCategory2}
-                  setProviderCategory2={setProviderCategory2}
-                  providerCategory3={providerCategory3}
-                  setProviderCategory3={setProviderCategory3}
-                  providerCategory4={providerCategory4}
-                  setProviderCategory4={setProviderCategory4}
-                  bookingTitle1={bookingTitle1}
-                  setBookingTitle1={setBookingTitle1}
-                  bookingTitle2={bookingTitle2}
-                  setBookingTitle2={setBookingTitle2}
-                  bookingTitle3={bookingTitle3}
-                  setBookingTitle3={setBookingTitle3}
-                  bookingTitle4={bookingTitle4}
-                  setBookingTitle4={setBookingTitle4}
-                  bookingDay1={bookingDay1}
-                  setBookingDay1={setBookingDay1}
-                  bookingDay2={bookingDay2}
-                  setBookingDay2={setBookingDay2}
-                  bookingDay3={bookingDay3}
-                  setBookingDay3={setBookingDay3}
-                  bookingDay4={bookingDay4}
-                  setBookingDay4={setBookingDay4}
-                  bookingDate1={bookingDate1}
-                  setBookingDate1={setBookingDate1}
-                  bookingDate2={bookingDate2}
-                  setBookingDate2={setBookingDate2}
-                  bookingDate3={bookingDate3}
-                  setBookingDate3={setBookingDate3}
-                  bookingDate4={bookingDate4}
-                  setBookingDate4={setBookingDate4}
-                  bookingMonth1={bookingMonth1}
-                  setBookingMonth1={setBookingMonth1}
-                  bookingMonth2={bookingMonth2}
-                  setBookingMonth2={setBookingMonth2}
-                  bookingMonth3={bookingMonth3}
-                  setBookingMonth3={setBookingMonth3}
-                  bookingMonth4={bookingMonth4}
-                  setBookingMonth4={setBookingMonth4}
-                  bookingYear1={bookingYear1}
-                  setBookingYear1={setBookingYear1}
-                  bookingYear2={bookingYear2}
-                  setBookingYear2={setBookingYear2}
-                  bookingYear3={bookingYear3}
-                  setBookingYear3={setBookingYear3}
-                  bookingYear4={bookingYear4}
-                  setBookingYear4={setBookingYear4}
-                  bookingHours1={bookingHours1}
-                  setBookingHours1={setBookingHours1}
-                  bookingHours2={bookingHours2}
-                  setBookingHours2={setBookingHours2}
-                  bookingHours3={bookingHours3}
-                  setBookingHours3={setBookingHours3}
-                  bookingHours4={bookingHours4}
-                  setBookingHours4={setBookingHours4}
-                  bookingMinutes1={bookingMinutes1}
-                  setBookingMinutes1={setBookingMinutes1}
-                  bookingMinutes2={bookingMinutes2}
-                  setBookingMinutes2={setBookingMinutes2}
-                  bookingMinutes3={bookingMinutes3}
-                  setBookingMinutes3={setBookingMinutes3}
-                  bookingMinutes4={bookingMinutes4}
-                  setBookingMinutes4={setBookingMinutes4}
-                  bookingAmOrPm1={bookingAmOrPm1}
-                  setBookingAmOrPm1={setBookingAmOrPm1}
-                  bookingAmOrPm2={bookingAmOrPm2}
-                  setBookingAmOrPm2={setBookingAmOrPm2}
-                  bookingAmOrPm3={bookingAmOrPm3}
-                  setBookingAmOrPm3={setBookingAmOrPm3}
-                  bookingAmOrPm4={bookingAmOrPm4}
-                  setBookingAmOrPm4={setBookingAmOrPm4}
-                  collectValue1={collectValue1}
-                  setCollectValue1={setCollectValue1}
-                  collectValue2={collectValue2}
-                  setCollectValue2={setCollectValue2}
-                />
-              ) : (
-                <>
-                  {legalActiveFilterTab === "a-z" && (
-                    <LegalAtoz
-                      tab={data}
-                      value={collectValue1}
-                      setServicesSelection1={setLegalAtozSelection1}
-                      servicesSelection1={legalAtozSelection1}
-                      setServicesSelection2={setLegalAtozSelection2}
-                      servicesSelection2={legalAtozSelection2}
-                      allLegalServicesObject={allLegalServicesObject}
-                      setAllLegalServicesObject={setAllLegalServicesObject}
-                      handleRemoveServices={handleRemoveService}
-                    />
-                  )}
-                  {legalActiveFilterTab === "services" && (
-                    <LegalServices
-                      tab={data}
-                      value={collectValue1}
-                      setServicesSelection1={setServicesSelection1}
-                      servicesSelection1={servicesSelection1}
-                      setServicesSelection2={setServicesSelection2}
-                      servicesSelection2={servicesSelection2}
-                      allLegalServicesObject={allLegalServicesObject}
-                      setAllLegalServicesObject={setAllLegalServicesObject}
-                      handleRemoveServices={handleRemoveService}
-                    />
-                  )}
-                   {/* {legalActiveFilterTab === "providers" && (
-                    <LegalProviders
-                    setActiveArrayTab={setActiveArrayTab}
-                    activeArrayTab={activeArrayTab}
-                    activeRoute={activeRouteProp5}
-                      setActiveRoute={setActiveRouteProp5}
-                      tab={legalData}
-                      addProduct={addProductProp}
-                      setAddProduct={setAddProductProp}
-                      setActiveSelection={setActiveSelection}
-                      activeSelection={activeSelection}
-                      />
-                      )} */}
-                  {legalActiveFilterTab === "date" && (
-                    <LegalDate
-                      tab={data}
-                      activeSelection={activeSelection}
-                      setActiveSelection={setActiveSelection}
-                    />
-                  )}
-                </>
-              )}
-          </>
-        )}
-
-        {sector === "logistics" && (
-          <>
-            {logisticsActiveFilterTab === "location" && (
-              <LogisticsLocation
-                setAddProduct={setAddProductProp}
-                addProduct={addProductProp}
-                activeRoute={activeRouteProp6}
-                setActiveRoute={setActiveRouteProp6}
-                activeSelection={activeSelection2}
-                setActiveSelection={setActiveSelection2}
-              />
-            )}
-          </>
-        )}
-
-        {/* Education */}
-        {sector === "education" && (
-          <>
-            {educationActiveFilterTab === "class/courses" && (
-              <ClassCourse
-                activeRoute={activeRouteProp3}
-                setActiveRoute={setActiveRouteProp3}
-                addProduct={addProductProp}
-                setAddProduct={setAddProductProp}
-                setActiveSelection={setActiveSelection1}
-                activeSelection={activeSelection1}
-              />
-            )}
-            {educationActiveFilterTab === "facilities" && (
-              <EducationFacilities
-                activeRoute={activeRouteProp4}
-                setActiveRoute={setActiveRouteProp4}
-                addProduct={addProductProp}
-                setAddProduct={setAddProductProp}
-                setActiveSelection={setActiveSelection1}
-                activeSelection={activeSelection1}
-              />
-            )}
-          </>
-        )}
-        {sector === "hospitality" && (
-          <>
-            {hospitalityActiveFilterTab === "date" && <DateTab />}
-            {hospitalityActiveFilterTab === "facilities" && (
-              <HealthFacility
-                setActiveSelection={setActiveSelection}
-                activeSelection={activeSelection}
-                activeRoute={activeRouteProp1}
-                setActiveRoute={setActiveRouteProp1}
-                addProduct={addProductProp}
-                setAddProduct={setAddProductProp}
-              />
-            )}
-            {hospitalityActiveFilterTab === "services" && (
-              <HospitalityServices
-                setActiveSelection={setActiveSelection}
-                activeSelection={activeSelection}
-                activeRoute={activeRouteProp2}
-                setActiveRoute={setActiveRouteProp2}
-                addProduct={addProductProp}
-                setAddProduct={setAddProductProp}
-              />
-            )}
-          </>
-        )}
-      </div>
-
-      {activeFilterTab === "caretype" && addProductProp && (
-        <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
+      {sector === "legal" ? (
+        <div className="flex items-center w-full">
           <div
-            onClick={() => setActiveButton(!activeButton)}
-            className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
+            onClick={() => setIsAvailable("available")}
+            className={`flex justify-center items-center py-3 flex-grow cursor-pointer ${
+              isAvailable === "available"
+                ? "border-b-4 border-[#006838]"
+                : "border-b"
+            }`}
           >
-            <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
-              <p className="font-semibold text-black text-sm">ROUTE DETAILS</p>
-              <div className="flex gap-3 items-center">
-                <div
-                  className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
-                    activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
-                  }`}
-                >
-                  Ready
-                </div>
-                <FaChevronDown
-                  className={`text-sm transition-transform duration-200 ease-in-out text-black ${
-                    activeButton ? "rotate-180" : ""
-                  }`}
-                />
-              </div>
-            </div>
-            <div
-              ref={activeContainerRef}
-              className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
-              style={{
-                height: activeButton
-                  ? `${activeContainerRef.current?.scrollHeight}px`
-                  : "0px",
-              }}
-            >
-              {/* Booking content placeholder */}
-              <div className="text-gray-500 text-sm">
-                Booking content goes here.
-              </div>
-            </div>
+            AVAILABLE
           </div>
-
-          <div className={`w-full gap-2 flex items-center`}>
-            <button
-              onClick={handleNextFilterCategory}
-              className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-            >
-              NEXT
-            </button>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                position: "relative",
-              }}
-            >
-              <CircularProgress
-                size={60}
-                sx={{ color: "#006838" }}
-                variant="determinate"
-                value={overallProgress}
-              />
-              <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
-            </Box>
-          </div>
-        </div>
-      )}
-      {hospitalityActiveFilterTab === "facilities" && addProductProp && (
-        <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
           <div
-            onClick={() => setActiveButton(!activeButton)}
-            className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
+            onClick={() => setIsAvailable("not available")}
+            className={`flex justify-center items-center py-3 flex-grow cursor-pointer ${
+              isAvailable === "not available"
+                ? "border-b-4 border-[#006838]"
+                : "border-b"
+            }`}
           >
-            <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
-              <p className="font-semibold text-black text-sm">ROUTE DETAILS</p>
-              <div className="flex gap-3 items-center">
-                <div
-                  className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
-                    activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
-                  }`}
-                >
-                  Ready
-                </div>
-                <FaChevronDown
-                  className={`text-sm transition-transform duration-200 ease-in-out text-black ${
-                    activeButton ? "rotate-180" : ""
-                  }`}
-                />
-              </div>
-            </div>
-            <div
-              ref={activeContainerRef}
-              className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
-              style={{
-                height: activeButton
-                  ? `${activeContainerRef.current?.scrollHeight}px`
-                  : "0px",
-              }}
-            >
-              {/* Booking content placeholder */}
-              <div className="text-gray-500 text-sm">
-                Booking content goes here.
-              </div>
-            </div>
+            NOT AVAILABLE
           </div>
-
-          {lastHospitalityFilter ? (
-            <button
-              onClick={() => setAddProductProp(false)}
-              className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-            >
-              CONFIRM
-            </button>
-          ) : (
-            <div className={`w-full gap-2 flex items-center`}>
-              <button
-                onClick={handleNextFilterCategory1}
-                className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-              >
-                NEXT
-              </button>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-              >
-                <CircularProgress
-                  size={60}
-                  sx={{ color: "#006838" }}
-                  variant="determinate"
-                  value={overallProgress1}
-                />
-                <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
-              </Box>
-            </div>
-          )}
-        </div>
-      )}
-      {hospitalityActiveFilterTab === "services" && addProductProp && (
-        <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
-          <div
-            onClick={() => setActiveButton(!activeButton)}
-            className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
-          >
-            <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
-              <p className="font-semibold text-black text-sm">ROUTE DETAILS</p>
-              <div className="flex gap-3 items-center">
-                <div
-                  className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
-                    activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
-                  }`}
-                >
-                  Ready
-                </div>
-                <FaChevronDown
-                  className={`text-sm transition-transform duration-200 ease-in-out text-black ${
-                    activeButton ? "rotate-180" : ""
-                  }`}
-                />
-              </div>
-            </div>
-            <div
-              ref={activeContainerRef}
-              className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
-              style={{
-                height: activeButton
-                  ? `${activeContainerRef.current?.scrollHeight}px`
-                  : "0px",
-              }}
-            >
-              <div className="text-gray-500 text-sm">
-                Booking content goes here.
-              </div>
-            </div>
-          </div>
-
-          {lastHospitalityFilter1 ? (
-            <button
-              onClick={() => setAddProductProp(false)}
-              className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-            >
-              CONFIRM
-            </button>
-          ) : (
-            <div className={`w-full gap-2 flex items-center`}>
-              <button
-                onClick={handleNextFilterCategory2}
-                className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-              >
-                NEXT
-              </button>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-              >
-                <CircularProgress
-                  size={60}
-                  sx={{ color: "#006838" }}
-                  variant="determinate"
-                  value={overallProgress2}
-                />
-                <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
-              </Box>
-            </div>
-          )}
-        </div>
-      )}
-      {educationActiveFilterTab === "class/courses" && addProductProp && (
-        <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
-          <div
-            onClick={() => setActiveButton(!activeButton)}
-            className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
-          >
-            <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
-              <p className="font-semibold text-black text-sm">ROUTE DETAILS</p>
-              <div className="flex gap-3 items-center">
-                <div
-                  className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
-                    activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
-                  }`}
-                >
-                  Ready
-                </div>
-                <FaChevronDown
-                  className={`text-sm transition-transform duration-200 ease-in-out text-black ${
-                    activeButton ? "rotate-180" : ""
-                  }`}
-                />
-              </div>
-            </div>
-            <div
-              ref={activeContainerRef}
-              className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
-              style={{
-                height: activeButton
-                  ? `${activeContainerRef.current?.scrollHeight}px`
-                  : "0px",
-              }}
-            >
-              {/* Booking content placeholder */}
-              <div className="text-gray-500 text-sm">
-                Booking content goes here.
-              </div>
-            </div>
-          </div>
-
-          {addProductProp && lastHospitalityFilter2 ? (
-            <button
-              onClick={() => setAddProductProp(false)}
-              className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-            >
-              CONFIRM
-            </button>
-          ) : (
-            <div className={`w-full gap-2 flex items-center`}>
-              <button
-                onClick={handleNextFilterCategory3}
-                className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-              >
-                NEXT
-              </button>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-              >
-                <CircularProgress
-                  size={60}
-                  sx={{ color: "#006838" }}
-                  variant="determinate"
-                  value={overallProgress3}
-                />
-                <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
-              </Box>
-            </div>
-          )}
-        </div>
-      )}
-      {educationActiveFilterTab === "facilities" && addProductProp && (
-        <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
-          <div
-            onClick={() => setActiveButton(!activeButton)}
-            className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
-          >
-            <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
-              <p className="font-semibold text-black text-sm">ROUTE DETAILS</p>
-              <div className="flex gap-3 items-center">
-                <div
-                  className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
-                    activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
-                  }`}
-                >
-                  Ready
-                </div>
-                <FaChevronDown
-                  className={`text-sm transition-transform duration-200 ease-in-out text-black ${
-                    activeButton ? "rotate-180" : ""
-                  }`}
-                />
-              </div>
-            </div>
-            <div
-              ref={activeContainerRef}
-              className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
-              style={{
-                height: activeButton
-                  ? `${activeContainerRef.current?.scrollHeight}px`
-                  : "0px",
-              }}
-            >
-              {/* Booking content placeholder */}
-              <div className="text-gray-500 text-sm">
-                Booking content goes here.
-              </div>
-            </div>
-          </div>
-
-          {addProductProp && lastHospitalityFilter3 ? (
-            <button
-              onClick={() => setAddProductProp(false)}
-              className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-            >
-              CONFIRM
-            </button>
-          ) : (
-            <div className={`w-full gap-2 flex items-center`}>
-              <button
-                onClick={handleNextFilterCategory4}
-                className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-              >
-                NEXT
-              </button>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-              >
-                <CircularProgress
-                  size={60}
-                  sx={{ color: "#006838" }}
-                  variant="determinate"
-                  value={overallProgress4}
-                />
-                <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
-              </Box>
-            </div>
-          )}
-        </div>
-      )}
-      {addProductProp1 ? (
-        <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
-          <div
-            onClick={() => setActiveButton(!activeButton)}
-            className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
-          >
-            <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
-              <p className="font-semibold text-black text-sm">ROUTE DETAILS</p>
-              <div className="flex gap-3 items-center">
-                <div
-                  className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
-                    activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
-                  }`}
-                >
-                  Ready
-                </div>
-                <FaChevronDown
-                  className={`text-sm transition-transform duration-200 ease-in-out text-black ${
-                    activeButton ? "rotate-180" : ""
-                  }`}
-                />
-              </div>
-            </div>
-            <div
-              ref={activeContainerRef}
-              className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
-              style={{
-                height: activeButton
-                  ? `${activeContainerRef.current?.scrollHeight}px`
-                  : "0px",
-              }}
-            >
-              {/* Booking content placeholder */}
-              <div className="text-gray-500 text-sm">
-                <div className="flex flex-col gap-3">
-                  <div className="w-full p-2 border-b border-gray-500">
-                    Specialty Info
-                  </div>
-                  <div className="flex justify-between items-center">
-                    {/* Booking content placeholder */}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {addProductProp1 && lastHospitalityFilter4 ? (
-            <button
-              onClick={() => {setAddProductProp1(false); setAllLegalServicesObject((prev) => [...prev, legalServicesObject]); setActiveRouteProp5('specialty'); setLegalActiveFilterTab('services')}}
-              className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-            >
-              CONFIRM
-            </button>
-          ) : (
-            <div className={`w-full gap-2 flex items-center`}>
-              <button
-                onClick={handleNextFilterCategory5}
-                className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-              >
-                NEXT
-              </button>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-              >
-                <CircularProgress
-                  size={60}
-                  sx={{ color: "#006838" }}
-                  variant="determinate"
-                  value={overallProgress5}
-                />
-                <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
-              </Box>
-            </div>
-          )}
         </div>
       ) : (
-        null
+        ""
       )}
-      {logisticsActiveFilterTab === "location" && addProductProp && (
-        <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
-          <div
-            onClick={() => setActiveButton(!activeButton)}
-            className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
-          >
-            <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
-              <p className="font-semibold text-black text-sm">ROUTE DETAILS</p>
-              <div className="flex gap-3 items-center">
-                <div
-                  className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
-                    activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
-                  }`}
-                >
-                  Ready
+
+      {isAvailable === "available" ? (
+        <>
+          {(sector === "E-Commerce" || sector === "logistics") && (
+            <>
+              <SellerTransStatusTab
+                activeStatTab={activeOrderTab}
+                setActiveStatTab={setActiveOrderTab}
+                tabs={["IN-STOCK", "OUT OF STOCK"]}
+              />
+            </>
+          )}
+
+          {sector === "health" && (
+            <SortFilter
+              addProduct={addProductProp}
+              setAddProduct={setAddProductProp}
+              activeTab={activeFilterTab}
+              setActiveTab={setactiveFilterTab}
+              sortFilterArray={filterTabMap.health}
+            />
+          )}
+          {sector === "hospitality" && (
+            <SortFilter
+              addProduct={addProductProp}
+              setAddProduct={setAddProductProp}
+              activeTab={hospitalityActiveFilterTab}
+              setActiveTab={setHospitalityActiveFilterTab}
+              sortFilterArray={filterTabMap.hospitality}
+            />
+          )}
+          {sector === "education" && (
+            <SortFilter
+              addProduct={addProductProp}
+              setAddProduct={setAddProductProp}
+              activeTab={educationActiveFilterTab}
+              setActiveTab={setEducationActiveFilterTab}
+              sortFilterArray={filterTabMap.education}
+            />
+          )}
+          {sector === "legal" && (
+            <SortFilter
+              addProduct={addProductProp}
+              setAddProduct={setAddProductProp}
+              activeTab={legalActiveFilterTab}
+              setActiveTab={setLegalActiveFilterTab}
+              sortFilterArray={filterTabMap.legal}
+            />
+          )}
+          {sector === "logistics" && (
+            <SortFilter
+              addProduct={addProductProp}
+              setAddProduct={setAddProductProp}
+              activeTab={logisticsActiveFilterTab}
+              setActiveTab={setLogisticsActiveFilterTab}
+              sortFilterArray={filterTabMap.logistics}
+            />
+          )}
+
+          <div className="mt-6">
+            {sector === "E-Commerce" && (
+              <>
+                {activeOrderTab === "IN-STOCK" && (
+                  <InStock products={products || []} />
+                  // <></>
+                )}
+                {activeOrderTab === "OUT OF STOCK" && (
+                  <OutOfStock products={products || []} />
+                )}
+
+                {activeFilterTab === "date" && <DateFilter />}
+                {activeFilterTab === "status" && <StatusFilter />}
+                {activeFilterTab === "location" && <LocationFilter />}
+                {activeFilterTab === "price" && <PriceFilter />}
+              </>
+            )}
+
+            {sector === "health" && (
+              <>
+                {activeFilterTab === "a-z" && (
+                  <Atoz
+                    setActiveSelection={setActiveSelection}
+                    activeSelection={activeSelection}
+                  />
+                )}
+                {activeFilterTab === "providers" && (
+                  <Providers
+                    setActiveSelection={setActiveSelection}
+                    activeSelection={activeSelection}
+                  />
+                )}
+                {activeFilterTab === "caretype" && (
+                  <CareType
+                    setActiveSelection={setActiveSelection}
+                    activeSelection={activeSelection}
+                    tab={["IN-PATIENT", "OUT-PATIENT"]}
+                    setActiveArrayTab={setActiveArrayTab}
+                    activeArrayTab={activeArrayTab}
+                    activeRoute={activeRouteProp}
+                    setActiveRoute={setActiveRouteProp}
+                    addProduct={addProductProp}
+                    setAddProduct={setAddProductProp}
+                  />
+                )}
+                {activeFilterTab === "services" && (
+                  <Services
+                    setActiveSelection={setActiveSelection}
+                    activeSelection={activeSelection}
+                  />
+                )}
+                {activeFilterTab === "date" && (
+                  <LegalDate
+                    tab={data}
+                    activeSelection={activeSelection}
+                    setActiveSelection={setActiveSelection}
+                  />
+                )}
+              </>
+            )}
+
+            {sector === "legal" && (
+              <>
+                <div className="flex justify-between items-center py-3 bg-[#f8f9fe]">
+                  <div className="flex gap-4 items-center border-s-4 border-[#29cc39] ps-5 py-2">
+                    <p className="font-bold text-[#4d5e80]">NEW SPECIALTY</p>
+                  </div>
+                  <div
+                    onClick={() => {
+                      setAddProductProp1(true);
+                      console.log(addProductProp1);
+                    }}
+                    className="flex items-center mx-5 p-2 rounded-full bg-white justify-center"
+                  >
+                    <Icon
+                      icon={"mdi:plus"}
+                      style={{
+                        fontSize: "30px",
+                        color: "#d6dae5",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </div>
                 </div>
-                <FaChevronDown
-                  className={`text-sm transition-transform duration-200 ease-in-out text-black ${
-                    activeButton ? "rotate-180" : ""
-                  }`}
-                />
-              </div>
-            </div>
-            <div
-              ref={activeContainerRef}
-              className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
-              style={{
-                height: activeButton
-                  ? `${activeContainerRef.current?.scrollHeight}px`
-                  : "0px",
-              }}
-            >
-              {/* Booking content placeholder */}
-              <div className="text-gray-500 text-sm">
-                Booking content goes here.
-              </div>
-            </div>
+                {addProductProp1 ? (
+                  <AddSpecialty
+                    setSpecialtyActiveSelection1={setSpecialtyActiveSelection1}
+                    specialtyActiveSelection1={specialtyActiveSelection1}
+                    setSpecialtyActiveSelection2={setSpecialtyActiveSelection2}
+                    specialtyActiveSelection2={specialtyActiveSelection2}
+                    setProviderActiveSelection1={setProviderActiveSelection1}
+                    providerActiveSelection1={providerActiveSelection1}
+                    setProviderActiveSelection2={setProviderActiveSelection2}
+                    providerActiveSelection2={providerActiveSelection2}
+                    setProviderActiveSelection3={setProviderActiveSelection3}
+                    providerActiveSelection3={providerActiveSelection3}
+                    setProviderActiveSelection4={setProviderActiveSelection4}
+                    providerActiveSelection4={providerActiveSelection4}
+                    setServicesSelection1={setServicesSelection1}
+                    servicesSelection1={servicesSelection1}
+                    setServicesSelection2={setServicesSelection2}
+                    servicesSelection2={servicesSelection2}
+                    activeRoute={activeRouteProp5}
+                    setActiveRoute={setActiveRouteProp5}
+                    addProduct={addProductProp1}
+                    setAddProduct={setAddProductProp1}
+                    specialtyTitle={specialtyTitle}
+                    setSpecialTitle={setSpecialTitle}
+                    specialtyDescription={specialtyDescription}
+                    setSpecialDescription={setSpecialDescription}
+                    similarSpecialty={similarSpecialty}
+                    setSimilarSpecialty={setSimilarSpecialty}
+                    servicesAvailable={servicesAvailable}
+                    setServicesAvailable={setServicesAvailable}
+                    procedureType={procedureType}
+                    setProcedureType={setProcedureType}
+                    providerName1={providerName1}
+                    setProviderName1={setProviderName1}
+                    providerName2={providerName2}
+                    setProviderName2={setProviderName2}
+                    providerName3={providerName3}
+                    setProviderName3={setProviderName3}
+                    providerName4={providerName4}
+                    setProviderName4={setProviderName4}
+                    profileUrl1={profileUrl1}
+                    setProfileUrl1={setProfileUrl1}
+                    profileUrl2={profileUrl2}
+                    setProfileUrl2={setProfileUrl2}
+                    profileUrl3={profileUrl3}
+                    setProfileUrl3={setProfileUrl3}
+                    profileUrl4={profileUrl4}
+                    setProfileUrl4={setProfileUrl4}
+                    providerCategory1={providerCategory1}
+                    setProviderCategory1={setProviderCategory1}
+                    providerCategory2={providerCategory2}
+                    setProviderCategory2={setProviderCategory2}
+                    providerCategory3={providerCategory3}
+                    setProviderCategory3={setProviderCategory3}
+                    providerCategory4={providerCategory4}
+                    setProviderCategory4={setProviderCategory4}
+                    bookingTitle1={bookingTitle1}
+                    setBookingTitle1={setBookingTitle1}
+                    bookingTitle2={bookingTitle2}
+                    setBookingTitle2={setBookingTitle2}
+                    bookingTitle3={bookingTitle3}
+                    setBookingTitle3={setBookingTitle3}
+                    bookingTitle4={bookingTitle4}
+                    setBookingTitle4={setBookingTitle4}
+                    bookingDay1={bookingDay1}
+                    setBookingDay1={setBookingDay1}
+                    bookingDay2={bookingDay2}
+                    setBookingDay2={setBookingDay2}
+                    bookingDay3={bookingDay3}
+                    setBookingDay3={setBookingDay3}
+                    bookingDay4={bookingDay4}
+                    setBookingDay4={setBookingDay4}
+                    bookingDate1={bookingDate1}
+                    setBookingDate1={setBookingDate1}
+                    bookingDate2={bookingDate2}
+                    setBookingDate2={setBookingDate2}
+                    bookingDate3={bookingDate3}
+                    setBookingDate3={setBookingDate3}
+                    bookingDate4={bookingDate4}
+                    setBookingDate4={setBookingDate4}
+                    bookingMonth1={bookingMonth1}
+                    setBookingMonth1={setBookingMonth1}
+                    bookingMonth2={bookingMonth2}
+                    setBookingMonth2={setBookingMonth2}
+                    bookingMonth3={bookingMonth3}
+                    setBookingMonth3={setBookingMonth3}
+                    bookingMonth4={bookingMonth4}
+                    setBookingMonth4={setBookingMonth4}
+                    bookingYear1={bookingYear1}
+                    setBookingYear1={setBookingYear1}
+                    bookingYear2={bookingYear2}
+                    setBookingYear2={setBookingYear2}
+                    bookingYear3={bookingYear3}
+                    setBookingYear3={setBookingYear3}
+                    bookingYear4={bookingYear4}
+                    setBookingYear4={setBookingYear4}
+                    bookingHours1={bookingHours1}
+                    setBookingHours1={setBookingHours1}
+                    bookingHours2={bookingHours2}
+                    setBookingHours2={setBookingHours2}
+                    bookingHours3={bookingHours3}
+                    setBookingHours3={setBookingHours3}
+                    bookingHours4={bookingHours4}
+                    setBookingHours4={setBookingHours4}
+                    bookingMinutes1={bookingMinutes1}
+                    setBookingMinutes1={setBookingMinutes1}
+                    bookingMinutes2={bookingMinutes2}
+                    setBookingMinutes2={setBookingMinutes2}
+                    bookingMinutes3={bookingMinutes3}
+                    setBookingMinutes3={setBookingMinutes3}
+                    bookingMinutes4={bookingMinutes4}
+                    setBookingMinutes4={setBookingMinutes4}
+                    bookingAmOrPm1={bookingAmOrPm1}
+                    setBookingAmOrPm1={setBookingAmOrPm1}
+                    bookingAmOrPm2={bookingAmOrPm2}
+                    setBookingAmOrPm2={setBookingAmOrPm2}
+                    bookingAmOrPm3={bookingAmOrPm3}
+                    setBookingAmOrPm3={setBookingAmOrPm3}
+                    bookingAmOrPm4={bookingAmOrPm4}
+                    setBookingAmOrPm4={setBookingAmOrPm4}
+                    collectValue1={collectValue1}
+                    setCollectValue1={setCollectValue1}
+                    collectValue2={collectValue2}
+                    setCollectValue2={setCollectValue2}
+                  />
+                ) : (
+                  <>
+                    {legalActiveFilterTab === "a-z" && (
+                      <LegalAtoz
+                        tab={data}
+                        value={collectValue1}
+                        setServicesSelection1={setLegalAtozSelection1}
+                        servicesSelection1={legalAtozSelection1}
+                        setServicesSelection2={setLegalAtozSelection2}
+                        servicesSelection2={legalAtozSelection2}
+                        allLegalServicesObject={allLegalServicesObject}
+                        setAllLegalServicesObject={setAllLegalServicesObject}
+                        handleRemoveServices={handleRemoveService}
+                      />
+                    )}
+                    {legalActiveFilterTab === "services" && (
+                      <LegalServices
+                        tab={data}
+                        value={collectValue1}
+                        setServicesSelection1={setServicesSelection1}
+                        servicesSelection1={servicesSelection1}
+                        setServicesSelection2={setServicesSelection2}
+                        servicesSelection2={servicesSelection2}
+                        allLegalServicesObject={allLegalServicesObject}
+                        setAllLegalServicesObject={setAllLegalServicesObject}
+                        handleRemoveServices={handleRemoveService}
+                      />
+                    )}
+
+                    {legalActiveFilterTab === "date" && (
+                      <LegalDate
+                        tab={data}
+                        activeSelection={activeSelection}
+                        setActiveSelection={setActiveSelection}
+                      />
+                    )}
+                  </>
+                )}
+              </>
+            )}
+
+            {sector === "logistics" && (
+              <>
+                {logisticsActiveFilterTab === "location" && (
+                  <LogisticsLocation
+                    setAddProduct={setAddProductProp}
+                    addProduct={addProductProp}
+                    activeRoute={activeRouteProp6}
+                    setActiveRoute={setActiveRouteProp6}
+                    activeSelection={activeSelection2}
+                    setActiveSelection={setActiveSelection2}
+                  />
+                )}
+              </>
+            )}
+
+            {sector === "education" && (
+              <>
+                {educationActiveFilterTab === "class/courses" && (
+                  <ClassCourse
+                    activeRoute={activeRouteProp3}
+                    setActiveRoute={setActiveRouteProp3}
+                    addProduct={addProductProp}
+                    setAddProduct={setAddProductProp}
+                    setActiveSelection={setActiveSelection1}
+                    activeSelection={activeSelection1}
+                  />
+                )}
+                {educationActiveFilterTab === "facilities" && (
+                  <EducationFacilities
+                    activeRoute={activeRouteProp4}
+                    setActiveRoute={setActiveRouteProp4}
+                    addProduct={addProductProp}
+                    setAddProduct={setAddProductProp}
+                    setActiveSelection={setActiveSelection1}
+                    activeSelection={activeSelection1}
+                  />
+                )}
+              </>
+            )}
+            {sector === "hospitality" && (
+              <>
+                {hospitalityActiveFilterTab === "date" && <DateTab />}
+                {hospitalityActiveFilterTab === "facilities" && (
+                  <HealthFacility
+                    setActiveSelection={setActiveSelection}
+                    activeSelection={activeSelection}
+                    activeRoute={activeRouteProp1}
+                    setActiveRoute={setActiveRouteProp1}
+                    addProduct={addProductProp}
+                    setAddProduct={setAddProductProp}
+                  />
+                )}
+                {hospitalityActiveFilterTab === "services" && (
+                  <HospitalityServices
+                    setActiveSelection={setActiveSelection}
+                    activeSelection={activeSelection}
+                    activeRoute={activeRouteProp2}
+                    setActiveRoute={setActiveRouteProp2}
+                    addProduct={addProductProp}
+                    setAddProduct={setAddProductProp}
+                  />
+                )}
+              </>
+            )}
           </div>
 
-          {addProductProp && lastHospitalityFilter5 ? (
-            <button
-              onClick={() => setAddProductProp(false)}
-              className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
-            >
-              CONFIRM
-            </button>
-          ) : (
-            <div className={`w-full gap-2 flex items-center`}>
-              <button
-                onClick={handleNextFilterCategory6}
-                className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+          {activeFilterTab === "caretype" && addProductProp && (
+            <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
+              <div
+                onClick={() => setActiveButton(!activeButton)}
+                className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
               >
-                NEXT
-              </button>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-              >
-                <CircularProgress
-                  size={60}
-                  sx={{ color: "#006838" }}
-                  variant="determinate"
-                  value={overallProgress6}
-                />
-                <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
-              </Box>
+                <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
+                  <p className="font-semibold text-black text-sm">
+                    ROUTE DETAILS
+                  </p>
+                  <div className="flex gap-3 items-center">
+                    <div
+                      className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
+                        activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
+                      }`}
+                    >
+                      Ready
+                    </div>
+                    <FaChevronDown
+                      className={`text-sm transition-transform duration-200 ease-in-out text-black ${
+                        activeButton ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
+                </div>
+                <div
+                  ref={activeContainerRef}
+                  className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
+                  style={{
+                    height: activeButton
+                      ? `${activeContainerRef.current?.scrollHeight}px`
+                      : "0px",
+                  }}
+                >
+                  <div className="text-gray-500 text-sm">
+                    Booking content goes here.
+                  </div>
+                </div>
+              </div>
+
+              <div className={`w-full gap-2 flex items-center`}>
+                <button
+                  onClick={handleNextFilterCategory}
+                  className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                >
+                  NEXT
+                </button>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    position: "relative",
+                  }}
+                >
+                  <CircularProgress
+                    size={60}
+                    sx={{ color: "#006838" }}
+                    variant="determinate"
+                    value={overallProgress}
+                  />
+                  <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
+                </Box>
+              </div>
             </div>
           )}
-        </div>
-      )}
+          {hospitalityActiveFilterTab === "facilities" && addProductProp && (
+            <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
+              <div
+                onClick={() => setActiveButton(!activeButton)}
+                className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
+              >
+                <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
+                  <p className="font-semibold text-black text-sm">
+                    ROUTE DETAILS
+                  </p>
+                  <div className="flex gap-3 items-center">
+                    <div
+                      className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
+                        activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
+                      }`}
+                    >
+                      Ready
+                    </div>
+                    <FaChevronDown
+                      className={`text-sm transition-transform duration-200 ease-in-out text-black ${
+                        activeButton ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
+                </div>
+                <div
+                  ref={activeContainerRef}
+                  className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
+                  style={{
+                    height: activeButton
+                      ? `${activeContainerRef.current?.scrollHeight}px`
+                      : "0px",
+                  }}
+                >
+                  <div className="text-gray-500 text-sm">
+                    Booking content goes here.
+                  </div>
+                </div>
+              </div>
+
+              {lastHospitalityFilter ? (
+                <button
+                  onClick={() => setAddProductProp(false)}
+                  className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                >
+                  CONFIRM
+                </button>
+              ) : (
+                <div className={`w-full gap-2 flex items-center`}>
+                  <button
+                    onClick={handleNextFilterCategory1}
+                    className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                  >
+                    NEXT
+                  </button>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    <CircularProgress
+                      size={60}
+                      sx={{ color: "#006838" }}
+                      variant="determinate"
+                      value={overallProgress1}
+                    />
+                    <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
+                  </Box>
+                </div>
+              )}
+            </div>
+          )}
+          {hospitalityActiveFilterTab === "services" && addProductProp && (
+            <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
+              <div
+                onClick={() => setActiveButton(!activeButton)}
+                className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
+              >
+                <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
+                  <p className="font-semibold text-black text-sm">
+                    ROUTE DETAILS
+                  </p>
+                  <div className="flex gap-3 items-center">
+                    <div
+                      className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
+                        activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
+                      }`}
+                    >
+                      Ready
+                    </div>
+                    <FaChevronDown
+                      className={`text-sm transition-transform duration-200 ease-in-out text-black ${
+                        activeButton ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
+                </div>
+                <div
+                  ref={activeContainerRef}
+                  className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
+                  style={{
+                    height: activeButton
+                      ? `${activeContainerRef.current?.scrollHeight}px`
+                      : "0px",
+                  }}
+                >
+                  <div className="text-gray-500 text-sm">
+                    Booking content goes here.
+                  </div>
+                </div>
+              </div>
+
+              {lastHospitalityFilter1 ? (
+                <button
+                  onClick={() => setAddProductProp(false)}
+                  className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                >
+                  CONFIRM
+                </button>
+              ) : (
+                <div className={`w-full gap-2 flex items-center`}>
+                  <button
+                    onClick={handleNextFilterCategory2}
+                    className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                  >
+                    NEXT
+                  </button>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    <CircularProgress
+                      size={60}
+                      sx={{ color: "#006838" }}
+                      variant="determinate"
+                      value={overallProgress2}
+                    />
+                    <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
+                  </Box>
+                </div>
+              )}
+            </div>
+          )}
+          {educationActiveFilterTab === "class/courses" && addProductProp && (
+            <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
+              <div
+                onClick={() => setActiveButton(!activeButton)}
+                className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
+              >
+                <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
+                  <p className="font-semibold text-black text-sm">
+                    ROUTE DETAILS
+                  </p>
+                  <div className="flex gap-3 items-center">
+                    <div
+                      className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
+                        activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
+                      }`}
+                    >
+                      Ready
+                    </div>
+                    <FaChevronDown
+                      className={`text-sm transition-transform duration-200 ease-in-out text-black ${
+                        activeButton ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
+                </div>
+                <div
+                  ref={activeContainerRef}
+                  className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
+                  style={{
+                    height: activeButton
+                      ? `${activeContainerRef.current?.scrollHeight}px`
+                      : "0px",
+                  }}
+                >
+                  <div className="text-gray-500 text-sm">
+                    Booking content goes here.
+                  </div>
+                </div>
+              </div>
+
+              {addProductProp && lastHospitalityFilter2 ? (
+                <button
+                  onClick={() => setAddProductProp(false)}
+                  className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                >
+                  CONFIRM
+                </button>
+              ) : (
+                <div className={`w-full gap-2 flex items-center`}>
+                  <button
+                    onClick={handleNextFilterCategory3}
+                    className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                  >
+                    NEXT
+                  </button>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    <CircularProgress
+                      size={60}
+                      sx={{ color: "#006838" }}
+                      variant="determinate"
+                      value={overallProgress3}
+                    />
+                    <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
+                  </Box>
+                </div>
+              )}
+            </div>
+          )}
+          {educationActiveFilterTab === "facilities" && addProductProp && (
+            <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
+              <div
+                onClick={() => setActiveButton(!activeButton)}
+                className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
+              >
+                <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
+                  <p className="font-semibold text-black text-sm">
+                    ROUTE DETAILS
+                  </p>
+                  <div className="flex gap-3 items-center">
+                    <div
+                      className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
+                        activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
+                      }`}
+                    >
+                      Ready
+                    </div>
+                    <FaChevronDown
+                      className={`text-sm transition-transform duration-200 ease-in-out text-black ${
+                        activeButton ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
+                </div>
+                <div
+                  ref={activeContainerRef}
+                  className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
+                  style={{
+                    height: activeButton
+                      ? `${activeContainerRef.current?.scrollHeight}px`
+                      : "0px",
+                  }}
+                >
+                  <div className="text-gray-500 text-sm">
+                    Booking content goes here.
+                  </div>
+                </div>
+              </div>
+
+              {addProductProp && lastHospitalityFilter3 ? (
+                <button
+                  onClick={() => setAddProductProp(false)}
+                  className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                >
+                  CONFIRM
+                </button>
+              ) : (
+                <div className={`w-full gap-2 flex items-center`}>
+                  <button
+                    onClick={handleNextFilterCategory4}
+                    className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                  >
+                    NEXT
+                  </button>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    <CircularProgress
+                      size={60}
+                      sx={{ color: "#006838" }}
+                      variant="determinate"
+                      value={overallProgress4}
+                    />
+                    <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
+                  </Box>
+                </div>
+              )}
+            </div>
+          )}
+          {addProductProp1 ? (
+            <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
+              <div
+                onClick={() => setActiveButton(!activeButton)}
+                className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
+              >
+                <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
+                  <p className="font-semibold text-black text-sm">
+                    ROUTE DETAILS
+                  </p>
+                  <div className="flex gap-3 items-center">
+                    <div
+                      className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
+                        activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
+                      }`}
+                    >
+                      Ready
+                    </div>
+                    <FaChevronDown
+                      className={`text-sm transition-transform duration-200 ease-in-out text-black ${
+                        activeButton ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
+                </div>
+                <div
+                  ref={activeContainerRef}
+                  className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
+                  style={{
+                    height: activeButton
+                      ? `${activeContainerRef.current?.scrollHeight}px`
+                      : "0px",
+                  }}
+                >
+                  <div className="text-gray-500 text-sm">
+                    <div className="flex flex-col gap-3">
+                      <div className="w-full p-2 border-b border-gray-500">
+                        Specialty Info
+                      </div>
+                      <div className="flex justify-between items-center">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {addProductProp1 && lastHospitalityFilter4 ? (
+                <button
+                  onClick={() => {
+                    setAddProductProp1(false);
+                    setAllLegalServicesObject((prev) => [
+                      ...prev,
+                      legalServicesObject,
+                    ]);
+                    setActiveRouteProp5("specialty");
+                    setLegalActiveFilterTab("services");
+                  }}
+                  className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                >
+                  CONFIRM
+                </button>
+              ) : (
+                <div className={`w-full gap-2 flex items-center`}>
+                  <button
+                    onClick={handleNextFilterCategory5}
+                    className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                  >
+                    NEXT
+                  </button>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    <CircularProgress
+                      size={60}
+                      sx={{ color: "#006838" }}
+                      variant="determinate"
+                      value={overallProgress5}
+                    />
+                    <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
+                  </Box>
+                </div>
+              )}
+            </div>
+          ) : null}
+          {logisticsActiveFilterTab === "location" && addProductProp && (
+            <div className="flex flex-col fixed z-20 bottom-0 md:w-[45%] w-full left-1/2 -translate-x-1/2 mx-auto md:p-5 p-2 gap-2 bg-white">
+              <div
+                onClick={() => setActiveButton(!activeButton)}
+                className="flex flex-col md:p-5 p-2 gap-3 rounded-xl bg-[#ebedeb] cursor-pointer"
+              >
+                <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
+                  <p className="font-semibold text-black text-sm">
+                    ROUTE DETAILS
+                  </p>
+                  <div className="flex gap-3 items-center">
+                    <div
+                      className={`rounded-3xl py-1 px-3 flex justify-center items-center text-[10px] ${
+                        activeButton ? "bg-[#006838] text-white" : "bg-gray-300"
+                      }`}
+                    >
+                      Ready
+                    </div>
+                    <FaChevronDown
+                      className={`text-sm transition-transform duration-200 ease-in-out text-black ${
+                        activeButton ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
+                </div>
+                <div
+                  ref={activeContainerRef}
+                  className="flex overflow-hidden transition-height duration-200 flex-col gap-4"
+                  style={{
+                    height: activeButton
+                      ? `${activeContainerRef.current?.scrollHeight}px`
+                      : "0px",
+                  }}
+                >
+                  <div className="text-gray-500 text-sm">
+                    Booking content goes here.
+                  </div>
+                </div>
+              </div>
+
+              {addProductProp && lastHospitalityFilter5 ? (
+                <button
+                  onClick={() => setAddProductProp(false)}
+                  className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                >
+                  CONFIRM
+                </button>
+              ) : (
+                <div className={`w-full gap-2 flex items-center`}>
+                  <button
+                    onClick={handleNextFilterCategory6}
+                    className="text-white flex items-center justify-center w-full py-4 rounded-xl bg-[--foreground-green] transition-all duration-200 hover:scale-95"
+                  >
+                    NEXT
+                  </button>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    <CircularProgress
+                      size={60}
+                      sx={{ color: "#006838" }}
+                      variant="determinate"
+                      value={overallProgress6}
+                    />
+                    <FaArrowRight className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#006838]" />
+                  </Box>
+                </div>
+              )}
+            </div>
+          )}
         </>
       ) : (
         <></>
       )}
-
     </div>
   );
 };
