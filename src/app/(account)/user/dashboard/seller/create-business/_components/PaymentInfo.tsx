@@ -56,6 +56,9 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
     useEffect(() => {
         setCount(75)
         handleBtnFunc(handleAPI)
+        let registeredBusinessName = localStorage.getItem("registeredBusinessName") || "";
+        setAccountName({ target: { value: registeredBusinessName } } as any);
+
         return () => {
             handleBtnFunc(() => console.log('default'))
         }
@@ -82,10 +85,18 @@ const PaymentInfo: FC<general_type> = ({ setCount, setSection, handleBtnFunc }) 
                     <input type="number" id='AccountNumber' onChange={e => setAccountNumber(e)} value={accountNumber} maxLength={10} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Bank Account Number' />
                     <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>0/10</p>
                 </div>
-                <input type="text" id='AccountName' onChange={e => setAccountName(e)} value={accountName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Account Name' />
-                <input type="text" id='bankName' onChange={e => setBankName(e)} value={bankName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Bank Name' />
+                <div className='pb-3 flex flex-col gap-3'>
+                    <label htmlFor="AccountType" className={`text-sm font-bold text-[#1F2024] ${openSansFont}`}>Account Type</label>
+                    <input type="text" id='AccountName' onChange={e => setAccountName(e)} value={accountName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Account Name' />
+                </div>
+                <div className='pb-3 flex flex-col gap-3'>
+                    <label htmlFor="bankName" className={`text-sm font-bold text-[#1F2024] ${openSansFont}`}>Bank Name</label>
+                    <input type="text" id='bankName' onChange={e => setBankName(e)} value={bankName} required className='w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]' placeholder='Bank Name' />
+                </div>
 
                 <div className='flex flex-col gap-3 py-3'>
+                     <label htmlFor="AccountType" className={`text-sm font-bold text-[#1F2024] ${openSansFont}`}>Account Type</label>
+
                     {accountType.map(({ item, state }, i) => (
                         <div
                             key={item}

@@ -189,3 +189,15 @@
     rotate: 360deg;
   }
 }
+
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+    /* 2. Webkit-based browsers (Chrome, Safari, Edge, Opera) */
+    -webkit-appearance: none;
+    margin: 0; 
+}
+
+.no-arrows {
+    /* 3. Firefox */
+    -moz-appearance: textfield;
+}

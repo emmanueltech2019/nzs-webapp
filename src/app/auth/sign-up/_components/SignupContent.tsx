@@ -11,7 +11,6 @@ import useToggle from "@/hooks/useToggle"
 import useForm from "@/hooks/useForm"
 import { useRouter } from "next/navigation"
 import { showToast } from "@/utils/alert"
-// import 'intl-tel-input/build/css/intlTelInput.css';
 import axios from '@/utils/axios'
 import { validateEmail, validatePassword } from "@/utils/Validator";
 import CircleLoader from "@/components/loader/loader";
@@ -33,11 +32,17 @@ const SignupContent = () => {
   const [lnameState, setlname] = useForm('')
   const [emailState, setemail] = useForm('')
   const [phoneState, setphone] = useForm('')
+  const [dobState, setdob] = useForm('') // ✅ new DOB field
+
   const [pwdState, setpwd] = useForm('')
   const [messageConsent, setmessageConsent] = useState(false)
   const [termsConsent, setTermsConsent] = useState(false)
   const [loading, setLoading] = useState(false);
 
+  // 👇 Calculate max DOB (today - 18 years)
+  const today = new Date();
+  const minAgeDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+  const maxDate = minAgeDate.toISOString().split("T")[0];
 
   // Validate form before submission
   const validateForm = () => {
@@ -46,24 +51,23 @@ const SignupContent = () => {
       showToast("warning",'Please fill in all required fields.');
       return false;
     }
+    // ✅ Age Validation
+    const userDOB = new Date(dobState);
+    if (userDOB > minAgeDate) {
+      setLoading(false);
+      showToast("warning", "You must be at least 18 years old to sign up.");
+      return false;
+    }
     if (!validateEmail(emailState)) {
       setLoading(false)
       showToast("warning",'Invalid email format.');
       return false;
     }
-    // if (!validatePhone(phoneState)) {
-    //   alert('Invalid phone number format. Must be 10 digits.');
-    //   return false;
-    // }
     if (!validatePassword(pwdState)) {
       setLoading(false)
       showToast("warning",'Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
       return false;
     }
-    // if (pwdState !== confirmPwdState) {
-    //   alert('Passwords do not match.');
-    //   return false;
-    // }
     return true;
   };
 
@@ -97,11 +101,6 @@ useEffect(() => {
     setLoading(true)
     if (!validateForm()) return;
 
-    // validate form inputs
-    // if(!fnameState || !lnameState || !emailState || !pwdState || !phoneState) {
-    //   alert('please input required')
-    //   return
-    // }
     localStorage.setItem('RegEmailState', emailState)
     try {
       const response = await axios.post('/auth/register', {
@@ -109,6 +108,7 @@ useEffect(() => {
         lastname: lnameState,
         email: emailState,
         password: pwdState,
+        dob: dobState, 
         phone: phoneState,
         messageConsent: true,
         termsConsent: true,
@@ -116,10 +116,7 @@ useEffect(() => {
       setLoading(false)
 
       if (response.status === 201) {
-        // On success, navigate to onboarding
         showToast("success", "Signup sucessfully")
-        
-        // Store user data in local storage - userToken
         localStorage.setItem('userToken', response.data.token)
 
         router.push('/user/verify-code');
@@ -177,10 +174,21 @@ useEffect(() => {
 
         <div className="phone flex flex-col mb-[10px]">
           <label htmlFor="phone" className='text-sm mb-1'>Phone Number</label>
-          {/* <input ref={phoneRef} type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' /> */}
           <input type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} maxLength={11} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' />
         </div>
-
+        <div className="dob flex flex-col mb-[10px]">
+          <label htmlFor="dob" className='text-sm mb-1'>Date of Birth</label>
+          <input 
+            type="date" 
+            id="dob"
+            max={maxDate}
+            value={dobState}
+            onChange={e => setdob(e)}
+            required
+            className='w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border border-[#666666]'
+          />
+          <span className="text-[9px] text-gray-500">You must be 18 years or older to sign up</span>
+        </div>
         <div className="pswd flex flex-col mb-[10px]">
           <label htmlFor="pswd" className='text-sm mb-1 w-full flex justify-between items-center'>
             <span>Password</span>

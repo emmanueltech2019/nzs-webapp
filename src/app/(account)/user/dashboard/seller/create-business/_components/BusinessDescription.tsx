@@ -88,7 +88,7 @@ const BusinessDescription: FC<BusinessDescriptionProps> = ({ handleBtnFunc, setC
             sectors: selectedSector,
             categories,
             businessId: localStorage.getItem('addNewBusiness'),
-            state: 'a', city: 'a', street: 'a', zip: '0', town: 'a', address: 'a'
+            state: 'a', city: 'a', street: 'a', zip: '0', town: 'a', address: 'a', townId:1, cityId:1
           },
           headers: {
             Authorization: `Bearer ${userToken}`,

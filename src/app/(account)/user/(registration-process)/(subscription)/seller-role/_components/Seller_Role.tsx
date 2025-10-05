@@ -26,7 +26,7 @@ const Seller_Role = () => {
         method: "PUT",
         url: "/business/select-role",
         data: {
-          role,state:'a', city:'a', street:'a', zip:'0', town:'a',address:'a'
+          role,state:'a', city:'a', street:'a', zip:'0', town:'a',address:'a', townId:1, cityId:1
         },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,

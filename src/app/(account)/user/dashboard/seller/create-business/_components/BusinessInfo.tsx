@@ -14,6 +14,7 @@ import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
 import Image from "next/image";
 import { form } from "framer-motion/client";
+import Swal from "sweetalert2";
 
 const initialState = [
   { item: "Health Regulation", state: false },
@@ -382,6 +383,8 @@ const BusinessInfo: FC<general_type> = ({
   setSection,
 }) => {
   const [uploadCount, setuploadCount] = useState(0);
+  const [townId, setTownId] = useState<number | null>(null);
+  const [towns, setTowns] = useState<{ TownID: number; name: string }[]>([]);
   const [streetAddress, setStreetAddress] = useForm("");
   const [zipCode, setZipCode] = useForm("");
   const [town, setTown] = useState("");
@@ -412,40 +415,86 @@ const BusinessInfo: FC<general_type> = ({
     abbr: string;
     name: string;
   } | null>(null);
-  const [selectedState, setSelectedState] = useState<
-    | {
-        state: string;
-        capital: string;
-      }
-    | null
-  >(null); 
+  const [selectedState, setSelectedState] = useState<{
+    state: string;
+    capital: string;
+  } | null>(null);
 
   const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  const value = e.target.value;
-  const mockEvent = {
-  target: { value: value }
-} as React.ChangeEvent<HTMLInputElement>;
-  setStateOfOrigin(mockEvent); 
+    const value = e.target.value;
+    const mockEvent = {
+      target: { value: value },
+    } as React.ChangeEvent<HTMLInputElement>;
+    setStateOfOrigin(mockEvent);
 
-  const stateObj = statesAndCapitals.find((s) => s.state === value);
-  if (stateObj) {
-    setSelectedState(stateObj);
+    const stateObj = statesAndCapitals.find((s) => s.state === value);
+    if (stateObj) {
+      setSelectedState(stateObj);
+    } else {
+      setSelectedState(null);
+    }
+  };
+
+  const fetchTownFromCity = async (cityAbbr: string) => {
+    try {
+      const res = await axios({
+        url: `http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${cityAbbr}`,
+        method: "GET",
+        headers: {
+          Accept: "text/plain",
+          "X-API-KEY":
+            "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
+        },
+      });
+
+      if (res.data && res.data.length > 0) {
+        setTowns(res.data); // ✅ store full list
+        setTown(""); // clear old selection
+        setTownId(null);
+      } else {
+        showToast("warning", `No towns found for city: ${cityAbbr}`);
+        setTowns([]);
+        setTown("");
+        setTownId(null);
+      }
+    } catch (err) {
+      console.error("Error fetching towns:", err);
+      showToast("error", `Error fetching town for city: ${cityAbbr}`);
+      setTowns([]);
+      setTown("");
+      setTownId(null);
+    }
+  };
+
+  // const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value;
+  //   const cityObj = cities.find((c) => c.name === value);
+
+  //   if (cityObj) {
+  //     console.log("Selected city:", cityObj);
+  //     setSelectedCity(cityObj);
+  //     fetchTownFromCity(cityObj.abbr); // ✅ fetch town based on abbreviation
+  //   } else {
+  //     setSelectedCity({ id: 0, abbr: "", name: value });
+  //     setTown("");
+  //     setTownId(null);
+  //   }
+  // };
+const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const value = e.target.value;
+  const cityObj = cities.find((c) => c.name === value);
+
+  if (cityObj) {
+    console.log("Selected city:", cityObj);
+    setSelectedCity(cityObj);
+    fetchTownFromCity(cityObj.abbr); // ✅ fetch town based on abbreviation
   } else {
-    setSelectedState(null);
+    setSelectedCity({ id: 0, abbr: "", name: value });
+    setTown("");
+    setTownId(null);
   }
 };
 
-  const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const cityObj = cities.find((c) => c.name === value);
-    if (cityObj) {
-      setSelectedCity(cityObj);
-    } else {
-      // Fallback for custom entries, or if it's meant to be a controlled input with datalist
-      setSelectedCity({ id: 0, abbr: "", name: value });
-    }
-  };
-  
   const [regulations, setRegulations] = useState(initialState);
   const handleClick = (a: any) =>
     setRegulations((prev) =>
@@ -461,46 +510,56 @@ const BusinessInfo: FC<general_type> = ({
       businessName: registeredBusinessName,
       description,
       registrationNumber: CAC,
-      regulations: regulations.filter(({ state }) => state).map(({ item }) => item),
+      regulations: regulations
+        .filter(({ state }) => state)
+        .map(({ item }) => item),
       state: stateOfOrigin,
       city: selectedCity?.name,
+      cityAbbr: selectedCity?.abbr, // equals recipientCity
       street: streetAddress,
       zip: zipCode,
       town: town,
+      townId, // ✅ include TownID
     });
 
+    try {
+      let addNewBusiness = localStorage.getItem("addNewBusiness");
+      const res = await axios({
+        method: "PUT",
+        url: "/business/add-business-info",
+        data: {
+          businessName: registeredBusinessName,
+          description,
+          registrationNumber: CAC,
+          regulations: regulations
+            .filter(({ state }) => state)
+            .map(({ item }) => item),
+          state: stateOfOrigin,
+          city: selectedCity?.name,
+          cityAbbr: selectedCity?.abbr,
+          street: streetAddress,
+          zip: zipCode,
+          town: town,
+          townId, // ✅ include TownID
+          businessId: addNewBusiness,
+        },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      });
+      localStorage.setItem("registeredBusinessName", registeredBusinessName);
+      showToast("success", res.data.message);
+      setSection(3);
+    } catch (err: any) {
+      console.error(
+        "Error submitting business:",
+        err.response?.data || err.message
+      );
+      showToast("error", err.message);
+    }
+  };
 
-  try {
-    let addNewBusiness = localStorage.getItem("addNewBusiness");
-    const res = await axios({
-      method: "PUT",
-      url: "/business/add-business-info",
-      data: {
-        businessName: registeredBusinessName,
-        description,
-        registrationNumber: CAC,
-        regulations: regulations.filter(({ state }) => state).map(({ item }) => item),
-        state: stateOfOrigin,
-        city: selectedCity?.name,
-        street: streetAddress,
-        zip: zipCode,
-        town: town,
-        businessId: addNewBusiness
-      },
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    });
-
-    showToast("success", res.data.message);
-    setSection(3);
-  } catch (err: any) {
-    console.error("Error submitting business:", err.response?.data || err.message);
-    showToast("error", err.message);
-  }
-};
-
-useEffect(() => {
+  useEffect(() => {
     setCount(50);
     handleBtnFunc(handleAPI);
     return () => {
@@ -555,7 +614,7 @@ useEffect(() => {
               value={CAC}
               required
               className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
-              placeholder="CAC Registration Number (optional)"
+              placeholder="CAC Registration Number"
             />
           </div>
         </div>
@@ -596,39 +655,39 @@ useEffect(() => {
             ))}
           </div>
         </div>
-          <div>
-    <input
-      type="text"
-      id="street"
-      onChange={(e) => setStreetAddress(e)}
-      value={streetAddress}
-      required
-      className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
-      placeholder="Street Address / Street Info"
-    />
-  </div>
-  <div>
-  <input
-    type="text"
-    id="town"
-    onChange={(e) => setTown(e.target.value)}
-    value={town}
-    required
-    className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
-    placeholder="Town/Area"
-  />
-</div>
-  <div>
-    <input
-      type="text"
-      id="zip"
-      onChange={(e) => setZipCode(e)}
-      value={zipCode}
-      required
-      className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
-      placeholder="Zip Code / Postal Code"
-    />
-  </div>
+        <div className="my-5">
+          <input
+            type="text"
+            id="street"
+            onChange={(e) => setStreetAddress(e)}
+            value={streetAddress}
+            required
+            className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+            placeholder="Street Address / Street Info"
+          />
+        </div>
+        <div>
+          {/* <input
+            type="text"
+            id="town"
+            onChange={(e) => setTown(e.target.value)}
+            value={town}
+            required
+            className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+            placeholder="Town/Area"
+          /> */}
+        </div>
+        <div>
+          <input
+            type="text"
+            id="zip"
+            onChange={(e) => setZipCode(e)}
+            value={zipCode}
+            required
+            className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+            placeholder="Zip Code / Postal Code"
+          />
+        </div>
         <div className="py-5 flex flex-col gap-4">
           <select
             id="state"
@@ -645,7 +704,20 @@ useEffect(() => {
             ))}
           </select>
           <div className="w-full">
-            <input
+            <select
+              id="city"
+              onChange={handleCityChange}
+              value={selectedCity?.name ?? ""}
+              required
+              className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC]"
+            >
+              {cities.map((c) => (
+                <option key={c.id} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            {/* <input
               type="text"
               id="city"
               list="city-options"
@@ -654,14 +726,39 @@ useEffect(() => {
               required
               className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
               placeholder="City"
-            />
-            <datalist id="city-options">
+            /> */}
+            {/* <datalist id="city-options">
               {cities.map((c) => (
                 <option key={c.id} value={c.name}>
                   {c.name}
                 </option>
               ))}
-            </datalist>
+            </datalist> */}
+          </div>
+          <div className="my-4">
+            <select
+              id="town"
+              onChange={(e) => {
+                const selected = towns.find((t) => t.name === e.target.value);
+                if (selected) {
+                  setTown(selected.name);
+                  setTownId(selected.TownID);
+                } else {
+                  setTown("");
+                  setTownId(null);
+                }
+              }}
+              value={town}
+              required
+              className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC]"
+            >
+              <option value="">Select Town</option>
+              {towns.map((t) => (
+                <option key={t.TownID} value={t.name}>
+                  {t.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
