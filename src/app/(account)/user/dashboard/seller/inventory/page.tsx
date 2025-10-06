@@ -560,7 +560,6 @@ const Page: React.FC = () => {
               setBusiness(businessRes.data.business);
               setBusinessVerified(businessRes.data.business.paidVerification);
               setAdminVerified(businessRes.data.business.approved);
-              // setProducts(res.data.products);
             });
         })
         .catch(console.error);
@@ -634,13 +633,19 @@ const Page: React.FC = () => {
   }
 
   useEffect(() => {
-    setInterval(() => {
-      getActiveBusiness();
-      fetchProducts()
-      console.log(sector)
-      console.log("businessVerified : ", businessVerified, "adminVerified : " , adminVerified)
-    }, 10000);
-  }, [fetchProducts]);
+  // Run once on mount
+  getActiveBusiness();
+  fetchProducts();
+
+  // Optional: refresh every 10 seconds
+  const interval = setInterval(() => {
+    getActiveBusiness();
+    fetchProducts();
+  }, 10000);
+
+  // Cleanup: clear interval on unmount
+  return () => clearInterval(interval);
+}, []); // ✅ Empty dependency so it runs only once
   return (
     <div className="p-4 md:w-[85%] m-auto mb-80">
         <VerificationModal isVisible={PayForVerificationModal} walletBalance={walletBalance} onClose={onClose} onPayForVerification={onPayForVerification} />
