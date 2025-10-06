@@ -39,6 +39,7 @@ interface User {
   firstname: string;
   lastname: string;
   email: string;
+  profilePicture?: string;
   accountType:
     | "buyer"
     | "seller"
@@ -476,6 +477,28 @@ const Page: React.FC = () => {
   //     })
   //     .catch(console.error);
   // }
+  const fetchProducts = async () => {
+      try {
+        let businessId = localStorage.getItem("activeBusiness");
+        const response = await axios({
+          url: `/products/vendor/?for=instock&page=1&limit=100&businessId=${businessId}`,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        });
+
+        setProducts(response.data.products || []);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error(
+            "Error fetching products:",
+            error.response?.data || error.message
+          );
+        } else {
+          console.error("Error fetching products:", error);
+        }
+      }
+    };
   const getActiveBusiness = () => {
     const token = localStorage.getItem("userToken");
     if (!token) return;
@@ -537,6 +560,7 @@ const Page: React.FC = () => {
               setBusiness(businessRes.data.business);
               setBusinessVerified(businessRes.data.business.paidVerification);
               setAdminVerified(businessRes.data.business.approved);
+              // setProducts(res.data.products);
             });
         })
         .catch(console.error);
@@ -544,6 +568,17 @@ const Page: React.FC = () => {
   };
 
   const handlePayForVerification = () => {
+    if (!user?.profilePicture || user.profilePicture.trim() === "") {
+    alert("Please upload a profile picture before proceeding with verification.");
+    return;
+  }
+
+  if (!products || products.length <= 0) {
+    alert("Please add at least one product before verifying your profile.");
+    alert(products?.length)
+    return;
+  }
+
     setPayForVerificationModal(true);
   };
   const onClose = () => {
@@ -601,10 +636,11 @@ const Page: React.FC = () => {
   useEffect(() => {
     setInterval(() => {
       getActiveBusiness();
+      fetchProducts()
       console.log(sector)
       console.log("businessVerified : ", businessVerified, "adminVerified : " , adminVerified)
-    }, 3000);
-  }, []);
+    }, 10000);
+  }, [fetchProducts]);
   return (
     <div className="p-4 md:w-[85%] m-auto mb-80">
         <VerificationModal isVisible={PayForVerificationModal} walletBalance={walletBalance} onClose={onClose} onPayForVerification={onPayForVerification} />

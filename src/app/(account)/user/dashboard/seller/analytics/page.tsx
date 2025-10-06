@@ -15,12 +15,13 @@ import DateFilterTab from "@/components/tabs/DateFilterTab";
 import Options from "./components/Options";
 import { Inter } from "next/font/google";
 import PriceFilterTab from "@/components/tabs/PriceFilterTab";
+import TagHeader from "@/components/header/TagHeader";
 
 const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'], // You can add or remove as needed
-  display: 'swap',
-})
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // You can add or remove as needed
+  display: "swap",
+});
 
 const states = [
   "UMUAHIA",
@@ -51,8 +52,8 @@ const page = () => {
   const pendingTabs = ["Read", "Pending"];
   return (
     <div className="p-4 md:w-[85%] m-auto mb-[5rem]">
-      <SellerTransactionTab activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="flex items-center gap-1 my-2 py-2 relative overflow-x-hidden">
+      {/* <SellerTransactionTab activeTab={activeTab} setActiveTab={setActiveTab} /> */}
+      {/* <div className="flex items-center gap-1 my-2 py-2 relative overflow-x-hidden">
         <div className="flex items-center gap-1 my-2 p-2 bg-[#FFF] z-40">
           <Icon
             icon="hugeicons:menu-08"
@@ -84,10 +85,10 @@ const page = () => {
             setActive={setActiveFilter}
           />
         </div>
-      </div>
-      <div>{activeFilter === "Date" && <DateFilterTab />}</div>
-      <div>{activeFilter === "Price" && <PriceFilterTab />}</div>
-      <div>
+      </div> */}
+      {/* <div>{activeFilter === "Date" && <DateFilterTab />}</div>
+      <div>{activeFilter === "Price" && <PriceFilterTab />}</div> */}
+      {/* <div>
         {activeFilter === "Location" && (
           <div>
             <div className="flex items-center justify-between my-4 px-4">
@@ -106,10 +107,10 @@ const page = () => {
           </div>
           
         )}
-      </div>
-
+      </div> */}
+    <TagHeader title="Analytics" />
       <div className="">
-        {activeTab === "Orders" && (
+        {/* {activeTab === "Orders" && (
           <div>
             {activeFilter === "Status" && (
               <SellerTransStatusTab
@@ -118,16 +119,18 @@ const page = () => {
                 tabs={orderTabs}
               />
             )}
-            {activeOrderTab === "Completed" && <Pending />}
+            {activeOrderTab === "Completed" && <Incoming activeFilter={activeFilter}/>}
             {activeOrderTab === "Pending" && (
               <div>
                 <Pending />
               </div>
             )}
           </div>
-        )}
-
-        {activeTab === "Reviews" && (
+        )} */}
+        <div>
+          <Incoming activeFilter={activeFilter} />
+        </div>
+        {/* {activeTab === "Reviews" && (
           <div>
             <SellerTransStatusTab
               activeStatTab={activePendingTab}
@@ -136,7 +139,7 @@ const page = () => {
             />
             {activePendingTab === "Read" && <Read />}
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

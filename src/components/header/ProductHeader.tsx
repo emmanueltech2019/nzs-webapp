@@ -102,7 +102,7 @@ const Header: FC = () => {
       {/* Right Section: Cart / Stats */}
       <div className="flex space-x-4">
         {user?.accountType === "seller" ? (
-          <Link href="#">
+          <Link href="/user/dashboard/seller/analytics">
             <div className="relative">
               <ShowChartOutlinedIcon className="text-2xl" />
               <span className="absolute top-0 right-0 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">

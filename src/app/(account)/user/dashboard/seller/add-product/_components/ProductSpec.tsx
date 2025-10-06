@@ -429,7 +429,7 @@ const ProductSpec: FC<ProductSpecProps> = ({ handleBtnFunc, setCount, setSection
   const [productData, setProductData] = useState({
     quantity: "", // Minimum Unit Amount (was 'unit' in original)
     totalStock: 1, // Total Quantity (was 'quantity' in original)
-    isReadyForPickUp: true, 
+    isReadyForPickUp: "available", // New field for availability status
   });
   const [selectedQualityType, setSelectedQualityType] = useState<string | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
@@ -456,25 +456,24 @@ const ProductSpec: FC<ProductSpecProps> = ({ handleBtnFunc, setCount, setSection
   //     [name]: sanitizedValue,
   //   }));
   // }, []);
- const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+const handleInputChange = useCallback(
+  (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    let finalValue: string | number | boolean;
+    let finalValue: string | number;
 
-    if (type === 'number') {
-      // SECURITY: Basic sanitization: only allow numbers (and decimal point)
+    if (type === "number") {
       finalValue = value.replace(/[^0-9.]/g, "");
-    } else if (name === 'isReadyForPickUp') {
-        // Handle select change, converting string 'true'/'false' to boolean
-        finalValue = value === 'true';
     } else {
-        finalValue = value;
+      finalValue = value; // ✅ no boolean conversion for select
     }
 
     setProductData((prev) => ({
       ...prev,
       [name]: finalValue,
     }));
-  }, []);
+  },
+  []
+);
 
   // 6. PERFORMANCE: Optimized selection handlers (fewer state updates)
   const handleQualityType = (type: string) => {
@@ -533,7 +532,7 @@ const ProductSpec: FC<ProductSpecProps> = ({ handleBtnFunc, setCount, setSection
       });
 
       showToast("success", res.data.message);
-      // setSection(3);
+      setSection(3);
     } catch (err: any) {
       // Use err.response.data.message for cleaner error messages from API
       const errorMessage = err.response?.data?.message || err.message || "An unknown error occurred.";
@@ -631,16 +630,16 @@ const ProductSpec: FC<ProductSpecProps> = ({ handleBtnFunc, setCount, setSection
         <div className="pb-3">
           <label>Is this product ready to immediate shipping? </label>
           <select 
-            id="isReadyForPickUp"
-            name="isReadyForPickUp"
-            onChange={handleInputChange} 
-            value={productData.isReadyForPickUp ? 'true' : 'false'}
-            required
-            className="w-full px-4 py-3 rounded-xl outline-none bg-white border-[1px] border-[#C5C6CC] text-gray-800 focus:ring-1 focus:ring-[--foreground-green] focus:border-[--foreground-green] appearance-none cursor-pointer"
-          >
-          <option value={"available"}>Yes</option>
-          <option value={"not available"}>No</option>
-         </select>
+              id="isReadyForPickUp"
+              name="isReadyForPickUp"
+              onChange={handleInputChange} 
+              value={productData.isReadyForPickUp}
+              required
+              className="w-full px-4 py-3 rounded-xl outline-none bg-white border-[1px] border-[#C5C6CC] text-gray-800 focus:ring-1 focus:ring-[--foreground-green] focus:border-[--foreground-green] appearance-none cursor-pointer"
+            >
+              <option value="available">Yes</option>
+              <option value="not available">No</option>
+            </select>
         </div>
         {/* Input for Total Stock (Always visible for inventory) */}
         <div className="pb-3">
@@ -656,7 +655,7 @@ const ProductSpec: FC<ProductSpecProps> = ({ handleBtnFunc, setCount, setSection
             placeholder="e.g. 100"
           />
           <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>
-            Total in Stock ({selectedUnit || "Units"})
+            Total in Stock
           </p>
         </div>
       </div>

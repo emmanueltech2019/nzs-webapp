@@ -41,7 +41,7 @@ export const cardContent: CardItemtype[] = [
   {
     icon: verified_user,
     headText: (
-      <>Welcome to Efficiency... <br /> Create a Profile and get <br /> verified quickly</>
+      <>Welcome to Efficiency...<br /> Create a Profile and get <br /> verified quickly</>
     ),
     paragraph:
       "Get started in minutes — set up your account, verify your details, and access powerful tools built to make your operations smarter and faster.",

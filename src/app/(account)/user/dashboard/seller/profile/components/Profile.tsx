@@ -86,9 +86,51 @@ const router = useRouter();
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  // const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (!file) return;
+
+  //   // Show preview immediately
+  //   const localPreview = URL.createObjectURL(file);
+  //   setPreviewImage(localPreview);
+
+  //   // Upload
+  //   const formData = new FormData();
+  //   formData.append("picture", file);
+
+  //   try {
+  //     setUploading(true);
+  //     const res = await axios.post("/users/upload-picture", formData, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     setPreviewImage(res.data.profilePicture);
+  //     showToast("success", "Profile picture updated!");
+  //   } catch (error) {
+  //     showToast("error", "Failed to upload image");
+  //     console.error(error);
+  //   } finally {
+  //     setUploading(false);
+  //   }
+  // };
+
+const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // --- START: File Size Check (5MB Maximum) ---
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
+    if (file.size > MAX_FILE_SIZE) {
+      showToast("error", "File size exceeds the 5MB limit.");
+      // Clear the file input to allow re-selection of the same file
+      if (e.target.value) {
+        e.target.value = '';
+      }
+      return; // Stop the function execution
+    }
+    // --- END: File Size Check ---
 
     // Show preview immediately
     const localPreview = URL.createObjectURL(file);
@@ -111,12 +153,13 @@ const router = useRouter();
     } catch (error) {
       showToast("error", "Failed to upload image");
       console.error(error);
+      // If upload fails, you might want to revert the preview image
+      // or clear it, depending on your desired UX.
+      // For now, it keeps the local preview until success/failure logic is refined.
     } finally {
       setUploading(false);
     }
   };
-
-
   useEffect(() => {
     if (!localStorage.getItem("userToken")) {
       console.error("User token is missing.");
@@ -259,7 +302,7 @@ const router = useRouter();
                     Switch Business
                   </h2>
                   <p className="text-[14px] font-normal font-sans leading-5">
-                    Other Business
+                     Businesses
                   </p>
                 </div>
 
