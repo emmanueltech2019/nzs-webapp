@@ -99,7 +99,7 @@ const handleSelectRedStar = async () => {
   try {
     // Fetch Pickup Types
     const res = await axios.get(
-      "http://redspeedopenapi.redstarplc.com/api/Operations/PickupTypes",
+      "https://redspeedopenapi.redstarplc.com/api/Operations/PickupTypes",
       {
         headers: {
           "X-API-KEY": "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
@@ -119,7 +119,7 @@ useEffect(() => {
 
     try {
       const res = await axios.post(
-        "http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryFee",
+        "https://redspeedopenapi.redstarplc.com/api/Operations/DeliveryFee",
         {
           senderCity: city, // your sender city
           recipientCity: city, // you may change to recipient city if different

@@ -438,7 +438,7 @@ const BusinessInfo: FC<general_type> = ({
   const fetchTownFromCity = async (cityAbbr: string) => {
     try {
       const res = await axios({
-        url: `http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${cityAbbr}`,
+        url: `https://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${cityAbbr}`,
         method: "GET",
         headers: {
           Accept: "text/plain",

@@ -210,7 +210,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ onClose }) => {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://redspeedopenapi.redstarplc.com/api/Operations/Cities",
+      url: "https://redspeedopenapi.redstarplc.com/api/Operations/Cities",
       headers: {
         Accept: "text/plain",
         "X-API-KEY":
@@ -229,7 +229,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ onClose }) => {
     setLoadingTowns(true);
     axios({
       method: "GET",
-      url: `http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${formData.city}`,
+      url: `https://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${formData.city}`,
       headers: {
         Accept: "text/plain",
         "X-API-KEY":
