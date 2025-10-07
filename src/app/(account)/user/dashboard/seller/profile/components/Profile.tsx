@@ -326,7 +326,7 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
               {user.accountType == "seller" && (
                 <>
                   <div className="max-w-sm mx-auto p-4 space-y-2">
-                    {businesses?.map((business, index) => (
+                    {/* {businesses?.map((business, index) => (
                       <div
                         key={business._id}
                         onClick={() => handleSwitch(business._id)}
@@ -343,16 +343,37 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                             : "No BUSINESS NAME"}
                         </span>
                       </div>
-                    ))}
+                    ))} */}
+                    {businesses?.map((business) => (
+                        <div
+                          key={business._id}
+                          className="flex items-center justify-between p-3 rounded-lg hover:bg-blue-100"
+                        >
+                          <div
+                            className="flex items-center cursor-pointer"
+                            onClick={() => handleSwitch(business._id)}
+                          >
+                            <Avatar
+                              src={business.logoUrl}
+                              alt={business.businessName}
+                              className="mr-3"
+                            />
+                            <span className="text-[15px] font-semibold">
+                              {business.businessName ? business.businessName : "No BUSINESS NAME"}
+                            </span>
+                          </div>
 
- 
-                    {/* <Link
-                      href="/user/dashboard/seller/create-business"
-                      className="flex items-center justify-center mt-4 text-gray-500 text-lg font-semibold"
-                    >
-                      <span>Add Business</span>
-                      <span className="text-2xl ml-2">+</span>
-                    </Link> */}
+                          {/* ✏️ Edit Icon */}
+                          <Link
+                            href={`/user/dashboard/seller/edit-business?id=${business._id}`}
+                            className="text-gray-500 hover:text-[#006838] transition"
+                            title="Edit Business"
+                            onClick={(e) => e.stopPropagation()} // prevent triggering handleSwitch
+                          >
+                            <Icon icon="mdi:pencil" width="20" height="20" />
+                          </Link>
+                        </div>
+                      ))}
                      <Link
                         href="/user/dashboard/seller/create-business"
                         onClick={handleClick}

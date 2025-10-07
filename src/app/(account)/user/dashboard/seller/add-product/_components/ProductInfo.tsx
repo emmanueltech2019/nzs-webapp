@@ -75,20 +75,37 @@ const BusinessDescription: FC<general_type> = ({
     initializeState(OPTIONS.handlingType)
   );
 
+// const handleSelection = useCallback(
+//   (
+//     setState: React.Dispatch<React.SetStateAction<SelectionItem[]>>,
+//     selectedItem: string
+//   ) => {
+//     setState((prev) =>
+//       prev.map(({ item, state }) => {
+//         if (item === selectedItem) {
+//           // Toggle the state of the clicked item
+//           return { item, state: !state };
+//         } else {
+//           // Ensure all other items are deselected (single selection logic)
+//           return { item, state: false };
+//         }
+//       })
+//     );
+//   },
+//   []
+// );
 const handleSelection = useCallback(
   (
     setState: React.Dispatch<React.SetStateAction<SelectionItem[]>>,
-    selectedItem: string
+    selectedItem: string,
+    multiSelect = false
   ) => {
     setState((prev) =>
       prev.map(({ item, state }) => {
         if (item === selectedItem) {
-          // Toggle the state of the clicked item
-          return { item, state: !state };
-        } else {
-          // Ensure all other items are deselected (single selection logic)
-          return { item, state: false };
+          return { item, state: !state }; // Toggle clicked item
         }
+        return multiSelect ? { item, state } : { item, state: false };
       })
     );
   },
@@ -356,7 +373,7 @@ const handleSelection = useCallback(
                   ? "bg-[--foreground-green] text-white"
                   : "bg-[#EAF2FF] text-[--foreground-green]"
               }`}
-              onClick={() => handleSelection(setColorState, item)}
+              onClick={() => handleSelection(setColorState, item, true)}
             >
               {item}
             </button>

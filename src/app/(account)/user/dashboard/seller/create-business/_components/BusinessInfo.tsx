@@ -506,6 +506,19 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   const [a, aFunc] = useToggle(true);
   const [b, bFunc] = useToggle(true);
   const handleAPI = async () => {
+    if (
+    !registeredBusinessName.trim() ||
+    !description.trim() ||
+    !CAC.trim() ||
+    !streetAddress.trim() ||
+    !zipCode.trim() ||
+    !stateOfOrigin.trim() ||
+    !selectedCity?.name ||
+    !town
+  ) {
+    showToast("warning", "Please fill all required fields before submitting");
+    return;
+  }
     console.log("Submitting business with data:", {
       businessName: registeredBusinessName,
       description,
@@ -548,8 +561,10 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         },
       });
       localStorage.setItem("registeredBusinessName", registeredBusinessName);
-      showToast("success", res.data.message);
-      setSection(3);
+      setTimeout(()=>{
+        showToast("success", res.data.message);
+        setSection(3);
+      }, 3000)
     } catch (err: any) {
       console.error(
         "Error submitting business:",
@@ -588,7 +603,9 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             id="businessName"
             onChange={(e) => setRegisteredBusinessName(e)}
             value={registeredBusinessName}
-            required
+            minLength={3}
+            maxLength={20}
+            required={true}
             className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
             placeholder="Registered Business Name"
           />
@@ -598,7 +615,7 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               id="description"
               onChange={(e) => setDescription(e)}
               value={description}
-              required
+              required={true}
               className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
               placeholder="Briefly describe your business"
             />
@@ -607,12 +624,14 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             <input
               type="text"
               id="CAC"
+              minLength={6}
+              maxLength={7}
               onChange={(e: any) => {
                 if (isNaN(e.target.value)) return;
                 setCAC(e);
               }}
               value={CAC}
-              required
+              required={true}
               className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
               placeholder="CAC Registration Number"
             />
@@ -661,7 +680,7 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             id="street"
             onChange={(e) => setStreetAddress(e)}
             value={streetAddress}
-            required
+            required={true}
             className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
             placeholder="Street Address / Street Info"
           />
@@ -683,7 +702,7 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             id="zip"
             onChange={(e) => setZipCode(e)}
             value={zipCode}
-            required
+            required={true}
             className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
             placeholder="Zip Code / Postal Code"
           />
@@ -693,7 +712,7 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             id="state"
             onChange={handleStateChange} // This is the fixed handler
             value={stateOfOrigin} // Now controlled by stateOfOrigin, which is updated in the handler
-            required
+            required={true}
             className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
           >
             <option value="">Select State</option>
@@ -708,7 +727,7 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
               id="city"
               onChange={handleCityChange}
               value={selectedCity?.name ?? ""}
-              required
+              required={true}
               className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC]"
             >
               {cities.map((c) => (

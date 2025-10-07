@@ -145,19 +145,20 @@ const FundWalletModal: React.FC<FundWalletModalProps> = ({ onClose }) => {
           </div>
 
 
-          <div className="flex justify-end">
+          <div className="flex justify-around">
+           
             <button
+              type="button"
+              onClick={onClose}
+              className="ml-2 mr-4 px-4 py-2 bg-gray-600 text-white font-medium rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            >
+              Cancel
+            </button>
+             <button
               type="submit"
               className="px-4 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
             >
               Proceed
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="ml-2 px-4 py-2 bg-gray-600 text-white font-medium rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-            >
-              Cancel
             </button>
           </div>
         </form>

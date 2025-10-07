@@ -102,7 +102,7 @@ const BusinessDescription: FC<BusinessDescriptionProps> = ({ handleBtnFunc, setC
         showToast('error', 'An error occurred');
       }
     } else {
-      showToast('error', 'Please select both a sector and categories');
+      showToast('error', 'Please select both a sector and category');
     }
   };
 

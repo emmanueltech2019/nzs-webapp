@@ -4,6 +4,7 @@ import axios from "@/utils/axios";
 import { ProductT } from "@/types/Product.types";
 import { Icon } from "@iconify/react";
 import { isAxiosError } from "axios";
+import TermsModal from './components/TermsModal';
 
 import InStock from "./components/stock/InStock";
 import OutOfStock from "./components/stock/OutOfStock";
@@ -53,6 +54,7 @@ interface User {
 
 interface Business {
   role: string;
+  contract: boolean
 }
 
 const Page: React.FC = () => {
@@ -588,7 +590,6 @@ const Page: React.FC = () => {
     axios({
       url: `/business/seller-verification/${localStorage.getItem("activeBusiness")}`,
       method: "POST", 
-      data :{},
       headers: {
         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
       },
@@ -631,7 +632,55 @@ const Page: React.FC = () => {
         } 
     })
   }
-
+const handleAgree = () => {
+    // maybe update backend or localStorage here
+    axios({
+      url: `/business/sign-contract/${localStorage.getItem("activeBusiness")}`,
+      method: "POST",
+       headers: {
+        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+      },
+    })
+      .then((res) => {
+        console.log("res", res);
+        if (res.data.success === true) {
+          Swal.fire({
+            icon: "success",
+            title: "Thank You",
+            text: "You have agreed to the terms and conditions.",
+          }).then(() => {
+            // setBusinessVerified(true);
+            // setPayForVerificationModal(false);
+            getActiveBusiness();
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Action Failed",
+            text: res.data.message || "Please try again.",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+        if (isAxiosError(error)) {
+          Swal.fire({
+            icon: "error",
+            title: "Action Error",
+            text:
+              error.response?.data?.message ||
+              "An error occurred. Please try again.",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Action Error",
+            text: "An unexpected error occurred. Please try again.",
+          });
+        }
+      });
+    console.log("User agreed to terms ✅");
+  };
   useEffect(() => {
   // Run once on mount
   getActiveBusiness();
@@ -735,6 +784,7 @@ const Page: React.FC = () => {
     </div>
   </div>
 )}
+
       <Header />
       {sector === "legal" ? (
         <div className="flex items-center w-full">
@@ -762,6 +812,7 @@ const Page: React.FC = () => {
       ) : (
         ""
       )}
+      <TermsModal contract={business?.contract ?? true} onAgree={handleAgree} />
 
       {isAvailable === "available" ? (
         <>
