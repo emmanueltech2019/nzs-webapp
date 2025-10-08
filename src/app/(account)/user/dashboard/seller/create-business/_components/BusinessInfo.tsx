@@ -442,17 +442,15 @@ const BusinessInfo: FC<general_type> = ({
   };
 
   const fetchTownFromCity = async (cityAbbr: string) => {
-    let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY
     try {
       const res = await axios2({
-        url: `http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${cityAbbr}`,
+        url: `users/towns/${cityAbbr}`,
         method: "GET",
         headers: {
-          Accept: "text/plain",
-          "X-API-KEY":REDSTAR_API_KEY,
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
       });
-
+      console.log("Fetched towns:", res.data);
       if (res.data && res.data.length > 0) {
         setTowns(res.data); // ✅ store full list
         setTown(""); // clear old selection
@@ -724,7 +722,7 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             <option value="">Select State</option>
             {statesAndCapitals.map((item) => (
               <option key={item.state} value={item.state}>
-                {item.state} — {item.capital}
+                {item.state}
               </option>
             ))}
           </select>

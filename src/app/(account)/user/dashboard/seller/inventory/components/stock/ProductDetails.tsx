@@ -3,6 +3,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import { ProductT } from "@/types/Product.types";
+import Link from "next/link";
 
 
 
@@ -83,6 +84,10 @@ const ProductDetail: React.FC<ProductT> = ({
          <div className="">
                 <div className="font-bolder text-[#71727A]">Description</div>
                 <span className="font-medium" >{description}</span>
+            </div>
+            <div className="">
+                <div className="font-bolder text-[#71727A]">Preview </div>
+                <Link className="font-medium" href={'./inventory/products'}>{description}</Link>
             </div>
         </div>
       </div>
