@@ -87,7 +87,7 @@ const ProductDetail: React.FC<ProductT> = ({
             </div>
             <div className="">
                 <div className="font-bolder text-[#71727A]">Preview </div>
-                <Link className="font-medium" href={'./inventory/products'}>{description}</Link>
+                <Link className="font-medium" href={`./inventory/product?id=${_id}`}>Preview Product</Link>
             </div>
         </div>
       </div>

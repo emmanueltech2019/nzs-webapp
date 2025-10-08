@@ -166,22 +166,7 @@ const ProductScreen: FC = () => {
         >
           <ArrowBackOutlinedIcon fontSize={"large"} />
         </button>
-        <Link href={"./cart"}>
-          <div className="relative">
-            <Image
-              src={
-                "https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png"
-              }
-              alt="cart icon"
-              height={100}
-              width={40}
-              className="text-2xl"
-            />
-            <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
-              {cartLength}
-            </span>
-          </div>
-        </Link>
+        <p>{product?.name}</p>
       </div>
 
       {/* Product Image/Carousel */}
@@ -237,12 +222,12 @@ const ProductScreen: FC = () => {
 
       {/* Add to Bag Button */}
 
-      <button
+      {/* <button
         className="mt-6 w-full py-3 bg-[#006838] text-white text-lg rounded-lg flex items-center justify-center"
         onClick={addToCart}
       >
         + Add to Basket
-      </button>
+      </button> */}
     </div>}
     </>
     

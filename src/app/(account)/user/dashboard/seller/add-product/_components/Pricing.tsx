@@ -53,6 +53,7 @@ const Pricing: FC<general_type> = ({
         showToast("error", err.message);
       });
   };
+  const earnAmount = price ? Number(price) - Number(price) * 0.07 : 0;
 
   useEffect(() => {
     setCount(75);
@@ -83,8 +84,13 @@ const Pricing: FC<general_type> = ({
           placeholder="NGN 0.00"
         />
         <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>
-          Product Price
+           {price && (
+        <span className="text-sm text-[#333]">
+          You earn ₦{earnAmount.toLocaleString()}
+        </span>
+      )}
         </p>
+        <span></span>
       </div>
       
       <div className="border-[0.5px] border-[#D4D6DD] rounded-2xl p-4 mt-3">
