@@ -435,7 +435,7 @@ const BusinessInfo: FC<general_type> = ({
       setSelectedState(null);
     }
   };
-
+  let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY
   const fetchTownFromCity = async (cityAbbr: string) => {
     try {
       const res = await axios2({
@@ -443,8 +443,7 @@ const BusinessInfo: FC<general_type> = ({
         method: "GET",
         headers: {
           Accept: "text/plain",
-          "X-API-KEY":
-            "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
+          "X-API-KEY":REDSTAR_API_KEY,
         },
       });
       console.log("Fetched towns:", res.data);

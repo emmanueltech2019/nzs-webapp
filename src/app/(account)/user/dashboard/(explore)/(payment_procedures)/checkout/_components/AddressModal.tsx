@@ -167,7 +167,7 @@
 import { showToast } from "@/utils/alert";
 import React, { useEffect, useState } from "react";
 import axios from "@/utils/axios";
-
+let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
 interface City {
   id: number;
   abbr: string;
@@ -205,7 +205,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ onClose }) => {
   const [cities, setCities] = useState<City[]>([]);
   const [towns, setTowns] = useState<Town[]>([]);
   const [loadingTowns, setLoadingTowns] = useState(false);
-
+let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
   // fetch cities on mount
   useEffect(() => {
     axios({
@@ -213,8 +213,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ onClose }) => {
       url: "https://redspeedopenapi.redstarplc.com/api/Operations/Cities",
       headers: {
         Accept: "text/plain",
-        "X-API-KEY":
-          "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
+        "X-API-KEY":REDSTAR_API_KEY,
       },
     })
       .then((res) => {
@@ -232,8 +231,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ onClose }) => {
       url: `https://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${formData.city}`,
       headers: {
         Accept: "text/plain",
-        "X-API-KEY":
-          "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
+        "X-API-KEY":REDSTAR_API_KEY,
       },
     })
       .then((res) => {

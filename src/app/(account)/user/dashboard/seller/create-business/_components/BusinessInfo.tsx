@@ -442,14 +442,14 @@ const BusinessInfo: FC<general_type> = ({
   };
 
   const fetchTownFromCity = async (cityAbbr: string) => {
+    let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY
     try {
       const res = await axios2({
         url: `http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${cityAbbr}`,
         method: "GET",
         headers: {
           Accept: "text/plain",
-          "X-API-KEY":
-            "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
+          "X-API-KEY":REDSTAR_API_KEY,
         },
       });
 

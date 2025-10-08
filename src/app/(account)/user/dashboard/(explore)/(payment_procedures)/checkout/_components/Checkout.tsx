@@ -95,14 +95,14 @@ const CheckoutShipping: React.FC = () => {
 };
 const handleSelectRedStar = async () => {
   setSelectedShipping("redstar");
-
+let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
   try {
     // Fetch Pickup Types
     const res = await axios.get(
       "https://redspeedopenapi.redstarplc.com/api/Operations/PickupTypes",
       {
         headers: {
-          "X-API-KEY": "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
+          "X-API-KEY":  REDSTAR_API_KEY,
         },
       }
     );
@@ -116,7 +116,7 @@ const handleSelectRedStar = async () => {
 useEffect(() => {
   const getDeliveryFee = async () => {
     if (!selectedPickupType) return;
-
+let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
     try {
       const res = await axios.post(
         "https://redspeedopenapi.redstarplc.com/api/Operations/DeliveryFee",
@@ -130,7 +130,7 @@ useEffect(() => {
         },
         {
           headers: {
-            "X-API-KEY": "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
+            "X-API-KEY": REDSTAR_API_KEY,
             "Content-Type": "application/json",
           },
         }

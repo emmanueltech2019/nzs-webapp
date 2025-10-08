@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-axios.defaults.baseURL = 'https://api.naijazoneonline.com/api';
+axios.defaults.baseURL = process.env.baseUrl;
 // axios.defaults.baseURL = 'http://localhost:3000/api';
 
 
