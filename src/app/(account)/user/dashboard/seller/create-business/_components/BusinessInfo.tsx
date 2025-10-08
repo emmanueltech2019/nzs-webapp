@@ -11,6 +11,7 @@ import Accordion from "./Accordion";
 import useToggle from "@/hooks/useToggle";
 import { ProfileInfo } from "./Main";
 import axios from "@/utils/axios";
+import axios2 from "axios";
 import { showToast } from "@/utils/alert";
 import Image from "next/image";
 import { form } from "framer-motion/client";
@@ -23,6 +24,11 @@ const initialState = [
 ];
 
 const cities = [
+  {
+    id: 0,
+    abbr: "",
+    name: "Select city"
+  },
   {
     id: 4,
     abbr: "ABA",
@@ -384,7 +390,7 @@ const BusinessInfo: FC<general_type> = ({
 }) => {
   const [uploadCount, setuploadCount] = useState(0);
   const [townId, setTownId] = useState<number | null>(null);
-  const [towns, setTowns] = useState<{ TownID: number; name: string }[]>([]);
+  const [towns, setTowns] = useState<{ TownID: number; name: string; id: number }[]>([]);
   const [streetAddress, setStreetAddress] = useForm("");
   const [zipCode, setZipCode] = useForm("");
   const [town, setTown] = useState("");
@@ -437,8 +443,8 @@ const BusinessInfo: FC<general_type> = ({
 
   const fetchTownFromCity = async (cityAbbr: string) => {
     try {
-      const res = await axios({
-        url: `https://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${cityAbbr}`,
+      const res = await axios2({
+        url: `http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${cityAbbr}`,
         method: "GET",
         headers: {
           Accept: "text/plain",
@@ -773,7 +779,7 @@ const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
             >
               <option value="">Select Town</option>
               {towns.map((t) => (
-                <option key={t.TownID} value={t.name}>
+                <option key={t.id} value={t.name}>
                   {t.name}
                 </option>
               ))}

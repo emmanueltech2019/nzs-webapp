@@ -11,6 +11,7 @@ import Accordion from "./Accordion";
 import useToggle from "@/hooks/useToggle";
 import { ProfileInfo } from "./Main";
 import axios from "@/utils/axios";
+import axios2 from "axios";
 import { showToast } from "@/utils/alert";
 import Image from "next/image";
 import { form } from "framer-motion/client";
@@ -437,8 +438,8 @@ const BusinessInfo: FC<general_type> = ({
 
   const fetchTownFromCity = async (cityAbbr: string) => {
     try {
-      const res = await axios({
-        url: `https://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${cityAbbr}`,
+      const res = await axios2({
+        url: `http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/ABK`,
         method: "GET",
         headers: {
           Accept: "text/plain",
@@ -446,7 +447,7 @@ const BusinessInfo: FC<general_type> = ({
             "nsZWdsi4hMDDfQmDTv3wCPCcSJloDA-SIyTzl1lcUP8xYJWgUdRN2hMYp-DU",
         },
       });
-
+      console.log("Fetched towns:", res.data);
       if (res.data && res.data.length > 0) {
         setTowns(res.data); // ✅ store full list
         setTown(""); // clear old selection
