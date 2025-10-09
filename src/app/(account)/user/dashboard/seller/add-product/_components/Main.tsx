@@ -149,7 +149,7 @@ const Main = () => {
         />
       )}
 
-      <div className="flex items-center justify-center pt-3 pb-40 gap-6 w-full">
+      {/* <div className="flex items-center justify-center pt-3 pb-40 gap-6 w-full">
         <button
           onClick={btnFunc.func}
           className="rounded-[12px] py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500"
@@ -168,7 +168,7 @@ const Main = () => {
             ""
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

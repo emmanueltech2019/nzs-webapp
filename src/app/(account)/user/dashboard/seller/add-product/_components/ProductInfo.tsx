@@ -334,6 +334,7 @@ const handleSelection = useCallback(
           onChange={(e) => setProductDescription(e.target.value)}
           required
           maxLength={500} 
+          minLength={50}
           className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
           placeholder="Description"
           rows={4}

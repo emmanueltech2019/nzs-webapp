@@ -7,12 +7,14 @@ import useForm from "@/hooks/useForm";
 // import { ProfileInfo } from './Main'
 import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
+import Circle from "@/components/Circle";
+import { Icon } from "@iconify/react"; // Check if this is a lighter import path
 
 const Pricing: FC<general_type> = ({
   setCount,
   setSection,
   handleBtnFunc,
-  setDisplayCircle,
+  // setDisplayCircle,
   setBtnText,
 }) => {
   const [price, setPrice] = useForm(0);
@@ -54,7 +56,8 @@ const Pricing: FC<general_type> = ({
       });
   };
   const earnAmount = price ? Number(price) - Number(price) * 0.07 : 0;
-
+  const [displayCircle, setDisplayCircle] = useState(true);
+  const [count, setCount2] = useState(25);
   useEffect(() => {
     setCount(75);
     handleBtnFunc(handleAPI);
@@ -73,6 +76,10 @@ const Pricing: FC<general_type> = ({
                     super-specific!
                 </p>
             </div>  */}
+             <form onSubmit={(e) => {
+    e.preventDefault();
+    handleAPI();
+  }}>
       <div className="pb-3">
         <input
           type="number"
@@ -116,6 +123,27 @@ const Pricing: FC<general_type> = ({
           Purchase Discount
         </span>
       </div>
+      <div className="flex items-center justify-center pt-3 pb-40 gap-6 w-full">
+                    <button
+                      type="submit"
+                      className="rounded-[12px] py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500"
+                    >
+                      {"NEXT"}
+                    </button>
+                    <div>
+                      {displayCircle ? (
+                        <Circle count={count} size={48}>
+                          <Icon
+                            icon="akar-icons:arrow-right"
+                            className="text-xl text-[--foreground-green] font-extrabold"
+                          ></Icon>
+                        </Circle>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </div>
+                  </form>
       {/* <ProfileInfo /> */}
     </div>
   );
