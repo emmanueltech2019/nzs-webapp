@@ -265,7 +265,7 @@ const ProductSpec: FC<ProductSpecProps> = ({
                 value={productData.quantity}
                 onChange={handleInputChange}
                 required
-                min={0.01}
+                min={1}
                 className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
                 placeholder="Enter minimum unit value"
               />
