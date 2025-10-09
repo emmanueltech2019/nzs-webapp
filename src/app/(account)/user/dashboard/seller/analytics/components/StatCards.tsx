@@ -13,7 +13,7 @@ const StatCards = () => {
             </p>
             <div className="px-[20px] py-4 bg-[#FFBB5B] rounded-lg">
               <span className="text-[#000000] text-[20px] font-semibold">
-                ₦14,032.56
+                ₦00,000.00
               </span>
             </div>
           </div>
@@ -39,7 +39,7 @@ const StatCards = () => {
             </p>
             <div className="px-[20px] pe-3 py-3 bg-[#EAF2FF] rounded-lg flex items-center justify-between">
               <span className="text-[#000000] text-[20px] font-semibold">
-                ₦7,532.21
+                ₦00,000.00
               </span>
               <div>
                 <div className="px-[15px] py-3 bg-[#FFBB5B] rounded-lg">

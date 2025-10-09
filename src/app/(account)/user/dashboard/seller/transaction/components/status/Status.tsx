@@ -94,28 +94,28 @@ const customersData = {
   "1D": [
     {
       name: "Kolawole Folarin",
-      amount: "₦590,000.24",
+      amount: "₦000,000.00",
       change: "+12%",
       image: "/customer1.png",
       changeColor: "text-[#77B900]",
     },
     {
       name: "Safiya Saidu",
-      amount: "₦250,000.24",
+      amount: "₦000,000.00",
       change: "+3%",
       image: "/customer2.png",
       changeColor: "text-[#77B900]",
     },
     {
       name: "Bolaji Ilesanmi",
-      amount: "₦110,000.24",
+      amount: "₦000,000.00",
       change: "+1%",
       image: "/customer3.png",
       changeColor: "text-[#77B900]",
     },
     {
       name: "Ikechukwu Oke",
-      amount: "₦103,000.24",
+      amount: "₦000,000.00",
       change: "+8%",
       image: "/customer4.png",
       changeColor: "text-[#77B900]",
@@ -198,7 +198,7 @@ const customersData = {
     },
     {
       name: "Tunde Babalola",
-      amount: "₦250,000.24",
+      amount: "₦000,000.00",
       change: "+4%",
       image: "/customer3.png",
       changeColor: "text-[#77B900]",

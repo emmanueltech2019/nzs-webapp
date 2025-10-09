@@ -60,6 +60,7 @@ const BusinessDescription: FC<general_type> = ({
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [uploadCount, setUploadCount] = useState(75);
+  const [count, setCount2] = useState(25);
 
   const [productTypeState, setProductTypeState] = useState(() =>
     initializeState(OPTIONS.productType)
@@ -248,9 +249,10 @@ const handleSelection = useCallback(
   }, [imagePreviews]); 
   useEffect(() => {
     setCount(25);
-    handleBtnFunc(() => handleAPI()); 
+    handleBtnFunc(handleAPI);
     return () => handleBtnFunc(() => console.log("default/cleanup"));
-  }, [handleAPI, setCount, handleBtnFunc]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const selectedCount = useMemo(() => {
     const productTypeCount = productTypeState.filter(({ state }) => state).length;
@@ -258,9 +260,14 @@ const handleSelection = useCallback(
     return { productTypeCount, colorCount };
   }, [productTypeState, colorState]);
 
+  const [displayCircle, setDisplayCircle] = useState(true);
 
   return (
     <div className="py-3 pb-5">
+      <form onSubmit={(e) => {
+    e.preventDefault();
+    handleAPI();
+  }}>
       <div className="bg-[#F8F9FE] p-4 rounded-lg my-[2rem]">
         <div className="bg-[#FFFFFF] p-4 flex gap-2 justify-center flex-wrap">
           {imagePreviews.length > 0 ? (
@@ -343,6 +350,7 @@ const handleSelection = useCallback(
           {productTypeState.map(({ item, state }) => (
             <button
               key={item}
+              type='button'
               className={`px-4 py-[6px] text-3 rounded-2xl ${
                 state
                   ? "bg-[--foreground-green] text-white"
@@ -368,6 +376,7 @@ const handleSelection = useCallback(
           {colorState.map(({ item, state }) => (
             <button
               key={item}
+              type="button"
               className={`px-4 py-[6px] text-3 rounded-2xl ${
                 state
                   ? "bg-[--foreground-green] text-white"
@@ -420,6 +429,27 @@ const handleSelection = useCallback(
           Processing... Please wait.
         </div>
       )}
+            <div className="flex items-center justify-center pt-3 pb-40 gap-6 w-full">
+        <button
+          type="submit"
+          className="rounded-[12px] py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500"
+        >
+          {"NEXT"}
+        </button>
+        <div>
+          {displayCircle ? (
+            <Circle count={count} size={48}>
+              <Icon
+                icon="akar-icons:arrow-right"
+                className="text-xl text-[--foreground-green] font-extrabold"
+              ></Icon>
+            </Circle>
+          ) : (
+            ""
+          )}
+        </div>
+      </div>
+      </form>
     </div>
   );
 };

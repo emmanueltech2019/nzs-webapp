@@ -59,10 +59,10 @@ import {
 // };
 
 const stats = [
-  { label: "High", value: "₦11,691.89" },
-  { label: "Prev Close (Yesterday)", value: "₦11,512.41" },
-  { label: "Low", value: "₦11,470.47" },
-  { label: "Open", value: "₦11,690.11" },
+  { label: "High", value: "₦00,000.00" },
+  { label: "Prev Close (Yesterday)", value: "00,000.00" },
+  { label: "Low", value: "₦00,000.00" },
+  { label: "Open", value: "₦00,000.00" },
 ];
 
 interface CustomTooltipProps {

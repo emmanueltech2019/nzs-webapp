@@ -648,6 +648,8 @@ const handleAgree = () => {
             icon: "success",
             title: "Thank You",
             text: "You have agreed to the terms and conditions.",
+            confirmButtonText: "Thank You",  // Custom button text
+            confirmButtonColor: "#16a34a",
           }).then(() => {
             // setBusinessVerified(true);
             // setPayForVerificationModal(false);
@@ -655,9 +657,10 @@ const handleAgree = () => {
           });
         } else {
           Swal.fire({
-            icon: "error",
+            icon: "warning",
             title: "Action Failed",
             text: res.data.message || "Please try again.",
+            confirmButtonColor: "#16a34a",
           });
         }
       })

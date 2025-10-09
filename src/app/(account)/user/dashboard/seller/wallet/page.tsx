@@ -31,7 +31,7 @@ const page = () => {
   const [wallet, setWallet] = useState<Wallet | null>(null);
   const [activeFilterTabProp, setActiveFilterTabProp] = useState('popular');
   const data = ['popular', 'not popular', 'location'];
-  const totalBalance = 9000
+  const totalBalance = 0
   useEffect(() => {
     if (!localStorage.getItem("userToken")) {
       console.error("User token is missing.");
@@ -70,23 +70,23 @@ const page = () => {
       });
   }, []);
 
-  const transactions = [
-    {
-      year: "2024",
-      month: "September",
-      data: [
-        { date: "30 Sep", description: "Product...", amount: 3000 },
-        { date: "30 Sep", description: "Product...", amount: 3000 },
-        { date: "30 Sep", description: "Product...", amount: 3000 },
-      ],
-    },
-    {
-      year: "Yesterday",
-      month: "",
-      data: [
-        { date: "30 Sep", description: "Product...", amount: 3000 },
-      ],
-    },
+  const transactions: Transaction[] = [
+    // {
+    //   year: "2024",
+    //   month: "September",
+    //   data: [
+    //     { date: "30 Sep", description: "Product...", amount: 3000 },
+    //     { date: "30 Sep", description: "Product...", amount: 3000 },
+    //     { date: "30 Sep", description: "Product...", amount: 3000 },
+    //   ],
+    // },
+    // {
+    //   year: "Yesterday",
+    //   month: "",
+    //   data: [
+    //     { date: "30 Sep", description: "Product...", amount: 3000 },
+    //   ],
+    // },
   ];
   return (
     <div className="p-4 md:w-[85%] m-auto">

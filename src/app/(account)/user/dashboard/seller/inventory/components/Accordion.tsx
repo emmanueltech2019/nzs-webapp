@@ -21,27 +21,27 @@ type accordionPropsTypes = {
 }
 
 const accordionObj: any = [
-  {
-    image: productImg,
-    productType: "Shoes",
-    description: "The perfect T-shirt for when you want to feel at ease but still stylish...",
-    arrival: "11 Hours",
+  // {
+  //   image: productImg,
+  //   productType: "Shoes",
+  //   description: "The perfect T-shirt for when you want to feel at ease but still stylish...",
+  //   arrival: "11 Hours",
 
-  },
-  {
-    image: productImg,
-    productType: "Shoes",
-    description: "The perfect T-shirt for when you want to feel at ease but still stylish...",
-    arrival: "11 Hours",
+  // },
+  // {
+  //   image: productImg,
+  //   productType: "Shoes",
+  //   description: "The perfect T-shirt for when you want to feel at ease but still stylish...",
+  //   arrival: "11 Hours",
 
-  },
-  {
-    image: productImg,
-    productType: "Shoes",
-    description: "The perfect T-shirt for when you want to feel at ease but still stylish...",
-    arrival: "11 Hours",
+  // },
+  // {
+  //   image: productImg,
+  //   productType: "Shoes",
+  //   description: "The perfect T-shirt for when you want to feel at ease but still stylish...",
+  //   arrival: "11 Hours",
 
-  },
+  // },
 ]
 
 const SellerAccordion: FC<accordionPropsTypes> = ({ status, style, imgRepStyle, imgStyle }) => {

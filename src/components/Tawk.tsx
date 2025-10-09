@@ -6,7 +6,7 @@ const TawkToChat = () => {
     if (window.Tawk_API) return; // Prevents duplicate script loading
 
     const script = document.createElement("script");
-    script.src = "https://embed.tawk.to/67a5ba8c825083258e117a21/1ijfm1dos";
+    script.src = "https://embed.tawk.to/68e68ed64bafb119539d83e2/1j729ruhq";
     script.async = true;
     script.charset = "UTF-8";
     script.setAttribute("crossorigin", "*");

@@ -57,7 +57,7 @@
 //           const { access_code, authorization_url } = res.data.data;
 //           if (typeof window !== "undefined" && window.PaystackPop) {
 //             const handler = window.PaystackPop.setup({
-//               key: "pk_test_7e949957b4cd3245c97c27433fef90679cca3479", // Replace with your Paystack public key
+//               key: "pk_live_9bf26ea7f2189fc4f65b275add8e00fa26baa946", // Replace with your Paystack public key
 //               email: res.data.user.email,
 //               amount: Math.round(res.data.total * 100),
 //               currency: "NGN",
@@ -384,7 +384,7 @@ const PaymentComponent = () => {
           // Ensure window and PaystackPop are defined
           if (typeof window !== "undefined" && window.PaystackPop) {
             const handler = window.PaystackPop.setup({
-              key: "pk_test_7e949957b4cd3245c97c27433fef90679cca3479", // Replace with your Paystack public key
+              key: "pk_live_9bf26ea7f2189fc4f65b275add8e00fa26baa946", // Replace with your Paystack public key
               email: res.data.user.email,
               amount: Math.round(res.data.total * 100),
               currency: "NGN",

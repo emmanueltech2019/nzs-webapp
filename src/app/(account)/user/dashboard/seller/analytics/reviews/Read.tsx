@@ -19,14 +19,24 @@ interface Counts {
   likes: number;
   comments: number;
 }
-
+interface Review {
+  productImage: string;
+  title: string;
+  price: string;
+  userProfile: string;
+  username: string;
+  rating: string;
+  time: string;
+  review: string;
+}
 const Read: React.FC = () => {
   const [commentCount, setCommentCount] = useState(0);
   const [viewComments, setViewComments] = useState<{ [key: number]: boolean }>(
     {}
   );
+const reviews: Review[] = []
 
-  const reviews = [
+  const reviews2 = [
     {
       id: 1,
       productImage: img1,

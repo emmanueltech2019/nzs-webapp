@@ -278,7 +278,7 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                       />
                     </span>
                   )}
-                  <Button variant="outlined" color="inherit">
+                  <Button variant="outlined" color="inherit" onClick={() => showToast("warning", "Feature coming soon!")}>
                     Upgrade
                   </Button>
                 </p>

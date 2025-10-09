@@ -52,8 +52,8 @@ const Summary: React.FC<SummaryProps> = ({
 
 
   const timeStats = [
-    { label: "Summary Time", value: "05:16 PM" },
-    { label: "Summary Date", value: "01/27/23" },
+    { label: "Summary Time", value: "00:00 PM" },
+    { label: "Summary Date", value: "00/00/00" },
   ];
   return (
     <div className="font-sans">
