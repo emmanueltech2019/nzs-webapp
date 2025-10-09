@@ -19,7 +19,11 @@ interface Transaction {
   description: string;
   amount: number;
 }
-
+interface TransactionGroup {
+  year: string;
+  month: string;
+  data: Transaction[];
+}
 interface Wallet {
   balance: number;
   transactions: Transaction[];
@@ -70,23 +74,8 @@ const page = () => {
       });
   }, []);
 
-  const transactions: Transaction[] = [
-    // {
-    //   year: "2024",
-    //   month: "September",
-    //   data: [
-    //     { date: "30 Sep", description: "Product...", amount: 3000 },
-    //     { date: "30 Sep", description: "Product...", amount: 3000 },
-    //     { date: "30 Sep", description: "Product...", amount: 3000 },
-    //   ],
-    // },
-    // {
-    //   year: "Yesterday",
-    //   month: "",
-    //   data: [
-    //     { date: "30 Sep", description: "Product...", amount: 3000 },
-    //   ],
-    // },
+  const transactions: TransactionGroup[] = [
+
   ];
   return (
     <div className="p-4 md:w-[85%] m-auto">
