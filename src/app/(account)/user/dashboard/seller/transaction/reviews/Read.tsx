@@ -28,6 +28,7 @@ interface Review {
   rating: string;
   time: string;
   review: string;
+  id: number
 }
 
 const Read: React.FC = () => {
