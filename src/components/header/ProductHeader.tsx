@@ -60,13 +60,13 @@ const Header: FC = () => {
             setBusiness(businessRes.data.business);
           }
         } else {
-          const cartRes = await axios.get<{ cart: { items: any[] } }>(
-            "/cart",
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-          setCartLength(cartRes.data.cart.items.length);
+          
+          const cartRes = await axios.get<{ cart: { items: any[] } }>("/cart", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const items = cartRes.data?.cart?.items ?? [];
+        setCartLength(items.length);
+          // setCartLength(cartRes.data.cart.items.length);
         }
       } catch (error) {
         console.error("Error fetching header data:", error);

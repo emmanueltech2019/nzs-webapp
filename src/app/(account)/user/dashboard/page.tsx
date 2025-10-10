@@ -17,6 +17,7 @@ import Banner3 from '../../../../assets/images/banner-img/banner-img-3.jpg'
 import Banner4 from '../../../../assets/images/banner-img/banner-img-4.jpg'
 import Swal from "sweetalert2";
 import CircleLoader from "@/components/loader/loader";
+import CountdownModal from "@/components/modals/countDown";
 
 // const compareDate = (newProducts: string) => {
 //   const DIFFERENCE_IN_DAYS = 7;
@@ -38,6 +39,7 @@ const compareDate = (dateString?: string) => {
 const Dashboard = () => {
   const [products, setProducts] = useState<ProductT[]>([]); // useState expects an array of Product
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(true);
 
   useEffect(() => {
     setLoading(true)
@@ -52,12 +54,13 @@ const Dashboard = () => {
       },
     })
       .then((res) => {
-        console.log("res gtff", res);
-        const slicedProducts = res.data.slice(0, 5)
-        setProducts(res.data);  // Set the products once
+        console.log("res gtff", res.data);
+        // const slicedProducts = res.data.slice(0, 5)
+        setProducts(res.data.products);  // Set the products once
         setLoading(false)
       })
       .catch((error) => {
+        console.log(error)
         if(error.response.data.message==="Unauthorized access"){
           Swal.fire({
             title: "Session Expired",
@@ -91,6 +94,8 @@ const newArrivals = products.filter(p => compareDate(p.createdAt)).slice(0, 3);
   return (
     <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen">
+          <CountdownModal isOpen={open} onClose={() => setOpen(false)} />
+
       {/*  md:w-[61vw]  */}
       {
         loading ? <CircleLoader isVisible={loading} />:<div className="md:max-w-[85%] mx-auto">
