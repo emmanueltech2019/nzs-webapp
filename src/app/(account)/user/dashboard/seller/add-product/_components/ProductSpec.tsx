@@ -58,7 +58,7 @@ const QUALITY_TYPES: Readonly<string[]> = Object.keys(QUANTITY_UNITS_MAP);
 interface ProductSpecProps extends general_type {}
 
 const ProductSpec: FC<ProductSpecProps> = ({
-  // handleBtnFunc,
+  handleBtnFunc,
   setCount,
   setSection,
 }) => {

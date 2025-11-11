@@ -86,8 +86,8 @@ const Main = () => {
   const [btnFunc, setBtnFunc] = useState({
     func: () => console.log("default"),
   });
-  // const handleBtnFunc = (param: (...args: any[]) => any) =>
-  //   setBtnFunc({ func: param });
+  const handleBtnFunc = (param: (...args: any[]) => any) =>
+    setBtnFunc({ func: param });
   const [displayCircle, setDisplayCircle] = useState(true);
   const [btnText, setBtnText] = useState("");
 
@@ -128,21 +128,21 @@ const Main = () => {
       {section === 1 && (
         <ProductInfo
           setCount={setCount}
-          // handleBtnFunc={handleBtnFunc}
+          handleBtnFunc={handleBtnFunc}
           setSection={setSection}
         />
       )}
       {section === 2 && (
         <ProductSpec
           setCount={setCount}
-          // handleBtnFunc={handleBtnFunc}
+          handleBtnFunc={handleBtnFunc}
           setSection={setSection}
         />
       )}
       {section === 3 && (
         <Pricing
           setCount={setCount}
-          // handleBtnFunc={handleBtnFunc}
+          handleBtnFunc={handleBtnFunc}
           setSection={setSection}
           setDisplayCircle={setDisplayCircle}
           setBtnText={setBtnText}

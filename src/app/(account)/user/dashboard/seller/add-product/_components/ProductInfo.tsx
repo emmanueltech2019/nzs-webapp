@@ -795,7 +795,7 @@ function getTextColor(hex: string): string {
 }
 
 const BusinessDescription: FC<general_type> = ({
-  // handleBtnFunc,
+  handleBtnFunc,
   setCount,
   setSection,
 }) => {

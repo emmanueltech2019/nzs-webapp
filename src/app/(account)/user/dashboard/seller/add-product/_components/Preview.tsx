@@ -21,7 +21,7 @@ const Preview: FC<general_type> = ({
 
     const data = JSON.parse(localStorage.getItem("productFormData") || "{}");
     setCount(75);
-    handleBtnFunc(handleConfirm);
+    // handleBtnFunc(handleConfirm);
     return () => {
       handleBtnFunc(() => console.log("default"));
     };
