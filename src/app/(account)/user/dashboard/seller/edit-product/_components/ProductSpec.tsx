@@ -573,7 +573,7 @@
 // export default ProductSpec;
 "use client";
 
-import { FC, useEffect, useState, useMemo, useCallback } from "react";
+import { FC, useEffect, useState, useMemo, useCallback, Suspense } from "react";
 import general_type from "./general.types";
 import { useSearchParams } from "next/navigation";
 import useForm from "@/hooks/useForm";
@@ -745,6 +745,8 @@ useEffect(() => {
     }`;
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
+
     <div className="py-3">
       <form
         onSubmit={(e) => {
@@ -882,6 +884,7 @@ useEffect(() => {
         </div>
       </form>
     </div>
+    </Suspense>
   );
 };
 

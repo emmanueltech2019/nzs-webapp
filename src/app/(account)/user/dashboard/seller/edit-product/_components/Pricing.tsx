@@ -94,7 +94,7 @@
 // };
 
 // export default Pricing;
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, Suspense, useEffect, useState } from "react";
 import openSansFont from "@/fonts/OpenSans";
 import general_type from "./general.types";
 import useForm from "@/hooks/useForm";
@@ -185,6 +185,8 @@ const handleDiscountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   };
   // }, [productId]); 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
+
     <div className="py-3">
       <form onSubmit={handleAPI}> 
         <div className="pb-3">
@@ -254,6 +256,7 @@ const handleDiscountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         </div>
       </form>
     </div>
+    </Suspense>
   );
 };
 

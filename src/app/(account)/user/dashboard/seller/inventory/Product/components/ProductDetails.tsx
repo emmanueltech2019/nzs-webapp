@@ -1,7 +1,7 @@
 "use client";
 import CarouselEmbla from "@/components/carousel/Carousel";
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
+import { FC, Suspense, useEffect, useState } from "react";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "@/utils/axios";
@@ -156,7 +156,7 @@ const ProductScreen: FC = () => {
   }, []);
 
   return (
-    <>{loading?<CircleLoader isVisible={loading} />:<div className=" p-4  mx-auto bg-white rounded-lg mb-20 md:mb-0">
+    <Suspense fallback={<div>Loading...</div>}>{loading?<CircleLoader isVisible={loading} />:<div className=" p-4  mx-auto bg-white rounded-lg mb-20 md:mb-0">
       {/* Close button */}
       {/* <button className="top-4 left-4 text-2xl z-10 text-[60px]">&times;</button> */}
       <div className="flex justify-between">
@@ -229,7 +229,7 @@ const ProductScreen: FC = () => {
         + Add to Basket
       </button> */}
     </div>}
-    </>
+    </Suspense>
     
   );
 };

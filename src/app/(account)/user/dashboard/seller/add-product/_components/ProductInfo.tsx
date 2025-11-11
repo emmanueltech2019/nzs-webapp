@@ -1230,4 +1230,5 @@ setColorState((prev) =>
   );
 };
 
+
 export default BusinessDescription;
