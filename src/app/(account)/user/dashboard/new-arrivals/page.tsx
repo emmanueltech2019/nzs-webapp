@@ -36,7 +36,7 @@ const page = () => {
           .then((res) => {
             console.log("res gtff", res);
             setLoading(false)
-            setProducts(res.data);  // Set the products once
+            setProducts(res.data.products);  // Set the products once
           })
           .catch((error) => {
              if(error.response.data.message==="Unauthorized access"){
@@ -57,7 +57,7 @@ const page = () => {
         // Add an empty dependency array to ensure the effect only runs once
       }, []);  // No products dependency here
       
-      const newArrivals = products.filter(products => compareDate(products.createdAt))
+      const newArrivals = products.filter(productSingle => compareDate(productSingle.createdAt))
   return (
     <div className='px-5'>
       <Header/>

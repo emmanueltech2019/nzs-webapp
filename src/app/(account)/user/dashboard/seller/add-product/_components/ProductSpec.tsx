@@ -9,6 +9,7 @@ import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
 import Circle from "@/components/Circle";
 import { Icon } from "@iconify/react"; // Check if this is a lighter import path
+import { read } from "fs";
 
 // 1. PERFORMANCE: Use a single, consolidated mapping for units
 // This reduces initial state definition and allows for dynamic updates.
@@ -52,28 +53,26 @@ const QUANTITY_UNITS_MAP: Readonly<Record<string, string[]>> = {
   OTHER: ["CUSTOM UNIT"],
 };
 
-// 2. PERFORMANCE: Define QualityTypeState as a constant array of strings for simplicity
-// State logic will be handled by tracking only the selected string item.
 const QUALITY_TYPES: Readonly<string[]> = Object.keys(QUANTITY_UNITS_MAP);
 
 interface ProductSpecProps extends general_type {}
 
 const ProductSpec: FC<ProductSpecProps> = ({
-  handleBtnFunc,
+  // handleBtnFunc,
   setCount,
   setSection,
 }) => {
-  // 3. PERFORMANCE: Consolidate related states for less overhead
   const [productData, setProductData] = useState({
     quantity: "", // Minimum Unit Amount (was 'unit' in original)
     totalStock: 1, // Total Quantity (was 'quantity' in original)
     isReadyForPickUp: "available", // New field for availability status
+    weight: 1, // New field for weight
   });
   const [selectedQualityType, setSelectedQualityType] = useState<string | null>(
     null
   );
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
-
+  // const [weight, setWeight] = useState<number>(1); // New state for weight
   // Unchanged state variables (useForm and useToggle are custom hooks)
   const [registeredBusinessName] = useForm("");
   const [description] = useForm("");
@@ -148,7 +147,14 @@ const ProductSpec: FC<ProductSpecProps> = ({
     if (!productId || !token) {
       return showToast("error", "Authentication error or product ID missing.");
     }
-
+    console.log("Submitting quantity info:", {
+      quantityType: selectedQualityType,
+      quantityUnit: selectedUnit,
+      quantity: quantityValue,
+      totalStock: totalStockValue,
+      weight: productData.weight,
+      readyForPickUp: productData.isReadyForPickUp,
+    });
     try {
       const res = await axios({
         method: "PUT",
@@ -159,6 +165,9 @@ const ProductSpec: FC<ProductSpecProps> = ({
           // Use validated and parsed values
           quantity: quantityValue,
           totalStock: totalStockValue,
+          weight: productData.weight,
+          readyForPickUp: productData.isReadyForPickUp,
+
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -179,14 +188,14 @@ const ProductSpec: FC<ProductSpecProps> = ({
   }, [selectedQualityType, selectedUnit, productData, setSection]);
 
   // 10. PERFORMANCE: Optimized useEffect dependency array
-  useEffect(() => {
-    setCount(50);
-    // handleBtnFunc is set to the memoized handleAPI function
-    handleBtnFunc(handleAPI);
-    return () => {
-      handleBtnFunc(() => console.log("default"));
-    };
-  }, [handleAPI, setCount, handleBtnFunc]); // Removed unnecessary dependencies
+  // useEffect(() => {
+  //   setCount(50);
+  //   // handleBtnFunc is set to the memoized handleAPI function
+  //   handleBtnFunc(handleAPI);
+  //   return () => {
+  //     handleBtnFunc(() => console.log("default"));
+  //   };
+  // }, [handleAPI, setCount, handleBtnFunc]); // Removed unnecessary dependencies
 
   // 11. Readability/Performance: Helper function for button class logic
   const getButtonClass = (isActive: boolean) =>
@@ -270,10 +279,25 @@ const ProductSpec: FC<ProductSpecProps> = ({
                 placeholder="Enter minimum unit value"
               />
               <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>
-                Minimum Unit Amount ({selectedUnit})
+                Minimum Unit Amount (this is the smallest saleable unit for your store)
               </p>
             </div>
           )}
+          <div className="py-5">
+              <input
+                type="number"
+                name="weight"
+                value={productData.weight}
+                onChange={handleInputChange}
+                required
+                min={1}
+                className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+                placeholder="Enter minimum unit value"
+              />
+              <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>
+                Weight per item (KG) <span className="text-[10px] text-red-300">this is the delivery weight</span>
+              </p>
+            </div>
           <div className="pb-3">
             <label>Is this product ready to immediate shipping? </label>
             <select

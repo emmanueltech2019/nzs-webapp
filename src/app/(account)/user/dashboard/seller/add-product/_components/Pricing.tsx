@@ -13,7 +13,7 @@ import { Icon } from "@iconify/react"; // Check if this is a lighter import path
 const Pricing: FC<general_type> = ({
   setCount,
   setSection,
-  handleBtnFunc,
+  // handleBtnFunc,
   // setDisplayCircle,
   setBtnText,
 }) => {
@@ -58,15 +58,15 @@ const Pricing: FC<general_type> = ({
   const earnAmount = price ? Number(price) - Number(price) * 0.07 : 0;
   const [displayCircle, setDisplayCircle] = useState(true);
   const [count, setCount2] = useState(25);
-  useEffect(() => {
-    setCount(75);
-    handleBtnFunc(handleAPI);
-    if (setDisplayCircle) setDisplayCircle(false);
-    if (setBtnText) setBtnText("CONFIRM");
-    return () => {
-      handleBtnFunc(() => console.log("default"));
-    };
-  });
+  // useEffect(() => {
+  //   setCount(75);
+  //   // handleBtnFunc(handleAPI);
+  //   if (setDisplayCircle) setDisplayCircle(false);
+  //   if (setBtnText) setBtnText("CONFIRM");
+  //   return () => {
+  //     handleBtnFunc(() => console.log("default"));
+  //   };
+  // });
   return (
     <div className="py-3">
       {/* <div className="py-5">

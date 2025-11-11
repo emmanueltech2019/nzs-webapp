@@ -28,7 +28,7 @@ const page = () => {
       .then((res) => {
         setLoading(false);
         console.log("res gtff", res);
-        setProducts(res.data); // Set the products once
+        setProducts(res.data.products); // Set the products once
       })
       .catch((error) => {
         if (error.response.data.message === "Unauthorized access") {

@@ -167,6 +167,8 @@
 import { showToast } from "@/utils/alert";
 import React, { useEffect, useState } from "react";
 import axios from "@/utils/axios";
+import Earth from "@/assets/images/earth.png"
+import Image from "next/image";
 let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
 interface City {
   id: number;
@@ -187,6 +189,8 @@ interface FormData {
   state: string;
   zip: string;
   town: string;
+  townId: string;
+  cityName: string;
 }
 
 interface AddressModalProps {
@@ -200,6 +204,8 @@ const AddressModal: React.FC<AddressModalProps> = ({ onClose }) => {
     state: "",
     zip: "",
     town: "",
+    townId: "",
+    cityName: "",
   });
 
   const [cities, setCities] = useState<City[]>([]);
@@ -210,7 +216,7 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://redspeedopenapi.redstarplc.com/api/Operations/Cities",
+      url: "http://redspeedopenapi.redstarplc.com/api/Operations/Cities",
       headers: {
         Accept: "text/plain",
         "X-API-KEY":REDSTAR_API_KEY,
@@ -228,7 +234,7 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
     setLoadingTowns(true);
     axios({
       method: "GET",
-      url: `https://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${formData.city}`,
+      url: `http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${formData.city}`,
       headers: {
         Accept: "text/plain",
         "X-API-KEY":REDSTAR_API_KEY,
@@ -244,18 +250,48 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
       });
   }, [formData.city]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
+  // const handleChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  // ) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [name]: value,
+  //   }));
+  // };
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+) => {
+  const { name, value } = e.target;
+
+  if (name === "town") {
+    // Find the selected town object
+    const selectedTown = towns.find((town) => town.abbr === value);
+    setFormData((prevData) => ({
+      ...prevData,
+      town: value,
+      townId: selectedTown ? `${selectedTown.cityId}` : "",
+    }));
+  } else if (name === "city") {
+    // Find selected city object
+    const selectedCity = cities.find((city) => city.abbr === value);
+    setFormData((prevData) => ({
+      ...prevData,
+      city: value,
+      cityName: selectedCity ? selectedCity.name : "",
+      town: "",     // reset town when city changes
+      townId: "",   // reset townId when city changes
+    }));
+  } else {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  };
-
+  }
+};
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(formData)
     axios({
       method: "POST",
       url: "users/addaddress",
@@ -275,7 +311,12 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
 
   return (
     <div className="fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[400px]">
+      <div className="flex  w-[90%] md:w-[80vw] bg-white p-6 rounded-lg shadow-lg">
+      <div className="bg-[#006838] md:w-[40vw] w-2">
+        <Image src={Earth} alt='' 
+    className="object-fill"/>
+      </div>
+      <div className="md:w-[40vw] w-full pl-10">
         <h2 className="text-lg font-bold mb-4 text-gray-800">
           Enter Your Address
         </h2>
@@ -334,6 +375,7 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
             <select
               id="town"
               name="town"
+              required
               value={formData.town}
               onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
@@ -396,7 +438,7 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
           <div className="flex justify-end">
             <button
               type="submit"
-              className="px-4 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              className="px-4 py-2 bg-[#006838] text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
             >
               Submit
             </button>
@@ -409,6 +451,7 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
             </button>
           </div>
         </form>
+      </div>
       </div>
     </div>
   );

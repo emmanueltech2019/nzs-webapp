@@ -3,7 +3,7 @@ import TagHeader from "@/components/header/TagHeader";
 import openSansFont from "@/fonts/OpenSans";
 import useToggle from "@/hooks/useToggle";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Circle from "@/components/Circle";
 import ProductInfo from "./ProductInfo";
 import ProductSpec from "./ProductSpec";
@@ -86,8 +86,8 @@ const Main = () => {
   const [btnFunc, setBtnFunc] = useState({
     func: () => console.log("default"),
   });
-  const handleBtnFunc = (param: (...args: any[]) => any) =>
-    setBtnFunc({ func: param });
+  // const handleBtnFunc = (param: (...args: any[]) => any) =>
+  //   setBtnFunc({ func: param });
   const [displayCircle, setDisplayCircle] = useState(true);
   const [btnText, setBtnText] = useState("");
 
@@ -128,28 +128,28 @@ const Main = () => {
       {section === 1 && (
         <ProductInfo
           setCount={setCount}
-          handleBtnFunc={handleBtnFunc}
+          // handleBtnFunc={handleBtnFunc}
           setSection={setSection}
         />
       )}
       {section === 2 && (
         <ProductSpec
           setCount={setCount}
-          handleBtnFunc={handleBtnFunc}
+          // handleBtnFunc={handleBtnFunc}
           setSection={setSection}
         />
       )}
       {section === 3 && (
         <Pricing
           setCount={setCount}
-          handleBtnFunc={handleBtnFunc}
+          // handleBtnFunc={handleBtnFunc}
           setSection={setSection}
           setDisplayCircle={setDisplayCircle}
           setBtnText={setBtnText}
         />
       )}
 
-      <div className="flex items-center justify-center pt-3 pb-40 gap-6 w-full">
+      {/* <div className="flex items-center justify-center pt-3 pb-40 gap-6 w-full">
         <button
           onClick={btnFunc.func}
           className="rounded-[12px] py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500"
@@ -168,15 +168,9 @@ const Main = () => {
             ""
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
 
-const page = () => (
-  <Suspense fallback={<div>loading...</div>}>
-    <Main />
-  </Suspense>
-)
-
-export default page;
+export default Main;

@@ -4,10 +4,8 @@ import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
 import useToggle from '@/hooks/useToggle'
 import Accordion from './Accordion'
-import { ProfileInfo } from './Main'
 import interFont from '@/fonts/Inter'
 import openSansFont from '@/fonts/OpenSans'
-import { useRouter } from "next/navigation";
 import general_type from './general.types';
 
 const sectorList = [
@@ -33,7 +31,6 @@ const sectorCategories: Record<string, { item: string; state: boolean }[]> = {
     { item: 'Kids & Baby Products', state: false },
     { item: 'Miscellaneous / General Store', state: false },
   ],
-  // ... rest of the categories
 };
 
 interface BusinessDescriptionProps extends general_type {
