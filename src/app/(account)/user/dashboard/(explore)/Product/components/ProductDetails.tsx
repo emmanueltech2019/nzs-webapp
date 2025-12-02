@@ -57,7 +57,7 @@ const ProductScreen: FC = () => {
           },
         })
           .then((cartRes) => {
-            setCartLength(cartRes.data.cart.items.length);
+            // setCartLength(cartRes.data.cart.items.length);
           })
           .catch((error) => {
             if (error.response.data.message === "Unauthorized access") {

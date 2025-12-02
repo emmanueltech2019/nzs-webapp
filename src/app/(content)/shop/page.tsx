@@ -5,6 +5,7 @@ import OurTeam from './_components/OurTeam'
 import Footer from '@/components/Footer'
 import OurPartners from './_components/OurPartners'
 import CorePrinciples from './_components/CorePrinciples'
+import ProductsView from "@/components/Counter";
 
 export const metadata: Metadata = {
   title: "NaijaZone | About",
@@ -15,10 +16,10 @@ export default function page() {
   return (
     <div>
         <About />
-        {/* <Counter /> */}
-        <OurTeam />
+        <ProductsView />
+        {/* <OurTeam />
         <OurPartners />
-        <CorePrinciples />
+        <CorePrinciples /> */}
         <Footer />
     </div>
   )

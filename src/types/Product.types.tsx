@@ -12,6 +12,12 @@
 //     price: number;
 //     _id: string;
 //   }
+export type LocalCartItem = {
+  productId: string;
+  quantity: number;
+  color: string;
+  size: string;
+};
 export interface ProductT {
   _id: string;
   name: string;
@@ -28,7 +34,16 @@ export interface ProductT {
   stockSold?:number;
   // stockSold:number
 }
-
+export type DisplayCartItem = LocalCartItem & ProductT;
+export type CartDrawerProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  cartItems: DisplayCartItem[];
+  imageUrl?: string;
+  // New props for cart management
+  updateItemQuantity: (productId: string,  size: string, newQuantity: number) => void;
+  removeItem: (productId: string, size: string) => void;
+};
 export interface quantityInfo {
   quantity: number;
   quantityType: string;

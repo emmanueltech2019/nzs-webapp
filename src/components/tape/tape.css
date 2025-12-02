@@ -1,0 +1,31 @@
+.tape-container {
+  width: 100%;
+  overflow: hidden;
+  background: #c0e6d5;
+  padding: 12px 0;
+  white-space: nowrap;
+}
+
+.tape-track {
+  display: inline-flex;
+  gap: 40px;
+  animation: ticker 15s linear infinite;
+}
+
+.tape-item {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0f6939;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Infinite scrolling animation */
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

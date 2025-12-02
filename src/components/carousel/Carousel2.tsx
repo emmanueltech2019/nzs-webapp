@@ -99,7 +99,7 @@ const CarouselEmbla: FC<CarouselProps> = ({ images }) => {
   };
 
   return (
-    <div className="relative w-full h-[350px] overflow-hidden">
+    <div className="relative w-full md:h-[400px] h-[150px] overflow-hidden">
       {/* Display images and transition between them */}
       {images.map((image, index) => (
         <div

@@ -21,7 +21,7 @@ const OurTeam = () => {
                     <p className="mb-11">Naijazone is a proudly Nigerian-owned company, born out of a deep understanding of the unique challenges and opportunities within our market.</p>
                     <div className="team-images max-h-10 flex gap-2 mb-7 items-center">
                         <div className="team-img">
-                            <Image src={"https://res.cloudinary.com/dq8f0jdgt/image/upload/v1764162326/IMG_3244_ionxl5.jpg"} alt="" width={20} height={20} className="w-full object-cover rounded-full" />
+                            <Image src={a1} alt="" className="w-full object-cover" />
                         </div>
                         <div className="flex h-8 items-center gap-2 relative">
                             <div className="team-img opacity-50">

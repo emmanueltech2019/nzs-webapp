@@ -35,11 +35,10 @@ const CorePrinciples = () => {
                                 </div>
                             </div>
                             <div className="col">
-                                <h2 className={`card-title ${card1Title}`}>Connect:</h2>
-                                <ul role="list" className="marker:text-[#8D8D8D] list-none ">
+                                <h2 className={`card-title ${card1Title}`}>Efficiency:</h2>
+                                <ul role="list" className="marker:text-[#8D8D8D] list-disc pl-3 md:pl-5">
                                     <li className={`card-text ${card1Text}`}>
-                                        We bridge the divide between Nigerian businesses (big and small) and customers who want genuine, local goods.
-                                         {/* <Link href={'/'} className="text-[#058E6E]">read more</Link> */}
+                                        Streamlined processes that save resources for merchants and consumers.... <Link href={'/'} className="text-[#058E6E]">read more</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -52,11 +51,10 @@ const CorePrinciples = () => {
                                 </div>
                             </div>
                             <div className="col">
-                                <h2 className={`card-title ${card1Title}`}>Empower:</h2>
-                                <ul role="list" className="marker:text-[#8D8D8D] list-none ">
+                                <h2 className={`card-title ${card1Title}`}>Reliability:</h2>
+                                <ul role="list" className="marker:text-[#8D8D8D] list-disc pl-3 md:pl-5">
                                     <li className={`card-text ${card1Text}`}>
-                                        By giving local merchants tools to grow — from order management to analytics — we help them build sustainable, scalable businesses.
- {/* <Link href={'/'} className="text-[#058E6E]">read more</Link> */}
+                                        Product sales to delivery tracking, must be dependable and accurate.... <Link href={'/'} className="text-[#058E6E]">read more</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -69,11 +67,10 @@ const CorePrinciples = () => {
                                 </div>
                             </div>
                             <div className="col">
-                                <h2 className={`card-title ${card1Title}`}>Trust:</h2>
-                                <ul role="list" className="marker:text-[#8D8D8D] list-none ">
+                                <h2 className={`card-title ${card1Title}`}>Customer-Centricity:</h2>
+                                <ul role="list" className="marker:text-[#8D8D8D] list-disc pl-3 md:pl-5">
                                     <li className={`card-text ${card1Text}`}>
-                                        Every transaction is protected with a secure payment system, and our logistics platform gives real-time tracking so both buyers and sellers always know where their goods are.
- {/* <Link href={'/'} className="text-[#058E6E]">read more</Link> */}
+                                        Users are at the heart of everything we do. We are dedicated to  their needs ...  <Link href={'/'} className="text-[#058E6E]">read more</Link>
                                     </li>
                                 </ul>
                             </div>
