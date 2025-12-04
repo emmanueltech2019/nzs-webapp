@@ -4,6 +4,7 @@ import Contact from "./_components/Contact"
 import Footer from "@/components/Footer"
 import ContactDetails from "./_components/ContactDetails"
 import ContactMap from "./_components/ContactMap"
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "NaijaZone | Contact",
@@ -12,12 +13,12 @@ export const metadata: Metadata = {
 
 export default function page() {
   return (
-    <div>
+     <Suspense fallback={<div>Loading...</div>}>
         <Contact />
         <Counter />
         <ContactDetails />
         <ContactMap />
         <Footer />
-    </div>
+    </Suspense>
   )
 }

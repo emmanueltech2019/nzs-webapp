@@ -4,6 +4,7 @@ import Pricing from "./_components/Pricing";
 import FeaturesCard from "@/components/cards/FeaturesCard";
 import Footer from "@/components/Footer";
 import Details from "./_components/Details";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "NaijaZone | BIlling",
@@ -12,12 +13,14 @@ export const metadata: Metadata = {
 
 export default function page() {
   return (
-    <div className="Billing-Page">
-        <Pricing />
-        <Counter />
-        <Details />
-        <FeaturesCard shadow />
-        <Footer />
-    </div>
+     <Suspense fallback={<div>Loading...</div>}>
+        <div className="Billing-Page">
+            <Pricing />
+            <Counter />
+            <Details />
+            <FeaturesCard shadow />
+            <Footer />
+        </div>
+     </Suspense>
   )
 }
