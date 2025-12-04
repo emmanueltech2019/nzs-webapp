@@ -13,7 +13,7 @@ const OurTeam = () => {
             <div className="our-team-section flex items-center flex-col lg:flex-row">
                 <div className="col flex-1">
                     <div className="our-team-image">
-                        <Image src={ourTeamImg} alt="our-team-image" className="object-cover w-full" />
+                        <Image src={"https://res.cloudinary.com/dq8f0jdgt/image/upload/v1764866048/Group_1000002332_kqjgwv.svg"} alt="our-team-image" className="object-cover w-full" />
                     </div>
                 </div>
                 <div className="col flex-1 px-[--padding-x] lg:pl-0">
@@ -38,7 +38,7 @@ const OurTeam = () => {
                             </div>
                         </div>
                     </div>
-                    <h3 className="pb-7"><span className="font-semibold">Chioma Millian Nsofor  -</span> chief Executive Officer</h3>
+                    <h3 className="pb-7"><span className="font-semibold">Chioma Millian Nsofor  -</span> Co Founder</h3>
                     <p className="pb-5 lg:pb-0">With over a decade of experience in e-commerce and logistics, I founded Naijazone with a vision to revolutionize the way businesses and consumers interact in Nigeria. </p>
                 </div>
             </div>

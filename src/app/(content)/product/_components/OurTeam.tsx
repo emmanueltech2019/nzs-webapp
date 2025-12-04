@@ -38,7 +38,7 @@ const OurTeam = () => {
                             </div>
                         </div>
                     </div>
-                    <h3 className="pb-7"><span className="font-semibold">Chioma Millian Nsofor  -</span> chief Executive Officer</h3>
+                    <h3 className="pb-7"><span className="font-semibold">Chioma Millian Nsofor  -</span> Co Founder</h3>
                     <p className="pb-5 lg:pb-0">With over a decade of experience in e-commerce and logistics, I founded Naijazone with a vision to revolutionize the way businesses and consumers interact in Nigeria. </p>
                 </div>
             </div>
