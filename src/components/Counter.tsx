@@ -194,6 +194,8 @@ import CartDrawer from "./cartdrawer/CartDrawer";
 
 // Icons
 import { FaSearch } from "react-icons/fa"; // Make sure you have react-icons installed
+import { useLocalCart } from "@/hooks/useLocalCart";
+import { useCartData } from "@/hooks/useCartData";
 
 const compareDate = (dateString?: string) => {
   if (!dateString) return false;
@@ -211,7 +213,8 @@ const compareDate = (dateString?: string) => {
 const ProductsView = () => {
   const [products, setProducts] = useState<ProductT[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const { addLocalItem, updateItemQuantity, removeItem  } = useLocalCart();
+const { detailedCart } = useCartData();
   // --- NEW STATES FOR SEARCH AND PAGINATION ---
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(8); // Start with 9 items
@@ -267,7 +270,8 @@ const ProductsView = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="min-h-screen bg-white mt-5">
-        <CartDrawer isOpen={open} onClose={() => setOpen(false)} />
+        <CartDrawer isOpen={open} onClose={() => setOpen(false)} updateItemQuantity={updateItemQuantity} 
+              removeItem={removeItem} cartItems={detailedCart}/>
         {loading ? (
           <CircleLoader isVisible={loading} />
         ) : (
