@@ -28,7 +28,7 @@ const ProductScreen: FC = () => {
   const handleGoBack = () => {
     router.back();
   };
-  var id: string | null;
+  var id: any
   if (typeof window !== "undefined") {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -46,7 +46,7 @@ const ProductScreen: FC = () => {
       });
 
       showToast("success", "Item added to basket.");
-      setCartLength((prev) => prev + 1);
+      // setCartLength((prev) => prev + 1);
       return;
     }
     try {
@@ -64,7 +64,7 @@ const ProductScreen: FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setCartLength(cartRes.data.cart.items.length);
+      // setCartLength(cartRes.data.cart.items.length);
     } catch (error) {}
   };
 

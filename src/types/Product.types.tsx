@@ -15,7 +15,7 @@
 export type LocalCartItem = {
   productId: string;
   quantity: number;
-  color: string;
+  // color: string;
   size: string;
 };
 export interface ProductT {

@@ -8,10 +8,10 @@ export default function CartDrawer({
     isOpen, 
     onClose, 
     cartItems = [], 
-    updateItemQuantity, 
-    removeItem
+    // updateItemQuantity, 
+    // removeItem
 }: CartDrawerProps) {
-    // const { addLocalItem, updateItemQuantity, removeItem } = useLocalCart();
+    const { addLocalItem, updateItemQuantity, removeItem } = useLocalCart();
     console.log("CartDrawer cartItems:", cartItems);
   const cartTotal: number = cartItems.reduce((total, item) => {
     return total + (item.price * item.quantity);
