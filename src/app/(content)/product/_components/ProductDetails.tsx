@@ -34,8 +34,11 @@ const ProductScreen: FC = () => {
     const urlParams = new URLSearchParams(queryString);
     id = urlParams.get("id");
   }
-
-  const token = localStorage.getItem("userToken");
+let token : any
+  if (typeof window !== "undefined") {
+  // localStorage.setItem("userToken", value);
+  token = localStorage.getItem("userToken");
+}
   const addToCart = async () => {
     if (!token) {
       addLocalItem({
@@ -70,36 +73,38 @@ const ProductScreen: FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios({
-      method: "GET",
-      url: "cart",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    })
-      .then((res) => {
-        // setCartLength(res.data.cart.items.length);
-      })
-      .catch((error) => {});
     if (typeof window !== "undefined") {
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      let id = urlParams.get("id");
       axios({
         method: "GET",
-        url: "products/single2/" + id,
+        url: "cart",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         },
       })
         .then((res) => {
-          setLoading(false);
-          console.log("New res", res.data);
-          setColors(res.data.color || []);
-          setProduct(res.data);
+          // setCartLength(res.data.cart.items.length);
         })
         .catch((error) => {});
-    }
+      if (typeof window !== "undefined") {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        let id = urlParams.get("id");
+        axios({
+          method: "GET",
+          url: "products/single2/" + id,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        })
+          .then((res) => {
+            setLoading(false);
+            console.log("New res", res.data);
+            setColors(res.data.color || []);
+            setProduct(res.data);
+          })
+          .catch((error) => {});
+      }
+}
   }, []);
   const [open, setOpen] = useState(false);
   return (

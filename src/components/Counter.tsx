@@ -221,21 +221,23 @@ const { detailedCart } = useCartData();
 
   useEffect(() => {
     setLoading(true);
-    axios({
-      method: "GET",
-      url: "products/2",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-      },
-    })
-      .then((res) => {
-        setProducts(res.data.products);
-        setLoading(false);
+    if (typeof window !== "undefined") {
+      axios({
+        method: "GET",
+        url: "products/2",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
       })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
+        .then((res) => {
+          setProducts(res.data.products);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+}
   }, []);
 
   const searchParams = useSearchParams();
