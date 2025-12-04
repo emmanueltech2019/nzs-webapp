@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import OurPartners from './_components/OurPartners'
 import CorePrinciples from './_components/CorePrinciples'
 import ProductsView from "@/components/Counter";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "NaijaZone | About",
@@ -14,13 +15,13 @@ export const metadata: Metadata = {
 
 export default function page() {
   return (
-    <div>
+    <Suspense fallback={<div>Loading...</div>}>
         <About />
         <ProductsView />
         {/* <OurTeam />
         <OurPartners />
         <CorePrinciples /> */}
         <Footer />
-    </div>
+    </Suspense>
   )
 }
