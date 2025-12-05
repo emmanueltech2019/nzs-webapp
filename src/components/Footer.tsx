@@ -21,10 +21,13 @@ const faqLinks = [{
 const resourcesLinks = [{
     text: "Careers",
     sub: "HIRING",
-    path: "/"
+    path: "https://www.linkedin.com/company/naijazone-online-shopping-mall/jobs/"
 }];
 
 const aboutLinks = [{
+    text: "Shop",
+    path: "/shop"
+},{
     text: "About",
     path: "/about"
 },{
@@ -82,9 +85,9 @@ const Footer = () => {
                     <div className="col flex gap-[33px]">
                         <p className="text-[#D9D9D9] flex items-center gap-1">
                             <span className="block w-[2px] h-[2px] rounded-full bg-[#D9D9D9]"></span>
-                            <span>Terms & Conditions</span>
+                            <Link href="/terms-and-conditions">Terms & Conditions</Link>
                         </p>
-                        <p>Privacy Policy</p>
+                        <Link href={'/privacy-policy'}>Privacy Policy</Link>
                     </div>
                 </div>
             </div>

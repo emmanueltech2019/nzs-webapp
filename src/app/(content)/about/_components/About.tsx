@@ -5,7 +5,7 @@ import Apple from "@/assets/icons/Apple.svg"
 import Andriod from '@/assets/icons/Andriod.svg'
 import dashedArrow from '@/assets/images/dashedArrow.svg'
 import GetStarted from "@/components/buttons/GetStarted"
-import aboutBanner from '@/assets/images/about-banner.svg'
+import aboutBanner from '@/assets/images/PLACE BANNNER.svg'
 
 const icon1Styles = "w-[34.8px] h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
 const bgImg = "bg-bgImage bg-cover bg-center h-full"
@@ -15,7 +15,7 @@ const About = () => {
         <section className={`${bgImg} relative overflow-x-hidden`}>
             <Navbar>
                 <div className={'flex gap-5'}>
-                    <GetStarted url={'/auth/login'} />
+                    <GetStarted url={'/shop'} />
                 </div>
             </Navbar>
 
@@ -40,7 +40,7 @@ const About = () => {
                         <p className="text-base lg:text-lg mb-8 max-w-[475.62px]">We envision a future where every Nigerian merchant, regardless of size, can efficiently manage and grow their business, and where every consumer can easily access reliable services. By bridging the gap between products, services, and the people who need them, Naijazone aims to foster a thriving, interconnected economy that benefits everyone.</p>
 
                         <div className="pb-10">
-                            <GetStarted url="/auth/login" />
+                            <GetStarted url="/shop" />
                         </div>
                     </div>
                 </div>

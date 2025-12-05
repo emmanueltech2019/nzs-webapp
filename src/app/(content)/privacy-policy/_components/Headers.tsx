@@ -10,7 +10,7 @@ const About = () => {
         <section className={`${bgImg} relative overflow-x-hidden`}>
             <Navbar>
                 <div className={'flex gap-5'}>
-                    <GetStarted url={'/auth/login'} />
+                    <GetStarted url={'/shop'} />
                 </div>
             </Navbar>
 

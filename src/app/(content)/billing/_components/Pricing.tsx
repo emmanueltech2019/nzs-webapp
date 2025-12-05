@@ -16,7 +16,7 @@ const Pricing = () => {
         <section className={`${bgImg} relative overflow-x-hidden`}>
             <Navbar>
                 <div className={'flex gap-5'}>
-                    <GetStarted url={'/auth/login'} />
+                    <GetStarted url={'/shop'} />
                 </div>
             </Navbar>
 
@@ -41,7 +41,7 @@ const Pricing = () => {
                         <p className="text-base lg:text-lg mb-8 max-w-[475.62px]">Are you a merchant struggling to manage product sales and delivery in Nigeria? A consumer frustrated by lack of reliable information on essential services in your area? We tackle these challenges head-on, providing a seamless experience for both vendors and consumers.</p>
 
                         <div className="pb-10">
-                            <GetStarted url="/auth/login" />
+                            <GetStarted url="/shop" />
                         </div>
                     </div>
                 </div>

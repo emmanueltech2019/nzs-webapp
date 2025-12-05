@@ -18,6 +18,10 @@ type navLinksType = {
 
 // arrays
 const links: navLinksType = [
+     {
+        title: 'Shop',
+        url: '/shop'
+    },
  {
         title: 'About Us',
         url: '/about'
@@ -25,6 +29,7 @@ const links: navLinksType = [
         title: 'Contact',
         url: '/contact'
     }
+
 ];
 
 

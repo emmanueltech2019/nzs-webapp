@@ -53,7 +53,7 @@ const Home = () => {
                         <p className="text-base lg:text-lg mb-8 max-w-[475.62px]">Naijazone isn’t just another marketplace — it’s a movement to transform how Nigerians buy, sell, and connect. We’ve reimagined commerce with cutting-edge technology and a mission to empower local creators, innovators, and service providers.
 </p>
 
-                        <GetStarted url="/auth/login" />
+                        <GetStarted url="/shop" />
                     </div>
                 </motion.div>
 

@@ -15,7 +15,7 @@ export default function page() {
   return (
      <Suspense fallback={<div>Loading...</div>}>
         <Contact />
-        <Counter />
+        {/* <Counter /> */}
         <ContactDetails />
         <ContactMap />
         <Footer />

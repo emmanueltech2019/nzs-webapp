@@ -7,10 +7,11 @@ import orangeStar from "@/assets/images/our-partners/orange-star.svg"
 import ups from "@/assets/images/our-partners/ups.svg"
 import dhl from "@/assets/images/our-partners/dhl.svg"
 import gig from "@/assets/images/gig-logistics.png"
+import redstar from "@/assets/images/redstar.png"
 
 import { Icon } from "@iconify/react/dist/iconify.js";
 
-const images = [gig]
+const images = [redstar, gig ]
 
 const OurPartners = () => {
   return (
@@ -24,7 +25,7 @@ const OurPartners = () => {
       <div className="col">
         <p className='text-[#6C6C6C]'>We’re proud to collaborate with a diverse network of partners who share our commitment to service excellence. Our partners include trusted delivery services, payment gateways, and a wide range of essential service providers across Nigeria. </p>
         <div className="image-row flex items-center gap-4 pt-4 flex-wrap">
-          {images.map((img,i) => <div key={i}><Image src={img} alt="" className={`w-full object-cover`} /></div>)} <button className="text-[#FB9C46] flex items-center gap-2 text-nowrap">View All <span><Icon icon='bi:play-fill' className="inline" /></span></button>
+          {images.map((img,i) => <div key={i}><Image src={img} alt="" className={` object-cover w-[60px]`} /></div>)} <button className="text-[#FB9C46] flex items-center gap-2 text-nowrap">View All <span><Icon icon='bi:play-fill' className="inline" /></span></button>
         </div>
       </div>
     </section>
