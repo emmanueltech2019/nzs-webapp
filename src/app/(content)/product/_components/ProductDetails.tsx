@@ -1,5 +1,5 @@
 "use client";
-import CarouselEmbla from "@/components/carousel/Carousel";
+import CarouselEmbla from "@/components/carousel/Carousel3";
 import { FC, useEffect, useState } from "react";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import { useRouter } from "next/navigation";

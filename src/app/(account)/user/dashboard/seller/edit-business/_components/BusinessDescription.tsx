@@ -24,6 +24,8 @@ const sectorCategories: Record<string, { item: string; state: boolean }[]> = {
     { item: 'Electronics & Gadgets', state: false },
     { item: 'Beauty & Personal Care', state: false },
     { item: 'Home & Kitchen', state: false },
+    { item: "Home & Kitchen", state: false },
+    { item: "Plastics", state: false },
     { item: 'Groceries & Foodstuff', state: false },
     { item: 'Sports & Fitness', state: false },
     { item: 'Books & Stationery', state: false },

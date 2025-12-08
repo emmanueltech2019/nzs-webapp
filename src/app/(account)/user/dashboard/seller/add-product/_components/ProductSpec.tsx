@@ -9,7 +9,6 @@ import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
 import Circle from "@/components/Circle";
 import { Icon } from "@iconify/react"; // Check if this is a lighter import path
-import { read } from "fs";
 
 // 1. PERFORMANCE: Use a single, consolidated mapping for units
 // This reduces initial state definition and allows for dynamic updates.
@@ -74,8 +73,6 @@ const ProductSpec: FC<ProductSpecProps> = ({
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
   // const [weight, setWeight] = useState<number>(1); // New state for weight
   // Unchanged state variables (useForm and useToggle are custom hooks)
-  const [registeredBusinessName] = useForm("");
-  const [description] = useForm("");
   const [a, aFunc] = useToggle(true); // Quantity Type Accordion
   const [b, bFunc] = useToggle(true); // Quantity Unit Accordion
 
@@ -167,7 +164,6 @@ const ProductSpec: FC<ProductSpecProps> = ({
           totalStock: totalStockValue,
           weight: productData.weight,
           readyForPickUp: productData.isReadyForPickUp,
-
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -186,16 +182,6 @@ const ProductSpec: FC<ProductSpecProps> = ({
       showToast("error", errorMessage);
     }
   }, [selectedQualityType, selectedUnit, productData, setSection]);
-
-  // 10. PERFORMANCE: Optimized useEffect dependency array
-  // useEffect(() => {
-  //   setCount(50);
-  //   // handleBtnFunc is set to the memoized handleAPI function
-  //   handleBtnFunc(handleAPI);
-  //   return () => {
-  //     handleBtnFunc(() => console.log("default"));
-  //   };
-  // }, [handleAPI, setCount, handleBtnFunc]); // Removed unnecessary dependencies
 
   // 11. Readability/Performance: Helper function for button class logic
   const getButtonClass = (isActive: boolean) =>
@@ -267,6 +253,9 @@ const ProductSpec: FC<ProductSpecProps> = ({
           {/* Input for Minimum Unit Amount (Only visible if a Unit is selected) */}
           {selectedUnit && (
             <div className="py-5">
+              <label className="text-sm text-[#71727A] block mb-1">
+                Minimum Purchasable Amount (per order)
+              </label>
               <input
                 type="number"
                 id="quantity"
@@ -278,26 +267,26 @@ const ProductSpec: FC<ProductSpecProps> = ({
                 className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
                 placeholder="Enter minimum unit value"
               />
-              <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>
+              {/* <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>
                 Minimum Unit Amount (this is the smallest saleable unit for your store)
-              </p>
+              </p> */}
             </div>
           )}
           <div className="py-5">
-              <input
-                type="number"
-                name="weight"
-                value={productData.weight}
-                onChange={handleInputChange}
-                required
-                min={1}
-                className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
-                placeholder="Enter minimum unit value"
-              />
-              <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>
-                Weight per item (KG) <span className="text-[10px] text-red-300">this is the delivery weight</span>
-              </p>
-            </div>
+            <label className="text-sm text-[#71727A] block mb-1">
+              Delivery Weight (KG per item){" "}
+            </label>
+            <input
+              type="number"
+              name="weight"
+              value={productData.weight}
+              onChange={handleInputChange}
+              required
+              min={1}
+              className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+              placeholder="Enter minimum unit value"
+            />
+          </div>
           <div className="pb-3">
             <label>Is this product ready to immediate shipping? </label>
             <select
@@ -308,12 +297,15 @@ const ProductSpec: FC<ProductSpecProps> = ({
               required
               className="w-full px-4 py-3 rounded-xl outline-none bg-white border-[1px] border-[#C5C6CC] text-gray-800 focus:ring-1 focus:ring-[--foreground-green] focus:border-[--foreground-green] appearance-none cursor-pointer"
             >
-              <option value="available">Yes</option>
-              <option value="not available">No</option>
+              <option value="available">Yes (Available)</option>
+              <option value="not available">No (Not Available)</option>
             </select>
           </div>
           {/* Input for Total Stock (Always visible for inventory) */}
           <div className="pb-3">
+            <label className="text-sm text-[#71727A] block mb-1">
+              Total in Stock
+            </label>
             <input
               type="number"
               id="totalStock"
@@ -325,9 +317,9 @@ const ProductSpec: FC<ProductSpecProps> = ({
               className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
               placeholder="e.g. 100"
             />
-            <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>
+            {/* <p className={`text-xs pt-2 text-[#8F9098] ${openSansFont}`}>
               Total in Stock
-            </p>
+            </p> */}
           </div>
         </div>
         <div className="flex items-center justify-center pt-3 pb-40 gap-6 w-full">

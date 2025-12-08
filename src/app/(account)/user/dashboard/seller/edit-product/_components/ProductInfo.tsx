@@ -282,7 +282,7 @@ const BusinessDescription: FC<general_type> = ({
     formData.append("businessId", localStorage.getItem("activeBusiness") || "");
 
     imageFiles.forEach((file) => {
-      formData.append("images", file); // must match backend multer field
+      formData.append("images", file); 
     });
     console.log("selectedColors", selectedColors);
     try {
