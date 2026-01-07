@@ -12,7 +12,8 @@ interface Transaction {
   totalAmount: number; // Example field; adjust based on actual notification fields
   status: string; // Example field
   createdAt: string;
-  paymentReference: string
+  paymentReference: string;
+  _id: string;
 }
 
 const Transactions = () => {
@@ -45,6 +46,7 @@ const Transactions = () => {
       setPendingTransaction(transactions.filter(transaction => transaction.status=="pending"));
       setCompletedTransaction(transactions.filter(transaction => transaction.status=="completed"));
       setFailedTransaction(transactions.filter(transaction => transaction.status=="failed"));
+      console.log("Transactions fetched:", pendingTransaction, completedTransaction, failedTransaction);
     }).catch((error) => {
       console.error("Error fetching notifications:", error);
     });
@@ -63,7 +65,7 @@ const Transactions = () => {
       <TransactionTab activeTab={activeTab} setActiveTab={setActiveTab} />
       {activeTab == 'completed' ?
         ( <div>
-          {completedTransaction.length > 0 ?<>{completedTransaction.map(({ totalAmount, status, createdAt, paymentReference}, index) => (
+          {completedTransaction.length > 0 ?<>{completedTransaction.map(({ totalAmount, status, createdAt, paymentReference, _id}, index) => (
             <TransactionCard
             key={index}
             title={`${status} Transaction`}
@@ -71,6 +73,7 @@ const Transactions = () => {
             timeAgo={createdAt.split('T')[0]}
             yesterday={true}
             deleteFunc={() => removeTrasaction(index)}
+            _id={_id}
           />
           ))}</>:<><div className='failed'>
           <h1>no completed transaction</h1>
@@ -79,7 +82,7 @@ const Transactions = () => {
         </div>)
         : activeTab == 'pending' ?
           ( <div>
-            {pendingTransaction.length > 0 ?<>{pendingTransaction.map(({ totalAmount, status, createdAt, paymentReference}, index) => (
+            {pendingTransaction.length > 0 ?<>{pendingTransaction.map(({ totalAmount, status, createdAt, paymentReference, _id}, index) => (
               <TransactionCard
                 key={index}
                 title={`${status} Transaction`}
@@ -87,6 +90,7 @@ const Transactions = () => {
                 timeAgo={createdAt.split('T')[0]}
                 yesterday={true}
                 deleteFunc={() => removeTrasaction(index)}
+                _id={_id}
               />
             ))}</>:<><div className='pending'>
             <h1>no pending transaction</h1>
@@ -95,7 +99,7 @@ const Transactions = () => {
           </div>)
           : (
             <div>
-              {failedTransaction.length > 0 ?<>{failedTransaction.map(({ totalAmount, status, createdAt, paymentReference}, index) => (
+              {failedTransaction.length > 0 ?<>{failedTransaction.map(({ totalAmount, status, createdAt, paymentReference, _id}, index) => (
                 <TransactionCard
                 key={index}
                 title={`${status} Transaction`}
@@ -103,6 +107,7 @@ const Transactions = () => {
                 timeAgo={createdAt.split('T')[0]}
                 yesterday={true}
                 deleteFunc={() => removeTrasaction(index)}
+                _id={_id}
               />
               ))}</>:<><div className='failed'>
               <h1>no failed transaction</h1>

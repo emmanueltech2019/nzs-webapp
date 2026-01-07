@@ -24,6 +24,7 @@ const ProductGrid: FC<{ title: string; products: ProductT[]; link: string }> = (
                 title={product.name}   
                 price={(Number(product?.price) || 0) * (Number(product?.quantityInfo?.quantity) || 0)} 
                 image={product?.images[0]}
+                businessName={product?.businessId?.businessName || "Unknown Business"}
               />
             </Link>
           </div>
@@ -47,6 +48,7 @@ export const ProductsPageGrid: FC<{products: ProductT[]}> = ({ products }) => {
                 title={product.name} 
                 price={product.price * product.quantityInfo.quantity} 
                 image={product?.images[0]}
+                businessName={product?.businessId?.businessName || "Unknown Business"}
               />
             </Link>
           </div>

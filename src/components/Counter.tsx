@@ -1,176 +1,3 @@
-// "use client";
-// import React, { useState, Suspense, useEffect } from "react";
-// import FloatingButton from "@/components/buttons/FloatingButton";
-// import Carousel from "@/components/carousel/Carousel";
-// import SortFilter from "@/components/SortFilter/SortFilter";
-// import ProductGrid from "@/components/Grid/ProductGrid2";
-// import { useRouter, useSearchParams } from "next/navigation";
-// import axios from "@/utils/axios";
-// import { ProductT } from "@/types/Product.types";
-// import Banner1 from "../assets/images/banner-img/banner-img-1.jpg";
-// import Banner2 from "../assets/images/banner-img/banner-img-2.jpg";
-// import Banner3 from "../assets/images/banner-img/banner-img-3.jpg";
-// import Banner4 from "../assets/images/banner-img/banner-img-4.jpg";
-// import Swal from "sweetalert2";
-// import CircleLoader from "@/components/loader/loader";
-// import ProductFilterSidebar from "./SideFileter";
-// import Link from "next/link";
-// import Image from "next/image";
-// import Tape from "./tape/Tape";
-// import CartDrawer from "./cartdrawer/CartDrawer";
-
-// const compareDate = (dateString?: string) => {
-//   if (!dateString) return false; // skip if no date
-//   const DIFFERENCE_IN_DAYS = 7;
-//   const today = new Date();
-//   const productDate = new Date(dateString);
-
-//   if (isNaN(productDate.getTime())) return false; // invalid date
-//   const diffTime = Math.floor(
-//     (today.getTime() - productDate.getTime()) / (1000 * 60 * 60 * 24)
-//   );
-//   return diffTime <= DIFFERENCE_IN_DAYS;
-// };
-// const ProductsView = () => {
-//   const [products, setProducts] = useState<ProductT[]>([]); // useState expects an array of Product
-//   const [loading, setLoading] = useState(false);
-// // search text
-// const [searchQuery, setSearchQuery] = useState("");
-
-// // load more
-// const [visibleCount, setVisibleCount] = useState(9);
-
-//   useEffect(() => {
-//     setLoading(true);
-//     axios({
-//       method: "GET",
-//       url: "products/2",
-//       headers: {
-//         Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-//       },
-//     })
-//       .then((res) => {
-//         setProducts(res.data.products);
-//         setLoading(false);
-//       })
-//       .catch((error) => {
-
-//       });
-//   }, []);
-
-//   const newArrivals = products
-//     .filter((p) => compareDate(p.createdAt))
-//     .slice(0, 3);
-
-//   const searchParams = useSearchParams();
-//   const main = searchParams.get("main") || "";
-//   const [activeTab, setActiveTab] = useState(main || "products");
-//   const imagesL = [Banner1, Banner2, Banner3, Banner4];
-//   const [activeRouteProp, setActiveRouteProp] = useState("a-z");
-//   const data = ["popular", "cost effective", "location"];
-//   const [open, setOpen] = useState(false);
-// const filteredProducts = products.filter((p) =>
-//   p?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-// );
-//   return (
-//     <Suspense fallback={<div>Loading...</div>}>
-//       <div className="min-h-screen bg-white mt-5">
-//         <CartDrawer isOpen={open} onClose={() => setOpen(false)} />
-//         {loading ? (
-//           <CircleLoader isVisible={loading} />
-//         ) : (
-//           <div className="md:w-screen  flex flex-row pt-4 px-2 md:px-6">
-//             <div className="bg-white h-auto w-[38vw] mr-10 px-5">
-//               <ProductFilterSidebar />
-//             </div>
-
-//             <>
-//               {activeTab == "products" ? (
-//                 <div className="mb-24 md:mb-0 w-screen">
-                
-//                   <Carousel
-//                     images={[
-//                       "https://res.cloudinary.com/wise-solution-inc/image/upload/v1755239366/NZS_WEB_Banner_gh7lnp.png",
-//                       "https://res.cloudinary.com/wise-solution-inc/image/upload/v1757339938/WhatsApp_Image_2025-08-26_at_12.39.18_AM_s7elct.jpg",
-//                       "https://res.cloudinary.com/wise-solution-inc/image/upload/v1757339938/WhatsApp_Image_2025-08-26_at_12.39.19_AM_skokdz.jpg",
-//                     ]}
-//                   />
-//                     <div className="flex justify-between items-center mb-4 w-[68vw] ">
-//                       <div className="w-[90%]">
-//                         <Tape />
-
-//                       </div>
-//                     <div className="pl-2 w-[10%] flex mx-auto justify-center items-center">
-//                       <div className="relative w-10 h-10" onClick={() => setOpen(true)}>
-//                         <Image
-//                           src={
-//                             "https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png"
-//                           }
-//                           alt="cart icon"
-//                           height={400}
-//                           width={40}
-//                           className="text-2xl"
-//                         />
-//                         <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
-//                           0
-//                         </span>
-//                       </div>
-
-//                     </div>
-//                   </div>
-//                   {newArrivals.length > 0 ? (
-//                     <ProductGrid
-//                       link="new-arrivals"
-//                       title="New Arrivals"
-//                       products={newArrivals}
-//                     />
-//                   ) : (
-//                     <div className="p-4 flex flex-row gap-3">
-//                       <h2 className="text-xl font-semibold">New Arrivals</h2>
-//                       <p className="text-center">No new arrivals</p>
-//                     </div>
-//                   )}
-//                   {products.length > 0 ? (
-//                     <>
-//                     <ProductGrid
-//                       link="available-products"
-//                       title="Available Products"
-//                       products={products}
-//                     />
-//                     {filteredProducts.length > visibleCount && (
-//   <div className="w-full flex justify-center mt-6">
-//     <button
-//       onClick={() => setVisibleCount(visibleCount + 9)}
-//       className="px-6 py-2 bg-[#006838] text-white rounded-lg hover:bg-green-700"
-//     >
-//       Load More
-//     </button>
-//   </div>
-// )}
-//                     </>
-//                   ) : (
-//                     <div className="p-4 flex flex-col gap-3">
-//                       <h2 className="text-xl font-semibold">
-//                         Available Products
-//                       </h2>
-//                       <p className="text-center">No products available</p>
-//                     </div>
-//                   )}
-//                 </div>
-//               ) : (
-//                 <>
-//                   <FloatingButton />
-//                 </>
-//               )}
-//             </>
-//           </div>
-//         )}
-//       </div>
-//     </Suspense>
-//   );
-// };
-
-// export default ProductsView;
 "use client";
 import React, { useState, Suspense, useEffect } from "react";
 import FloatingButton from "@/components/buttons/FloatingButton";
@@ -179,7 +6,7 @@ import Carousel from "@/components/carousel/Carousel2";
 import ProductGrid from "@/components/Grid/ProductGrid2";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "@/utils/axios";
-import { ProductT } from "@/types/Product.types";
+import { DisplayCartItem, ProductT } from "@/types/Product.types";
 import Banner1 from "../assets/images/banner-img/banner-img-1.jpg";
 import Banner2 from "../assets/images/banner-img/banner-img-2.jpg";
 import Banner3 from "../assets/images/banner-img/banner-img-3.jpg";
@@ -194,8 +21,9 @@ import CartDrawer from "./cartdrawer/CartDrawer";
 
 // Icons
 import { FaSearch } from "react-icons/fa"; // Make sure you have react-icons installed
+// import { useLocalCart } from "@/hooks/useLocalCart";
+// import { useCartData } from "@/hooks/useCartData";
 import { useLocalCart } from "@/hooks/useLocalCart";
-import { useCartData } from "@/hooks/useCartData";
 
 const compareDate = (dateString?: string) => {
   if (!dateString) return false;
@@ -213,8 +41,10 @@ const compareDate = (dateString?: string) => {
 const ProductsView = () => {
   const [products, setProducts] = useState<ProductT[]>([]);
   const [loading, setLoading] = useState(false);
-  const { addLocalItem, updateItemQuantity, removeItem  } = useLocalCart();
-const { detailedCart } = useCartData();
+  const { localCart, addLocalItem, updateItemQuantity, removeItem  } = useLocalCart();
+  const cartLength = localCart.length;
+
+// const { detailedCart } = useLocalCart();
   // --- NEW STATES FOR SEARCH AND PAGINATION ---
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(8); // Start with 9 items
@@ -231,6 +61,7 @@ const { detailedCart } = useCartData();
       })
         .then((res) => {
           setProducts(res.data.products);
+          setProduct(res.data.products);
           setLoading(false);
         })
         .catch((error) => {
@@ -244,6 +75,8 @@ const { detailedCart } = useCartData();
   const main = searchParams.get("main") || "";
   const [activeTab, setActiveTab] = useState(main || "products");
   const [open, setOpen] = useState(false);
+  const [product, setProduct] = useState<ProductT | null>(null);
+  
 
   // --- FILTERING LOGIC ---
   // 1. Filter by search query
@@ -268,12 +101,49 @@ const { detailedCart } = useCartData();
     setSearchQuery(e.target.value);
     setVisibleCount(9); // Reset to 9 when search changes so user sees top results
   };
+  const [products2, setProducts2] = React.useState<ProductT[]>([]);
+  // const displayCartItems: DisplayCartItem[] = React.useMemo(() => {
+  //   if (!product) return [];
+  //   console.log("Local Cart1:", localCart);
+  //   return localCart
+  //     // .filter((item) => String(item.productId) === String(product._id))
+  //     .map((item) => ({
+  //       _id: product._id,
+  //       productId: item.productId,
+  //       name: product.name,
+  //       price: product.price,
+  //       image: product.images?.[0],
+  //       size: item.size,
+  //       quantity: item.quantity,
+  //     }));
+  // }, [localCart, product]);
+  const displayCartItems = React.useMemo(() => {
+  return localCart.map((cartItem) => {
+    // Find the product details that match this cart item
+    const details = products.find((p) => String(p._id) === String(cartItem.productId));
 
+    // If details haven't loaded yet, return a skeleton or basic info
+    return {
+      _id: cartItem.productId,
+      productId: cartItem.productId,
+      name: details?.name || "Loading...",
+      price: details?.price || 0, // This avoids your .toFixed() error!
+      image: details?.images?.[0] || "",
+      size: cartItem.size,
+      quantity: cartItem.quantity,
+    };
+  });
+}, [localCart, products]);
+  console.log("Local Cart2:", displayCartItems);
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="min-h-screen bg-white mt-5">
-        <CartDrawer isOpen={open} onClose={() => setOpen(false)} updateItemQuantity={updateItemQuantity} 
-              removeItem={removeItem} cartItems={detailedCart}/>
+
+        <CartDrawer
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          cartItems={displayCartItems}
+        />
         {loading ? (
           <CircleLoader isVisible={loading} />
         ) : (
@@ -328,7 +198,7 @@ const { detailedCart } = useCartData();
                           className="text-2xl"
                         />
                         <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
-                          0
+                           {cartLength}
                         </span>
                       </div>
                     </div>

@@ -98,6 +98,7 @@ export const useLocalCart = () => {
   }, []);
 
   const saveCart = (cart: LocalCartItem[]) => {
+    console.log("got to save")
     if (typeof window !== "undefined") {
       localStorage.setItem("localCart", JSON.stringify(cart));
     }
@@ -135,23 +136,45 @@ export const useLocalCart = () => {
     saveCart(updatedCart);
   };
 
-  const addLocalItem = (newItem: LocalCartItem) => {
-    const index = findItemIndex(newItem.productId, newItem.size);
+  // const addLocalItem = (newItem: LocalCartItem) => {
+  //   const index = findItemIndex(newItem.productId, newItem.size);
 
+  //   let updatedCart: LocalCartItem[];
+
+  //   if (index > -1) {
+  //     updatedCart = localCart.map((item, i) =>
+  //       i === index
+  //         ? { ...item, quantity: item.quantity + (newItem.quantity ?? 1) }
+  //         : item
+  //     );
+  //   } else {
+  //     updatedCart = [...localCart, { ...newItem, quantity: newItem.quantity ?? 1 }];
+  //   }
+
+  //   saveCart(updatedCart);
+  // };
+    const addLocalItem = (newItem: LocalCartItem) => {
+    const existingItemIndex = findItemIndex(newItem.productId, newItem.size);
+console.log("got to hook")
     let updatedCart: LocalCartItem[];
 
-    if (index > -1) {
-      updatedCart = localCart.map((item, i) =>
-        i === index
-          ? { ...item, quantity: item.quantity + (newItem.quantity ?? 1) }
-          : item
-      );
+    if (existingItemIndex > -1) {
+      updatedCart = localCart.map((item, index) => {
+        if (index === existingItemIndex) {
+          return {
+            ...item,
+            quantity: item.quantity + (newItem.quantity || 1),
+          };
+        }
+        return item;
+      });
     } else {
-      updatedCart = [...localCart, { ...newItem, quantity: newItem.quantity ?? 1 }];
+      updatedCart = [...localCart, newItem];
     }
 
     saveCart(updatedCart);
   };
+  
 
   return {
     localCart,

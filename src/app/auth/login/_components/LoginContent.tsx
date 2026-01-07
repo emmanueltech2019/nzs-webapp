@@ -27,7 +27,6 @@ const LoginContent = () => {
   const [emailState, setemail] = useForm("");
   const [pwdState, setpwd] = useForm("");
   const [loading, setLoading] = useState(false);
-
   const handleSubmit = async (e: eventType) => {
     e.preventDefault();
     if (!emailState || !pwdState) {
@@ -37,13 +36,13 @@ const LoginContent = () => {
 
     setLoading(true);
 
-    // API call to login user with email and password
     try {
       const data = {
         email: emailState,
         password: pwdState,
       };
       const response = await axios.post(`/auth/login`, data);
+      localStorage.clear();
       // Store user data in local storage - userToken
       localStorage.setItem("userToken", response.data.token);
       setLoading(false);

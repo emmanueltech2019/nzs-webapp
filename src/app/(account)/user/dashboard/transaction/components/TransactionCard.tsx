@@ -2,6 +2,7 @@ import React from 'react';
 import placeholder from '@/assets/images/productMockup.png'
 import Image from 'next/image';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import Link from 'next/link';
 
 type TransactionCardProps = {
   title: string;
@@ -9,11 +10,12 @@ type TransactionCardProps = {
   timeAgo: string;
   yesterday?: boolean;
   deleteFunc: () => void;
+  _id: string;
 };
 
-const TransactionCard: React.FC<TransactionCardProps> = ({ title, location, timeAgo, yesterday, deleteFunc }) => {
+const TransactionCard: React.FC<TransactionCardProps> = ({ title, location, timeAgo, yesterday, deleteFunc, _id }) => {
   return (
-    <>
+    <Link href={`/user/dashboard/transaction/details?id=${_id}`} className="block">
       {/* {yesterday && (
         <div className="mt-4 mb-2 text-gray-500 font-semibold">Yesterday</div>
       )} */}
@@ -42,7 +44,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ title, location, time
           </button>
         </div>
       </div>
-    </>
+    </Link>
   );
 };
 

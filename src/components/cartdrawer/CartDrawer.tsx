@@ -3,33 +3,41 @@ import React from "react";
 import { CartDrawerProps, DisplayCartItem } from '../../types/Product.types'; 
 import "./cartDrawer.css";
 import { useLocalCart } from "@/hooks/useLocalCart";
+import Link from "next/link";
 
 export default function CartDrawer({ 
     isOpen, 
     onClose, 
-    cartItems = [], 
+    cartItems, 
     // updateItemQuantity, 
     // removeItem
 }: CartDrawerProps) {
-    const { addLocalItem, updateItemQuantity, removeItem } = useLocalCart();
+    const { localCart, updateItemQuantity, removeItem } = useLocalCart();
+
     console.log("CartDrawer cartItems:", cartItems);
   const cartTotal: number = cartItems.reduce((total, item) => {
     return total + (item.price * item.quantity);
   }, 0);
 
-  const formatCurrency = (amount: number) => {
-    return `₦${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`; 
-  };
+  // const formatCurrency = (amount: number) => {
+  //   return `₦${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`; 
+  // };
+  const formatCurrency = (amount: number = 0) => {
+  return `₦${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`; 
+};
 
   const handleIncrease = (item: DisplayCartItem) => {
     updateItemQuantity(item.productId, item.size, item.quantity + 1);
+    window.location.reload()
   };
 
   const handleDecrease = (item: DisplayCartItem) => {
     updateItemQuantity(item.productId, item.size, item.quantity - 1);
+    window.location.reload()
   };
   const handleRemove = (item: DisplayCartItem) => {
     removeItem(item.productId, item.size);
+    window.location.reload()
   };
 
   return (
@@ -100,9 +108,11 @@ export default function CartDrawer({
             <span>Subtotal:</span>
             <span className="cart-total-price">{formatCurrency(cartTotal)}</span>
           </div>
+          <Link  href={'/auth/login'} >
           <button className="checkout-btn" disabled={cartItems.length === 0}>
             Proceed to Checkout
           </button>
+          </Link>
         </div>
       </div>
     </>

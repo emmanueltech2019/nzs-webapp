@@ -45,11 +45,14 @@
 //   export default Card;
 
 import Image from "next/image";
+import { FaStore } from "react-icons/fa"; // <-- Business icon
+
 
 interface CardProps {
   title: string;
   price: number;
-  image?: any
+  image?: any;
+  businessName: string;
 }
 
 const formatCurrency = (amount: any) => {
@@ -62,28 +65,41 @@ const formatCurrency = (amount: any) => {
   }).format(numericAmount);
 };
 
-const Card: React.FC<CardProps> = ({ title, price, image }) => {
+const Card: React.FC<CardProps> = ({ title, price, image, businessName }) => {
   return (
-    <div className="bg-[#F8F9FE] rounded-2xl w-full h-fit border">
-      
-{/* SQUARE IMAGE */}
-  <div className="aspect-square w-full flex items-center justify-center bg-white">
-    <Image
-      src={image}
-      alt={title}
-      width={600}
-      height={600}
-      className="w-full h-full object-contain"
-    />
-  </div>
+ <div className="bg-[#F8F9FE] rounded-2xl w-full h-fit border">
 
-  {/* TEXT */}
-  <div className="p-2 mt-auto">
-    <h3 className="font-normal text-[13px] text-[#71727A] line-clamp-2 h-[34px]">
-      {title}
-    </h3>
-    <p className="font-extrabold text-[14px] text-[#1F2024]">{formatCurrency(price)}</p>
-  </div>
+      {/* IMAGE */}
+      <div className="aspect-square w-full flex items-center justify-center bg-white">
+        <Image
+          src={image}
+          alt={title}
+          width={600}
+          height={600}
+          className="w-full h-full object-contain"
+        />
+      </div>
+
+      {/* TEXT */}
+      <div className="p-2">
+
+        {/* TITLE — FIXED WITH ELLIPSIS */}
+        <h3 className="font-normal text-[15px] text-[#71727A] line-clamp-2 leading-tight">
+          {title}
+        </h3>
+
+        {/* BUSINESS NAME */}
+        <div className="flex items-center gap-2 mt-1 text-[12px] py-3 text-[#4A4B52]">
+          <FaStore className="text-[#0f6939] text-[12px]" />
+          <span className="truncate">{businessName}</span>
+        </div>
+
+        {/* PRICE */}
+        <p className="font-extrabold text-[14px] text-[#1F2024]">
+          {formatCurrency(price)}
+        </p>
+
+      </div>
     </div>
   );
 };

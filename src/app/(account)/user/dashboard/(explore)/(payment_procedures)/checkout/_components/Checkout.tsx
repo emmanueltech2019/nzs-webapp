@@ -6,12 +6,14 @@ import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
 import AddressModal from "./AddressModal";
 import axios from "@/utils/axios";
 import Image from "next/image";
+
 import DHLLOGO from "@/assets/images/dhl-express-logo-black.png";
 import FEDEXLOGO from "@/assets/images/fedex-logo.png";
 import GIGLOGO from "@/assets/images/gig-logo.png";
 import REDSTAR from "@/assets/images/redstar.png";
 import Swal from "sweetalert2";
-import { gigGetPrice, gigLogin } from "@/utils/gigApi";
+import FundWalletModal from "../../../../wallet/components/FundWalletModal";
+import { useRouter } from "next/navigation";
 
 interface User {
   firstname: string;
@@ -45,23 +47,19 @@ interface Product {
 interface CartItem {
   productId: Product;
   quantity: number;
-  //   productId: {
-  //   _id: string;
-  //   name: string;
-  //   description: string;
-  //   weight: number;
-  //   price: number;
-  //   businessId: string; // Vendor ID
-  // };
 }
 interface VendorPayload {
   businessId: string;
   items: CartItem[];
 }
 const CheckoutShipping: React.FC = () => {
+  const router = useRouter();
+
   const [selectedShipping, setSelectedShipping] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
+  const [walletBalance, setWalletBalance] = useState(0);
+
   const [cityName, setCityName] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
@@ -69,14 +67,14 @@ const CheckoutShipping: React.FC = () => {
   const [townId, setTownId] = useState("");
   const [shippingMethod, setShippingMethod] = useState("third-party");
   const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [user, setUser] = useState<User | null>(null);
-  const [pickupTypes, setPickupTypes] = useState<
-    { PickupTypeId: number; PickupType: string }[]
-  >([]);
-  const [selectedPickupType, setSelectedPickupType] = useState<number | null>(
-    null
-  );
+  const [totalProductPrice, setTotalProductPrice] = useState<number>(0);
   const [deliveryFee, setDeliveryFee] = useState<number | null>(null);
+  const [deliveryFee2, setDeliveryFee2] = useState<number | null>(null);
+
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [groupedItems, setGroupedItems] = useState<Record<string, CartItem[]>>(
     {}
@@ -97,6 +95,7 @@ const CheckoutShipping: React.FC = () => {
       })
       .then((res) => {
         const u = res.data.user;
+        console.log("WALLET B", res.data.wallet.balance);
         setUser(u);
         setAddress(u.addresses.street);
         setCity(u.addresses.city);
@@ -105,6 +104,7 @@ const CheckoutShipping: React.FC = () => {
         setTown(u.addresses.town);
         setTownId(u.addresses.townId);
         setCityName(u.addresses.cityName);
+        setWalletBalance(res.data.wallet.balance || 0);
       })
       .catch((error) => {
         console.error("Error fetching profile:", error);
@@ -126,7 +126,7 @@ const CheckoutShipping: React.FC = () => {
         vendorData[businessId] = null; // optional fallback
       }
     }
-
+    console.log("Fetched Vendors:", vendorData);
     setVendors(vendorData);
   };
   // 🟢 Fetch Cart and Group by businessId
@@ -141,7 +141,13 @@ const CheckoutShipping: React.FC = () => {
       .then((res) => {
         const items = res.data?.cart?.items ?? []; // Ensure it's always an array
         setCartItems(items);
+        const totalPrice = items.reduce((sum: any, item: any) => {
+          const price = item.productId.price || 0;
+          const qty = item.quantity || 1;
+          return sum + price * qty;
+        }, 0);
 
+        setTotalProductPrice(totalPrice); // Update the state
         // ✅ Group items by businessId
         const grouped: Record<string, CartItem[]> = {};
         for (const item of items) {
@@ -190,7 +196,7 @@ const CheckoutShipping: React.FC = () => {
             description: "Multiple shipment",
             onforwardingLocation: "",
             paymentType: "Prepaid",
-            pickupType: selectedPickupType || 0,
+            pickupType: 1,
             weight: shipmentItems.reduce((sum, i) => sum + i.weight, 0),
             pieces: shipmentItems.length,
             cashOnDelivery: 0,
@@ -205,23 +211,11 @@ const CheckoutShipping: React.FC = () => {
         });
       })
       .catch((err) => console.error("Cart fetch error:", err));
-  }, [user, selectedPickupType]);
+  }, [user]);
 
   // 🟢 RedStar Pickup
   const handleSelectRedStar = async () => {
     setSelectedShipping("redstar");
-    let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
-    try {
-      const res = await axios.get(
-        "http://redspeedopenapi.redstarplc.com/api/Operations/PickupTypes",
-        {
-          headers: { "X-API-KEY": REDSTAR_API_KEY },
-        }
-      );
-      setPickupTypes(res.data);
-    } catch (error) {
-      Swal.fire("Error", "Failed to fetch RedStar Pickup Types", "error");
-    }
   };
 
   //   // Group items by businessId
@@ -241,12 +235,7 @@ const CheckoutShipping: React.FC = () => {
   //   // Fetch vendor details and calculate delivery fee
   useEffect(() => {
     const getDeliveryFee = async () => {
-      if (
-        !selectedPickupType ||
-        selectedShipping !== "redstar" ||
-        cartItems.length === 0
-      )
-        return;
+      if (selectedShipping !== "redstar" || cartItems.length === 0) return;
       setLoadingDeliveryFee(true);
 
       const REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
@@ -268,7 +257,6 @@ const CheckoutShipping: React.FC = () => {
           const v = vendorRes.data.business;
 
           // Calculate total weight and pieces
-          // const totalWeight = vendor.items.reduce((sum, i) => sum + (i.productId.weight || 1) * i.quantity, 0);
           const totalPieces = vendor.items.reduce(
             (sum, i) => sum + i.quantity,
             0
@@ -303,7 +291,7 @@ const CheckoutShipping: React.FC = () => {
             description: "Multiple items shipment",
             onforwardingLocation: "",
             paymentType: "Prepaid",
-            pickupType: selectedPickupType,
+            pickupType: 1,
             weight: totalWeight,
             pieces: totalPieces,
             cashOnDelivery: 1,
@@ -347,8 +335,20 @@ const CheckoutShipping: React.FC = () => {
           console.log("RedStar Fee for vendor:", v.name, feeRes.data);
           totalFee += feeRes.data.TotalAmount || 0;
         }
+        const percentage = 1.65 / 100;
 
+        const baseAmount = totalFee + totalProductPrice;
+        const percentageFee = baseAmount * percentage;
+
+        const finalDeliveryFee = Math.round(totalFee + percentageFee);
+        console.log(
+          typeof baseAmount,
+          typeof percentage,
+          typeof percentageFee,
+          typeof finalDeliveryFee
+        );
         setDeliveryFee(totalFee);
+        setDeliveryFee2(finalDeliveryFee);
       } catch (err) {
         console.error("Error calculating RedStar fee:", err);
         Swal.fire("Error", "Failed to calculate RedStar delivery fee", "error");
@@ -358,51 +358,44 @@ const CheckoutShipping: React.FC = () => {
     };
 
     getDeliveryFee();
-  }, [selectedPickupType, selectedShipping, cartItems]);
+  }, [selectedShipping, cartItems]);
   // 🟢 Debug logs
   useEffect(() => {
     console.log("Grouped by Business:", groupedItems);
     console.log("Merged Request:", mergedRequest);
   }, [groupedItems, mergedRequest]);
-// Inside the CheckoutShipping functional component...
 
-// ... (all your existing state variables and useEffects)
-
-// Inside the CheckoutShipping functional component...
-
-// ... (all your existing state variables and useEffects)
-
-const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (selectedShipping !== "redstar") {
-        return Swal.fire("Error", "Please select RedStar as the shipping method to continue.", "error");
-    }
-    
-    if (!selectedPickupType || deliveryFee === null) {
-        return Swal.fire("Error", "Please select a Pickup Type and ensure the delivery fee is calculated.", "error");
+      return Swal.fire(
+        "Error",
+        "Please select RedStar as the shipping method to continue.",
+        "error"
+      );
     }
 
     const REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
     if (!REDSTAR_API_KEY) {
-        return Swal.fire("Error", "RedStar API Key is missing.", "error");
+      return Swal.fire("Error", "RedStar API Key is missing.", "error");
     }
 
     // 1. Get the grouped vendor data
     const groupedVendors = groupItemsByBusiness(cartItems);
 
     if (groupedVendors.length === 0) {
-        return Swal.fire("Error", "Your cart is empty.", "error");
+      return Swal.fire("Error", "Your cart is empty.", "error");
     }
 
     // Show loading modal once for all submissions
     Swal.fire({
-        title: "Submitting Pickup Requests...",
-        text: `Processing ${groupedVendors.length} shipment(s). Please wait.`,
-        allowOutsideClick: false,
-        didOpen: () => {
-            Swal.showLoading();
-        },
+      title: "Submitting Pickup Requests...",
+      text: `Processing ${groupedVendors.length} shipment(s). Please wait.`,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
     });
 
     let successfulShipments = 0;
@@ -410,134 +403,179 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     // --- 2. ITERATE AND SUBMIT PER VENDOR ---
     for (const vendor of groupedVendors) {
-        const vendorData = vendors[vendor.businessId];
-        
-        if (!vendorData || !vendorData.addresses) {
-            const errorMsg = `Vendor data or address not found for businessId: ${vendor.businessId}`;
-            console.error(errorMsg);
-            errors.push(errorMsg);
-            continue;
-        }
+      const vendorData = vendors[vendor.businessId];
 
-        // Calculate total weight and pieces for THIS vendor's items
-        const vendorTotalWeight = vendor.items.reduce((sum, item) => {
-            const unitWeight = item.productId.quantityInfo.weight || 1;
-            const itemQuantity = item.quantity;
-            return sum + unitWeight * itemQuantity; // Sum of (unit weight * quantity)
-        }, 0);
-        const vendorTotalPieces = vendor.items.reduce((sum, i) => sum + i.quantity, 0);
+      if (!vendorData || !vendorData.addresses) {
+        const errorMsg = `Vendor data or address not found for businessId: ${vendor.businessId}`;
+        console.error(errorMsg);
+        errors.push(errorMsg);
+        continue;
+      }
 
-        // Create the ShipmentItem list for the current vendor
-        const shipmentItems = vendor.items.map((item) => ({
-            id: 0,
-            status: 0,
-            createdOn: new Date().toISOString(),
-            createdBy: user?.firstname || "User",
-            shipmentId: 0,
-            commodity: item.productId.name,
-            description: item.productId.description,
-            countryOfManufacturing: "Nigeria",
-            quantity: item.quantity,
-            // For line items, weight should be the total weight of this specific commodity
-            weight: (item.productId.quantityInfo.weight || 1) * item.quantity, 
-            unitOfMeasure: 0,
-            unitOfPrice: item.productId.price || 0,
-        }));
+      // Calculate total weight and pieces for THIS vendor's items
+      const vendorTotalWeight = vendor.items.reduce((sum, item) => {
+        const unitWeight = item.productId.quantityInfo.weight || 1;
+        const itemQuantity = item.quantity;
+        return sum + unitWeight * itemQuantity; // Sum of (unit weight * quantity)
+      }, 0);
+      const vendorTotalPieces = vendor.items.reduce(
+        (sum, i) => sum + i.quantity,
+        0
+      );
 
-        // --- 3. BUILD THE SINGLE SHIPMENT PAYLOAD (Matching your required structure) ---
-        const singleRedStarPayload = {
-            senderCity: vendorData.addresses.city || "Unknown City",
-            recipientCity: cityName,
-            recipientTownID: parseInt(townId) || 0,
-            recipientName: `${user?.firstname} ${user?.lastname}`,
-            recipientPhoneNo: user?.phone || "0000000000",
-            recipientEmail: user?.email || "",
-            recipientAddress: address,
-            recipientState: state,
-            senderTownID: vendorData.addresses.townId || 0,
-            senderName: vendorData.name || "Unknown Vendor",
-            senderAddress: vendorData.addresses.street || "Unknown Street",
-            senderPhone: vendorData.phone || "0000000000",
-            orderNo: `ORDER-${Date.now()}-${vendor.businessId.substring(0, 4)}`, // Unique order number per vendor
-            packaging: "Box", 
-            boxandCrating: "Standard", 
-            deliveryType: "Door to Door",
-            description: `Order from ${vendorData.name} to ${user?.firstname}`,
-            onforwardingLocation: "",
-            paymentType: "Prepaid",
-            pickupType: selectedPickupType,
-            weight: vendorTotalWeight, // Total weight of this vendor's items
-            pieces: vendorTotalPieces, // Total pieces/units from this vendor
-            cashOnDelivery: 0,
-            shipmentItems: shipmentItems,
-        };
-        
-        try {
-            // API call for the current vendor
-            const res = await axios.post(
-                "http://redspeedopenapi.redstarplc.com/api/Operations/PickupRequest",
-                singleRedStarPayload,
-                {
-                    headers: {
-                        "X-API-KEY": REDSTAR_API_KEY,
-                        "Content-Type": "application/json",
-                    },
-                }
+      // Create the ShipmentItem list for the current vendor
+      const shipmentItems = vendor.items.map((item) => ({
+        id: 0,
+        status: 0,
+        createdOn: new Date().toISOString(),
+        createdBy: user?.firstname || "User",
+        shipmentId: 0,
+        commodity: item.productId.name,
+        description: item.productId.description,
+        countryOfManufacturing: "Nigeria",
+        quantity: item.quantity,
+        // For line items, weight should be the total weight of this specific commodity
+        weight: (item.productId.quantityInfo.weight || 1) * item.quantity,
+        unitOfMeasure: 0,
+        unitOfPrice: item.productId.price || 0,
+      }));
+      console.log(vendorData)
+      // --- 3. BUILD THE SINGLE SHIPMENT PAYLOAD (Matching your required structure) ---
+      const singleRedStarPayload = {
+        senderCity: vendorData.addresses.city || "Unknown City",
+        recipientCity: cityName,
+        recipientTownID: parseInt(townId) || 0,
+        recipientName: `${user?.firstname} ${user?.lastname}`,
+        recipientPhoneNo: user?.phone || "0000000000",
+        recipientEmail: user?.email || "",
+        recipientAddress: address,
+        recipientState: state,
+        senderTownID: vendorData.addresses.townId || 0,
+        senderName: `${vendorData.userId.firstname} ${vendorData.userId.lastname}` || "Unknown Vendor",
+        senderAddress: vendorData.addresses.street || "Unknown Street",
+        senderPhone: vendorData.userId.phone || "0000000000",
+        orderNo: `ORDER-${Date.now()}-${vendor.businessId.substring(0, 4)}`, // Unique order number per vendor
+        packaging: "Box",
+        boxandCrating: "Standard",
+        deliveryType: "Door to Door",
+        description: `Order from ${vendorData.name} to ${user?.firstname}`,
+        onforwardingLocation: "",
+        paymentType: "Prepaid",
+        pickupType: 1,
+        weight: vendorTotalWeight, // Total weight of this vendor's items
+        pieces: vendorTotalPieces, // Total pieces/units from this vendor
+        cashOnDelivery: 0,
+        shipmentItems: shipmentItems,
+      };
+
+      try {
+        // API call for the current vendor
+        const res = await axios.post(
+          "http://redspeedopenapi.redstarplc.com/api/Operations/PickupRequest",
+          singleRedStarPayload,
+          {
+            headers: {
+              "X-API-KEY": REDSTAR_API_KEY,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("res", res.data);
+
+        if (res.data.TransStatus == "Successful") {
+          // 🟢 NEW: SAVE TO INTERNAL DATABASE
+          // Now we hit the controller we wrote in the previous step
+          try {
+            const internalOrderPayload = {
+              businessId: vendor.businessId,
+              // Assuming vendorData contains the owner's userId.
+              // If your vendor object puts the owner ID in a different field (like .userId or .owner), change this:
+              vendorId: vendorData.userId || vendorData.owner || vendorData._id,
+              items: vendor.items,
+              logisticsPayload: singleRedStarPayload,
+              logisticsResponse: res.data, // Pass the successful RedStar response
+              paymentReference: `WALLET-${Date.now()}-${Math.random()
+                .toString(36)
+                .substring(2, 7)}`,
+            };
+
+            // USE AWAIT HERE instead of .then()
+            const dbResult = await axios.post(
+              "/orders/create",
+              internalOrderPayload,
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+                },
+              }
             );
 
-            if (res.data.IsSuccessful) {
-                successfulShipments++;
-                console.log(`Successfully submitted pickup for ${vendorData.name}. Ref: ${res.data.ReferenceNo}`);
-            } else {
-                const apiError = res.data.Message || `API reported error for ${vendorData.name}.`;
-                errors.push(apiError);
-                console.error(apiError);
+            if (dbResult.data.success) {
+              successfulShipments++;
             }
-
-        } catch (error: any) {
-            const systemError = `Failed to submit pickup request for ${vendorData.name}. Error: ${error.response?.data?.Message || error.message}`;
-            errors.push(systemError);
-            console.error(systemError);
+          } catch (internalError) {
+            console.error(
+              "RedStar Success, but Database Save Failed:",
+              internalError
+            );
+            errors.push(
+              `Shipment created for ${vendorData.name}, but failed to save to history.`
+            );
+            // You might still count this as a partial success or handle it differently
+          }
+        } else {
+          console.log(vendorData)
+          const apiError =
+            res.data.Message || `API reported error for ${vendorData.name}.`;
+          errors.push(apiError);
+          console.error(apiError);
         }
+      } catch (error: any) {
+        const systemError = `Failed to submit pickup request for ${
+          vendorData.name
+        }. Error: ${error.response?.data?.Message || error.message}`;
+        errors.push(systemError);
+        console.error(systemError);
+      }
     }
 
     // --- 4. FINAL MODAL DISPLAY ---
     Swal.close();
-
-    if (successfulShipments > 0 && errors.length === 0) {
-        // All succeeded
-        Swal.fire(
-            "Success!",
-            `Successfully submitted pickup requests for all ${successfulShipments} vendor(s).`,
-            "success"
-        ).then(() => {
-            // TODO: Navigate to Payment step
-        });
-    } else if (successfulShipments > 0 && errors.length > 0) {
-        // Partial success
-        Swal.fire(
-            "Partial Success!",
-            `Successfully submitted ${successfulShipments} request(s). ${errors.length} failed.`,
-            "warning"
-        ).then(() => {
-            // TODO: Offer option to view detailed errors or proceed with successful orders
-        });
+    if (successfulShipments > 0) {
+      await Swal.fire(
+        "Success!",
+        `${successfulShipments} shipment(s) created successfully.`,
+        "success"
+      );
+      router.push("/user/dashboard/transaction");
     } else {
-        // All failed
-        Swal.fire(
-            "All Failed!",
-            `Failed to submit pickup requests for all vendors. Please check the console for details.`,
-            "error"
-        );
+      Swal.fire(
+        "Order Failed",
+        errors.join("\n") || "No shipments were created.",
+        "error"
+      );
     }
-};
+    setIsSubmitting(false);
+  };
 
-// ... (rest of the component)
+  const handleTopUp = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowModal2(true);
+  };
+
+  const totalPayable = totalProductPrice + (deliveryFee2 || 0);
+  const balanceDifference = walletBalance - totalPayable;
+
+  const hasSufficientBalance = balanceDifference >= 0;
 
   return (
     <>
       {showModal && <AddressModal onClose={() => setShowModal(false)} />}
-      <form className="p-6 md:w-[50vw] md:mx-10 lg:mx-0 xl:mx-10 mb-20" onSubmit={handleSubmit}>
+      {showModal2 && <FundWalletModal onClose={() => setShowModal2(false)} />}
+      <form
+        className="p-6 md:w-[50vw] md:mx-10 lg:mx-0 xl:mx-10 mb-20"
+        onSubmit={handleSubmit}
+      >
         <TagHeader title="Checkout" />
         {/* Checkout Steps */}
         <div className="flex justify-around mb-8 mx-auto xl:ml-20 ml-12">
@@ -654,79 +692,88 @@ const handleSubmit = async (e: React.FormEvent) => {
         </div>
         {selectedShipping === "redstar" && (
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">
-              Pickup Type
-            </label>
-            <select
-              value={selectedPickupType ?? ""}
-              onChange={(e) => setSelectedPickupType(Number(e.target.value))}
-              className="w-full p-2 border border-gray-300 rounded"
-            >
-              <option value="">Select Pickup Type</option>
-              {pickupTypes.map((pt) => (
-                <option key={pt.PickupTypeId} value={pt.PickupTypeId}>
-                  {pt.PickupType}
-                </option>
-              ))}
-            </select>
-
             <p className="mt-2 font-semibold">
               Delivery Fee:{" "}
               {/* {deliveryFee !== null ? `₦${deliveryFee}` : "Select pickup type"} */}
               <div className="mb-4 border border-gray-300 rounded-lg p-4 text-center align-center">
                 <div>
-                Shipping Fee:{" "}
-                {selectedShipping === "redstar"
-                  ? `${
-                      deliveryFee !== null
-                        ? `₦${deliveryFee}`
-                        : "Select pickup type"
-                    }`
-                  : selectedShipping === "gig"
-                  ? ""
-                  : selectedShipping === "dhl"
-                  ? ""
-                  : selectedShipping === "fedex"
-                  ? ""
-                  : "Select a shipping method"}
+                  Shipping Fee:{" "}
+                  {selectedShipping === "redstar"
+                    ? `${
+                        deliveryFee !== null
+                          ? `₦${deliveryFee2}`
+                          : "calculating..."
+                      }`
+                    : selectedShipping === "gig"
+                    ? ""
+                    : selectedShipping === "dhl"
+                    ? ""
+                    : selectedShipping === "fedex"
+                    ? ""
+                    : "Select a shipping method"}
                 </div>
+                <div>Product Price: ₦{totalProductPrice.toLocaleString()}</div>
                 <div>
-                  Product Price:{" "} 
+                  Total Pay: ₦
+                  {(
+                    (totalProductPrice || 0) + (deliveryFee2 || 0)
+                  ).toLocaleString()}
                 </div>
               </div>
             </p>
           </div>
         )}
+        <div
+          className={`p-4 rounded-lg border ${
+            hasSufficientBalance
+              ? "border-green-500 bg-green-50"
+              : "border-red-500 bg-red-50"
+          }`}
+        >
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span>Total Amount</span>
+              <span className="font-semibold">
+                ₦{totalPayable.toLocaleString()}
+              </span>
+            </div>
 
-        {/* Private Shipping */}
-        {/* <div className="mb-8">
-          <h3 className="text-lg font-semibold mb-4">Private Shipping</h3>
-          <div
-            className={`p-4 rounded-lg border ${
-              shippingMethod === "private"
-                ? "border-green-600 bg-blue-50"
-                : "border-gray-300"
-            }`}
-            onClick={() => setShippingMethod("private")}
-          >
-            <div className="flex items-center">
-              <input
-                type="radio"
-                name="shipping"
-                checked={shippingMethod === "private"}
-                className="mr-2"
-              />
-              <p>Private Shipping</p>
+            <div className="flex justify-between text-sm">
+              <span>Account Balance</span>
+              <span className="font-semibold">
+                ₦{walletBalance.toLocaleString()}
+              </span>
+            </div>
+
+            <div className="flex justify-between text-sm font-medium">
+              <span>
+                {hasSufficientBalance ? "Remaining Balance" : "Shortfall"}
+              </span>
+              <span
+                className={
+                  hasSufficientBalance ? "text-green-700" : "text-red-700"
+                }
+              >
+                ₦{Math.abs(balanceDifference).toLocaleString()}
+              </span>
             </div>
           </div>
-        </div> */}
 
-        {/* Continue Button */}
-        {/* <Link href={"./shipping-options"}> */}
-          <button type="submit" className="w-full bg-[#006838] text-white py-3 rounded-lg">
-            Continue
+          <button
+            className={`mt-4 w-full py-2 rounded-md text-white font-medium  ${
+              hasSufficientBalance
+                ? "bg-[#006838] hover:bg-[#006838]"
+                : "bg-red-600 hover:bg-red-700"
+            }`}
+            onClick={hasSufficientBalance ? handleSubmit : handleTopUp}
+          >
+            {hasSufficientBalance
+              ? isSubmitting
+                ? "Processing..."
+                : "Checkout"
+              : "Top Up Balance"}
           </button>
-        {/* </Link> */}
+        </div>
       </form>
     </>
   );

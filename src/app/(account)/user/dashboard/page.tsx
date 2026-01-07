@@ -94,7 +94,7 @@ const newArrivals = products.filter(p => compareDate(p.createdAt)).slice(0, 3);
   return (
     <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen">
-          <CountdownModal isOpen={open} onClose={() => setOpen(false)} />
+          {/* <CountdownModal isOpen={open} onClose={() => setOpen(false)} /> */}
 
       {/*  md:w-[61vw]  */}
       {

@@ -189,6 +189,7 @@ const BusinessDescription: FC<general_type> = ({
 
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 2MB
 
   type ColorItemT = {
     name: string;
@@ -236,15 +237,52 @@ const BusinessDescription: FC<general_type> = ({
       })
     );
   }
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files ? Array.from(e.target.files) : [];
-    if (!files.length) return;
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = e.target.files ? Array.from(e.target.files) : [];
+  //   if (!files.length) return;
 
-    setImageFiles(files);
-    imagePreviews.forEach((url) => URL.revokeObjectURL(url));
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setImagePreviews(previews);
-  };
+
+  //   const validFiles = [];
+  //   for (const file of files) {
+  //     if (file.size > MAX_FILE_SIZE) {
+  //       alert(`${file.name} is too large. Max size is 5MB.`);
+  //     } else {
+  //       validFiles.push(file);
+  //           setImageFiles(files);
+  //   imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+  //   const previews = files.map((file) => URL.createObjectURL(file));
+  //   setImagePreviews(previews);
+  //     }
+  //   }
+  // };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const files = e.target.files ? Array.from(e.target.files) : [];
+  if (!files.length) return;
+
+  const validFiles: File[] = [];
+
+  for (const file of files) {
+    if (file.size > MAX_FILE_SIZE) {
+      alert(`${file.name} is too large. Max size is 5MB.`);
+    } else {
+      validFiles.push(file);
+    }
+  }
+
+  // If all files were invalid, stop
+  if (validFiles.length === 0) return;
+
+  // Update state with only valid files
+  setImageFiles(validFiles);
+
+  // Clear previous preview URLs
+  imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+
+  // Generate new preview URLs
+  const previews = validFiles.map((file) => URL.createObjectURL(file));
+  setImagePreviews(previews);
+};
+
 
   const handleAPI = async () => {
     const userToken = localStorage.getItem("userToken");

@@ -1,17 +1,4 @@
-// export interface ProductT {
-//     _id: number;
-//     name: string;
-//     price: string;
-//     description: string;
-//     images: string[]
-// }
 
-// export interface CartItemT {
-//     productId: ProductT[];
-//     quantity: number;
-//     price: number;
-//     _id: string;
-//   }
 export type LocalCartItem = {
   productId: string;
   quantity: number;
@@ -32,17 +19,21 @@ export interface ProductT {
   completedStatus: boolean;
   totalStock:number;
   stockSold?:number;
-  // stockSold:number
+  category?: string[];
+  businessId?: {
+    businessName: string;
+  };
 }
-export type DisplayCartItem = LocalCartItem & ProductT;
+export interface DisplayCartItem extends LocalCartItem {
+  _id: string;
+  name: string;
+  image?: string;
+  price: number; 
+}
 export type CartDrawerProps = {
   isOpen: boolean;
   onClose: () => void;
   cartItems: DisplayCartItem[];
-  imageUrl?: string;
-  // New props for cart management
-  updateItemQuantity: (productId: string,  size: string, newQuantity: number) => void;
-  removeItem: (productId: string, size: string) => void;
 };
 export interface quantityInfo {
   quantity: number;
