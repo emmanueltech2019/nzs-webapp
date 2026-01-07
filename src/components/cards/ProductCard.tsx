@@ -49,10 +49,10 @@ import { FaStore } from "react-icons/fa"; // <-- Business icon
 
 
 interface CardProps {
-  title: string;
-  price: number;
+  title?: string;
+  price?: number;
   image?: any;
-  businessName: string;
+  businessName?: string;
 }
 
 const formatCurrency = (amount: any) => {
@@ -73,7 +73,7 @@ const Card: React.FC<CardProps> = ({ title, price, image, businessName }) => {
       <div className="aspect-square w-full flex items-center justify-center bg-white">
         <Image
           src={image}
-          alt={title}
+          alt={"title"}
           width={600}
           height={600}
           className="w-full h-full object-contain"
