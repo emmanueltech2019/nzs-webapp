@@ -248,7 +248,7 @@
 // export default ProductScreen;
 "use client";
 
-import React, { FC, useEffect, useMemo, useState } from "react";
+import React, { FC, Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "@/utils/axios";
 import Image from "next/image";
@@ -369,6 +369,7 @@ const ProductScreen: FC = () => {
   console.log("Local Cart2:", displayCartItems);
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="md:w-[50%] mx-auto">
       {loading ? (
         <CircleLoader isVisible />
@@ -465,6 +466,7 @@ const ProductScreen: FC = () => {
         </div>
       )}
     </div>
+    </Suspense>
   );
 };
 
