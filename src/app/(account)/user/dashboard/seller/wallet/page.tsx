@@ -50,7 +50,7 @@ const page = () => {
       },
     })
       .then((res) => {
-        console.log("Profile", res.data);
+        console.log("Balance", res.data.wallet.balance);
         setWallet({
           balance: res.data.wallet.balance,
           transactions: res.data.wallet.transactions,
@@ -84,13 +84,13 @@ const page = () => {
       <div className="">
         {activeTab === "PAYIN" && (
           <div>
-            <AccountBalanceCard color="bg-[#006838]" value={balance} button={true} />
+            <AccountBalanceCard color="bg-[#006838]" value={wallet?.balance || 0} button={true} />
           </div>
         )}
 
         {activeTab === "WITHDRAWAL" && (
           <div>
-            <AccountBalanceCard color="bg-[#E09427]" value={balance} button={true}/>
+            <AccountBalanceCard color="bg-[#E09427]" value={wallet?.balance || 0} button={true}/>
           </div>
         )}
       </div>

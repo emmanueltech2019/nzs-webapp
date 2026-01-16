@@ -385,7 +385,7 @@ const CheckoutShipping: React.FC = () => {
     const groupedVendors = groupItemsByBusiness(cartItems);
 
     if (groupedVendors.length === 0) {
-      return Swal.fire("Error", "Your cart is empty.", "error");
+      return Swal.fire("Error", "Your basket is empty.", "error");
     }
 
     // Show loading modal once for all submissions

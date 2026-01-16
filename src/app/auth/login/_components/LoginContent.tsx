@@ -42,7 +42,17 @@ const LoginContent = () => {
         password: pwdState,
       };
       const response = await axios.post(`/auth/login`, data);
-      localStorage.clear();
+      await axios({
+        url:`/cart/sync`,
+        method: "POST",
+        data: {
+          cartItems: JSON.parse(localStorage.getItem("localCart") || "[]"),
+        },
+        headers: {
+          Authorization: `Bearer ${response.data.token}`,
+        },
+      });
+      // localStorage.clear();
       // Store user data in local storage - userToken
       localStorage.setItem("userToken", response.data.token);
       setLoading(false);

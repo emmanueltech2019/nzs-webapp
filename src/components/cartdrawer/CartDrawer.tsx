@@ -50,13 +50,13 @@ export default function CartDrawer({
       <div className={`cart-drawer ${isOpen ? "open" : ""}`}>
         
         <div className="cart-header">
-          <h2>Your Cart ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})</h2>
+          <h2>Your basket ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})</h2>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
         <div className="cart-body">
           {cartItems.length === 0 ? (
-            <p className="empty-cart">Your cart is empty</p>
+            <p className="empty-cart">Your basket is empty</p>
           ) : (
             cartItems.map((item: DisplayCartItem) => (
               <div key={item._id} className="cart-item">
