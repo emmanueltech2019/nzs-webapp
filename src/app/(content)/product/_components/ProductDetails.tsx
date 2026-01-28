@@ -278,7 +278,7 @@ const ProductScreen: FC = () => {
 
   const [product, setProduct] = useState<ProductT | null>(null);
   const [colors, setColors] = useState<any[]>([]);
-  const [selectedColor, setSelectedColor] = useState("none");
+  const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("none");
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
@@ -318,10 +318,12 @@ const ProductScreen: FC = () => {
     if (!productId) return;
 
     if (!token) {
+      console.log("Local cart item added", selectedColor);
       addLocalItem({
         productId,
         quantity: 1,
         size: selectedSize,
+        color: selectedColor
       });
 
       showToast("success", "Item added to basket");
@@ -351,6 +353,7 @@ const ProductScreen: FC = () => {
       }
     }
   };
+
   const displayCartItems: DisplayCartItem[] = React.useMemo(() => {
     if (!product) return [];
     console.log("Local Cart1:", localCart);

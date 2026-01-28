@@ -155,7 +155,6 @@ export const useLocalCart = () => {
   // };
     const addLocalItem = (newItem: LocalCartItem) => {
     const existingItemIndex = findItemIndex(newItem.productId, newItem.size);
-console.log("got to hook")
     let updatedCart: LocalCartItem[];
 
     if (existingItemIndex > -1) {

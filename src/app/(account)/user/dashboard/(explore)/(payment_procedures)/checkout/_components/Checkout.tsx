@@ -624,6 +624,7 @@ const CheckoutShipping: React.FC = () => {
             <button
               className="text-[#006838] mt-2"
               onClick={() => setShowModal(true)}
+              type="button"
             >
               + Add Address
             </button>
