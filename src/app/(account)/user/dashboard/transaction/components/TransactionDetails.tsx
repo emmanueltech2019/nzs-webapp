@@ -132,6 +132,7 @@
 // };
 
 // export default TransactionDetails;
+"use client";
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation'; // Use 'next/router' if using Pages Router
