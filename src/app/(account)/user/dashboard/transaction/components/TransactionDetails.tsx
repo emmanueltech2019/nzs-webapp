@@ -143,6 +143,7 @@ import TagHeader from '@/components/header/TagHeader';
 
 export type TransactionDetailsProps = {
   role: 'buyer' | 'seller';
+  order?: any;
 };
 
 const TransactionDetails: React.FC<TransactionDetailsProps> = ({ role }) => {
