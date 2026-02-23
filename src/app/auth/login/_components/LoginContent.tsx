@@ -52,7 +52,7 @@ const LoginContent = () => {
           Authorization: `Bearer ${response.data.token}`,
         },
       });
-      // localStorage.clear();
+      localStorage.removeItem("localCart")
       // Store user data in local storage - userToken
       localStorage.setItem("userToken", response.data.token);
       setLoading(false);
@@ -86,7 +86,7 @@ const LoginContent = () => {
         } else {
           showToast("error", (error as any).response.data.message);
         }
-      }
+    }
   };
   return (
     <section className="px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]">
