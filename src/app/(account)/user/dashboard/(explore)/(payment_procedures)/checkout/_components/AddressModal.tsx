@@ -216,7 +216,7 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://redspeedopenapi.redstarplc.com/api/Operations/Cities",
+      url: "https://redspeedopenapi.redstarplc.com/api/Operations/Cities",
       headers: {
         Accept: "text/plain",
         "X-API-KEY":REDSTAR_API_KEY,
@@ -234,7 +234,7 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
     setLoadingTowns(true);
     axios({
       method: "GET",
-      url: `http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${formData.city}`,
+      url: `https://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${formData.city}`,
       headers: {
         Accept: "text/plain",
         "X-API-KEY":REDSTAR_API_KEY,
