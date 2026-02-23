@@ -216,14 +216,16 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
   useEffect(() => {
     axios({
       method: "GET",
-      url: "https://redspeedopenapi.redstarplc.com/api/Operations/Cities",
+      url: "/auth/cities",
       headers: {
         Accept: "text/plain",
         "X-API-KEY":REDSTAR_API_KEY,
       },
     })
       .then((res) => {
-        setCities(res.data);
+        console.log(res.data.cities)
+        setCities(res.data.cities);
+
       })
       .catch((err) => console.log(err));
   }, []);
@@ -234,14 +236,14 @@ let REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
     setLoadingTowns(true);
     axios({
       method: "GET",
-      url: `https://redspeedopenapi.redstarplc.com/api/Operations/DeliveryTowns/${formData.city}`,
+      url: `/auth/towns/${formData.city}`,
       headers: {
         Accept: "text/plain",
         "X-API-KEY":REDSTAR_API_KEY,
       },
     })
       .then((res) => {
-        setTowns(res.data);
+        setTowns(res.data.towns);
         setLoadingTowns(false);
       })
       .catch((err) => {
@@ -356,7 +358,7 @@ const handleChange = (
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
             >
               <option value="">Select a city</option>
-              {cities.map((city) => (
+              {cities?.map((city) => (
                 <option key={city.id} value={city.abbr}>
                   {city.name}
                 </option>
@@ -388,7 +390,7 @@ const handleChange = (
                   ? "Select a town"
                   : "Select city first"}
               </option>
-              {towns.map((town) => (
+              {towns?.map((town) => (
                 <option key={town.id} value={town.abbr}>
                   {town.name}
                 </option>
