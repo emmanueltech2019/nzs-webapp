@@ -27,6 +27,8 @@ const LoginContent = () => {
   const [emailState, setemail] = useForm("");
   const [pwdState, setpwd] = useForm("");
   const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
   const handleSubmit = async (e: eventType) => {
     e.preventDefault();
     if (!emailState || !pwdState) {
@@ -42,16 +44,20 @@ const LoginContent = () => {
         password: pwdState,
       };
       const response = await axios.post(`/auth/login`, data);
-      await axios({
-        url:`/cart/sync`,
-        method: "POST",
-        data: {
-          cartItems: JSON.parse(localStorage.getItem("localCart") || "[]"),
-        },
-        headers: {
-          Authorization: `Bearer ${response.data.token}`,
-        },
-      });
+      setSubmitting(true)
+      if(!submitting){
+        await axios({
+          url:`/cart/sync`,
+          method: "POST",
+          data: {
+            cartItems: JSON.parse(localStorage.getItem("localCart") || "[]"),
+          },
+          headers: {
+            Authorization: `Bearer ${response.data.token}`,
+          },
+        });
+      }
+      
       localStorage.removeItem("localCart")
       // Store user data in local storage - userToken
       localStorage.setItem("userToken", response.data.token);
@@ -117,7 +123,7 @@ const LoginContent = () => {
       <h1 className="text-[#333333] text-[21px] lg:text-[28px] leading-normal font-medium mt-5 lg:mt-7 mb-5">
         Welcome Back!
       </h1>
-      <form action="" className="text-[#666666]">
+      <form  className="text-[#666666]">
         <div className="email flex flex-col mb-[10px]">
           <label htmlFor="email" className="text-sm mb-1">
             Email

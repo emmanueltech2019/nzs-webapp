@@ -77,7 +77,7 @@ const CheckoutShipping: React.FC = () => {
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [groupedItems, setGroupedItems] = useState<Record<string, CartItem[]>>(
-    {}
+    {},
   );
   const [mergedRequest, setMergedRequest] = useState<any>(null); // optional combined request
   const [loadingDeliveryFee, setLoadingDeliveryFee] = useState(false);
@@ -95,7 +95,6 @@ const CheckoutShipping: React.FC = () => {
       })
       .then((res) => {
         const u = res.data.user;
-        console.log("WALLET B", res.data.wallet.balance);
         setUser(u);
         setAddress(u.addresses.street);
         setCity(u.addresses.city);
@@ -107,7 +106,7 @@ const CheckoutShipping: React.FC = () => {
         setWalletBalance(res.data.wallet.balance || 0);
       })
       .catch((error) => {
-        console.error("Error fetching profile:", error);
+        
       });
   }, [showModal]);
   const fetchVendors = async (grouped: Record<string, CartItem[]>) => {
@@ -122,11 +121,9 @@ const CheckoutShipping: React.FC = () => {
         });
         vendorData[businessId] = res.data.business; // Store vendor info
       } catch (err) {
-        console.error(`Error fetching vendor ${businessId}:`, err);
         vendorData[businessId] = null; // optional fallback
       }
     }
-    console.log("Fetched Vendors:", vendorData);
     setVendors(vendorData);
   };
   // 🟢 Fetch Cart and Group by businessId
@@ -210,7 +207,9 @@ const CheckoutShipping: React.FC = () => {
           totalWeight: merged.reduce((sum, m) => sum + m.weight, 0),
         });
       })
-      .catch((err) => console.error("Cart fetch error:", err));
+      .catch((err) => {
+        
+      });
   }, [user]);
 
   // 🟢 RedStar Pickup
@@ -222,7 +221,6 @@ const CheckoutShipping: React.FC = () => {
   const groupItemsByBusiness = (items: CartItem[]): VendorPayload[] => {
     const groups: { [key: string]: CartItem[] } = {};
     for (const item of items) {
-      console.log("item:", item);
       const businessId = item.productId.businessId;
       if (!groups[businessId]) groups[businessId] = [];
       groups[businessId].push(item);
@@ -240,7 +238,6 @@ const CheckoutShipping: React.FC = () => {
 
       const REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
       const groupedVendors = groupItemsByBusiness(cartItems);
-      console.log("groupedVendors:", groupedVendors);
       let totalFee = 0;
 
       try {
@@ -253,13 +250,12 @@ const CheckoutShipping: React.FC = () => {
               Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             },
           });
-          console.log("vendorRes:", vendorRes.data.business.addresses);
           const v = vendorRes.data.business;
 
           // Calculate total weight and pieces
           const totalPieces = vendor.items.reduce(
             (sum, i) => sum + i.quantity,
-            0
+            0,
           );
           const totalWeight = vendor.items.reduce((sum, item) => {
             // The weight is found at: item.productId.quantityInfo.weight
@@ -267,8 +263,7 @@ const CheckoutShipping: React.FC = () => {
             const itemQuantity = item.quantity;
             return sum + item.productId.quantityInfo.weight * itemQuantity; // Sum of (unit weight * quantity)
           }, 0);
-          console.log("Total Weight for vendor", v.name, totalWeight);
-          console.log("vendor.items", v.name, vendor.items);
+
 
           // Build payload
           const payload = {
@@ -310,12 +305,10 @@ const CheckoutShipping: React.FC = () => {
               unitOfPrice: item.productId.price,
             })),
           };
-          console.log("RedStar Payload for vendor:", v.name, payload);
-          console.log("vendor", vendorRes);
 
           // Call RedStar Delivery Fee API
           const feeRes = await axios.post(
-            "http://redspeedopenapi.redstarplc.com/api/Operations/DeliveryFee",
+            "/auth/DeliveryFee",
             {
               senderCity: vendorRes.data.business.addresses.city,
               senderTownID: vendorRes.data.business.addresses.townId,
@@ -329,28 +322,20 @@ const CheckoutShipping: React.FC = () => {
                 "X-API-KEY": REDSTAR_API_KEY,
                 "Content-Type": "application/json",
               },
-            }
+            },
           );
 
-          console.log("RedStar Fee for vendor:", v.name, feeRes.data);
           totalFee += feeRes.data.TotalAmount || 0;
         }
         const percentage = 1.65 / 100;
 
         const baseAmount = totalFee + totalProductPrice;
         const percentageFee = baseAmount * percentage;
-
+        console.log(totalFee, percentageFee);
         const finalDeliveryFee = Math.round(totalFee + percentageFee);
-        console.log(
-          typeof baseAmount,
-          typeof percentage,
-          typeof percentageFee,
-          typeof finalDeliveryFee
-        );
         setDeliveryFee(totalFee);
         setDeliveryFee2(finalDeliveryFee);
       } catch (err) {
-        console.error("Error calculating RedStar fee:", err);
         Swal.fire("Error", "Failed to calculate RedStar delivery fee", "error");
       } finally {
         setLoadingDeliveryFee(false);
@@ -361,8 +346,7 @@ const CheckoutShipping: React.FC = () => {
   }, [selectedShipping, cartItems]);
   // 🟢 Debug logs
   useEffect(() => {
-    console.log("Grouped by Business:", groupedItems);
-    console.log("Merged Request:", mergedRequest);
+
   }, [groupedItems, mergedRequest]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -372,7 +356,7 @@ const CheckoutShipping: React.FC = () => {
       return Swal.fire(
         "Error",
         "Please select RedStar as the shipping method to continue.",
-        "error"
+        "error",
       );
     }
 
@@ -407,7 +391,6 @@ const CheckoutShipping: React.FC = () => {
 
       if (!vendorData || !vendorData.addresses) {
         const errorMsg = `Vendor data or address not found for businessId: ${vendor.businessId}`;
-        console.error(errorMsg);
         errors.push(errorMsg);
         continue;
       }
@@ -420,7 +403,7 @@ const CheckoutShipping: React.FC = () => {
       }, 0);
       const vendorTotalPieces = vendor.items.reduce(
         (sum, i) => sum + i.quantity,
-        0
+        0,
       );
 
       // Create the ShipmentItem list for the current vendor
@@ -439,7 +422,6 @@ const CheckoutShipping: React.FC = () => {
         unitOfMeasure: 0,
         unitOfPrice: item.productId.price || 0,
       }));
-      console.log(vendorData)
       // --- 3. BUILD THE SINGLE SHIPMENT PAYLOAD (Matching your required structure) ---
       const singleRedStarPayload = {
         senderCity: vendorData.addresses.city || "Unknown City",
@@ -451,7 +433,9 @@ const CheckoutShipping: React.FC = () => {
         recipientAddress: address,
         recipientState: state,
         senderTownID: vendorData.addresses.townId || 0,
-        senderName: `${vendorData.userId.firstname} ${vendorData.userId.lastname}` || "Unknown Vendor",
+        senderName:
+          `${vendorData.userId.firstname} ${vendorData.userId.lastname}` ||
+          "Unknown Vendor",
         senderAddress: vendorData.addresses.street || "Unknown Street",
         senderPhone: vendorData.userId.phone || "0000000000",
         orderNo: `ORDER-${Date.now()}-${vendor.businessId.substring(0, 4)}`, // Unique order number per vendor
@@ -471,16 +455,15 @@ const CheckoutShipping: React.FC = () => {
       try {
         // API call for the current vendor
         const res = await axios.post(
-          "http://redspeedopenapi.redstarplc.com/api/Operations/PickupRequest",
+          "/auth/PickupRequest",
           singleRedStarPayload,
           {
             headers: {
               "X-API-KEY": REDSTAR_API_KEY,
               "Content-Type": "application/json",
             },
-          }
+          },
         );
-        console.log("res", res.data);
 
         if (res.data.TransStatus == "Successful") {
           // 🟢 NEW: SAVE TO INTERNAL DATABASE
@@ -507,35 +490,29 @@ const CheckoutShipping: React.FC = () => {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("userToken")}`,
                 },
-              }
+              },
             );
 
             if (dbResult.data.success) {
               successfulShipments++;
             }
           } catch (internalError) {
-            console.error(
-              "RedStar Success, but Database Save Failed:",
-              internalError
-            );
+            
             errors.push(
-              `Shipment created for ${vendorData.name}, but failed to save to history.`
+              `Shipment created for ${vendorData.name}, but failed to save to history.`,
             );
             // You might still count this as a partial success or handle it differently
           }
         } else {
-          console.log(vendorData)
           const apiError =
             res.data.Message || `API reported error for ${vendorData.name}.`;
           errors.push(apiError);
-          console.error(apiError);
         }
       } catch (error: any) {
         const systemError = `Failed to submit pickup request for ${
           vendorData.name
         }. Error: ${error.response?.data?.Message || error.message}`;
         errors.push(systemError);
-        console.error(systemError);
       }
     }
 
@@ -545,14 +522,14 @@ const CheckoutShipping: React.FC = () => {
       await Swal.fire(
         "Success!",
         `${successfulShipments} shipment(s) created successfully.`,
-        "success"
+        "success",
       );
       router.push("/user/dashboard/transaction");
     } else {
       Swal.fire(
         "Order Failed",
         errors.join("\n") || "No shipments were created.",
-        "error"
+        "error",
       );
     }
     setIsSubmitting(false);
@@ -706,12 +683,12 @@ const CheckoutShipping: React.FC = () => {
                           : "calculating..."
                       }`
                     : selectedShipping === "gig"
-                    ? ""
-                    : selectedShipping === "dhl"
-                    ? ""
-                    : selectedShipping === "fedex"
-                    ? ""
-                    : "Select a shipping method"}
+                      ? ""
+                      : selectedShipping === "dhl"
+                        ? ""
+                        : selectedShipping === "fedex"
+                          ? ""
+                          : "Select a shipping method"}
                 </div>
                 <div>Product Price: ₦{totalProductPrice.toLocaleString()}</div>
                 <div>

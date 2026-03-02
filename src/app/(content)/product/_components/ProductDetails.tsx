@@ -337,11 +337,11 @@ const ProductScreen: FC = () => {
         quantity: 1,
         size: selectedSize,
       });
-      await axios.post(
-        "cart/add/",
-        { productId, quantity: 1 },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      // await axios.post(
+      //   "cart/add/",
+      //   { productId, quantity: 1 },
+      //   { headers: { Authorization: `Bearer ${token}` } }
+      // );
 
       showToast("success", "Item added to basket");
     } catch (error: any) {
