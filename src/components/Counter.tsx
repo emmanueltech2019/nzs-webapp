@@ -88,6 +88,7 @@ const ProductsView = () => {
   const newArrivals = products
     .filter((p) => compareDate(p.createdAt))
     .slice(0, 3);
+    console.log("New Arrivals:", newArrivals); // Debugging line to check new arrivals logic
 
   // 3. Slice for "Available Products" based on Load More
   const visibleProducts = filteredProducts.slice(0, visibleCount);

@@ -24,6 +24,7 @@ const Header: FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [business, setBusiness] = useState<Business | null>(null);
   const [cartLength, setCartLength] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -10,7 +10,7 @@ import Profile from './Profile'
 const SellerProfile = () => {
 
   const products = [
-    { title: "Amazing Shoes", price: 12, image: productImg },
+    { title: "Amazing Shoes", price: 12, image: productImg, totalStock: 100 },
     
   ]
 
@@ -24,7 +24,7 @@ const SellerProfile = () => {
         {
           products.map((product, index) => (
             <div key={index}>
-              <Card title={product.title} price={product.price} image={product.image} />
+              <Card title={product.title} price={product.price} image={product.image} totalStock={product.totalStock} />
             </div>
           ))
         }

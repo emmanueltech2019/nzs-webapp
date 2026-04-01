@@ -19,7 +19,7 @@ const ProductScreen: FC = () => {
   const [cartLength, setCartLength] = useState(0);
   const [colors, setColors] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   // const sizes = ["XS", "S", "M", "L", "XL"];
   // const colors = ["black", "gray", "darkGray", "lightGray", "white"];
 
@@ -92,7 +92,7 @@ const ProductScreen: FC = () => {
       });
   };
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     //   const userToken = localStorage.getItem("userToken") || "";
     // const tr = JSON.parse(userToken);
     axios({
@@ -132,8 +132,8 @@ const ProductScreen: FC = () => {
         },
       })
         .then((res) => {
-          setLoading(false)
-          console.log("New res",res.data)
+          setLoading(false);
+          console.log("New res", res.data);
           setColors(res.data.color || []);
           setProduct(res.data);
         })
@@ -156,50 +156,54 @@ const ProductScreen: FC = () => {
   }, []);
 
   return (
-    <>{loading?<CircleLoader isVisible={loading} />:<div className=" p-4  mx-auto bg-white rounded-lg mb-20 md:mb-0">
-      {/* Close button */}
-      {/* <button className="top-4 left-4 text-2xl z-10 text-[60px]">&times;</button> */}
-      <div className="flex justify-between">
-        <button
-          className=" text-3xl z-10  py-1 text-gray-500 my-1 "
-          onClick={handleGoBack}
-        >
-          <ArrowBackOutlinedIcon fontSize={"large"} />
-        </button>
-        <Link href={"./cart"}>
-          <div className="relative">
-            <Image
-              src={
-                "https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png"
-              }
-              alt="cart icon"
-              height={100}
-              width={40}
-              className="text-2xl"
-            />
-            <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
-              {cartLength}
-            </span>
+    <>
+      {loading ? (
+        <CircleLoader isVisible={loading} />
+      ) : (
+        <div className=" p-4  mx-auto bg-white rounded-lg mb-20 md:mb-0">
+          <div className="flex justify-between">
+            <button
+              className=" text-3xl z-10  py-1 text-gray-500 my-1 "
+              onClick={handleGoBack}
+            >
+              <ArrowBackOutlinedIcon fontSize={"large"} />
+            </button>
+            <Link href={"./cart"}>
+              <div className="relative">
+                <Image
+                  src={
+                    "https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png"
+                  }
+                  alt="cart icon"
+                  height={100}
+                  width={40}
+                  className="text-2xl"
+                />
+                <span className="absolute top-2 right-3 bg-[#006838] text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
+                  {cartLength}
+                </span>
+              </div>
+            </Link>
           </div>
-        </Link>
-      </div>
 
-      {/* Product Image/Carousel */}
-      {/* <CarouselEmbla images={product?.images}/> */}
-      <CarouselEmbla images={product?.images ?? []} />
+          <CarouselEmbla images={product?.images ?? []} />
 
-      {/* Product Info */}
-      <div className="mt-4">
-        <span className="inline-block py-2 px-4 bg-[#EAF2FF] text-black rounded-lg mb-4 mt-2">
-          Available
-        </span>
-        <h2 className="text-2xl font-bold">{product?.name}</h2>
-        <p className="text-xl text-gray-700">₦ {product?.price} / {product?.quantityInfo.quantity} {product?.quantityInfo.quantityUnit} - {product?.price} * {product?.quantityInfo.quantity}</p>
-        <p className="mt-2 text-gray-500">{product?.description}</p>
-      </div>
+          {/* Product Info */}
+          <div className="mt-4">
+            <span className="inline-block py-2 px-4 bg-[#EAF2FF] text-black rounded-lg mb-4 mt-2">
+              Available
+            </span>
+            <h2 className="text-2xl font-bold">{product?.name}</h2>
+            <p className="text-xl text-gray-700">
+              ₦ {product?.price} / {product?.quantityInfo.quantity}{" "}
+              {product?.quantityInfo.quantityUnit} - {product?.price} *{" "}
+              {product?.quantityInfo.quantity}
+            </p>
+            <p className="mt-2 text-gray-500">{product?.description}</p>
+          </div>
 
-      {/* Size Selector */}
-      {/* <div className="mt-4">
+          {/* Size Selector */}
+          {/* <div className="mt-4">
         <h3 className="font-semibold mb-2">Size</h3>
         <div className="flex space-x-2">
           {sizes.map((size) => (
@@ -218,34 +222,34 @@ const ProductScreen: FC = () => {
         </div>
       </div> */}
 
-      {/* Color Selector */}
-      <div className="mt-4">
-        <h3 className="font-semibold mb-2">Color</h3>
-        <div className="flex space-x-2">
-          {colors.map((color) => (
-            <button
-              key={color}
-              className={`w-8 h-8 rounded-full border ${
-                selectedColor === color ? "border-green-600" : ""
-              }`}
-              style={{ backgroundColor: color }}
-              onClick={() => setSelectedColor(color)}
-            ></button>
-          ))}
+          {/* Color Selector */}
+          <div className="mt-4">
+            <h3 className="font-semibold mb-2">Color</h3>
+            <div className="flex space-x-2">
+              {colors.map((color) => (
+                <button
+                  key={color}
+                  className={`w-8 h-8 rounded-full border ${
+                    selectedColor === color ? "border-green-600" : ""
+                  }`}
+                  style={{ backgroundColor: color }}
+                  onClick={() => setSelectedColor(color)}
+                ></button>
+              ))}
+            </div>
+          </div>
+
+          {/* Add to Bag Button */}
+
+          <button
+            className="mt-6 w-full py-3 bg-[#006838] text-white text-lg rounded-lg flex items-center justify-center"
+            onClick={addToCart}
+          >
+            + Add to Basket
+          </button>
         </div>
-      </div>
-
-      {/* Add to Bag Button */}
-
-      <button
-        className="mt-6 w-full py-3 bg-[#006838] text-white text-lg rounded-lg flex items-center justify-center"
-        onClick={addToCart}
-      >
-        + Add to Basket
-      </button>
-    </div>}
+      )}
     </>
-    
   );
 };
 
