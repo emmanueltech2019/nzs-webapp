@@ -2,27 +2,16 @@
 import React, { useState, Suspense, useEffect } from "react";
 import FloatingButton from "@/components/buttons/FloatingButton";
 import Carousel from "@/components/carousel/Carousel2";
-// import SortFilter from "@/components/SortFilter/SortFilter"; // Unused in provided code
 import ProductGrid from "@/components/Grid/ProductGrid2";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "@/utils/axios";
 import { DisplayCartItem, ProductT } from "@/types/Product.types";
-import Banner1 from "../assets/images/banner-img/banner-img-1.jpg";
-import Banner2 from "../assets/images/banner-img/banner-img-2.jpg";
-import Banner3 from "../assets/images/banner-img/banner-img-3.jpg";
-import Banner4 from "../assets/images/banner-img/banner-img-4.jpg";
-// import Swal from "sweetalert2"; // Unused
 import CircleLoader from "@/components/loader/loader";
 import ProductFilterSidebar from "./SideFileter";
-// import Link from "next/link"; // Unused
 import Image from "next/image";
 import Tape from "./tape/Tape";
 import CartDrawer from "./cartdrawer/CartDrawer";
-
-// Icons
-import { FaSearch } from "react-icons/fa"; // Make sure you have react-icons installed
-// import { useLocalCart } from "@/hooks/useLocalCart";
-// import { useCartData } from "@/hooks/useCartData";
+import { FaSearch } from "react-icons/fa";
 import { useLocalCart } from "@/hooks/useLocalCart";
 
 const compareDate = (dateString?: string) => {
@@ -44,91 +33,94 @@ const ProductsView = () => {
   const { localCart, addLocalItem, updateItemQuantity, removeItem  } = useLocalCart();
   const cartLength = localCart.length;
 
-// const { detailedCart } = useLocalCart();
-  // --- NEW STATES FOR SEARCH AND PAGINATION ---
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [visibleCount, setVisibleCount] = useState(8); // Start with 9 items
+  const [visibleCount, setVisibleCount] = useState(8); 
+const searchParams = useSearchParams();
+const industry = searchParams.get("industry");
+const category = searchParams.get("category");
+const sub = searchParams.get("sub");
+//   useEffect(() => {
+//     setLoading(true);
+//     if (typeof window !== "undefined") {
+//       axios({
+//         method: "GET",
+//         url: "products/2",
+//         headers: {
+//           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+//         },
+//       })
+//         .then((res) => {
+//           setProducts(res.data.products);
+//           setProduct(res.data.products);
+//           setLoading(false);
+//         })
+//         .catch((error) => {
+//           console.error(error);
+//           setLoading(false);
+//         });
+// }
+//   }, []);
+useEffect(() => {
+  setLoading(true);
+  
+  // Build dynamic query based on URL params
+  const params = new URLSearchParams();
+  if (industry) params.append("industry", industry);
+  if (category) params.append("category", category);
+  if (sub) params.append("sub", sub);
 
-  useEffect(() => {
-    setLoading(true);
-    if (typeof window !== "undefined") {
-      axios({
-        method: "GET",
-        url: "products/2",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-      })
-        .then((res) => {
-          setProducts(res.data.products);
-          setProduct(res.data.products);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error(error);
-          setLoading(false);
-        });
-}
-  }, []);
-
-  const searchParams = useSearchParams();
+  axios({
+    method: "GET",
+    url: `/products/2?${params.toString()}`, // Send filters to backend
+    headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
+  })
+    .then((res) => {
+      setProducts(res.data.products);
+      setLoading(false);
+    })
+    .catch((error) => {
+      console.error(error);
+      setLoading(false);
+    });
+}, [industry, category, sub]); // Re-fetch whenever filters change
+  // const searchParams = useSearchParams();
   const main = searchParams.get("main") || "";
   const [activeTab, setActiveTab] = useState(main || "products");
   const [open, setOpen] = useState(false);
   const [product, setProduct] = useState<ProductT | null>(null);
   
 
-  // --- FILTERING LOGIC ---
-  // 1. Filter by search query
   const filteredProducts = products.filter((p) =>
     p.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // 2. Logic for New Arrivals (Search usually doesn't affect this static section, but if you want it to, change 'products' to 'filteredProducts' below)
   const newArrivals = products
     .filter((p) => compareDate(p.createdAt))
     .slice(0, 3);
-    console.log("New Arrivals:", newArrivals); // Debugging line to check new arrivals logic
+    console.log("New Arrivals:", newArrivals);
 
-  // 3. Slice for "Available Products" based on Load More
   const visibleProducts = filteredProducts.slice(0, visibleCount);
 
   // --- HANDLERS ---
   const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 8); // Load 20 more
+    setVisibleCount((prev) => prev + 8); 
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    setVisibleCount(9); // Reset to 9 when search changes so user sees top results
+    setVisibleCount(9);
   };
   const [products2, setProducts2] = React.useState<ProductT[]>([]);
-  // const displayCartItems: DisplayCartItem[] = React.useMemo(() => {
-  //   if (!product) return [];
-  //   console.log("Local Cart1:", localCart);
-  //   return localCart
-  //     // .filter((item) => String(item.productId) === String(product._id))
-  //     .map((item) => ({
-  //       _id: product._id,
-  //       productId: item.productId,
-  //       name: product.name,
-  //       price: product.price,
-  //       image: product.images?.[0],
-  //       size: item.size,
-  //       quantity: item.quantity,
-  //     }));
-  // }, [localCart, product]);
+
   const displayCartItems = React.useMemo(() => {
   return localCart.map((cartItem) => {
-    // Find the product details that match this cart item
     const details = products.find((p) => String(p._id) === String(cartItem.productId));
-
-    // If details haven't loaded yet, return a skeleton or basic info
     return {
       _id: cartItem.productId,
       productId: cartItem.productId,
       name: details?.name || "Loading...",
-      price: details?.price || 0, // This avoids your .toFixed() error!
+      price: details?.price || 0,
       image: details?.images?.[0] || "",
       size: cartItem.size,
       quantity: cartItem.quantity,

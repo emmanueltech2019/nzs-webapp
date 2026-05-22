@@ -461,7 +461,8 @@
 
 // export default App;\
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-
+import axios from "@/utils/axios";
+import { useRouter, useSearchParams } from "next/navigation";
 // --- TYPE DEFINITIONS ---
 
 interface Category {
@@ -715,48 +716,111 @@ const PriceFilter: React.FC<PriceFilterProps> = ({ minPrice, maxPrice, setMinPri
   );
 };
 
-/**
- * Renders the Category filter section with nested lists.
- */
-const CategoryFilter: React.FC<CategoryFilterProps> = ({ selectedCategory, setSelectedCategory }) => {
 
-  const handleCategoryClick = useCallback((categoryName: string) => {
-    setSelectedCategory(categoryName);
-  }, [setSelectedCategory]);
+interface CategoryNode {
+  _id: string;
+  name: string;
+  level: number;
+  children?: CategoryNode[];
+}
+
+const CategoryFilter: React.FC = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [tree, setTree] = useState<CategoryNode[]>([]);
+  const [expanded, setExpanded] = useState<string[]>([]); // Tracks open dropdowns
+
+  // Sync state with URL on load
+  const activeIndustry = searchParams.get("industry");
+  const activeCategory = searchParams.get("category");
+  const activeSub = searchParams.get("sub");
+
+  useEffect(() => {
+    // Fetch the hierarchical tree we built in the backend
+    axios.get("/categories/tree/all").then((res) => setTree(res.data));
+  }, []);
+
+  const toggleExpand = (id: string) => {
+    setExpanded(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const handleFilter = (type: 'industry' | 'category' | 'sub', id: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    // Reset lower levels when a higher level is clicked
+    if (type === 'industry') {
+        params.set("industry", id);
+        params.delete("category");
+        params.delete("sub");
+    } else if (type === 'category') {
+        params.set("category", id);
+        params.delete("sub");
+    } else {
+        params.set("sub", id);
+    }
+    
+    router.push(`?${params.toString()}`);
+  };
 
   return (
-    <div className="space-y-1 pt-2">
-      {CATEGORIES.map((category) => (
-        <div key={category.name}>
-          <button
-            onClick={() => handleCategoryClick(category.name)}
-            className={`w-full text-left text-sm py-1 px-1 rounded-md transition duration-150 ${
-              selectedCategory === category.name
-                ? 'font-bold text-orange-600 bg-orange-50'
-                : 'text-gray-700 hover:text-orange-600 hover:bg-gray-50'
-            }`}
-          >
-            {category.name}
-          </button>
-          {/* Render subcategories if selected and they exist */}
-          {selectedCategory === category.name && category.subcategories.length > 0 && (
-            <div className="ml-4 mt-1 space-y-1 border-l border-gray-200 pl-2">
-              {category.subcategories.map((sub: string) => (
+    <div className="space-y-2 pt-2">
+      {tree.map((industry) => (
+        <div key={industry._id} className="border-b border-gray-50 pb-2">
+          {/* INDUSTRY LEVEL */}
+          <div className="flex items-center justify-between group">
+            <button
+              onClick={() => handleFilter('industry', industry._id)}
+              className={`text-sm py-2 font-semibold transition-colors ${
+                activeIndustry === industry._id ? 'text-green-700' : 'text-gray-800 hover:text-green-600'
+              }`}
+            >
+              {industry.name.toUpperCase()}
+            </button>
+            {industry.children?.length ? (
+              <button onClick={() => toggleExpand(industry._id)} className="p-1 text-gray-400">
+                {expanded.includes(industry._id) ? '−' : '+'}
+              </button>
+            ) : null}
+          </div>
+
+          {/* CATEGORY LEVEL */}
+          {expanded.includes(industry._id) && industry.children?.map((cat) => (
+            <div key={cat._id} className="ml-4 mt-1">
+              <div className="flex items-center justify-between">
                 <button
-                  key={sub}
-                  className="w-full text-left text-xs py-1 text-gray-600 hover:text-orange-500 transition duration-150"
+                  onClick={() => handleFilter('category', cat._id)}
+                  className={`text-xs py-1 transition-colors ${
+                    activeCategory === cat._id ? 'text-green-600 font-bold' : 'text-gray-600 hover:text-green-500'
+                  }`}
                 >
-                  {sub}
+                  {cat.name}
+                </button>
+                {cat.children?.length ? (
+                   <button onClick={() => toggleExpand(cat._id)} className="text-[10px] text-gray-400">
+                    {expanded.includes(cat._id) ? '▼' : '▶'}
+                  </button>
+                ) : null}
+              </div>
+
+              {/* SUB-CATEGORY LEVEL */}
+              {expanded.includes(cat._id) && cat.children?.map((sub) => (
+                <button
+                  key={sub._id}
+                  onClick={() => handleFilter('sub', sub._id)}
+                  className={`block ml-4 text-[11px] py-1 transition-colors ${
+                    activeSub === sub._id ? 'text-green-500 font-bold' : 'text-gray-500 hover:text-green-400'
+                  }`}
+                >
+                  • {sub.name}
                 </button>
               ))}
             </div>
-          )}
+          ))}
         </div>
       ))}
     </div>
   );
 };
-
 
 /**
  * Renders the Brand filter section with search and checkboxes.
@@ -828,9 +892,7 @@ const BrandFilter: React.FC<BrandFilterProps> = ({ selectedBrands, toggleBrand }
 // --- MAIN SIDEBAR COMPONENT ---
 
 const ProductFilterSidebar: React.FC = () => {
-  // State for all filters
-  const [minPrice, setMinPrice] = useState<number>(2280);
-  const [maxPrice, setMaxPrice] = useState<number>(12700000);
+
   const [appliedPriceRange, setAppliedPriceRange] = useState<PriceRange>({ min: 2280, max: 12700000 });
 
   const [selectedDiscount, setSelectedDiscount] = useState<string>('');
@@ -845,15 +907,32 @@ const ProductFilterSidebar: React.FC = () => {
     );
   }, []);
 
-  const applyPriceFilter = useCallback(() => {
-    // Basic validation: ensure min is less than max
-    if (minPrice <= maxPrice) {
-      setAppliedPriceRange({ min: minPrice, max: maxPrice });
-      console.log(`Applying price filter: ₦${minPrice} - ₦${maxPrice}`);
-    } else {
-      console.error("Invalid price range: Min price is greater than Max price.");
-    }
-  }, [minPrice, maxPrice]);
+const router = useRouter();
+const searchParams = useSearchParams();
+
+// Initialize from URL or use defaults if not present
+const [minPrice, setMinPrice] = useState<number>(
+  Number(searchParams.get('minPrice')) || 1000
+);
+const [maxPrice, setMaxPrice] = useState<number>(
+  Number(searchParams.get('maxPrice')) || 1000000000
+);
+const applyPriceFilter = useCallback(() => {
+  const params = new URLSearchParams(searchParams.toString());
+
+  if (minPrice <= maxPrice) {
+    // Update URL parameters
+    params.set('minPrice', minPrice.toString());
+    params.set('maxPrice', maxPrice.toString());
+    
+    // Reset to page 1 whenever filters change (optional but recommended)
+    params.delete('page'); 
+
+    router.push(`?${params.toString()}`);
+  } else {
+    alert("Minimum price cannot be greater than maximum price.");
+  }
+}, [minPrice, maxPrice, router, searchParams]);
 
   useEffect(() => {
       // Log the final filter state for a real-world API call
@@ -890,7 +969,7 @@ const ProductFilterSidebar: React.FC = () => {
       </section> */}
       
       {/* 3. Price Filter (Screenshot 2) */}
-      <section>
+      {/* <section>
         <FilterSectionTitle title={`PRICE (₦)`} />
         <PriceFilter
           minPrice={minPrice}
@@ -899,10 +978,10 @@ const ProductFilterSidebar: React.FC = () => {
           setMaxPrice={setMaxPrice}
           applyFilter={applyPriceFilter}
         />
-      </section>
+      </section> */}
 
       {/* 4. Discount Percentage Filter (Screenshot 2) */}
-      <section>
+      {/* <section>
         <FilterSectionTitle title="DISCOUNT PERCENTAGE" />
         <RadioGroupFilter
           name="Discount Percentage"
@@ -910,19 +989,19 @@ const ProductFilterSidebar: React.FC = () => {
           selectedValue={selectedDiscount}
           onChange={setSelectedDiscount}
         />
-      </section>
+      </section>*/}
 
       {/* 5. Product Rating Filter (Screenshot 2) */}
-      <section>
+      {/* <section>
         <FilterSectionTitle title="PRODUCT RATING" />
         <RatingFilter
           selectedRating={selectedRating}
           setSelectedRating={setSelectedRating}
         />
-      </section>
+      </section> */}
 
       {/* 6. Seller Score Filter (Screenshot 2) */}
-      <section>
+      {/* <section>
         <FilterSectionTitle title="SELLER SCORE" />
         <RadioGroupFilter
           name="Seller Score"
@@ -930,8 +1009,10 @@ const ProductFilterSidebar: React.FC = () => {
           selectedValue={selectedSellerScore}
           onChange={setSelectedSellerScore}
         />
-      </section>
-
+      </section> */}
+      {/* ads space  */}
+        <div className="w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">
+        </div>
     </div>
   );
 };

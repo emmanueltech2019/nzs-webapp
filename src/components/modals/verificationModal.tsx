@@ -28,10 +28,10 @@ const MyModal: React.FC<MyModalProps> = ({isVisible,walletBalance,onClose,onPayF
           fee to unlock full features.
         </p>
  <p className="text-green-600 mb-6 py-2 text-lg font-bold">
-         6500 NGN
+         9800 NGN
         </p>
         {walletBalance !== undefined ? (
-  walletBalance < 6500 ? (
+  walletBalance < 9800 ? (
     <p className="text-red-500 mb-6 text-sm">
       Insufficient Wallet Balance. Please top up your wallet to proceed with the verification payment. <br/><div onClick={() => setShowModal(!showModal)} className="underline text-green-600">Deposit</div>
     </p>
