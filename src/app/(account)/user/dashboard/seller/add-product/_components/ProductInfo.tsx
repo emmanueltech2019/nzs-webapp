@@ -1420,7 +1420,7 @@ const BusinessDescription: FC<general_type> = ({
             <span className="flex items-center justify-center rounded-full w-4 h-4 bg-[--foreground-green]">
               <span className="flex items-center justify-center rounded-full bg-white h-[5px] w-[5px]"></span>
             </span>
-            <span className={`text-[#71727A] text-sm font-bold ${openSansFont.className || ''}`}>
+            <span className={`text-[#71727A] text-sm font-bold ${openSansFont}`}>
               Special Handling
             </span>
           </h1>
