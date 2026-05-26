@@ -1,4 +1,752 @@
 
+// "use client";
+
+// import { useEffect, useState, FC, Suspense } from "react";
+// import { useSearchParams } from "next/navigation";
+// import axios from "@/utils/axios";
+// import { showToast } from "@/utils/alert";
+// import useToggle from "@/hooks/useToggle";
+// import Accordion from "./Accordion";
+// import openSansFont from "@/fonts/OpenSans";
+// import { Icon } from "@iconify/react/dist/iconify.js";
+// import general_type from "./general.types";
+// import { handleApiError } from "@/utils/errors";
+// import Circle from "@/components/Circle";
+// import { desc, form } from "framer-motion/client";
+
+// const OPTIONS = {
+//   sector: ["Health", "Hospitality", "Education", "Legal", "Logistics"],
+//   productType: [
+//     "Edible",
+//     "Wears",
+//     "Equipment",
+//     "Stationaries",
+//     "Automobiles",
+//     "Gadgets",
+//     "Books",
+//     "Furniture",
+//     "Cosmetics",
+//     "Toys",
+//     "Art",
+//   ],
+//   color: [
+//     { name: "White", hex: "#FFFFFF", textColor: "#000000" },
+//     { name: "Black", hex: "#000000", textColor: "#FFFFFF" },
+//     { name: "Gray", hex: "#808080" },
+//     { name: "Silver", hex: "#C0C0C0" },
+//     { name: "Gold", hex: "#FFD700" },
+//     { name: "Beige", hex: "#F5F5DC" },
+//     { name: "Ivory", hex: "#FFFFF0" },
+//     { name: "Brown", hex: "#A52A2A" },
+
+//     // Red Shades
+//     { name: "Red", hex: "#FF0000" },
+//     { name: "Maroon", hex: "#800000" },
+//     { name: "Crimson", hex: "#DC143C" },
+//     { name: "Burgundy", hex: "#800020" },
+//     { name: "Firebrick", hex: "#B22222" },
+//     { name: "Scarlet", hex: "#FF2400" },
+//     { name: "Coral", hex: "#FF7F50" },
+//     { name: "Salmon", hex: "#FA8072" },
+
+//     // Pink Shades
+//     { name: "Pink", hex: "#FFC0CB" },
+//     { name: "Hot Pink", hex: "#FF69B4" },
+//     { name: "Light Pink", hex: "#FFB6C1" },
+//     { name: "Fuchsia", hex: "#FF00FF" },
+//     { name: "Magenta", hex: "#FF00FF" },
+//     { name: "Rose", hex: "#FF007F" },
+//     { name: "Blush", hex: "#DE5D83" },
+//     { name: "Peach", hex: "#FFE5B4" },
+
+//     // Orange Shades
+//     { name: "Orange", hex: "#FFA500" },
+//     { name: "Dark Orange", hex: "#FF8C00" },
+//     { name: "Tomato", hex: "#FF6347" },
+//     { name: "Tangerine", hex: "#F28500" },
+//     { name: "Amber", hex: "#FFBF00" },
+//     { name: "Apricot", hex: "#FBCEB1" },
+
+//     // Yellow Shades
+//     { name: "Yellow", hex: "#FFFF00" },
+//     { name: "Light Yellow", hex: "#FFFFE0" },
+//     { name: "Lemon", hex: "#FFF44F" },
+//     { name: "Mustard", hex: "#FFDB58" },
+//     { name: "Khaki", hex: "#C3B091" },
+//     { name: "Cream", hex: "#FFFDD0" },
+
+//     // Green Shades
+//     { name: "Green", hex: "#008000" },
+//     { name: "Light Green", hex: "#90EE90" },
+//     { name: "Lime", hex: "#00FF00" },
+//     { name: "Olive", hex: "#808000" },
+//     { name: "Mint", hex: "#98FF98" },
+//     { name: "Sea Green", hex: "#2E8B57" },
+//     { name: "Forest Green", hex: "#228B22" },
+//     { name: "Emerald", hex: "#50C878" },
+//     { name: "Teal", hex: "#008080" },
+//     { name: "Jade", hex: "#00A86B" },
+
+//     // Blue Shades
+//     { name: "Blue", hex: "#0000FF" },
+//     { name: "Light Blue", hex: "#ADD8E6" },
+//     { name: "Sky Blue", hex: "#87CEEB" },
+//     { name: "Dodger Blue", hex: "#1E90FF" },
+//     { name: "Royal Blue", hex: "#4169E1" },
+//     { name: "Navy Blue", hex: "#000080" },
+//     { name: "Cyan", hex: "#00FFFF" },
+//     { name: "Turquoise", hex: "#40E0D0" },
+//     { name: "Aqua", hex: "#00FFFF" },
+//     { name: "Azure", hex: "#007FFF" },
+
+//     // Purple / Violet Shades
+//     { name: "Purple", hex: "#800080" },
+//     { name: "Lavender", hex: "#E6E6FA" },
+//     { name: "Violet", hex: "#8A2BE2" },
+//     { name: "Indigo", hex: "#4B0082" },
+//     { name: "Orchid", hex: "#DA70D6" },
+//     { name: "Plum", hex: "#DDA0DD" },
+//     { name: "Lilac", hex: "#C8A2C8" },
+//     { name: "Amethyst", hex: "#9966CC" },
+
+//     // Neutral & Metallics
+//     { name: "Bronze", hex: "#CD7F32" },
+//     { name: "Copper", hex: "#B87333" },
+//     { name: "Charcoal", hex: "#36454F" },
+//     { name: "Slate", hex: "#708090" },
+//     { name: "Graphite", hex: "#383838" },
+//     { name: "Pearl", hex: "#E2DFD2" },
+
+//     // Earth & Natural Tones
+//     { name: "Tan", hex: "#D2B48C" },
+//     { name: "Sand", hex: "#C2B280" },
+//     { name: "Chocolate", hex: "#7B3F00" },
+//     { name: "Coffee", hex: "#6F4E37" },
+//     { name: "Mocha", hex: "#967969" },
+//     { name: "Rust", hex: "#B7410E" },
+//     { name: "Terracotta", hex: "#E2725B" },
+//     { name: "Olive Drab", hex: "#6B8E23" },
+
+//     // Special / Neon / Pastel
+//     {
+//       name: "Rainbow",
+//       hex: "linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet)",
+//     },
+//     {
+//       name: "Multicolor",
+//       hex: "linear-gradient(90deg, #FF0000, #00FF00, #0000FF)",
+//     },
+//     { name: "Neon Green", hex: "#39FF14" },
+//     { name: "Neon Pink", hex: "#FF6EC7" },
+//     { name: "Neon Blue", hex: "#1B03A3" },
+//     { name: "Neon Orange", hex: "#FF6700" },
+//     { name: "Pastel Pink", hex: "#FFD1DC" },
+//     { name: "Pastel Blue", hex: "#AEC6CF" },
+//     { name: "Pastel Yellow", hex: "#FFFACD" },
+//     { name: "Pastel Green", hex: "#77DD77" },
+//     { name: "Metallic Blue", hex: "#32527B" },
+//     { name: "Rose Gold", hex: "#B76E79" },
+//   ],
+//   sizes: [
+//     "XS", "S", "M", "L", "XL", "XXL",
+//     "28", "30", "32", "34", "36", "38", "40",
+//     "Free Size",
+//     "Custom Measurement"
+//   ],
+//   handlingType: ["Fragile", "Perishable"],
+// };
+// function getTextColor(hex: string): string {
+//   if (hex.startsWith("linear-gradient")) return "#FFFFFF"; // For gradients
+
+//   // Convert HEX → RGB
+//   const c = hex.replace("#", "");
+//   const num = parseInt(c, 16);
+//   const r = (num >> 16) & 0xff;
+//   const g = (num >> 8) & 0xff;
+//   const b = num & 0xff;
+
+//   // Calculate brightness using W3C formula
+//   const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+//   return brightness > 150 ? "#000000" : "#FFFFFF";
+// }
+
+// const BusinessDescription: FC<general_type> = ({
+//   handleBtnFunc,
+//   setCount,
+//   setSection,
+// }) => {
+//   const searchParams = useSearchParams();
+//   const productId = searchParams.get("id");
+
+//   const [isProductTypeOpen, toggleProductType] = useToggle(true);
+//   const [isColorOpen, toggleColor] = useToggle(true);
+//   const [isSizeOpen, toggleSize] = useToggle(true);
+
+//   const [loading, setLoading] = useState(false);
+//   const [displayCircle, setDisplayCircle] = useState(true);
+
+//   const [productName, setProductName] = useState("");
+//   const [productDescription, setProductDescription] = useState("");
+
+//   const [uploadCount, setuploadCount] = useState(75);
+//   const [count, setCount2] = useState(25);
+
+//   const [productTypeState, setProductTypeState] = useState(
+//     OPTIONS.productType.map((item) => ({ item, state: false }))
+//   );
+//   const [sizeState, setSizeState] = useState(
+//   OPTIONS.sizes.map((item) => ({ item, state: false }))
+// );
+
+//   const [imageFiles, setImageFiles] = useState<File[]>([]);
+//   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+
+//   type ColorItemT = {
+//     name: string;
+//     hex: string;
+//     textColor?: string | undefined;
+//   };
+
+//   const [colorState, setColorState] = useState<
+//     { item: ColorItemT; state: boolean }[]
+//   >(
+//     OPTIONS.color.map((color) => ({
+//       item: { ...color, textColor: getTextColor(color.hex) },
+//       state: false,
+//     }))
+//   );
+//   const [handlingTypeState, setHandlingTypeState] = useState(
+//     OPTIONS.handlingType.map((item) => ({ item, state: false }))
+//   );
+
+//   function handleSelection<T>(
+//     state: { item: T; state: boolean }[],
+//     setState: React.Dispatch<
+//       React.SetStateAction<{ item: T; state: boolean }[]>
+//     >,
+//     selectedItem: T
+//   ) {
+//     setState((prev) =>
+//       prev.map(({ item, state }) => {
+//         let isMatch = false;
+//         if (typeof item === "string" && typeof selectedItem === "string") {
+//           isMatch = item === selectedItem;
+//         } else if (
+//           typeof item === "object" &&
+//           item !== null &&
+//           "name" in item &&
+//           typeof selectedItem === "object" &&
+//           selectedItem !== null &&
+//           "name" in selectedItem
+//         ) {
+//           isMatch =
+//             (item as { name: string }).name ===
+//             (selectedItem as { name: string }).name;
+//         }
+//         return { item, state: isMatch ? !state : state };
+//       })
+//     );
+//   }
+//   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const files = e.target.files ? Array.from(e.target.files) : [];
+//     if (!files.length) return;
+
+//     setImageFiles(files);
+//     imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+//     const previews = files.map((file) => URL.createObjectURL(file));
+//     setImagePreviews(previews);
+//   };
+
+//   const handleAPI = async () => {
+//     const userToken = localStorage.getItem("userToken");
+//     if (!userToken) {
+//       showToast("error", "User token not found");
+//       return;
+//     }
+
+//     const selectedProductTypes = productTypeState
+//       .filter(({ state }) => state)
+//       .map(({ item }) => item);
+//     const selectedColors = colorState
+//       .filter(({ state }) => state)
+//       .map(({ item }) => item);
+//     const selectedHandlingTypes = handlingTypeState
+//       .filter(({ state }) => state)
+//       .map(({ item }) => item);
+
+//     if (!selectedProductTypes.length || !selectedColors.length) {
+//       showToast("error", "Please select both product types and colors");
+//       return;
+//     }
+    
+//     const formData = new FormData();
+//     formData.append("productName", productName);
+//     formData.append("description", productDescription);
+//     formData.append("category", JSON.stringify(selectedProductTypes));
+//     // selectedColors.forEach((color) =>
+//     //   formData.append("color[]", JSON.stringify(color))
+//     // );
+//     const selectedSizes = sizeState
+//     .filter(({ state }) => state)
+//     .map(({ item }) => item);
+
+//     formData.append("color", JSON.stringify(selectedColors));
+//     formData.append("sizes", JSON.stringify(selectedSizes));
+
+//     selectedHandlingTypes.forEach((handling) =>
+//       formData.append("specialHandling[]", handling)
+//     );
+//     formData.append("businessId", localStorage.getItem("activeBusiness") || "");
+
+//     imageFiles.forEach((file) => {
+//       formData.append("images", file); // must match backend multer field
+//     });
+//     console.log("selectedColors", selectedColors);
+//     setLoading(true);
+//     try {
+//       const url = productId
+//         ? `/products/vendor/${productId}`
+//         : "/products/vendor/create";
+//       const method = productId ? "put" : "post";
+
+//       const response = await axios({
+//         method,
+//         url,
+//         data: formData,
+//         headers: {
+//           Authorization: `Bearer ${userToken}`,
+//           "Content-Type": "multipart/form-data",
+//         },
+//       });
+
+//       if (!productId) {
+//         localStorage.setItem("addProductActive", response.data.productId);
+//       }
+
+//       showToast("success", 'Product information saved successfully');
+//       setLoading(false);
+//       setSection(2);
+//     } catch (error) {
+//       console.error(error);
+//       const errorMessage = handleApiError(error, "An error occurred");
+//       showToast("error", errorMessage);
+//     }
+//   };
+
+//   // Fetch product if editing
+//   useEffect(() => {
+//     const fetchProduct = async () => {
+//       if (!productId) return;
+//       const token = localStorage.getItem("userToken");
+
+//       try {
+        
+//         const res = await axios.get(`/products/vendor/${productId}`, {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
+//         console.log("Fetched product data:", res.data);
+//         const product = res.data;
+
+//         setProductName(product.name || "");
+//         setProductDescription(product.description || "");
+
+// setProductTypeState((prev) =>
+//   prev.map(({ item }) => {
+//     let categoryArray = [];
+
+//     // Parse category safely (in case it's stringified)
+//     if (Array.isArray(product.category)) {
+//       try {
+//         const first = product.category[0];
+//         if (typeof first === "string" && first.startsWith("[")) {
+//           categoryArray = JSON.parse(first);
+//         } else {
+//           categoryArray = product.category;
+//         }
+//       } catch (err) {
+//         categoryArray = [];
+//       }
+//     }
+
+//     return {
+//       item,
+//       state: categoryArray.includes(item),
+//     };
+//   })
+// );
+
+// setColorState((prev) =>
+//   prev.map(({ item }) => ({
+//     item,
+//     state:
+//       product.color?.some(
+//         (color: any) =>
+//           color.name.toLowerCase() === item.name.toLowerCase()
+//       ) || false,
+//   }))
+// );
+
+//         setHandlingTypeState((prev) =>
+//           prev.map(({ item }) => ({
+//             item,
+//             state: product.specialHandling?.includes(item) || false,
+//           }))
+//         );
+
+//         if (product.images?.length) {
+//           setImagePreviews(product.images); // backend URLs
+//         }
+//       } catch (err) {
+//         console.error("Error fetching product:", err);
+//         showToast("error", "Failed to load product details");
+//       }
+//     };
+
+//     fetchProduct();
+//   }, [productId]);
+
+//   // useEffect(() => {
+//   //   const fetchProduct = async () => {
+//   //      const token = localStorage.getItem("userToken");
+//   //   const categories = await axios.get(`/categories`, {
+//   //         headers: {
+//   //           Authorization: `Bearer ${token}`,
+//   //         },
+//   //       });
+//   //       console.log(categories)
+//   //     };
+//   // }, []);
+// interface CategoryNode {
+//   _id: string;
+//   name: string;
+//   children?: CategoryNode[];
+// }
+
+// interface FlattenedCategory {
+//   id: string; // We use the deepest level (sub-category) as the unique value
+//   label: string;
+//   industryId: string;
+//   categoryId: string;
+//   subCategoryId: string;
+// }
+
+// function CategorySelector() {
+//   // --- State Management ---
+//   const [options, setOptions] = useState<FlattenedCategory[]>([]);
+//   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+//   // Form State
+//   const [selectedIndustry, setSelectedIndustry] = useState<string>("");
+//   const [selectedCategory, setSelectedCategory] = useState<string>("");
+//   const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
+
+//   useEffect(() => {
+//     // 1. Define the fetch function
+//     const fetchCategories = async () => {
+//       try {
+//         const token = localStorage.getItem("userToken");
+        
+//         // Fetching the hierarchical tree
+//         const response = await axios.get(`/categories/tree/all`, {
+//           headers: { Authorization: `Bearer ${token}` },
+//         });
+
+//         const treeData: CategoryNode[] = response.data;
+//         const flatList: FlattenedCategory[] = [];
+
+//         // 2. Flatten the 3-tier tree into a single selectable list
+//         treeData.forEach((industry) => {
+//           if (industry.children) {
+//             industry.children.forEach((category) => {
+//               if (category.children) {
+//                 category.children.forEach((sub) => {
+//                   flatList.push({
+//                     id: sub._id,
+//                     label: `${industry.name} > ${category.name} > ${sub.name}`,
+//                     industryId: industry._id,
+//                     categoryId: category._id,
+//                     subCategoryId: sub._id,
+//                   });
+//                 });
+//               }
+//             });
+//           }
+//         });
+
+//         setOptions(flatList);
+//       } catch (error) {
+//         console.error("Failed to fetch categories:", error);
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     // 3. Actually invoke the function!
+//     fetchCategories();
+//   }, []);
+
+//   // --- Handlers ---
+//   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+//     const selectedSubId = e.target.value;
+    
+//     // Find the full mapped object based on the user's selection
+//     const selectedMapping = options.find((opt) => opt.id === selectedSubId);
+
+//     if (selectedMapping) {
+//       // Auto-populate all three tiers instantly
+//       setSelectedIndustry(selectedMapping.industryId);
+//       setSelectedCategory(selectedMapping.categoryId);
+//       setSelectedSubCategory(selectedMapping.subCategoryId);
+//     } else {
+//       // Reset if they select the default placeholder
+//       setSelectedIndustry("");
+//       setSelectedCategory("");
+//       setSelectedSubCategory("");
+//     }
+//   };
+//   return (
+//     <Suspense fallback={<div>Loading...</div>}>
+//       <form onSubmit={(e) => {
+//     e.preventDefault();
+//     handleAPI();
+//   }} className="py-3 pb-5">
+//         <div className="bg-[#F8F9FE] p-4 rounded-lg my-[2rem]">
+//           <div className="bg-[#FFFFFF] p-4 flex justify-center">
+//             {imagePreviews.length > 0 ? (
+//               imagePreviews.map((preview, index) => (
+//                 <img
+//                   key={index}
+//                   src={preview}
+//                   alt="Preview"
+//                   className="w-24 h-24 object-cover rounded-lg"
+//                 />
+//               ))
+//             ) : (
+//               <div className="-rotate-90 py-4">
+//                 <Circle count={uploadCount}>
+//                   <Icon
+//                     icon="ri:arrow-right-line"
+//                     className="text-[#006838]"
+//                     width="32"
+//                     height="32"
+//                   />
+//                 </Circle>
+//               </div>
+//             )}
+//           </div>
+
+//           <div className="pb-3 mt-2 flex items-center justify-center">
+//             <input
+//               type="file"
+//               id="file"
+//               onChange={handleFileChange}
+//               accept="image/*"
+//               multiple
+//               className="w-full px-4 py-2 rounded-xl outline-none placeholder:text-[#8F9098] text-[12px] hidden"
+//             />
+//             <label
+//               htmlFor="file"
+//               className="w-full text-[12px] px-4 py-3 rounded-xl bg-[#EAF2FF] flex items-center justify-center cursor-pointer"
+//             >
+//               Upload Images
+//             </label>
+//           </div>
+//         </div>
+
+//         <div className="pb-3">
+//           <input
+//             type="text"
+//             id="productName"
+//             value={productName}
+//             onChange={(e) => setProductName(e.target.value)}
+//             required
+//             className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+//             placeholder="Product Name"
+//           />
+//         </div>
+
+//         <div className="pb-3">
+//           <textarea
+//             id="productDescription"
+//             value={productDescription}
+//             onChange={(e) => setProductDescription(e.target.value)}
+//             required
+//             className="w-full px-4 py-3 rounded-xl outline-none bg-inherit border-[0.67px] border-[#C5C6CC] placeholder:text-[#8F9098]"
+//             placeholder="Description"
+//             rows={4}
+//           ></textarea>
+//         </div>
+
+//         <Accordion
+//           title="Product Type"
+//           subTitle="Select at least 1"
+//           onClick={toggleProductType}
+//           state={isProductTypeOpen}
+//         >
+//           <div className="flex gap-2 flex-wrap">
+//             {productTypeState.map(({ item, state }) => (
+//               <button
+//                 type="button"
+//                 key={item}
+//                 className={`px-4 py-[6px] text-3 rounded-2xl ${
+//                   state
+//                     ? "bg-[--foreground-green] text-white"
+//                     : "bg-[#EAF2FF] text-[--foreground-green]"
+//                 }`}
+//                 onClick={() =>
+//                   handleSelection(productTypeState, setProductTypeState, item)
+//                 }
+//               >
+//                 {item}
+//               </button>
+//             ))}
+//           </div>
+//         </Accordion>
+// <div>
+//         <label className="block text-sm font-medium text-gray-700 mb-1">
+//           Select Product Category
+//         </label>
+//         <select
+//           onChange={handleSelectChange}
+//           disabled={isLoading}
+//           className="w-full p-2.5 text-sm border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 bg-white"
+//           value={selectedSubCategory} // Binds the UI to the current sub-category state
+//         >
+//           <option value="">{isLoading ? "Loading categories..." : "-- Select a Category --"}</option>
+//           {options.map((opt) => (
+//             <option key={opt.id} value={opt.id}>
+//               {opt.label}
+//             </option>
+//           ))}
+//         </select>
+//       </div>
+
+//       {/* Visual confirmation of the auto-populated state (Remove this in production if not needed) */}
+//       <div className="p-3 bg-gray-50 rounded-lg border border-gray-100 text-xs text-gray-600 space-y-1">
+//         <p><strong>Auto-Populated Data:</strong></p>
+//         <p>Industry ID: <span className="text-orange-600 font-mono">{selectedIndustry || "None"}</span></p>
+//         <p>Category ID: <span className="text-orange-600 font-mono">{selectedCategory || "None"}</span></p>
+//         <p>Sub-Category ID: <span className="text-orange-600 font-mono">{selectedSubCategory || "None"}</span></p>
+//       </div>
+//         <Accordion
+//           title="Color"
+//           subTitle="Select at least 1"
+//           onClick={toggleColor}
+//           state={isColorOpen}
+//         >
+//           <div className="flex flex-wrap gap-2">
+//             {colorState.map(({ item, state }) => (
+//               <button
+//                 key={item.name}
+//                 type="button"
+//                 className={`px-4 py-[6px] text-sm rounded-2xl border transition duration-150 ${
+//                   state ? "border-[--foreground-green]" : "border-gray-300"
+//                 }`}
+//                 onClick={() => handleSelection(colorState, setColorState, item)}
+//                 style={{
+//                   background: state ? item.hex : "transparent",
+//                   color: state ? item.textColor : "#333",
+//                 }}
+//               >
+//                 {item.name}
+//               </button>
+//             ))}
+//           </div>
+//         </Accordion>
+// {/* SIZE SELECTION */}
+//       <Accordion
+//         title="Available Sizes"
+//          subTitle="Select if applicable"
+//           onClick={toggleSize}
+//           state={isSizeOpen}
+//       >
+//         <div className="flex flex-wrap gap-2 mt-2">
+//           {sizeState.map(({ item, state }) => (
+//             <button
+//               key={item}
+//               type="button"
+//               onClick={() => handleSelection(sizeState, setSizeState, item)}
+//               className={`px-3 py-1 rounded-md border text-sm ${
+//                 state ? "bg-[#006838] text-white border-[#006838]" : "border-gray-400 text-gray-700"
+//               }`}
+//             >
+//               {item}
+//             </button>
+//           ))}
+//         </div>
+//       </Accordion>
+
+//         <div className="border-[0.5px] border-[#D4D6DD] rounded-2xl p-4 mt-3">
+//           <h1 className="flex gap-2 items-center pb-6">
+//             <span className="flex items-center justify-center rounded-full w-4 h-4 bg-[--foreground-green]">
+//               <span className="flex items-center justify-center rounded-full bg-white h-[5px] w-[5px]"></span>
+//             </span>
+//             <span
+//               className={`text-[#71727A] text-sm font-bold ${openSansFont}`}
+//             >
+//               Special Handling
+//             </span>
+//           </h1>
+
+//           <div className="flex flex-col gap-3 py-3">
+//             {handlingTypeState.map(({ item, state }) => (
+//               <div
+//                 key={item}
+//                 className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 border-[0.5px] ${
+//                   state
+//                     ? "bg-[#EAF2FF] border-transparent"
+//                     : "bg-[#ffffff] border-[#C5C6CC]"
+//                 }`}
+//                 onClick={() =>
+//                   handleSelection(handlingTypeState, setHandlingTypeState, item)
+//                 }
+//               >
+//                 <p className="text-[14px] text-[#1F2024]">{item}</p>
+//                 <Icon
+//                   icon="ph:check-bold"
+//                   className={`text-[#006838] text-[14px] transition-all duration-300 ${
+//                     state ? "opacity-100" : "opacity-0"
+//                   }`}
+//                 />
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       {loading && (
+//         <div className="text-center mt-4 text-[--foreground-green]">
+//           Processing... Please wait.
+//         </div>
+//       )}
+//             <div className="flex items-center justify-center pt-3 pb-40 gap-6 w-full">
+//         <button
+//           type="submit"
+//           className="rounded-[12px] py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500"
+//         >
+//           {"NEXT"}
+//         </button>
+//         <div>
+//           {displayCircle ? (
+//             <Circle count={count} size={48}>
+//               <Icon
+//                 icon="akar-icons:arrow-right"
+//                 className="text-xl text-[--foreground-green] font-extrabold"
+//               ></Icon>
+//             </Circle>
+//           ) : (
+//             ""
+//           )}
+//         </div>
+//       </div>
+//       </form>
+//     </Suspense>
+//   );
+// };
+
+
+// export default BusinessDescription;
 "use client";
 
 import { useEffect, useState, FC, Suspense } from "react";
@@ -12,7 +760,57 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import general_type from "./general.types";
 import { handleApiError } from "@/utils/errors";
 import Circle from "@/components/Circle";
-import { desc, form } from "framer-motion/client";
+
+// --- HOISTED TYPE DEFINITIONS ---
+interface CategoryNode {
+  _id: string;
+  name: string;
+  children?: CategoryNode[];
+}
+
+interface FlattenedCategory {
+  id: string;
+  label: string;
+  industryId: string;
+  categoryId: string;
+  subCategoryId: string;
+}
+
+type ColorItemT = {
+  name: string;
+  hex: string;
+  textColor?: string | undefined;
+};
+
+// --- CONSTANTS ---
+// const OPTIONS = {
+//   sector: ["Health", "Hospitality", "Education", "Legal", "Logistics"],
+//   productType: [
+//     "Edible", "Wears", "Equipment", "Stationaries", "Automobiles",
+//     "Gadgets", "Books", "Furniture", "Cosmetics", "Toys", "Art",
+//   ],
+//   color: [
+//     { name: "White", hex: "#FFFFFF", textColor: "#000000" },
+//     { name: "Black", hex: "#000000", textColor: "#FFFFFF" },
+//     { name: "Gray", hex: "#808080" },
+//     { name: "Silver", hex: "#C0C0C0" },
+//     { name: "Gold", hex: "#FFD700" },
+//     { name: "Red", hex: "#FF0000" },
+//     { name: "Blue", hex: "#0000FF" },
+//     { name: "Green", hex: "#008000" },
+//     { name: "Yellow", hex: "#FFFF00" },
+//     { name: "Purple", hex: "#800080" },
+//     { name: "Orange", hex: "#FFA500" },
+//     { name: "Pink", hex: "#FFC0CB" },
+//     { name: "Brown", hex: "#A52A2A" },
+//   ],
+//   sizes: [
+//     "XS", "S", "M", "L", "XL", "XXL",
+//     "28", "30", "32", "34", "36", "38", "40",
+//     "Free Size", "Custom Measurement"
+//   ],
+//   handlingType: ["Fragile", "Perishable"],
+// };
 
 const OPTIONS = {
   sector: ["Health", "Hospitality", "Education", "Legal", "Logistics"],
@@ -155,22 +953,19 @@ const OPTIONS = {
   ],
   handlingType: ["Fragile", "Perishable"],
 };
-function getTextColor(hex: string): string {
-  if (hex.startsWith("linear-gradient")) return "#FFFFFF"; // For gradients
 
-  // Convert HEX → RGB
+function getTextColor(hex: string): string {
+  if (hex.startsWith("linear-gradient")) return "#FFFFFF";
   const c = hex.replace("#", "");
   const num = parseInt(c, 16);
   const r = (num >> 16) & 0xff;
   const g = (num >> 8) & 0xff;
   const b = num & 0xff;
-
-  // Calculate brightness using W3C formula
   const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-
   return brightness > 150 ? "#000000" : "#FFFFFF";
 }
 
+// --- MAIN COMPONENT ---
 const BusinessDescription: FC<general_type> = ({
   handleBtnFunc,
   setCount,
@@ -179,38 +974,34 @@ const BusinessDescription: FC<general_type> = ({
   const searchParams = useSearchParams();
   const productId = searchParams.get("id");
 
+  // UI Toggles
   const [isProductTypeOpen, toggleProductType] = useToggle(true);
   const [isColorOpen, toggleColor] = useToggle(true);
   const [isSizeOpen, toggleSize] = useToggle(true);
 
+  // General State
   const [loading, setLoading] = useState(false);
   const [displayCircle, setDisplayCircle] = useState(true);
-
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
-
   const [uploadCount, setuploadCount] = useState(75);
   const [count, setCount2] = useState(25);
 
+  // Categories Dropdown State (Hoisted)
+  const [categoryOptions, setCategoryOptions] = useState<FlattenedCategory[]>([]);
+  const [isCategoriesLoading, setIsCategoriesLoading] = useState<boolean>(true);
+  const [selectedIndustry, setSelectedIndustry] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
+
+  // Arrays & Options State
   const [productTypeState, setProductTypeState] = useState(
     OPTIONS.productType.map((item) => ({ item, state: false }))
   );
   const [sizeState, setSizeState] = useState(
-  OPTIONS.sizes.map((item) => ({ item, state: false }))
-);
-
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-
-  type ColorItemT = {
-    name: string;
-    hex: string;
-    textColor?: string | undefined;
-  };
-
-  const [colorState, setColorState] = useState<
-    { item: ColorItemT; state: boolean }[]
-  >(
+    OPTIONS.sizes.map((item) => ({ item, state: false }))
+  );
+  const [colorState, setColorState] = useState<{ item: ColorItemT; state: boolean }[]>(
     OPTIONS.color.map((color) => ({
       item: { ...color, textColor: getTextColor(color.hex) },
       state: false,
@@ -220,11 +1011,14 @@ const BusinessDescription: FC<general_type> = ({
     OPTIONS.handlingType.map((item) => ({ item, state: false }))
   );
 
+  // Images State
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+
+  // Generic Selection Handler
   function handleSelection<T>(
     state: { item: T; state: boolean }[],
-    setState: React.Dispatch<
-      React.SetStateAction<{ item: T; state: boolean }[]>
-    >,
+    setState: React.Dispatch<React.SetStateAction<{ item: T; state: boolean }[]>>,
     selectedItem: T
   ) {
     setState((prev) =>
@@ -233,21 +1027,17 @@ const BusinessDescription: FC<general_type> = ({
         if (typeof item === "string" && typeof selectedItem === "string") {
           isMatch = item === selectedItem;
         } else if (
-          typeof item === "object" &&
-          item !== null &&
-          "name" in item &&
-          typeof selectedItem === "object" &&
-          selectedItem !== null &&
-          "name" in selectedItem
+          typeof item === "object" && item !== null && "name" in item &&
+          typeof selectedItem === "object" && selectedItem !== null && "name" in selectedItem
         ) {
-          isMatch =
-            (item as { name: string }).name ===
-            (selectedItem as { name: string }).name;
+          isMatch = (item as { name: string }).name === (selectedItem as { name: string }).name;
         }
         return { item, state: isMatch ? !state : state };
       })
     );
   }
+
+  // File Upload Handler
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
     if (!files.length) return;
@@ -258,6 +1048,23 @@ const BusinessDescription: FC<general_type> = ({
     setImagePreviews(previews);
   };
 
+  // Dropdown Category Handler
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedSubId = e.target.value;
+    const selectedMapping = categoryOptions.find((opt) => opt.id === selectedSubId);
+
+    if (selectedMapping) {
+      setSelectedIndustry(selectedMapping.industryId);
+      setSelectedCategory(selectedMapping.categoryId);
+      setSelectedSubCategory(selectedMapping.subCategoryId);
+    } else {
+      setSelectedIndustry("");
+      setSelectedCategory("");
+      setSelectedSubCategory("");
+    }
+  };
+
+  // --- API SUBMISSION ---
   const handleAPI = async () => {
     const userToken = localStorage.getItem("userToken");
     if (!userToken) {
@@ -265,49 +1072,46 @@ const BusinessDescription: FC<general_type> = ({
       return;
     }
 
-    const selectedProductTypes = productTypeState
-      .filter(({ state }) => state)
-      .map(({ item }) => item);
-    const selectedColors = colorState
-      .filter(({ state }) => state)
-      .map(({ item }) => item);
-    const selectedHandlingTypes = handlingTypeState
-      .filter(({ state }) => state)
-      .map(({ item }) => item);
+    const selectedProductTypes = productTypeState.filter(({ state }) => state).map(({ item }) => item);
+    const selectedColors = colorState.filter(({ state }) => state).map(({ item }) => item);
+    const selectedSizes = sizeState.filter(({ state }) => state).map(({ item }) => item);
+    const selectedHandlingTypes = handlingTypeState.filter(({ state }) => state).map(({ item }) => item);
 
     if (!selectedProductTypes.length || !selectedColors.length) {
       showToast("error", "Please select both product types and colors");
       return;
     }
-    
+
+    // Blind spot check: Ensure a hierarchical category is selected
+    if (!selectedIndustry) {
+      showToast("error", "Please select a specific Product Category from the dropdown.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("productName", productName);
     formData.append("description", productDescription);
+    
+    // Legacy Array structures
     formData.append("category", JSON.stringify(selectedProductTypes));
-    // selectedColors.forEach((color) =>
-    //   formData.append("color[]", JSON.stringify(color))
-    // );
-    const selectedSizes = sizeState
-    .filter(({ state }) => state)
-    .map(({ item }) => item);
-
     formData.append("color", JSON.stringify(selectedColors));
     formData.append("sizes", JSON.stringify(selectedSizes));
+    selectedHandlingTypes.forEach((handling) => formData.append("specialHandling[]", handling));
+    
+    // NEW: Structured Taxonomy Mapping
+    formData.append("industryId", selectedIndustry);
+    formData.append("categoryId", selectedCategory);
+    formData.append("subCategoryId", selectedSubCategory);
 
-    selectedHandlingTypes.forEach((handling) =>
-      formData.append("specialHandling[]", handling)
-    );
     formData.append("businessId", localStorage.getItem("activeBusiness") || "");
 
     imageFiles.forEach((file) => {
-      formData.append("images", file); // must match backend multer field
+      formData.append("images", file);
     });
-    console.log("selectedColors", selectedColors);
+
     setLoading(true);
     try {
-      const url = productId
-        ? `/products/vendor/${productId}`
-        : "/products/vendor/create";
+      const url = productId ? `/products/vendor/${productId}` : "/products/vendor/create";
       const method = productId ? "put" : "post";
 
       const response = await axios({
@@ -324,17 +1128,20 @@ const BusinessDescription: FC<general_type> = ({
         localStorage.setItem("addProductActive", response.data.productId);
       }
 
-      showToast("success", 'Product information saved successfully');
-      setLoading(false);
+      showToast("success", "Product information saved successfully");
       setSection(2);
     } catch (error) {
       console.error(error);
       const errorMessage = handleApiError(error, "An error occurred");
       showToast("error", errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Fetch product if editing
+  // --- USE EFFECTS ---
+
+  // 1. Fetch Product for Editing
   useEffect(() => {
     const fetchProduct = async () => {
       if (!productId) return;
@@ -342,64 +1149,43 @@ const BusinessDescription: FC<general_type> = ({
 
       try {
         const res = await axios.get(`/products/vendor/${productId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("Fetched product data:", res.data);
         const product = res.data;
 
         setProductName(product.name || "");
         setProductDescription(product.description || "");
 
-        // setProductTypeState((prev) =>
-        //   prev.map(({ item }) => ({
-        //     item,
-        //     state: product.category?.includes(item) || false,
-        //   }))
-        // );
+        // Pre-fill hierarchical dropdown if data exists
+        if (product.industryId) setSelectedIndustry(product.industryId);
+        if (product.categoryId) setSelectedCategory(product.categoryId);
+        if (product.subCategoryId) setSelectedSubCategory(product.subCategoryId);
 
-        // setColorState((prev) =>
-        //   prev.map(({ item }) => ({
-        //     item,
-        //     state: product.color?.includes(item) || false,
-        //   }))
-        // );
-setProductTypeState((prev) =>
-  prev.map(({ item }) => {
-    let categoryArray = [];
+        setProductTypeState((prev) =>
+          prev.map(({ item }) => {
+            let categoryArray = [];
+            if (Array.isArray(product.category)) {
+              try {
+                const first = product.category[0];
+                if (typeof first === "string" && first.startsWith("[")) {
+                  categoryArray = JSON.parse(first);
+                } else {
+                  categoryArray = product.category;
+                }
+              } catch (err) {
+                categoryArray = [];
+              }
+            }
+            return { item, state: categoryArray.includes(item) };
+          })
+        );
 
-    // Parse category safely (in case it's stringified)
-    if (Array.isArray(product.category)) {
-      try {
-        const first = product.category[0];
-        if (typeof first === "string" && first.startsWith("[")) {
-          categoryArray = JSON.parse(first);
-        } else {
-          categoryArray = product.category;
-        }
-      } catch (err) {
-        categoryArray = [];
-      }
-    }
-
-    return {
-      item,
-      state: categoryArray.includes(item),
-    };
-  })
-);
-
-setColorState((prev) =>
-  prev.map(({ item }) => ({
-    item,
-    state:
-      product.color?.some(
-        (color: any) =>
-          color.name.toLowerCase() === item.name.toLowerCase()
-      ) || false,
-  }))
-);
+        setColorState((prev) =>
+          prev.map(({ item }) => ({
+            item,
+            state: product.color?.some((color: any) => color.name.toLowerCase() === item.name.toLowerCase()) || false,
+          }))
+        );
 
         setHandlingTypeState((prev) =>
           prev.map(({ item }) => ({
@@ -409,7 +1195,7 @@ setColorState((prev) =>
         );
 
         if (product.images?.length) {
-          setImagePreviews(product.images); // backend URLs
+          setImagePreviews(product.images);
         }
       } catch (err) {
         console.error("Error fetching product:", err);
@@ -420,19 +1206,57 @@ setColorState((prev) =>
     fetchProduct();
   }, [productId]);
 
-  // useEffect(() => {
-  //   setCount(25);
-  //   handleBtnFunc(handleAPI);
-  //   return () => handleBtnFunc(() => console.log("default/cleanup"));
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  // 2. Fetch Category Tree
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const token = localStorage.getItem("userToken");
+        const response = await axios.get(`/categories/tree/all`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const treeData: CategoryNode[] = response.data;
+        const flatList: FlattenedCategory[] = [];
+
+        treeData.forEach((industry) => {
+          if (industry.children) {
+            industry.children.forEach((category) => {
+              if (category.children) {
+                category.children.forEach((sub) => {
+                  flatList.push({
+                    id: sub._id,
+                    label: `${industry.name} > ${category.name} > ${sub.name}`,
+                    industryId: industry._id,
+                    categoryId: category._id,
+                    subCategoryId: sub._id,
+                  });
+                });
+              }
+            });
+          }
+        });
+
+        setCategoryOptions(flatList);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      } finally {
+        setIsCategoriesLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <form onSubmit={(e) => {
-    e.preventDefault();
-    handleAPI();
-  }} className="py-3 pb-5">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleAPI();
+        }}
+        className="py-3 pb-5"
+      >
+        {/* IMAGE UPLOAD */}
         <div className="bg-[#F8F9FE] p-4 rounded-lg my-[2rem]">
           <div className="bg-[#FFFFFF] p-4 flex justify-center">
             {imagePreviews.length > 0 ? (
@@ -441,18 +1265,13 @@ setColorState((prev) =>
                   key={index}
                   src={preview}
                   alt="Preview"
-                  className="w-24 h-24 object-cover rounded-lg"
+                  className="w-24 h-24 object-cover rounded-lg mr-2"
                 />
               ))
             ) : (
               <div className="-rotate-90 py-4">
                 <Circle count={uploadCount}>
-                  <Icon
-                    icon="ri:arrow-right-line"
-                    className="text-[#006838]"
-                    width="32"
-                    height="32"
-                  />
+                  <Icon icon="ri:arrow-right-line" className="text-[#006838]" width="32" height="32" />
                 </Circle>
               </div>
             )}
@@ -465,17 +1284,18 @@ setColorState((prev) =>
               onChange={handleFileChange}
               accept="image/*"
               multiple
-              className="w-full px-4 py-2 rounded-xl outline-none placeholder:text-[#8F9098] text-[12px] hidden"
+              className="hidden"
             />
             <label
               htmlFor="file"
-              className="w-full text-[12px] px-4 py-3 rounded-xl bg-[#EAF2FF] flex items-center justify-center cursor-pointer"
+              className="w-full text-[12px] px-4 py-3 rounded-xl bg-[#EAF2FF] flex items-center justify-center cursor-pointer font-semibold"
             >
               Upload Images
             </label>
           </div>
         </div>
 
+        {/* BASIC DETAILS */}
         <div className="pb-3">
           <input
             type="text"
@@ -500,8 +1320,30 @@ setColorState((prev) =>
           ></textarea>
         </div>
 
+        {/* HIERARCHICAL CATEGORY DROPDOWN */}
+        <div className="mb-4">
+          <label className="block text-sm font-semibold text-gray-700 mb-1">
+            Hierarchical Category Map
+          </label>
+          <select
+            onChange={handleSelectChange}
+            disabled={isCategoriesLoading}
+            className="w-full p-3 text-sm border border-[#C5C6CC] rounded-xl outline-none bg-white"
+            value={selectedSubCategory}
+            required
+          >
+            <option value="">{isCategoriesLoading ? "Loading taxonomy..." : "-- Select Full Category Path --"}</option>
+            {categoryOptions.map((opt) => (
+              <option key={opt.id} value={opt.id}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* OLD PRODUCT TYPE */}
         <Accordion
-          title="Product Type"
+          title="Product Tags"
           subTitle="Select at least 1"
           onClick={toggleProductType}
           state={isProductTypeOpen}
@@ -511,14 +1353,10 @@ setColorState((prev) =>
               <button
                 type="button"
                 key={item}
-                className={`px-4 py-[6px] text-3 rounded-2xl ${
-                  state
-                    ? "bg-[--foreground-green] text-white"
-                    : "bg-[#EAF2FF] text-[--foreground-green]"
+                className={`px-4 py-[6px] text-sm rounded-2xl ${
+                  state ? "bg-[--foreground-green] text-white" : "bg-[#EAF2FF] text-[--foreground-green]"
                 }`}
-                onClick={() =>
-                  handleSelection(productTypeState, setProductTypeState, item)
-                }
+                onClick={() => handleSelection(productTypeState, setProductTypeState, item)}
               >
                 {item}
               </button>
@@ -526,6 +1364,7 @@ setColorState((prev) =>
           </div>
         </Accordion>
 
+        {/* COLOR SELECTION */}
         <Accordion
           title="Color"
           subTitle="Select at least 1"
@@ -551,37 +1390,37 @@ setColorState((prev) =>
             ))}
           </div>
         </Accordion>
-{/* SIZE SELECTION */}
-      <Accordion
-        title="Available Sizes"
-         subTitle="Select if applicable"
+
+        {/* SIZE SELECTION */}
+        <Accordion
+          title="Available Sizes"
+          subTitle="Select if applicable"
           onClick={toggleSize}
           state={isSizeOpen}
-      >
-        <div className="flex flex-wrap gap-2 mt-2">
-          {sizeState.map(({ item, state }) => (
-            <button
-              key={item}
-              type="button"
-              onClick={() => handleSelection(sizeState, setSizeState, item)}
-              className={`px-3 py-1 rounded-md border text-sm ${
-                state ? "bg-[#006838] text-white border-[#006838]" : "border-gray-400 text-gray-700"
-              }`}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-      </Accordion>
+        >
+          <div className="flex flex-wrap gap-2 mt-2">
+            {sizeState.map(({ item, state }) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => handleSelection(sizeState, setSizeState, item)}
+                className={`px-3 py-1 rounded-md border text-sm ${
+                  state ? "bg-[#006838] text-white border-[#006838]" : "border-gray-400 text-gray-700"
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        </Accordion>
 
+        {/* SPECIAL HANDLING */}
         <div className="border-[0.5px] border-[#D4D6DD] rounded-2xl p-4 mt-3">
           <h1 className="flex gap-2 items-center pb-6">
             <span className="flex items-center justify-center rounded-full w-4 h-4 bg-[--foreground-green]">
               <span className="flex items-center justify-center rounded-full bg-white h-[5px] w-[5px]"></span>
             </span>
-            <span
-              className={`text-[#71727A] text-sm font-bold ${openSansFont}`}
-            >
+            <span className={`text-[#71727A] text-sm font-bold ${openSansFont.className || ''}`}>
               Special Handling
             </span>
           </h1>
@@ -590,14 +1429,10 @@ setColorState((prev) =>
             {handlingTypeState.map(({ item, state }) => (
               <div
                 key={item}
-                className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 border-[0.5px] ${
-                  state
-                    ? "bg-[#EAF2FF] border-transparent"
-                    : "bg-[#ffffff] border-[#C5C6CC]"
+                className={`p-4 py-3 flex justify-between rounded-[12px] transition-all duration-300 border-[0.5px] cursor-pointer ${
+                  state ? "bg-[#EAF2FF] border-transparent" : "bg-[#ffffff] border-[#C5C6CC]"
                 }`}
-                onClick={() =>
-                  handleSelection(handlingTypeState, setHandlingTypeState, item)
-                }
+                onClick={() => handleSelection(handlingTypeState, setHandlingTypeState, item)}
               >
                 <p className="text-[14px] text-[#1F2024]">{item}</p>
                 <Icon
@@ -610,35 +1445,39 @@ setColorState((prev) =>
             ))}
           </div>
         </div>
-      {loading && (
-        <div className="text-center mt-4 text-[--foreground-green]">
-          Processing... Please wait.
-        </div>
-      )}
-            <div className="flex items-center justify-center pt-3 pb-40 gap-6 w-full">
-        <button
-          type="submit"
-          className="rounded-[12px] py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full bg-[--foreground-green] text-white scale-100 hover:scale-90 transition-all duration-500"
-        >
-          {"NEXT"}
-        </button>
-        <div>
-          {displayCircle ? (
-            <Circle count={count} size={48}>
-              <Icon
-                icon="akar-icons:arrow-right"
-                className="text-xl text-[--foreground-green] font-extrabold"
-              ></Icon>
-            </Circle>
-          ) : (
-            ""
+
+        {/* SUBMIT BUTTONS */}
+        {loading && (
+          <div className="text-center mt-4 text-[--foreground-green] font-bold">
+            Processing Data... Please wait.
+          </div>
+        )}
+        
+        <div className="flex items-center justify-center pt-3 pb-40 gap-6 w-full mt-4">
+          <button
+            type="submit"
+            disabled={loading}
+            className={`rounded-[12px] py-5 px-4 text-base font-semibold leading-[14.52px] text-center block w-full text-white transition-all duration-500 ${
+               loading ? "bg-gray-400 cursor-not-allowed" : "bg-[--foreground-green] hover:scale-[0.98]"
+            }`}
+          >
+            {loading ? "SAVING..." : "NEXT"}
+          </button>
+          
+          {displayCircle && (
+            <div>
+              <Circle count={count} size={48}>
+                <Icon
+                  icon="akar-icons:arrow-right"
+                  className="text-xl text-[--foreground-green] font-extrabold"
+                />
+              </Circle>
+            </div>
           )}
         </div>
-      </div>
       </form>
     </Suspense>
   );
 };
-
 
 export default BusinessDescription;
