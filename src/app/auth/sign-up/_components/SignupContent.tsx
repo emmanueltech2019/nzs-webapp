@@ -1,54 +1,428 @@
-'use client'
-import Image from "next/image"
-import { useEffect, useRef, useState } from 'react';
+// "use client";
+// import Image from "next/image";
+// import { useEffect, useRef, useState } from "react";
 
-import Apple from "@/assets/icons/Apple.svg"
-import Andriod from '@/assets/icons/Andriod.svg'
-import playBtn from '@/assets/icons/playBtn.svg'
-import { Icon } from "@iconify/react/dist/iconify.js"
-import Link from "next/link"
-import useToggle from "@/hooks/useToggle"
-import useForm from "@/hooks/useForm"
-import { useRouter } from "next/navigation"
-import { showToast } from "@/utils/alert"
-import axios from '@/utils/axios'
+// import Apple from "@/assets/icons/Apple.svg";
+// import Andriod from "@/assets/icons/Andriod.svg";
+// import playBtn from "@/assets/icons/playBtn.svg";
+// import { Icon } from "@iconify/react/dist/iconify.js";
+// import Link from "next/link";
+// import useToggle from "@/hooks/useToggle";
+// import useForm from "@/hooks/useForm";
+// import { useRouter } from "next/navigation";
+// import { showToast } from "@/utils/alert";
+// import axios from "@/utils/axios";
+// import { validateEmail, validatePassword } from "@/utils/Validator";
+// import CircleLoader from "@/components/loader/loader";
+// import { handleApiError } from "@/utils/errors";
+
+// const icon1Styles =
+//   "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]";
+
+// const eyeslash = "heroicons:eye-slash-20-solid";
+// const eye = "mdi:eye";
+
+// type eventType = React.MouseEvent<HTMLInputElement, MouseEvent>;
+
+// const SignupContent = () => {
+//   const [tpswd, tpswdFunc] = useToggle(false);
+//   const router = useRouter();
+
+//   const [agentIDState, setagentID] = useForm("");
+//   const [fnameState, setfname] = useForm("");
+//   const [lnameState, setlname] = useForm("");
+//   const [emailState, setemail] = useForm("");
+//   const [phoneState, setphone] = useForm("");
+//   const [dobState, setdob] = useForm(""); // ✅ new DOB field
+
+//   const [pwdState, setpwd] = useForm("");
+//   const [messageConsent, setmessageConsent] = useState(false);
+//   const [termsConsent, setTermsConsent] = useState(false);
+//   const [loading, setLoading] = useState(false);
+
+//   // 👇 Calculate max DOB (today - 18 years)
+//   const today = new Date();
+//   const minAgeDate = new Date(
+//     today.getFullYear() - 18,
+//     today.getMonth(),
+//     today.getDate(),
+//   );
+//   const maxDate = minAgeDate.toISOString().split("T")[0];
+
+//   // Validate form before submission
+//   const validateForm = () => {
+//     if (!fnameState || !lnameState || !emailState || !pwdState || !phoneState) {
+//       setLoading(false);
+//       showToast("warning", "Please fill in all required fields.");
+//       return false;
+//     }
+//     // ✅ Age Validation
+//     const userDOB = new Date(dobState);
+//     if (userDOB > minAgeDate) {
+//       setLoading(false);
+//       showToast("warning", "You must be at least 18 years old to sign up.");
+//       return false;
+//     }
+//     if (!validateEmail(emailState)) {
+//       setLoading(false);
+//       showToast("warning", "Invalid email format.");
+//       return false;
+//     }
+//     if (!validatePassword(pwdState)) {
+//       setLoading(false);
+//       showToast(
+//         "warning",
+//         "Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.",
+//       );
+//       return false;
+//     }
+//     return true;
+//   };
+
+//   const phoneRef = useRef<HTMLInputElement | null>(null);
+//   useEffect(() => {
+//     let iti: any;
+
+//     const loadIntlTelInput = async () => {
+//       const intlTelInput = (await import("intl-tel-input")).default;
+//       await import("intl-tel-input/build/js/utils.js");
+
+//       if (phoneRef.current) {
+//         iti = intlTelInput(phoneRef.current, {
+//           initialCountry: "ng",
+//           separateDialCode: true,
+//         });
+//       }
+//     };
+
+//     loadIntlTelInput();
+
+//     return () => {
+//       if (iti) {
+//         iti.destroy();
+//       }
+//     };
+//   }, []);
+
+//   const handleSubmit = async (e: eventType) => {
+//     e.preventDefault();
+//     setLoading(true);
+//     if (!validateForm()) return;
+
+//     localStorage.setItem("RegEmailState", emailState);
+//     try {
+//       const response = await axios.post("/auth/register", {
+//         firstname: fnameState,
+//         lastname: lnameState,
+//         email: emailState,
+//         password: pwdState,
+//         dob: dobState,
+//         phone: phoneState,
+//         messageConsent: true,
+//         termsConsent: true,
+//       });
+//       setLoading(false);
+
+//       if (response.status === 201) {
+//         showToast("success", "Signup sucessfully");
+//         localStorage.setItem("userToken", response.data.token);
+
+//         router.push("/user/verify-code");
+//       } else {
+//         alert("Signup failed. Please try again.");
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       setLoading(false);
+
+//       if (
+//         typeof error === "object" &&
+//         error !== null &&
+//         "response" in error &&
+//         typeof (error as any).response?.data?.message === "string"
+//       ) {
+//         showToast("error", (error as any).response.data.message);
+//       } else {
+//         showToast("error", (error as any).response.data.message);
+//       }
+//     }
+//   };
+//   return (
+//     <section className="px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]">
+//       <CircleLoader isVisible={loading} />
+//       <div className="flex md:gap-[36.97px] justify-between md:justify-start mb-[25.57px] lg:mb-0">
+//         <h2 className="flex items-center gap-2 text-black text-xs lg:text-sm font-normal">
+//           Download App
+//           <span className={icon1Styles}>
+//             <Image
+//               src={Apple}
+//               alt="apple icon"
+//               className="w-[19.58px] object-cover"
+//             />
+//           </span>
+//           <span className={icon1Styles}>
+//             <Image
+//               src={Andriod}
+//               alt="andriod icon"
+//               className="w-[19.58px] object-cover"
+//             />
+//           </span>
+//         </h2>
+//         {/* <h2 className="flex items-center gap-2 text-black text-xs lg:text-sm font-normal">
+//           <span><Image src={playBtn} alt="apple icon" className="w-[19.58px] object-cover" /></span>
+//           Watch Video
+//         </h2> */}
+//       </div>
+//       <h1 className="text-[#333333] text-[21px] lg:text-[28px] leading-normal font-medium mt-5 lg:mt-7 mb-5">
+//         Sign up now
+//       </h1>
+//       <form action="" className="text-[#666666]">
+//         <div className="fname-lname flex gap-2">
+//           <div className="fname flex flex-col mb-[10px] flex-1">
+//             <label htmlFor="fname" className="text-sm mb-1">
+//               First Name
+//             </label>
+//             <input
+//               type="text"
+//               id="fname"
+//               onChange={(e) => setfname(e)}
+//               value={fnameState}
+//               required
+//               className="w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]"
+//             />
+//           </div>
+//           <div className="lname flex flex-col mb-[10px] flex-1">
+//             <label htmlFor="lname" className="text-sm mb-1">
+//               Last Name
+//             </label>
+//             <input
+//               type="text"
+//               id="lname"
+//               onChange={(e) => setlname(e)}
+//               value={lnameState}
+//               required
+//               className="w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]"
+//             />
+//           </div>
+//         </div>
+
+//         <div className="email flex flex-col mb-[10px]">
+//           <label htmlFor="email" className="text-sm mb-1">
+//             Email
+//           </label>
+//           <input
+//             type="text"
+//             id="email"
+//             onChange={(e) => setemail(e)}
+//             value={emailState}
+//             required
+//             className="w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]"
+//             placeholder="i.e. john@mail.com"
+//           />
+//         </div>
+
+//         <div className="phone flex flex-col mb-[10px]">
+//           <label htmlFor="phone" className="text-sm mb-1">
+//             Phone Number
+//           </label>
+//           <input
+//             type="text"
+//             id="phone"
+//             onChange={(e: any) => {
+//               if (isNaN(e.target.value)) return;
+//               setphone(e);
+//             }}
+//             maxLength={11}
+//             value={phoneState}
+//             required
+//             className="w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50"
+//           />
+//         </div>
+//         <div className="dob flex flex-col mb-[10px]">
+//           <label htmlFor="dob" className="text-sm mb-1">
+//             Date of Birth
+//           </label>
+//           <input
+//             type="date"
+//             id="dob"
+//             max={maxDate}
+//             value={dobState}
+//             onChange={(e) => setdob(e)}
+//             required
+//             className="w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border border-[#666666]"
+//           />
+//           <span className="text-[9px] text-gray-500">
+//             You must be 18 years or older to sign up
+//           </span>
+//         </div>
+//         <div className="pswd flex flex-col mb-[10px]">
+//           <label
+//             htmlFor="pswd"
+//             className="text-sm mb-1 w-full flex justify-between items-center"
+//           >
+//             <span>Password</span>
+//             <span
+//               className="flex items-center gap-2 cursor-pointer"
+//               onClick={tpswdFunc}
+//             >
+//               <span>
+//                 <Icon icon={tpswd ? eye : eyeslash} className="inline" />
+//               </span>
+//               <span className="leading-none">{tpswd ? "Show" : "Hide"}</span>
+//             </span>
+//           </label>
+//           <input
+//             type={tpswd ? "text" : "password"}
+//             id="pswd"
+//             onChange={(e) => setpwd(e)}
+//             value={pwdState}
+//             required
+//             className="w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]"
+//             placeholder="*****"
+//           />
+//         </div>
+//         <div className="agentID flex flex-col mb-[5px] flex-1">
+//           <label htmlFor="agentID" className="text-sm mb-1">
+//             Agent ID (optional)
+//           </label>
+//           <input
+//             type="text"
+//             id="agentID"
+//             onChange={(e) => setagentID(e)}
+//             value={agentIDState}
+//             className="w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]"
+//           />
+//         </div>
+//         <span className="text-[10px] lg:text-[12px]">
+//           Use 8 or more characters with a mix of letters, numbers & symbols
+//         </span>
+
+//         <div className="agree-1 flex my-6 gap-1 items-start">
+//           <input
+//             id="agree-1"
+//             type="checkbox"
+//             className="accent-[--icon-light-green] mt-1 outline-none"
+//             onChange={(e: any) => setTermsConsent(e.target.checked)}
+//             checked={termsConsent}
+//             required
+//           />
+//           <label htmlFor="agree-1" className="text-sm lg:text-base">
+//             By creating an account, I agree to our{" "}
+//             <Link href={"/terms-and-conditions"} className="text-green-700">
+//               Terms of use{" "}
+//             </Link>
+//             and{" "}
+//             <Link href={"/privacy-policy"} className="text-green-700">
+//               Privacy Policy
+//             </Link>
+//           </label>
+//         </div>
+//         <div className="agree-2 flex my-6 gap-1 items-start">
+//           <input
+//             id="agree-2"
+//             type="checkbox"
+//             className="accent-[--icon-light-green] mt-1"
+//             onChange={(e: any) => setmessageConsent(e.target.checked)}
+//             checked={messageConsent}
+//             required
+//           />
+//           <label htmlFor="agree-2" className="text-sm lg:text-base">
+//             By creating an account, I am also consenting to receive SMS messages
+//             and emails, including product new feature updates, events, and
+//             marketing promotions from Naijazone.
+//           </label>
+//         </div>
+
+//         <div className="buttons">
+//           <input
+//             type="submit"
+//             value="Sign Up"
+//             className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer"
+//             onClick={handleSubmit}
+//           />
+//           <span className="ml-3 text-sm lg:text-base">
+//             Already have an Account{" "}
+//             <Link href="./login" className="underline">
+//               Login
+//             </Link>
+//           </span>
+//         </div>
+//       </form>
+//     </section>
+//   );
+// };
+
+// export default SignupContent;
+"use client";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+
+import Apple from "@/assets/icons/Apple.svg";
+import Andriod from "@/assets/icons/Andriod.svg";
+import playBtn from "@/assets/icons/playBtn.svg";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import Link from "next/link";
+import useToggle from "@/hooks/useToggle";
+import useForm from "@/hooks/useForm";
+import { useRouter, useSearchParams } from "next/navigation"; // ✅ Added useSearchParams
+import { showToast } from "@/utils/alert";
+import axios from "@/utils/axios";
 import { validateEmail, validatePassword } from "@/utils/Validator";
 import CircleLoader from "@/components/loader/loader";
 import { handleApiError } from "@/utils/errors";
 
+const icon1Styles =
+  "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]";
 
-const icon1Styles = "w-6 lg:w-[34.8px] h-6 lg:h-[34.8px] flex justify-center items-center rounded-[3.63px] border-[0.36px] border-[----foreground-green]"
+const eyeslash = "heroicons:eye-slash-20-solid";
+const eye = "mdi:eye";
 
-const eyeslash = 'heroicons:eye-slash-20-solid'
-const eye = 'mdi:eye'
-
-type eventType = React.MouseEvent<HTMLInputElement, MouseEvent>
+type eventType = React.MouseEvent<HTMLInputElement, MouseEvent>;
 
 const SignupContent = () => {
-  const [tpswd, tpswdFunc] = useToggle(false)
-  const router = useRouter()
+  const router = useRouter();
+  const searchParams = useSearchParams(); // ✅ Initialize URL parameters reader
 
-  const [fnameState, setfname] = useForm('')
-  const [lnameState, setlname] = useForm('')
-  const [emailState, setemail] = useForm('')
-  const [phoneState, setphone] = useForm('')
-  const [dobState, setdob] = useForm('') // ✅ new DOB field
+  const [tpswd, tpswdFunc] = useToggle(false);
 
-  const [pwdState, setpwd] = useForm('')
-  const [messageConsent, setmessageConsent] = useState(false)
-  const [termsConsent, setTermsConsent] = useState(false)
+  // ✅ Moved to native state to guarantee programmatic updates from URL params work correctly
+  const [agentIDState, setagentID] = useState("");
+  const [isAgentIdLocked, setIsAgentIdLocked] = useState(false);
+
+  const [fnameState, setfname] = useForm("");
+  const [lnameState, setlname] = useForm("");
+  const [emailState, setemail] = useForm("");
+  const [phoneState, setphone] = useForm("");
+  const [dobState, setdob] = useForm(""); 
+
+  const [pwdState, setpwd] = useForm("");
+  const [messageConsent, setmessageConsent] = useState(false);
+  const [termsConsent, setTermsConsent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // 👇 Calculate max DOB (today - 18 years)
   const today = new Date();
-  const minAgeDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+  const minAgeDate = new Date(
+    today.getFullYear() - 18,
+    today.getMonth(),
+    today.getDate(),
+  );
   const maxDate = minAgeDate.toISOString().split("T")[0];
+
+  // ✅ Parse and apply Agent ID from URL params on mount
+  useEffect(() => {
+    const urlAgentId = searchParams.get("agentId") || searchParams.get("agentID");
+    if (urlAgentId) {
+      setagentID(urlAgentId);
+      setIsAgentIdLocked(true); // Locks input if provided in query params
+    }
+  }, [searchParams]);
 
   // Validate form before submission
   const validateForm = () => {
     if (!fnameState || !lnameState || !emailState || !pwdState || !phoneState) {
-      setLoading(false)
-      showToast("warning",'Please fill in all required fields.');
+      setLoading(false);
+      showToast("warning", "Please fill in all required fields.");
       return false;
     }
     // ✅ Age Validation
@@ -59,98 +433,115 @@ const SignupContent = () => {
       return false;
     }
     if (!validateEmail(emailState)) {
-      setLoading(false)
-      showToast("warning",'Invalid email format.');
+      setLoading(false);
+      showToast("warning", "Invalid email format.");
       return false;
     }
     if (!validatePassword(pwdState)) {
-      setLoading(false)
-      showToast("warning",'Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.');
+      setLoading(false);
+      showToast(
+        "warning",
+        "Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.",
+      );
       return false;
     }
     return true;
   };
 
   const phoneRef = useRef<HTMLInputElement | null>(null);
-useEffect(() => {
-  let iti: any;
+  useEffect(() => {
+    let iti: any;
 
-  const loadIntlTelInput = async () => {
-    const intlTelInput = (await import('intl-tel-input')).default;
-    await import('intl-tel-input/build/js/utils.js');
+    const loadIntlTelInput = async () => {
+      const intlTelInput = (await import("intl-tel-input")).default;
+      await import("intl-tel-input/build/js/utils.js");
 
-    if (phoneRef.current) {
-      iti = intlTelInput(phoneRef.current, {
-        initialCountry: 'ng',
-        separateDialCode: true,
-      });
-    }
-  };
+      if (phoneRef.current) {
+        iti = intlTelInput(phoneRef.current, {
+          initialCountry: "ng",
+          separateDialCode: true,
+        });
+      }
+    };
 
-  loadIntlTelInput();
+    loadIntlTelInput();
 
-  return () => {
-    if (iti) {
-      iti.destroy();
-    }
-  };
-}, []);
+    return () => {
+      if (iti) {
+        iti.destroy();
+      }
+    };
+  }, []);
 
   const handleSubmit = async (e: eventType) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     if (!validateForm()) return;
 
-    localStorage.setItem('RegEmailState', emailState)
+    localStorage.setItem("RegEmailState", emailState);
     try {
-      const response = await axios.post('/auth/register', {
+      // ✅ Construct payload conditionally to keep agentId optional
+      const registrationPayload = {
         firstname: fnameState,
         lastname: lnameState,
         email: emailState,
         password: pwdState,
-        dob: dobState, 
+        dob: dobState,
         phone: phoneState,
         messageConsent: true,
         termsConsent: true,
-      });
-      setLoading(false)
+        ...(agentIDState.trim() && { agentID: agentIDState.trim() }) // Only attaches if not blank
+      };
+
+      const response = await axios.post("/auth/register", registrationPayload);
+      setLoading(false);
 
       if (response.status === 201) {
-        showToast("success", "Signup sucessfully")
-        localStorage.setItem('userToken', response.data.token)
+        showToast("success", "Signup successfully");
+        localStorage.setItem("userToken", response.data.token);
 
-        router.push('/user/verify-code');
+        router.push("/user/verify-code");
       } else {
-        alert('Signup failed. Please try again.');
+        alert("Signup failed. Please try again.");
       }
     } catch (error) {
-        console.error(error);
-        setLoading(false);
+      console.error(error);
+      setLoading(false);
 
-        if (
-          typeof error === "object" &&
-          error !== null &&
-          "response" in error &&
-          typeof (error as any).response?.data?.message === "string"
-        ) {
-          showToast("error", (error as any).response.data.message);
-        } else {
-          showToast("error", (error as any).response.data.message);
-        }
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "response" in error &&
+        typeof (error as any).response?.data?.message === "string"
+      ) {
+        showToast("error", (error as any).response.data.message);
+      } else {
+        showToast("error", (error as any).response?.data?.message || "An error occurred");
       }
-  }
+    }
+  };
+
   return (
-    <section className='px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]'>
+    <section className="px-6 lg:px-16 py-8 lg:py-11 bg-[--foreground-light-green] rounded-[21px] lg:rounded-[18px]">
       <CircleLoader isVisible={loading} />
       <div className="flex md:gap-[36.97px] justify-between md:justify-start mb-[25.57px] lg:mb-0">
-        <h2 className="flex items-center gap-2 text-black text-xs lg:text-sm font-normal">Download App
-          <span className={icon1Styles}><Image src={Apple} alt="apple icon" className="w-[19.58px] object-cover" /></span>
-          <span className={icon1Styles}><Image src={Andriod} alt="andriod icon" className="w-[19.58px] object-cover" /></span>
+        <h2 className="flex items-center gap-2 text-black text-xs lg:text-sm font-normal">
+          Download App
+          <span className={icon1Styles}>
+            <Image
+              src={Apple}
+              alt="apple icon"
+              className="w-[19.58px] object-cover"
+            />
+          </span>
+          <span className={icon1Styles}>
+            <Image
+              src={Andriod}
+              alt="andriod icon"
+              className="w-[19.58px] object-cover"
+            />
+          </span>
         </h2>
-        {/* <h2 className="flex items-center gap-2 text-black text-xs lg:text-sm font-normal">
-          <span><Image src={playBtn} alt="apple icon" className="w-[19.58px] object-cover" /></span>
-          Watch Video
-        </h2> */}
       </div>
       <h1 className="text-[#333333] text-[21px] lg:text-[28px] leading-normal font-medium mt-5 lg:mt-7 mb-5">
         Sign up now
@@ -158,74 +549,182 @@ useEffect(() => {
       <form action="" className="text-[#666666]">
         <div className="fname-lname flex gap-2">
           <div className="fname flex flex-col mb-[10px] flex-1">
-            <label htmlFor="fname" className='text-sm mb-1'>First Name</label>
-            <input type="text" id='fname' onChange={e => setfname(e)} value={fnameState} required className='w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' />
+            <label htmlFor="fname" className="text-sm mb-1">
+              First Name
+            </label>
+            <input
+              type="text"
+              id="fname"
+              onChange={(e) => setfname(e)}
+              value={fnameState}
+              required
+              className="w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]"
+            />
           </div>
           <div className="lname flex flex-col mb-[10px] flex-1">
-            <label htmlFor="lname" className='text-sm mb-1'>Last Name</label>
-            <input type="text" id='lname' onChange={e => setlname(e)} value={lnameState} required className='w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' />
+            <label htmlFor="lname" className="text-sm mb-1">
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="lname"
+              onChange={(e) => setlname(e)}
+              value={lnameState}
+              required
+              className="w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]"
+            />
           </div>
         </div>
 
         <div className="email flex flex-col mb-[10px]">
-          <label htmlFor="email" className='text-sm mb-1'>Email</label>
-          <input type="text" id='email' onChange={e => setemail(e)} value={emailState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='i.e. john@mail.com' />
+          <label htmlFor="email" className="text-sm mb-1">
+            Email
+          </label>
+          <input
+            type="text"
+            id="email"
+            onChange={(e) => setemail(e)}
+            value={emailState}
+            required
+            className="w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]"
+            placeholder="i.e. john@mail.com"
+          />
         </div>
 
         <div className="phone flex flex-col mb-[10px]">
-          <label htmlFor="phone" className='text-sm mb-1'>Phone Number</label>
-          <input type="text" id='phone' onChange={(e: any) => { if (isNaN(e.target.value)) return; setphone(e) }} maxLength={11} value={phoneState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50' />
+          <label htmlFor="phone" className="text-sm mb-1">
+            Phone Number
+          </label>
+          <input
+            type="text"
+            id="phone"
+            onChange={(e: any) => {
+              if (isNaN(e.target.value)) return;
+              setphone(e);
+            }}
+            maxLength={11}
+            value={phoneState}
+            required
+            className="w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] placeholder:opacity-50"
+          />
         </div>
         <div className="dob flex flex-col mb-[10px]">
-          <label htmlFor="dob" className='text-sm mb-1'>Date of Birth</label>
-          <input 
-            type="date" 
+          <label htmlFor="dob" className="text-sm mb-1">
+            Date of Birth
+          </label>
+          <input
+            type="date"
             id="dob"
             max={maxDate}
             value={dobState}
-            onChange={e => setdob(e)}
+            onChange={(e) => setdob(e)}
             required
-            className='w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border border-[#666666]'
+            className="w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border border-[#666666]"
           />
-          <span className="text-[9px] text-gray-500">You must be 18 years or older to sign up</span>
+          <span className="text-[9px] text-gray-500">
+            You must be 18 years or older to sign up
+          </span>
         </div>
         <div className="pswd flex flex-col mb-[10px]">
-          <label htmlFor="pswd" className='text-sm mb-1 w-full flex justify-between items-center'>
+          <label
+            htmlFor="pswd"
+            className="text-sm mb-1 w-full flex justify-between items-center"
+          >
             <span>Password</span>
-            <span className="flex items-center gap-2 cursor-pointer" onClick={tpswdFunc}>
-              <span><Icon icon={tpswd ? eye : eyeslash} className="inline" /></span>
-              <span className="leading-none">{tpswd ? 'Show' : 'Hide'}</span>
+            <span
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={tpswdFunc}
+            >
+              <span>
+                <Icon icon={tpswd ? eye : eyeslash} className="inline" />
+              </span>
+              <span className="leading-none">{tpswd ? "Show" : "Hide"}</span>
             </span>
           </label>
-          <input type={tpswd ? 'text' : 'password'} id='pswd' onChange={e => setpwd(e)} value={pwdState} required className='w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]' placeholder='*****' />
+          <input
+            type={tpswd ? "text" : "password"}
+            id="pswd"
+            onChange={(e) => setpwd(e)}
+            value={pwdState}
+            required
+            className="w-full pl-7 pr-2 py-3 rounded-lg text-sm outline-none bg-inherit border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray]"
+            placeholder="*****"
+          />
         </div>
-        <span className="text-[10px] lg:text-[12px]">Use 8 or more characters with a mix of letters, numbers & symbols</span>
+
+        {/* ✅ Updated Agent ID field setup */}
+        <div className="agentID flex flex-col mb-[5px] flex-1">
+          <label htmlFor="agentID" className="text-sm mb-1">
+            {isAgentIdLocked ? "Referral Agent ID (Locked)" : "Agent ID (optional)"}
+          </label>
+          <input
+            type="text"
+            id="agentID"
+            onChange={(e) => setagentID(e.target.value)}
+            value={agentIDState}
+            disabled={isAgentIdLocked}
+            className={`w-full pl-3 pr-2 py-3 rounded-lg text-sm outline-none border-[0.67px] border-[#666666] placeholder:text-[--text-color-gray] ${
+              isAgentIdLocked ? "bg-gray-200 opacity-70 cursor-not-allowed select-none text-gray-500" : "bg-inherit"
+            }`}
+          />
+        </div>
+        <span className="text-[10px] lg:text-[12px]">
+          Use 8 or more characters with a mix of letters, numbers & symbols
+        </span>
 
         <div className="agree-1 flex my-6 gap-1 items-start">
-          <input id="agree-1" type="checkbox" className="accent-[--icon-light-green] mt-1 outline-none" onChange={(e: any) => setTermsConsent(e.target.checked)} checked={termsConsent} required />
+          <input
+            id="agree-1"
+            type="checkbox"
+            className="accent-[--icon-light-green] mt-1 outline-none"
+            onChange={(e: any) => setTermsConsent(e.target.checked)}
+            checked={termsConsent}
+            required
+          />
           <label htmlFor="agree-1" className="text-sm lg:text-base">
-            By creating an account, I agree to our <Link href={'/terms-and-conditions'} className="text-green-700">Terms of use </Link>
-            and <Link href={'/privacy-policy'} className="text-green-700">Privacy Policy</Link>
+            By creating an account, I agree to our{" "}
+            <Link href={"/terms-and-conditions"} className="text-green-700">
+              Terms of use{" "}
+            </Link>
+            and{" "}
+            <Link href={"/privacy-policy"} className="text-green-700">
+              Privacy Policy
+            </Link>
           </label>
         </div>
         <div className="agree-2 flex my-6 gap-1 items-start">
-          <input id="agree-2" type="checkbox" className="accent-[--icon-light-green] mt-1" onChange={(e: any) => setmessageConsent(e.target.checked)} checked={messageConsent} required />
+          <input
+            id="agree-2"
+            type="checkbox"
+            className="accent-[--icon-light-green] mt-1"
+            onChange={(e: any) => setmessageConsent(e.target.checked)}
+            checked={messageConsent}
+            required
+          />
           <label htmlFor="agree-2" className="text-sm lg:text-base">
-            By creating an account, I am also consenting to
-            receive SMS messages and emails, including
-            product new feature updates, events, and
+            By creating an account, I am also consenting to receive SMS messages
+            and emails, including product new feature updates, events, and
             marketing promotions from Naijazone.
           </label>
         </div>
 
         <div className="buttons">
-          <input type="submit" value="Sign Up" className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer" onClick={handleSubmit} />
-          <span className="ml-3 text-sm lg:text-base">Already have an Account <Link href='./login' className="underline">Login</Link></span>
+          <input
+            type="submit"
+            value="Sign Up"
+            className="text-sm lg:text-lg py-[10px] lg:py-[14px] px-7 lg:px-10 rounded-[26.64px] text-white bg-[--foreground-green] cursor-pointer"
+            onClick={handleSubmit}
+          />
+          <span className="ml-3 text-sm lg:text-base">
+            Already have an Account{" "}
+            <Link href="./login" className="underline">
+              Login
+            </Link>
+          </span>
         </div>
-
       </form>
     </section>
-  )
-}
+  );
+};
 
-export default SignupContent
+export default SignupContent;

@@ -74,7 +74,7 @@ const ShoppingBag = () => {
         }
         console.log(error);
       });
-  }, [cartItems]);
+  }, []);
 
   const handleSetQuantity = (index: number, value: number) => {
     const newQuantities = [...quantities];

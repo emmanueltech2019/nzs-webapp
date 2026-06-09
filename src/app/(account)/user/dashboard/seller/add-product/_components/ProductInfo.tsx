@@ -1095,7 +1095,7 @@ const BusinessDescription: FC<general_type> = ({
     // Legacy Array structures
     formData.append("category", JSON.stringify(selectedProductTypes));
     formData.append("color", JSON.stringify(selectedColors));
-    formData.append("sizes", JSON.stringify(selectedSizes));
+    formData.append("size", JSON.stringify(selectedSizes));
     selectedHandlingTypes.forEach((handling) => formData.append("specialHandling[]", handling));
     
     // NEW: Structured Taxonomy Mapping

@@ -5,6 +5,16 @@ export type LocalCartItem = {
   color?: any;
   size: string;
 };
+export interface ColorOptionT {
+  name: string;
+  hex: string;
+  textColor: string;
+}
+export interface PopulatedCategoryT {
+  _id: string;
+  name: string;
+  slug: string;
+}
 export interface ProductT {
   _id: string;
   name: string;
@@ -23,6 +33,12 @@ export interface ProductT {
   businessId?: {
     businessName: string;
   };
+  size: string[];
+  color: ColorOptionT[];
+  industry?: PopulatedCategoryT;
+  categoryRef?: PopulatedCategoryT;
+  subCategory?: PopulatedCategoryT;
+  
 }
 export interface DisplayCartItem extends LocalCartItem {
   _id: string;
