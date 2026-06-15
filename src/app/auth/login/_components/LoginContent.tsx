@@ -45,6 +45,7 @@ const LoginContent = () => {
       };
       const response = await axios.post(`/auth/login`, data);
       setSubmitting(true)
+      // console.log(JSON.parse(localStorage.getItem("localCart") || "[]"))
       if(!submitting){
         await axios({
           url:`/cart/sync`,

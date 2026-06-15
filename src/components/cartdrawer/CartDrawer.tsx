@@ -66,7 +66,8 @@ export default function CartDrawer({
                   
                   <div className="item-meta">
                     <span className="item-size">Size: {item.size}</span>
-                    {/* <span className="item-color">Color: {item.color}</span> */}
+                    {item.color&&<span className={`text-[${item.color}]`}>Color: {item.color}</span>}
+                    
                   </div>
                   
                   <div className="item-controls">

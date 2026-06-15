@@ -78,7 +78,7 @@ const ContactDetails = () => {
                     <div className="col">
                         <div className='pb-10'>
                             <h3 className='font-semibold text-base lg:text-lg mb-4'>Call us</h3>
-                            <p className='text-[--text-color-gray]'>+234 703 489 7950</p>
+                            <p className='text-[--text-color-gray]'>+234 703 792 0950</p>
                             {/* <p className='text-[--text-color-gray]'>+1-389-385-3807</p> */}
                         </div>
 
@@ -90,7 +90,7 @@ const ContactDetails = () => {
 
                         <div className='pb-10'>
                             <h3 className='font-semibold text-base lg:text-lg'>Visit us</h3>
-                            <p className='text-[--text-color-gray]'>Eliozu Road, Aliosu,</p>
+                            <p className='text-[--text-color-gray]'>No 7 Chukwu St, odara street, off Okporo Road, Mgbuesilaru,</p>
                             <p className='text-[--text-color-gray]'> Port Harcourt 500102, Rivers</p>
                         </div>
                     </div>

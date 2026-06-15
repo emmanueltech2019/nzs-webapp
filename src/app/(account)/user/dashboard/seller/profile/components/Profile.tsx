@@ -116,46 +116,115 @@ const router = useRouter();
   //   }
   // };
 
+// const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const file = e.target.files?.[0];
+//     if (!file) return;
+
+//     // --- START: File Size Check (5MB Maximum) ---
+//     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
+//     if (file.size > MAX_FILE_SIZE) {
+//       showToast("error", "File size exceeds the 5MB limit.");
+//       // Clear the file input to allow re-selection of the same file
+//       if (e.target.value) {
+//         e.target.value = '';
+//       }
+//       return; // Stop the function execution
+//     }
+//     // --- END: File Size Check ---
+
+//     // Show preview immediately
+//     const localPreview = URL.createObjectURL(file);
+//     setPreviewImage(localPreview);
+
+//     // Upload
+//     const formData = new FormData();
+//     formData.append("picture", file);
+
+//     try {
+//       setUploading(true);
+//       const res = await axios.post("/users/upload-picture", formData, {
+//         headers: {
+//           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+//           "Content-Type": "multipart/form-data",
+//         },
+//       });
+//       setPreviewImage(res.data.profilePicture);
+//       showToast("success", "Profile picture updated!");
+//     } catch (error) {
+//       showToast("error", "Failed to upload image");
+//       console.error(error);
+//       // If upload fails, you might want to revert the preview image
+//       // or clear it, depending on your desired UX.
+//       // For now, it keeps the local preview until success/failure logic is refined.
+//     } finally {
+//       setUploading(false);
+//     }
+//   };
 const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    let file = e.target.files?.[0];
     if (!file) return;
-
-    // --- START: File Size Check (5MB Maximum) ---
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
-    if (file.size > MAX_FILE_SIZE) {
-      showToast("error", "File size exceeds the 5MB limit.");
-      // Clear the file input to allow re-selection of the same file
-      if (e.target.value) {
-        e.target.value = '';
-      }
-      return; // Stop the function execution
-    }
-    // --- END: File Size Check ---
-
-    // Show preview immediately
-    const localPreview = URL.createObjectURL(file);
-    setPreviewImage(localPreview);
-
-    // Upload
-    const formData = new FormData();
-    formData.append("picture", file);
 
     try {
       setUploading(true);
+
+      // 1. Identify if it's an iPhone HEIC/HEIF image
+      const isHeic = file.type === "image/heic" || 
+                     file.type === "image/heif" || 
+                     /\.(heic|heif)$/i.test(file.name);
+
+      if (isHeic) {
+        showToast("info", "Processing iPhone image...");
+        
+        // Dynamically import the converter library
+        const heic2any = (await import("heic2any")).default;
+        
+        // Convert HEIC blob to PNG blob
+        const convertedBlob = await heic2any({
+          blob: file,
+          toType: "image/png",
+        });
+
+        // Handle case where heic2any returns an array (for animated/multiple HEIC images)
+        const safeBlob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
+
+        // Create a new standard File object from the PNG blob
+        const newFileName = file.name.replace(/\.(heic|heif)$/i, ".png");
+        file = new File([safeBlob], newFileName, { type: "image/png" });
+      }
+
+      // --- CRITICAL OPTIMIZATION: File Size Check ---
+      // We check size AFTER conversion because uncompressing a HEIC file 
+      // into a PNG usually increases the file size significantly.
+      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 5MB
+      if (file.size > MAX_FILE_SIZE) {
+        showToast("error", "Processed file size exceeds the 5MB limit.");
+        if (e.target.value) {
+          e.target.value = '';
+        }
+        setUploading(false);
+        return; 
+      }
+
+      // Show preview immediately using the final PNG file
+      const localPreview = URL.createObjectURL(file);
+      setPreviewImage(localPreview);
+
+      // Upload the now guaranteed PNG file
+      const formData = new FormData();
+      formData.append("picture", file);
+
       const res = await axios.post("/users/upload-picture", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("userToken")}`,
           "Content-Type": "multipart/form-data",
         },
       });
+
       setPreviewImage(res.data.profilePicture);
       showToast("success", "Profile picture updated!");
     } catch (error) {
-      showToast("error", "Failed to upload image");
-      console.error(error);
-      // If upload fails, you might want to revert the preview image
-      // or clear it, depending on your desired UX.
-      // For now, it keeps the local preview until success/failure logic is refined.
+      showToast("error", "Failed to process or upload image");
+      console.error("Upload error details:", error);
     } finally {
       setUploading(false);
     }

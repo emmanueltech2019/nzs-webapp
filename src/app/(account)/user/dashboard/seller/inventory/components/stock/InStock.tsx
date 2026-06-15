@@ -188,6 +188,8 @@ const InStock: React.FC<InStockProps> = ({ products }) => {
                   quantityInfo={product?.quantityInfo ?? {quantity:0, quantityType:"", quantityUnit:""}}
                   totalStock={product?.totalStock ?? 0}
                   stockSold={product?.stockSold ?? 0}
+                  size={product?.size ?? ""}
+                  color={product?.color ?? ""}
                 />
               </div>
             )}
