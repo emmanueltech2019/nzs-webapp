@@ -20,18 +20,6 @@ const DateTab = () => {
     const tab = ["COMPLIMENTARY BREAKFAST", "LOCAL GUIDES", "SAFETY AND SECURITY", "LOUNGE", "TOURS", "EXTRAS"]
   return (
     <>
-        <div className="flex justify-between items-center">
-            <div className="flex gap-4 items-center border-s-4 border-[#29cc39] ps-5">
-                <p className="font-bold text-[#4d5e80]">NEW SPECIALTY</p>
-                <div className="w-10 h-10 border rounded-full flex justify-center items-center">
-                <p className='text-[#4d5e80]'>5</p>
-                </div>
-            </div>
-            <div className="flex gap-5 items-center">
-                <Icon icon={'mdi:ellipsis-horizontal'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-                <Icon icon={'mdi:plus'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-            </div>
-        </div>
         <div className='flex flex-col gap-3 md:px-0 px-2 my-5'>
             <div className="flex justify-between items-center border-b-[1px] border-gray-300 pb-2">
                 <p className="font-semibold text-black text-sm">2024</p>
