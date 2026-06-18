@@ -62,11 +62,13 @@ export interface CartItemT {
     quantity: number;
     price: number;
     _id: string;
-  }
+    size?: string;
+    color?: string;
+}
   
-  export interface CartT {
+export interface CartT {
     _id: string;   
     items: CartItemT[]; 
-  }
+}
 
   

@@ -78,7 +78,7 @@ const Testimonials = () => {
                 
                 <div className="embla__viewport" ref={emblaRef}>
                     <div className='testimonial-cards embla__container flex gap-[29px]'>
-                        <div className="embla__slide tCard">
+                        {/* <div className="embla__slide tCard">
                             <TestimonialCards title='Amara' name='Firdausi Maiwada' dept='CEO, Amara Cosmetics' image={amaraTestimonial}>
                                 “Finding reliable suppliers for bulk ingredients and packaging has always been a challenge. This app has completely transformed the way we source materials. The extensive listing of vetted suppliers, combined with seamless bulk ordering, has saved us both time and money. Our production has become more efficient, and we’ve built stronger partnerships.
                             </TestimonialCards>
@@ -94,7 +94,7 @@ const Testimonials = () => {
                             <TestimonialCards title='Jumo' name='Temidayo Oyeleke' dept='Head of Operations, Jumo.' image={coreCorpTestimonial}>
                                 “For a logistics company, efficiency and accuracy are paramount. This app has significantly enhanced our ability to manage bulk shipments and coordinate services with clients. The detailed service listings and easy-to-use bulk ordering system have reduced errors and sped up our operations. This platform is now a crucial part of our logistics management toolkit."
                             </TestimonialCards>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

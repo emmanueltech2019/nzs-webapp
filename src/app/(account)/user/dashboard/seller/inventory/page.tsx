@@ -576,7 +576,7 @@ const Page: React.FC = () => {
 
   if (!products || products.length <= 0) {
     alert("Please add at least one product before verifying your profile.");
-    alert(products?.length)
+    // alert(products?.length)
     return;
   }
 

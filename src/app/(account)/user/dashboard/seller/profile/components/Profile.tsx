@@ -16,6 +16,7 @@ import useToggle from "@/hooks/useToggle";
 import FreeImg from "@/assets/images/free-plan.png";
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
+import CircleLoader from "@/components/loader/loader";
 
 const roboto = Roboto({
   display: "swap",
@@ -50,7 +51,10 @@ const router = useRouter();
     localStorage.removeItem("addNewBusiness"); // clear storage
     router.push("/user/dashboard/seller/create-business"); // then navigate
   };
+    const [loading, setLoading] = useState(false);
+
   const handleSwitch = (id: string) => {
+    setLoading(true);
     localStorage.setItem("activeBusiness", id);
     setTimeout(() => {
       showToast("success", "Business switched successfully")
@@ -273,6 +277,8 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   }, []);
   return (
     <div>
+                  <CircleLoader isVisible={loading} />
+
       <div className="pb-10">
         <header>
           <h1 className="font-sans text-2xl font-extrabold text-center ">
