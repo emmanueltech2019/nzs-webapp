@@ -1,534 +1,80 @@
 'use client'
-import React, { FC, useRef, useState } from 'react'
-import { Icon } from '@iconify/react'
+import React, { useRef, useState } from 'react'
+import TextNum from '../custom-components/TextNum'
+import CustomButton from '../custom-components/CustomButton';
+import { ChevronDown, X } from 'lucide-react';
+import CustomSwitchPatient from '../custom-components/CustomSwitchPatient';
+import { useProvider } from '@/context/ServicesContext';
 
-interface ProvidersProp {
-  activeSelection: string,
-  setActiveSelection: (selectionId: string) => void
-}
+type Props = {}
 
-const Providers: FC<ProvidersProp> = ({activeSelection, setActiveSelection}) => {
-  const [activeSelectionToggle, setActiveSelectionToggle] = useState('cardiology');
-  const cardiologyRef = useRef<HTMLDivElement>(null)
+const Providers = (props: Props) => {
+  const {healthDataList} = useProvider();
+  const dropRef = useRef<(HTMLDivElement | null)[]>([])
+
+  const [active, setActive] = useState<string | null>(null)
+  const [activeSwitch, setActiveSwitch] = useState<string>("IN-PATIENT")
+  const switchArray = ["IN-PATIENT", "OUT-PATIENT"]
   return (
-    <div className='my-5'>
-      <div className="flex justify-between items-center">
-        <div className="flex gap-4 items-center border-s-4 border-[#29cc39] ps-5">
-          <p className="font-bold text-[#4d5e80]">NEW SPECIALTY</p>
-          <div className="w-10 h-10 border rounded-full flex justify-center items-center">
-            <p className='text-[#4d5e80]'>5</p>
-          </div>
-        </div>
-        <div className="flex gap-5 items-center">
-          <Icon icon={'mdi:ellipsis-horizontal'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-          <Icon icon={'mdi:plus'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-        </div>
-      </div>
-      <div className="flex items-center flex-wrap gap-3 my-5">
-        <div onClick={() => setActiveSelection('NNEKA IBE')} className={`flex justify-center items-center px-3 py-1 rounded-lg cursor-pointer ${activeSelection === 'NNEKA IBE' ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'} md:text-md text-[12px]`}>
-          NNEKA IBE
-        </div>
-        <div onClick={() => setActiveSelection('KEMI OJO')} className={`flex justify-center items-center px-3 py-1 rounded-lg cursor-pointer ${activeSelection === 'KEMI OJO' ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'} md:text-md text-[12px]`}>
-          KEMI OJO
-        </div>
-        <div onClick={() => setActiveSelection('CHUKWUIDI MADUABUCHI')} className={`flex justify-center items-center px-3 py-1 rounded-lg cursor-pointer ${activeSelection === 'CHUKWUIDI MADUABUCHI' ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'} md:text-md text-[12px]`}>
-          CHUKWUIDI MADUABUCHI
-        </div>
-        <div onClick={() => setActiveSelection('RUKAYYA DANJUMA')} className={`flex justify-center items-center px-3 py-1 rounded-lg cursor-pointer ${activeSelection === 'RUKAYYA DANJUMA' ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'} md:text-md text-[12px]`}>
-          RUKAYYA DANJUMA
-        </div>
-        <div onClick={() => setActiveSelection('EREKOSIMA IKIRIKO')} className={`flex justify-center items-center px-3 py-1 rounded-lg cursor-pointer ${activeSelection === 'EREKOSIMA IKIRIKO' ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'} md:text-md text-[12px]`}>
-          EREKOSIMA IKIRIKO
-        </div>
-        <div onClick={() => setActiveSelection('ADAEZE NWANKWO')} className={`flex justify-center items-center px-3 py-1 rounded-lg cursor-pointer ${activeSelection === 'ADAEZE NWANKWO' ? 'bg-[#006838] text-white' : 'bg-[#EAF2FF] text-[#006838]'} md:text-md text-[12px]`}>
-          ADAEZE NWANKWO
-        </div>
-      </div>
-      <div className="flex flex-col gap-5 my-5">
-              <div className="flex flex-col gap-5 bg-[#F8F9FE] rounded-xl p-3 cursor-pointer">
-                <div onClick={() => setActiveSelectionToggle('cardiology')} className="flex justify-between items-center">
-                  <div className="flex gap-2 items-center">
-                    <div className="flex items-center rounded-full w-7 h-7 bg-[#d6dae5]">
-                      <Icon icon={'mdi:times'} style={{fontSize: '30px', color:'white', cursor: 'pointer'}} />
-                    </div>
-                    <p className='md:text-md text-[10px]'>Cardiology</p>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <div className="rounded-2xl flex justify-center items-center bg-[#FFE3AC] py-1 px-3 md:text-md text-[10px]">75% Booked</div>
-                    <div className="rounded-lg flex justify-center items-center bg-[#EAF2FF] py-1 px-3 md:text-md text-[10px]">EDIT SPECIALTY</div>
-                    <Icon icon={'tabler:chevron-down'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-                  </div>
+    <div className='text-black flex flex-col gap-5 py-10'>
+      <div className="flex flex-col gap-5">
+        <CustomSwitchPatient setActive={setActiveSwitch} switchTextArray={switchArray} active={activeSwitch}  />
+        {healthDataList.length > 0 && (
+        <>
+          {healthDataList.map((healthDataList, index) => (
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col p-3 bg-[#f8f9fe] rounded-xl">
+                <div onClick={() => setActive(index.toString())} className={`flex justify-between items-center gap-5`}>
+                      <div className="flex items-center gap-2">
+                      <div className="md:w-8 md:h-8 w-6 h-6 rounded-full flex justify-center items-center text-white bg-[#ebeded]">
+                          <X strokeWidth={1} />
+                      </div>
+                      <p className="md:text-md text-sm">{healthDataList.specialtyTitle}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                      <div className="py-1 rounded-full text-sm md:text-md bg-[#ffe3ac] px-3">75% Booked</div>
+                      <div className="py-1 rounded-full text-sm md:text-md bg-[#ffe3ac] px-3">EDIT SPECIALTY</div>
+                      <ChevronDown strokeWidth={1} />
+                      </div>
                 </div>
-                <div ref={cardiologyRef} className={`flex flex-col overflow-hidden transition-all duration-200 ease-in-out gap-5 bg-white rounded-lg ${activeSelectionToggle === 'cardiology' ? 'md:p-3 p-2' : 'md:p-0 p-0'}`} style={{
-                  height: activeSelectionToggle === 'cardiology' ? `${cardiologyRef.current?.scrollHeight}px` : '0px'
-                }}>
-                  <p className='text-[##afafb4] md:text-md text-[12px]'>This is the branch of medicine focused on teh diagnosis, treatment, and prevention of diseases related to the heart and blood vessels.</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[##d6dae5] md:text-sm text-[12px]">A-Z</p>
-                    <div className="rounded-2xl py-1 px-5 bg-[#006838] text-white md:text-md text-[12px]">In-Patient</div>
-                  </div>
-                  <div className="flex justify-between gap-3 items-center overflow-x-auto flex-shrink-0">
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Diagnostics</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Surgery</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Post - Surgery</div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">1</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Asma'u Musa</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
+                <div ref={(el) => {dropRef.current[index] = el}} className={`bg-white transition-all duration-200 rounded-xl flex flex-col gap-3 overflow-hidden mt-3`}
+                    style={{
+                      height: active === index.toString() ? `${dropRef.current[index]?.scrollHeight}px` : '0px'
+                    }}
+                  >
+                    <p className="text-sm md:text-md text-[#c3cad9] p-3">{healthDataList.brieflyDescribe}</p>
+                    <div className="flex items-center justify-between p-3">
+                    <p className="text-sm md:text-md text-[#c3cad9]/50">Care Type</p>
+                    <CustomButton text={healthDataList.procedureType} background='bg-[#006838] text-white' active={healthDataList.procedureType} />
                     </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">2</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Adaeze Ezeoke</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
+                    <div className="flex gap-3 items-center justify-between p-3 flex-wrap">
+                    {healthDataList.careType.map((care, index) => (
+                        <CustomButton text={care} key={index} background='bg-[#ebeded]' />
+                    ))}
                     </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">3</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Seyi Oyedepo</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
+                    <div className="flex flex-col gap-5 p-3">
+                        {
+                            healthDataList.providerName.map((name, index) => (
+                                <div className={`justify-between items-center ${index === 0 ? "hidden" : "flex"}`}>
+                                    <div className="flex items-center gap-5">
+                                    <div className="md:w-8 md:h-8 w-6 h-6 md:text-md text-sm rounded-full bg-[#ebeded]/20 flex justify-center items-center">{index}</div>
+                                    <div className="flex flex-col gap-1">
+                                        <p className="font-semibold">{name}</p>
+                                        <p className="text-sm font-light">MD FACS.</p>
+                                    </div>
+                                    </div>
+                                    <p>BOOKED</p>
+                                </div>
+                            ))
+                        }
                     </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">4</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Ummi Yahaya</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>SEE PROFILE</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-5 bg-[#F8F9FE] rounded-xl p-3 cursor-pointer">
-                <div onClick={() => setActiveSelectionToggle('neurology')} className="flex justify-between items-center">
-                  <div className="flex gap-2 items-center">
-                    <div className="flex items-center rounded-full w-7 h-7 bg-[#d6dae5]">
-                      <Icon icon={'mdi:times'} style={{fontSize: '30px', color:'white', cursor: 'pointer'}} />
-                    </div>
-                    <p className='md:text-md text-[10px]'>Neurology</p>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <div className="rounded-2xl flex justify-center items-center bg-[#FFE3AC] py-1 px-3 md:text-md text-[10px]">75% Booked</div>
-                    <div className="rounded-lg flex justify-center items-center bg-[#EAF2FF] py-1 px-3 md:text-md text-[10px]">EDIT SPECIALTY</div>
-                    <Icon icon={'tabler:chevron-down'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-                  </div>
-                </div>
-                <div ref={cardiologyRef} className={`flex flex-col transition-all duration-200 ease-in-out gap-5 overflow-hidden bg-white rounded-lg ${activeSelectionToggle === 'neurology' ? 'md:p-3 p-2' : 'md:p-0 p-0'}`} style={{
-                  height: activeSelectionToggle === 'neurology' ? `${cardiologyRef.current?.scrollHeight}px` : '0px'
-                }}>
-                  <p className='text-[##afafb4] md:text-md text-[12px]'>This is the branch of medicine focused on teh diagnosis, treatment, and prevention of diseases related to the heart and blood vessels.</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[##d6dae5] md:text-sm text-[12px]">A-Z</p>
-                    <div className="rounded-2xl py-1 px-5 bg-[#006838] text-white md:text-md text-[12px]">In-Patient</div>
-                  </div>
-                  <div className="flex justify-between gap-3 items-center overflow-x-auto flex-shrink-0">
-                    <div className="flex justify-center flex-shrink-0 md:text-md text-[12px] py-1 px-5 items-center rounded-2xl bg-[#d6dae5]">Diagnostics</div>
-                    <div className="flex justify-center flex-shrink-0 md:text-md text-[12px] py-1 px-5 items-center rounded-2xl bg-[#d6dae5]">Surgery</div>
-                    <div className="flex justify-center flex-shrink-0 md:text-md text-[12px] py-1 px-5 items-center rounded-2xl bg-[#d6dae5]">Post - Surgery</div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">1</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Asma'u Musa</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">2</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Adaeze Ezeoke</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">3</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Seyi Oyedepo</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">4</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Ummi Yahaya</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>SEE PROFILE</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-5 bg-[#F8F9FE] rounded-xl p-3 cursor-pointer">
-                <div onClick={() => setActiveSelectionToggle('dermatology')} className="flex justify-between items-center">
-                  <div className="flex gap-2 items-center">
-                    <div className="flex items-center rounded-full w-7 h-7 bg-[#d6dae5]">
-                      <Icon icon={'mdi:times'} style={{fontSize: '30px', color:'white', cursor: 'pointer'}} />
-                    </div>
-                    <p className='md:text-md text-[10px]'>Dermatology</p>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <div className="rounded-2xl flex justify-center items-center bg-[#FFE3AC] py-1 px-3 md:text-md text-[10px]">75% Booked</div>
-                    <div className="rounded-lg flex justify-center items-center bg-[#EAF2FF] py-1 px-3 md:text-md text-[10px]">EDIT SPECIALTY</div>
-                    <Icon icon={'tabler:chevron-down'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-                  </div>
-                </div>
-                <div ref={cardiologyRef} className={`flex flex-col transition-all duration-200 ease-in-out gap-5 overflow-hidden bg-white rounded-lg ${activeSelectionToggle === 'dermatology' ? 'md:p-3 p-2' : 'md:p-0 p-0'}`} style={{
-                  height: activeSelectionToggle === 'dermatology' ? `${cardiologyRef.current?.scrollHeight}px` : '0px'
-                }}>
-                  <p className='text-[##afafb4] md:text-md text-[12px]'>This is the branch of medicine focused on teh diagnosis, treatment, and prevention of diseases related to the heart and blood vessels.</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[##d6dae5] text-sm">A-Z</p>
-                    <div className="rounded-2xl py-1 px-5 bg-[#006838] text-white md:text-md text-[12px]">In-Patient</div>
-                  </div>
-                  <div className="flex justify-between gap-3 items-center overflow-x-auto flex-shrink-0">
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Diagnostics</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Surgery</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Post - Surgery</div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">1</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Asma'u Musa</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">2</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Adaeze Ezeoke</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">3</div>
-                      <div className="flex flex-col gap-2">
-                        <p>Seyi Oyedepo</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">4</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Ummi Yahaya</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>SEE PROFILE</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-5 bg-[#F8F9FE] rounded-xl p-3 cursor-pointer">
-                <div onClick={() => setActiveSelectionToggle('pediatrics')} className="flex justify-between items-center">
-                  <div className="flex gap-2 items-center">
-                    <div className="flex items-center rounded-full w-7 h-7 bg-[#d6dae5]">
-                      <Icon icon={'mdi:times'} style={{fontSize: '30px', color:'white', cursor: 'pointer'}} />
-                    </div>
-                    <p className='md:text-md text-[10px]'>Pediatrics</p>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <div className="rounded-2xl flex justify-center items-center bg-[#FFE3AC] py-1 px-3 md:text-md text-[10px]">75% Booked</div>
-                    <div className="rounded-lg flex justify-center items-center bg-[#EAF2FF] py-1 px-3 md:text-md text-[10px]">EDIT SPECIALTY</div>
-                    <Icon icon={'tabler:chevron-down'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-                  </div>
-                </div>
-                <div ref={cardiologyRef} className={`flex flex-col transition-all duration-200 ease-in-out gap-5 overflow-hidden bg-white rounded-lg ${activeSelectionToggle === 'pediatrics' ? 'md:p-3 p-2' : 'md:p-0 p-0'}`} style={{
-                  height: activeSelectionToggle === 'pediatrics' ? `${cardiologyRef.current?.scrollHeight}px` : '0px'
-                }}>
-                  <p className='text-[##afafb4] md:text-md text-[12px]'>This is the branch of medicine focused on teh diagnosis, treatment, and prevention of diseases related to the heart and blood vessels.</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[##d6dae5] text-sm">A-Z</p>
-                    <div className="rounded-2xl py-1 px-5 bg-[#006838] text-white md:text-md text-[12px]">In-Patient</div>
-                  </div>
-                  <div className="flex justify-between gap-3 items-center overflow-x-auto flex-shrink-0">
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Diagnostics</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Surgery</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Post - Surgery</div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">1</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Asma'u Musa</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">2</div>
-                      <div className="flex flex-col gap-2">
-                        <p>Adaeze Ezeoke</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">3</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Seyi Oyedepo</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">4</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Ummi Yahaya</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>SEE PROFILE</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-5 bg-[#F8F9FE] rounded-xl p-3 cursor-pointer">
-                <div onClick={() => setActiveSelectionToggle('orthopedics')} className="flex justify-between items-center">
-                  <div className="flex gap-2 items-center">
-                    <div className="flex items-center rounded-full w-7 h-7 bg-[#d6dae5]">
-                      <Icon icon={'mdi:times'} style={{fontSize: '30px', color:'white', cursor: 'pointer'}} />
-                    </div>
-                    <p className='md:text-md text-[10px]'>Orthopedics</p>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <div className="rounded-2xl flex justify-center items-center bg-[#FFE3AC] py-1 px-3 md:text-md text-[10px]">75% Booked</div>
-                    <div className="rounded-lg flex justify-center items-center bg-[#EAF2FF] py-1 px-3 md:text-md text-[10px]">EDIT SPECIALTY</div>
-                    <Icon icon={'tabler:chevron-down'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-                  </div>
-                </div>
-                <div ref={cardiologyRef} className={`flex flex-col transition-all duration-200 ease-in-out gap-5 overflow-hidden bg-white rounded-lg ${activeSelectionToggle === 'orthopedics' ? 'md:p-3 p-2' : 'md:p-0 p-0'}`} style={{
-                  height: activeSelectionToggle === 'orthopedics' ? `${cardiologyRef.current?.scrollHeight}px` : '0px'
-                }}>
-                  <p className='text-[##afafb4] md:text-md text-[12px]'>This is the branch of medicine focused on teh diagnosis, treatment, and prevention of diseases related to the heart and blood vessels.</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[##d6dae5] text-sm">A-Z</p>
-                    <div className="rounded-2xl py-1 px-5 bg-[#006838] text-white md:text-md text-[12px]">In-Patient</div>
-                  </div>
-                  <div className="flex justify-between gap-3 items-center overflow-x-auto flex-shrink-0">
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Diagnostics</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Surgery</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Post - Surgery</div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">1</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Asma'u Musa</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">2</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Adaeze Ezeoke</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">3</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Seyi Oyedepo</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">4</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Ummi Yahaya</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>SEE PROFILE</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-5 bg-[#F8F9FE] rounded-xl p-3 cursor-pointer">
-                <div onClick={() => setActiveSelectionToggle('endocrinology')} className="flex justify-between items-center">
-                  <div className="flex gap-2 items-center">
-                    <div className="flex items-center rounded-full w-7 h-7 bg-[#d6dae5]">
-                      <Icon icon={'mdi:times'} style={{fontSize: '30px', color:'white', cursor: 'pointer'}} />
-                    </div>
-                    <p className='md:text-md text-[10px]'>Endocrinology</p>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <div className="rounded-2xl flex justify-center items-center bg-[#FFE3AC] py-1 px-3 md:text-md text-[10px]">75% Booked</div>
-                    <div className="rounded-lg flex justify-center items-center bg-[#EAF2FF] py-1 px-3 md:text-md text-[10px]">EDIT SPECIALTY</div>
-                    <Icon icon={'tabler:chevron-down'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-                  </div>
-                </div>
-                <div ref={cardiologyRef} className={`flex flex-col transition-all duration-200 ease-in-out gap-5 overflow-hidden bg-white rounded-lg ${activeSelectionToggle === 'endocrinology' ? 'md:p-3 p-2' : 'md:p-0 p-0'}`} style={{
-                  height: activeSelectionToggle === 'endocrinology' ? `${cardiologyRef.current?.scrollHeight}px` : '0px'
-                }}>
-                  <p className='text-[##afafb4] md:text-md text-[12px]'>This is the branch of medicine focused on teh diagnosis, treatment, and prevention of diseases related to the heart and blood vessels.</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[##d6dae5] text-sm">A-Z</p>
-                    <div className="rounded-2xl py-1 px-5 bg-[#006838] text-white md:text-md text-[12px]">In-Patient</div>
-                  </div>
-                  <div className="flex justify-between gap-3 items-center overflow-x-auto flex-shrink-0">
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Diagnostics</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Surgery</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Post - Surgery</div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">1</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Asma'u Musa</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">2</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Adaeze Ezeoke</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">3</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Seyi Oyedepo</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">4</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Ummi Yahaya</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>SEE PROFILE</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-5 bg-[#F8F9FE] rounded-xl p-3 cursor-pointer">
-                <div onClick={() => setActiveSelectionToggle('obstetrics')} className="flex justify-between items-center">
-                  <div className="flex gap-2 items-center">
-                    <div className="flex items-center rounded-full w-7 h-7 bg-[#d6dae5]">
-                      <Icon icon={'mdi:times'} style={{fontSize: '30px', color:'white', cursor: 'pointer'}} />
-                    </div>
-                    <p className='md:text-md text-[10px]'>Obstetrics and Synecology</p>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <div className="rounded-2xl flex justify-center items-center bg-[#FFE3AC] py-1 px-3 md:text-md text-[10px]">75% Booked</div>
-                    <div className="rounded-lg flex justify-center items-center bg-[#EAF2FF] py-1 px-3 md:text-md text-[10px]">EDIT SPECIALTY</div>
-                    <Icon icon={'tabler:chevron-down'} style={{fontSize: '30px', color:'#d6dae5', cursor: 'pointer'}} />
-                  </div>
-                </div>
-                <div ref={cardiologyRef} className={`flex flex-col transition-all duration-200 ease-in-out gap-5 overflow-hidden bg-white rounded-lg ${activeSelectionToggle === 'obstetrics' ? 'md:p-3 p-2' : 'md:p-0 p-0'}`} style={{
-                  height: activeSelectionToggle === 'obstetrics' ? `${cardiologyRef.current?.scrollHeight}px` : '0px'
-                }}>
-                  <p className='text-[##afafb4] md:text-md text-[12px]'>This is the branch of medicine focused on teh diagnosis, treatment, and prevention of diseases related to the heart and blood vessels.</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[##d6dae5] text-sm">A-Z</p>
-                    <div className="rounded-2xl py-1 px-5 bg-[#006838] text-white md:text-md text-[12px]">In-Patient</div>
-                  </div>
-                  <div className="flex justify-between gap-3 items-center overflow-x-auto flex-shrink-0">
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Diagnostics</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Surgery</div>
-                    <div className="flex justify-center py-1 px-5 items-center md:text-md text-[12px] flex-shrink-0 rounded-2xl bg-[#d6dae5]">Post - Surgery</div>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">1</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Asma'u Musa</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">2</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Adaeze Ezeoke</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">3</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Seyi Oyedepo</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>BOOKED</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-4 items-center">
-                      <div className="w-8 h-8 text-sm flex justify-center items-center rounded-full bg-[#EAF2FF]">4</div>
-                      <div className="flex flex-col gap-2">
-                        <p className='md:text-md text-sm'>Ummi Yahaya</p>
-                        <p className='md:text-sm text-[10px] font-light'>MD FACTS.</p>
-                      </div>
-                    </div>
-                    <p className='md:text-md text-sm'>SEE PROFILE</p>
-                  </div>
                 </div>
               </div>
             </div>
+          ))}
+        </>
+      )}
+      </div>
     </div>
   )
 }
