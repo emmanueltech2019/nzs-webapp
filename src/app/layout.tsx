@@ -17,6 +17,9 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "NaijaZone | Home",
   description: " NaijaZone",
+  verification: {
+    google: "aPE_XFWLP6RkwMmpvk9KZOhB--WkgzSaqoX-4pR55dQ",
+  },
 };
 
 export default function RootLayout({

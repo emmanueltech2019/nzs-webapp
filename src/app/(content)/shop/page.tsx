@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 export default function page() {
   return (
     <>
+    
     <Script
         id="naijazone-about-conversion"
         strategy="lazyOnload"
