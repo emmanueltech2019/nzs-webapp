@@ -46,6 +46,8 @@ export default function RootLayout({
             `,
           }}
         />
+
+        
       </head>
       <body className={`${poppins.className} antialiased`} style={poppins.style}>
         {children}
