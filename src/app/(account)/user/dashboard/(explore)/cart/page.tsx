@@ -1,11 +1,7 @@
-import ShoppingBag from "./component/ShoppingBag"
+import ShoppingBag from "./component/ShoppingBag";
 
-const page = () => {
-  return (
-    <>
-      <ShoppingBag/>
-    </>
-  )
-}
+const Page = () => {
+  return <ShoppingBag />;
+};
 
-export default page
+export default Page;

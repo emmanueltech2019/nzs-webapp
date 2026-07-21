@@ -59,7 +59,7 @@ export interface quantityInfo {
 }
 export interface CartItemT {
     productId: ProductT;
-    quantity: number;
+    quantity?: number;
     price: number;
     _id: string;
     size?: string;
