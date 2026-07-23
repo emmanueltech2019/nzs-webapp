@@ -265,6 +265,8 @@ import axios from "@/utils/axios";
 import { showToast } from "@/utils/alert";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import { FaTrash } from "react-icons/fa";
+import CircleLoader from "@/components/loader/loader";
 
 interface BagProps {
   item: CartItemT;
@@ -317,6 +319,7 @@ const BagItem: FC<BagProps> = ({ item }) => {
   );
 
   const [updating, setUpdating] = useState<boolean>(false);
+    const [loading, setLoading] = useState(false);
 
   /*
    * Safely get selected size.
@@ -382,7 +385,7 @@ const BagItem: FC<BagProps> = ({ item }) => {
   /*
    * Update cart quantity.
    */
-  const updateCart = async (action: "plus" | "minus") => {
+  const updateCart = async (action: "plus" | "minus" | "remove") => {
     /*
      * Make sure we have a valid product ID.
      */
@@ -408,7 +411,49 @@ const BagItem: FC<BagProps> = ({ item }) => {
     if (updating) {
       return;
     }
-
+    if (action === "remove") {
+      const confirmResult = await Swal.fire({
+        title: "Remove Item",
+        text: "Are you sure you want to remove this item from your basket?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, remove it",
+        confirmButtonColor: "#016838",
+        cancelButtonText: "Cancel",
+      }).then((result) => {
+        setLoading(true);
+        axios({
+          method: "POST",
+          url: "cart/remove/",
+          data: { productId, action },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        })
+          .then(() => {
+            setLoading(false);
+            showToast("success", "Item removed");
+            setQuantity(0); // Update quantity to 0 to reflect removal
+            window.location.reload(); // Refresh the page to reflect changes
+          })
+          .catch((error) => {
+            setLoading(false);
+            if (error.response?.data?.message === "Unauthorized access") {
+              Swal.fire({
+                title: "Session Expired",
+                text: "Your session has expired. Please log in again.",
+                icon: "warning",
+                confirmButtonText: "OK",
+              }).then(() => {
+                localStorage.clear();
+                window.location.replace("/auth/login");
+              });
+              return;
+            }
+            console.error(error);
+          });
+      });
+    }
     /*
      * Calculate new quantity.
      */
@@ -565,6 +610,7 @@ const BagItem: FC<BagProps> = ({ item }) => {
 
   return (
     <div className="flex items-center justify-between border-b py-4">
+      <CircleLoader isVisible={loading} />
       {/* Left Section */}
       <div className="flex items-center min-w-0">
         {/* Product Image */}
@@ -658,6 +704,25 @@ const BagItem: FC<BagProps> = ({ item }) => {
                 }`}
               >
                 +
+              </span>
+            </button>
+
+             <button
+              type="button"
+              onClick={() =>
+                updateCart("remove")
+              }
+              className="py-1 text-gray-600 focus:outline-none mx-3" 
+              disabled={updating}
+            >
+              <span
+                className={`px-2 py-[2px] border text-[#006838] rounded-full text-sm font-bold ${
+                  updating
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+              >
+                <FaTrash className="w-4 h-4" />
               </span>
             </button>
           </div>
