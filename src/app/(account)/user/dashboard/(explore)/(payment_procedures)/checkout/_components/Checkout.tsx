@@ -483,8 +483,8 @@ const CheckoutShipping: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (selectedShipping !== "redstar") {
-      return Swal.fire("Notice", "Currently only RedStar checkout is implemented in this flow.", "info");
+    if (selectedShipping !== "redstar" && selectedShipping !== "pay on delivery") {
+      return Swal.fire("Notice", "Currently only RedStar and Cash on Delivery checkout is implemented in this flow.", "info");
     }
 
     const REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
