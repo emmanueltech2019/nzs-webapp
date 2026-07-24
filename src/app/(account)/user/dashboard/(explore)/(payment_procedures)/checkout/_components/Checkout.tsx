@@ -480,85 +480,242 @@ const CheckoutShipping: React.FC = () => {
   const handleSelectDHL = () => setSelectedShipping("dhl");
   const handleSelectCashOnDelivery = () => setSelectedShipping("pay on delivery");
   // Submit Logic
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
 
-    if (selectedShipping !== "redstar" && selectedShipping !== "pay on delivery") {
-      return Swal.fire("Notice", "Currently only RedStar and Cash on Delivery checkout is implemented in this flow.", "info");
+  //   if (selectedShipping !== "redstar" && selectedShipping !== "pay on delivery") {
+  //     return Swal.fire("Notice", "Currently only RedStar and Cash on Delivery checkout is implemented in this flow.", "info");
+  //   }
+
+  //   const REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
+  //   const groupedVendors = groupItemsByBusiness(cartItems);
+
+  //   if (groupedVendors.length === 0) return Swal.fire("Error", "Your basket is empty.", "error");
+
+  //   setIsSubmitting(true);
+  //   Swal.fire({
+  //     title: "Submitting Pickup Requests...",
+  //     text: `Processing ${groupedVendors.length} shipment(s). Please wait.`,
+  //     allowOutsideClick: false,
+  //     didOpen: () => Swal.showLoading(),
+  //   });
+
+  //   let successfulShipments = 0;
+  //   const errors: string[] = [];
+
+  //   for (const vendor of groupedVendors) {
+  //     const vendorData = vendors[vendor.businessId];
+  //     if (!vendorData || !vendorData.addresses) {
+  //       errors.push(`Vendor data missing for ID: ${vendor.businessId}`);
+  //       continue;
+  //     }
+
+  //     const vendorTotalWeight = vendor.items.reduce(
+  //       (sum, item) => sum + (item.productId.quantityInfo?.weight || 1) * item.quantity,
+  //       0
+  //     );
+  //     const vendorTotalPieces = vendor.items.reduce((sum, i) => sum + i.quantity, 0);
+
+  //     const shipmentItems = vendor.items.map((item) => ({
+  //       id: 0,
+  //       status: 0,
+  //       createdOn: new Date().toISOString(),
+  //       createdBy: user?.firstname || "User",
+  //       shipmentId: 0,
+  //       commodity: item.productId.name,
+  //       description: item.productId.description,
+  //       countryOfManufacturing: "Nigeria",
+  //       quantity: item.quantity,
+  //       weight: (item.productId.quantityInfo?.weight || 1) * item.quantity,
+  //       unitOfMeasure: 0,
+  //       unitOfPrice: item.productId.price || 0,
+  //     }));
+
+  //     const singleRedStarPayload = {
+  //       senderCity: vendorData.addresses.city || "Unknown",
+  //       recipientCity: cityName,
+  //       recipientTownID: parseInt(townId) || 0,
+  //       recipientName: `${user?.firstname} ${user?.lastname}`,
+  //       recipientPhoneNo: user?.phone || "0000000000",
+  //       recipientEmail: user?.email || "",
+  //       recipientAddress: address,
+  //       recipientState: state,
+  //       senderTownID: vendorData.addresses.townId || 0,
+  //       senderName: `${vendorData.userId?.firstname || ""} ${vendorData.userId?.lastname || vendorData.name}`,
+  //       senderAddress: vendorData.addresses.street || "Unknown",
+  //       senderPhone: vendorData.userId?.phone || "0000000000",
+  //       orderNo: `ORDER-${Date.now()}-${vendor.businessId.substring(0, 4)}`,
+  //       packaging: "Box",
+  //       boxandCrating: "Standard",
+  //       deliveryType: "Door to Door",
+  //       description: `Order from ${vendorData.name}`,
+  //       onforwardingLocation: "",
+  //       paymentType: "Prepaid",
+  //       pickupType: 1,
+  //       weight: vendorTotalWeight,
+  //       pieces: vendorTotalPieces,
+  //       cashOnDelivery: 0,
+  //       shipmentItems,
+  //     };
+
+  //     try {
+  //       if(selectedShipping == "pay on delivery") {
+  //         alert(selectedShipping)
+  //               const internalOrderPayload = {
+  //               businessId: vendor.businessId,
+  //               vendorId: vendorData.userId?._id || vendorData.owner || vendorData._id,
+  //               items: vendor.items,
+  //               paymentReference: `WALLET-${Date.now()}`,
+  //               shippingMethod: "Pay on Delivery",
+  //             };
+  
+  //             const dbResult = await axios.post("/orders/create", internalOrderPayload, {
+  //               headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
+  //             });
+  //       }else{
+
+  //         const res = await axios.post("/auth/PickupRequest", singleRedStarPayload, {
+  //           headers: { "X-API-KEY": REDSTAR_API_KEY, "Content-Type": "application/json" },
+  //         });
+  
+  //         if (res.data.TransStatus === "Successful") {
+  //           try {
+  //             const internalOrderPayload = {
+  //               businessId: vendor.businessId,
+  //               vendorId: vendorData.userId?._id || vendorData.owner || vendorData._id,
+  //               items: vendor.items,
+  //               logisticsPayload: singleRedStarPayload,
+  //               logisticsResponse: res.data,
+  //               paymentReference: `WALLET-${Date.now()}`,
+  //             };
+  
+  //             const dbResult = await axios.post("/orders/create", internalOrderPayload, {
+  //               headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
+  //             });
+  
+  //             if (dbResult.data.success) successfulShipments++;
+  //           } catch (internalError) {
+  //             errors.push(`Shipment created for ${vendorData.name}, but failed to save internally.`);
+  //           }
+  //         } else {
+  //           errors.push(res.data.Message || `API error for ${vendorData.name}.`);
+  //         }
+  //       }
+  //     } catch (error: any) {
+  //       errors.push(`Failed for ${vendorData.name}. Error: ${error.response?.data?.Message || error.message}`);
+  //     }
+  //   }
+
+  //   Swal.close();
+  //   setIsSubmitting(false);
+
+  //   if (successfulShipments > 0) {
+  //     await Swal.fire("Success!", `${successfulShipments} shipment(s) created.`, "success");
+  //     router.push("/user/dashboard/transaction");
+  //   } else {
+  //     Swal.fire("Order Failed", errors.join("\n") || "No shipments created.", "error");
+  //   }
+  // };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (selectedShipping !== "redstar" && selectedShipping !== "pay on delivery") {
+    return Swal.fire("Notice", "Currently only RedStar and Pay on Delivery checkout is implemented in this flow.", "info");
+  }
+
+  const REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
+  const groupedVendors = groupItemsByBusiness(cartItems);
+
+  if (groupedVendors.length === 0) return Swal.fire("Error", "Your basket is empty.", "error");
+
+  setIsSubmitting(true);
+  Swal.fire({
+    title: "Submitting Orders...",
+    text: `Processing ${groupedVendors.length} shipment(s). Please wait.`,
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading(),
+  });
+
+  let successfulShipments = 0;
+  const errors: string[] = [];
+
+  for (const vendor of groupedVendors) {
+    const vendorData = vendors[vendor.businessId];
+    if (!vendorData || !vendorData.addresses) {
+      errors.push(`Vendor data missing for ID: ${vendor.businessId}`);
+      continue;
     }
 
-    const REDSTAR_API_KEY = process.env.NEXT_PUBLIC_REDSTAR_API_KEY;
-    const groupedVendors = groupItemsByBusiness(cartItems);
+    const vendorTotalWeight = vendor.items.reduce(
+      (sum, item) => sum + (item.productId.quantityInfo?.weight || 1) * item.quantity,
+      0
+    );
+    const vendorTotalPieces = vendor.items.reduce((sum, i) => sum + i.quantity, 0);
 
-    if (groupedVendors.length === 0) return Swal.fire("Error", "Your basket is empty.", "error");
+    const shipmentItems = vendor.items.map((item) => ({
+      id: 0,
+      status: 0,
+      createdOn: new Date().toISOString(),
+      createdBy: user?.firstname || "User",
+      shipmentId: 0,
+      commodity: item.productId.name,
+      description: item.productId.description,
+      countryOfManufacturing: "Nigeria",
+      quantity: item.quantity,
+      weight: (item.productId.quantityInfo?.weight || 1) * item.quantity,
+      unitOfMeasure: 0,
+      unitOfPrice: item.productId.price || 0,
+    }));
 
-    setIsSubmitting(true);
-    Swal.fire({
-      title: "Submitting Pickup Requests...",
-      text: `Processing ${groupedVendors.length} shipment(s). Please wait.`,
-      allowOutsideClick: false,
-      didOpen: () => Swal.showLoading(),
-    });
+    const singleRedStarPayload = {
+      senderCity: vendorData.addresses.city || "Unknown",
+      recipientCity: cityName,
+      recipientTownID: parseInt(townId) || 0,
+      recipientName: `${user?.firstname} ${user?.lastname}`,
+      recipientPhoneNo: user?.phone || "0000000000",
+      recipientEmail: user?.email || "",
+      recipientAddress: address,
+      recipientState: state,
+      senderTownID: vendorData.addresses.townId || 0,
+      senderName: `${vendorData.userId?.firstname || ""} ${vendorData.userId?.lastname || vendorData.name}`,
+      senderAddress: vendorData.addresses.street || "Unknown",
+      senderPhone: vendorData.userId?.phone || "0000000000",
+      orderNo: `ORDER-${Date.now()}-${vendor.businessId.substring(0, 4)}`,
+      packaging: "Box",
+      boxandCrating: "Standard",
+      deliveryType: "Door to Door",
+      description: `Order from ${vendorData.name}`,
+      onforwardingLocation: "",
+      paymentType: "Prepaid",
+      pickupType: 1,
+      weight: vendorTotalWeight,
+      pieces: vendorTotalPieces,
+      cashOnDelivery: 0,
+      shipmentItems,
+    };
 
-    let successfulShipments = 0;
-    const errors: string[] = [];
+    try {
+      if (selectedShipping === "pay on delivery") {
+        // Formatted to exactly match backend expectations
+        const internalOrderPayload = {
+          businessId: vendor.businessId,
+          vendorId: vendorData.userId?._id || vendorData.owner || vendorData._id,
+          items: vendor.items,
+          paymentReference: `WALLET-${Date.now()}`,
+          shippingMethod: "pay on delivery", 
+        };
 
-    for (const vendor of groupedVendors) {
-      const vendorData = vendors[vendor.businessId];
-      if (!vendorData || !vendorData.addresses) {
-        errors.push(`Vendor data missing for ID: ${vendor.businessId}`);
-        continue;
-      }
+        const dbResult = await axios.post("/orders/create", internalOrderPayload, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
+        });
 
-      const vendorTotalWeight = vendor.items.reduce(
-        (sum, item) => sum + (item.productId.quantityInfo?.weight || 1) * item.quantity,
-        0
-      );
-      const vendorTotalPieces = vendor.items.reduce((sum, i) => sum + i.quantity, 0);
-
-      const shipmentItems = vendor.items.map((item) => ({
-        id: 0,
-        status: 0,
-        createdOn: new Date().toISOString(),
-        createdBy: user?.firstname || "User",
-        shipmentId: 0,
-        commodity: item.productId.name,
-        description: item.productId.description,
-        countryOfManufacturing: "Nigeria",
-        quantity: item.quantity,
-        weight: (item.productId.quantityInfo?.weight || 1) * item.quantity,
-        unitOfMeasure: 0,
-        unitOfPrice: item.productId.price || 0,
-      }));
-
-      const singleRedStarPayload = {
-        senderCity: vendorData.addresses.city || "Unknown",
-        recipientCity: cityName,
-        recipientTownID: parseInt(townId) || 0,
-        recipientName: `${user?.firstname} ${user?.lastname}`,
-        recipientPhoneNo: user?.phone || "0000000000",
-        recipientEmail: user?.email || "",
-        recipientAddress: address,
-        recipientState: state,
-        senderTownID: vendorData.addresses.townId || 0,
-        senderName: `${vendorData.userId?.firstname || ""} ${vendorData.userId?.lastname || vendorData.name}`,
-        senderAddress: vendorData.addresses.street || "Unknown",
-        senderPhone: vendorData.userId?.phone || "0000000000",
-        orderNo: `ORDER-${Date.now()}-${vendor.businessId.substring(0, 4)}`,
-        packaging: "Box",
-        boxandCrating: "Standard",
-        deliveryType: "Door to Door",
-        description: `Order from ${vendorData.name}`,
-        onforwardingLocation: "",
-        paymentType: "Prepaid",
-        pickupType: 1,
-        weight: vendorTotalWeight,
-        pieces: vendorTotalPieces,
-        cashOnDelivery: 0,
-        shipmentItems,
-      };
-
-      try {
+        // FIX: Increment successful shipments if the DB responds with success
+        if (dbResult.data.success) {
+          successfulShipments++;
+        } else {
+          errors.push(`Failed to save Pay on Delivery order for ${vendorData.name}.`);
+        }
+      } else {
         const res = await axios.post("/auth/PickupRequest", singleRedStarPayload, {
           headers: { "X-API-KEY": REDSTAR_API_KEY, "Content-Type": "application/json" },
         });
@@ -578,29 +735,33 @@ const CheckoutShipping: React.FC = () => {
               headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
             });
 
-            if (dbResult.data.success) successfulShipments++;
+            if (dbResult.data.success) {
+              successfulShipments++;
+            } else {
+               errors.push(`Shipment created for ${vendorData.name}, but failed to save internally.`);
+            }
           } catch (internalError) {
             errors.push(`Shipment created for ${vendorData.name}, but failed to save internally.`);
           }
         } else {
           errors.push(res.data.Message || `API error for ${vendorData.name}.`);
         }
-      } catch (error: any) {
-        errors.push(`Failed for ${vendorData.name}. Error: ${error.response?.data?.Message || error.message}`);
       }
+    } catch (error: any) {
+      errors.push(`Failed for ${vendorData.name}. Error: ${error.response?.data?.Message || error.message}`);
     }
+  }
 
-    Swal.close();
-    setIsSubmitting(false);
+  Swal.close();
+  setIsSubmitting(false);
 
-    if (successfulShipments > 0) {
-      await Swal.fire("Success!", `${successfulShipments} shipment(s) created.`, "success");
-      router.push("/user/dashboard/transaction");
-    } else {
-      Swal.fire("Order Failed", errors.join("\n") || "No shipments created.", "error");
-    }
-  };
-
+  if (successfulShipments > 0) {
+    await Swal.fire("Success!", `${successfulShipments} shipment(s) created.`, "success");
+    router.push("/user/dashboard/transaction");
+  } else {
+    Swal.fire("Order Failed", errors.join("\n") || "No shipments created.", "error");
+  }
+};
   const totalPayable = totalProductPrice + (deliveryFee2 || 0);
   const balanceDifference = walletBalance - totalPayable;
   const hasSufficientBalance = balanceDifference >= 0;
