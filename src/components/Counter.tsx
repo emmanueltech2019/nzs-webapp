@@ -446,7 +446,7 @@ const ProductsView = () => {
 
                   {/* Tape & Cart Action */}
                   <div className="flex items-center justify-between w-full md:w-1/2 gap-4">
-                    <div className="flex-1 hidden md:flex">
+                    <div className="flex-1">
                       <Tape />
                     </div>
                     <div

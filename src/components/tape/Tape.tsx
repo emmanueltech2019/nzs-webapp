@@ -6,7 +6,7 @@ export default function Tape() {
   const items = ["NaijaZone", "Nigeria Made Goods", "🇳🇬", "NaijaZone", "Nigeria Made Goods", "🇳🇬", "NaijaZone", "Nigeria Made Goods", "🇳🇬", "NaijaZone", "Nigeria Made Goods", "🇳🇬"];
 
   return (
-    <div className="tape-container">
+    <div className="tape-container max-w-lg">
       <div className="tape-track">
         {items.map((item, index) => (
           <span key={index} className="tape-item">
