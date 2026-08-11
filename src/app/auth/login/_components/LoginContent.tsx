@@ -116,10 +116,7 @@ const LoginContent = () => {
             />
           </span>
         </h2>
-        {/* <h2 className="flex items-center gap-2 text-black text-xs lg:text-sm font-normal">
-          <span><Image src={playBtn} alt="apple icon" className="w-[19.58px] object-cover" /></span>
-          Watch Video
-        </h2> */}
+
       </div>
       <h1 className="text-[#333333] text-[21px] lg:text-[28px] leading-normal font-medium mt-5 lg:mt-7 mb-5">
         Welcome Back!
