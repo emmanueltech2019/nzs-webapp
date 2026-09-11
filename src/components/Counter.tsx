@@ -942,8 +942,8 @@ const ProductsView = () => {
         onClose={() => setOpen(false)}
         cartItems={displayCartItems}
         // Keep these if CartDrawer accepts cart actions.
-        updateItemQuantity={updateItemQuantity}
-        removeItem={removeItem}
+        // updateItemQuantity={updateItemQuantity}
+        // removeItem={removeItem}
       />
 
       <div className="flex w-full flex-col items-center">
