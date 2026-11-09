@@ -518,6 +518,14 @@ const normalizeSearchText = (value: string) => {
     .trim();
 };
 
+const normalizeText = (value?: string | null) => {
+  return String(value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+};
+
 const shuffleProducts = (
   products: ProductT[]
 ): ProductT[] => {

@@ -508,7 +508,7 @@ const Transactions = () => {
 
   return (
     <main
-      className={`min-h-screen bg-[#f7f9f8] px-4 py-5 md:px-6 md:py-8 ${openSansFont.className}`}
+      className={`min-h-screen bg-[#f7f9f8] px-4 py-5 md:px-6 md:py-8 ${openSansFont}`}
     >
       <div className="mx-auto w-full max-w-3xl">
         <TagHeader title="My Transactions" />
@@ -658,7 +658,9 @@ const Transactions = () => {
         <div className="mt-5">
           <TransactionTab
             activeTab={activeTab}
-            setActiveTab={setActiveTab}
+            // setActiveTab={setActiveTab}
+            // setActiveTab={(tab) => setActiveTab(tab)}
+            setActiveTab={(tab) => setActiveTab(tab as TransactionTabType)}
           />
         </div>
 

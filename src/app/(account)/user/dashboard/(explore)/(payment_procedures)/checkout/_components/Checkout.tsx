@@ -3738,11 +3738,14 @@ interface VendorPayload {
   items: CartItem[];
 }
 
+// interface GeoLocation {
+//   latitude: number;
+//   longitude: number;
+// }
 interface GeoLocation {
-  latitude: number;
-  longitude: number;
+  Latitude: number;
+  Longitude: number;
 }
-
 interface GIGShipmentItem {
   ItemName: string;
   Description: string;
@@ -5050,7 +5053,7 @@ const CheckoutShipping: React.FC = () => {
       ++pricingRequestRef.current;
 
     const getDeliveryFee = async () => {
-      const supportedProviders = [
+      const supportedProviders: string[] = [
         SHIPPING_IDS.REDSTAR,
         SHIPPING_IDS.GIG,
         SHIPPING_IDS.FEZ,

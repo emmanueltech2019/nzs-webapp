@@ -1044,7 +1044,18 @@ const Profile = () => {
     );
   }, [businesses, activeBusinessId]);
 
-  const avatarSource = useMemo(() => {
+  // const avatarSource = useMemo(() => {
+  //   if (previewImage) {
+  //     return previewImage;
+  //   }
+
+  //   if (user?.accountType) {
+  //     return getImageErrorFallback(user.accountType);
+  //   }
+
+  //   return ProfileImg;
+  // }, [previewImage, user?.accountType]);
+const avatarSource = useMemo(() => {
     if (previewImage) {
       return previewImage;
     }
@@ -1053,9 +1064,8 @@ const Profile = () => {
       return getImageErrorFallback(user.accountType);
     }
 
-    return ProfileImg;
+    return ProfileImg.src;
   }, [previewImage, user?.accountType]);
-
   const sellerMode = user?.accountType === "seller";
 
   /* ------------------------------------------------------------------------ */

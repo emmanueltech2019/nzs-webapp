@@ -464,19 +464,33 @@ const filteredProducts = useMemo(() => {
    */
   const searchWords = tokenizeSearchText(normalizedSearch);
 
-  const min =
-    minPrice === ""
-      ? null
-      : minPrice !== "" && maxPrice !== ""
-        ? Math.min(Number(minPrice), Number(maxPrice))
-        : Number(minPrice);
+  // const min =
+  //   minPrice === ""
+  //     ? null
+  //     : minPrice !== "" && maxPrice !== ""
+  //       ? Math.min(Number(minPrice), Number(maxPrice))
+  //       : Number(minPrice);
 
-  const max =
-    maxPrice === ""
-      ? null
-      : minPrice !== "" && maxPrice !== ""
-        ? Math.max(Number(minPrice), Number(maxPrice))
-        : Number(maxPrice);
+  // const max =
+  //   maxPrice === ""
+  //     ? null
+  //     : minPrice !== "" && maxPrice !== ""
+  //       ? Math.max(Number(minPrice), Number(maxPrice))
+  //       : Number(maxPrice);
+
+const min =
+  minPrice === ""
+    ? null
+    : maxPrice === ""
+      ? minPrice
+      : Math.min(minPrice, maxPrice);
+
+const max =
+  maxPrice === ""
+    ? null
+    : minPrice === ""
+      ? maxPrice
+      : Math.max(minPrice, maxPrice);
 
   const result = products.filter((product) => {
     /**
