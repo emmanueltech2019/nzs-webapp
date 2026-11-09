@@ -419,7 +419,7 @@ const ProductDetailsContent: FC = () => {
         <button className="text-3xl z-10 py-1 text-gray-500 hover:text-gray-800 transition" onClick={handleGoBack}>
           <ArrowBackOutlinedIcon fontSize="large" />
         </button>
-        <Link href="/cart">
+        <Link href="./cart">
           <div className="relative p-2 cursor-pointer">
             <Image
               src="https://res.cloudinary.com/wise-solution-inc/image/upload/v1731586826/Group_1000005013_bhe9nv.png"

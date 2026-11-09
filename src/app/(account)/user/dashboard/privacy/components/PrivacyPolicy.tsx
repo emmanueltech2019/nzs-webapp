@@ -1007,7 +1007,7 @@ const Transactions = () => {
         <h2>Contact Us</h2>
         <p>If you have any questions or concerns about this Privacy Policy, please contact us at:</p>
         <p>Email: <a href="mailto:info@naijazoneonline.com">info@naijazoneonline.com</a></p>
-        <p>Address: ...</p>
+        <p>Address: No 7 Chukwu St, odara street, off Okporo Road, Mgbuesilaru, Port Harcourt 500102, Rivers</p>
     </section>
           </div>)
           : (
